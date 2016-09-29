@@ -1,0 +1,241 @@
+.right_box {
+    @include fr;
+    width: 1000px;
+    overflow:hidden;
+    .smry_tit {
+        background: #fff;
+        @include size(100%, 100px);
+        padding: 30px 0;
+        .smry_text {
+            height: 40px;
+            line-height: 40px;
+            padding-left: 50px;
+            .smry_ls {
+                font-size: 24px;
+                color: #37495c;
+            }
+            .smry_sm {
+                font-size: 14px;
+                margin-left: 30px;
+                span {
+                    margin-right: 10px;
+                }
+                .smry_sm_tit {
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+    .lnk_box {
+        @include clearfix;
+        margin-top: 25px;
+        .lnk_tip {
+            display: block;
+            @include size(230px);
+            box-shadow: 0px 5px 15px #eee;
+            @include fl;
+            margin-left: 20px;
+            color: $color-primary;
+            overflow: hidden;
+            .lnk_num {
+                @include size(100%, 150px);
+                background: #fff;
+                line-height: 150px;
+                text-align: center;
+                @include font(54px);
+            }
+            .lnk_num_two {
+                color: #35cbcb;
+            }
+            .lnk_num_three {
+                color: #70b9e6;
+            }
+            .lnk_num_four {
+                color: #56cc91;
+            }
+            .lnk_tit {
+                @include size(100%, 80px);
+                line-height: 80px;
+                color: #fff;
+                font-size: 18px;
+                background: $color-primary;
+                font-weight: bold;
+                position: relative; 
+                span {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    @include size(100%);
+                    text-align: center;
+                    display: block;
+                }
+                i {
+                    margin-left: 20px;
+                    top: -3px;
+                }
+            }
+            .lnk_tit_two {
+                background: #35cbcb;
+            }
+            .lnk_tit_three {
+                background: #70b9e6;
+            }
+            .lnk_tit_four {
+                background: #56cc91;
+            }
+        }
+    }
+    .order_progress{
+        margin-top: 25px;
+        margin-left: 20px;
+        background: $c-fff;
+        padding: 10px 30px 54px 30px;
+        .order_list {
+            padding: 34px 0;
+            border-bottom: 1px dashed #ced3d6;
+            .order_tit {
+                @include font(24px);
+            }
+            .read_more {
+                margin-left: 15px;
+                @include font(14px);
+            }
+            .list_tit {
+                @include font(16px); 
+                font-weight: bold;
+                color: #78848f;
+                .qq_service {
+                    margin-left: 30px;
+                }
+            }
+            .plan_box {
+                @include clearfix;
+                .plan_tip {
+                    width:73px;
+                    float: left;
+                    text-align: center;
+                    color: #d0d5d8;
+                    .icon{
+                        top:9px;
+                        margin:0;
+                    }
+                    .plan_tit {
+                        margin-top: 15px;
+                        @include font(16px);
+                    }
+                    .plan_time {
+                    	margin-top:15px;
+                        @include font(12px);
+                        color: #78848f;
+                        display: none;
+                        position: relative;
+    					left: -8px;
+                        span {
+                            margin-left: 10px;
+                        }
+                    }
+                    &.active {
+                        color: $color-primary;
+                        .icon{
+                            left:-4px;
+                        }
+                        .icon-addsub-sprite {
+                            @extend .icon-addsubactive-sprite;
+                        }
+                        .plan_time {
+                            display: block;
+                        }
+                    }
+                    &.end{
+                    	color: $color-primary;
+                    	.icon-addsub-sprite {
+                        	@extend .icon-addsubend;
+                        }
+                        .icon{
+                            top: 8px;
+                            left:-4px;
+                        }
+                         .plan_time {
+                            display: block;
+                        }
+                    }
+                }
+                .plan_tip_two{
+                    &.active{
+                    	.icon-bill{
+                    		@extend .icon-bill-actived;
+                    	}
+                    }
+                    &.end{
+                    	.icon-bill{
+							@extend .icon-bill-end;
+                    	}
+                    }
+                }
+                .plan_tip_three{
+
+                	 &.active{
+                    	.icon-pay{
+                    		@extend .icon-pay-actived;
+                    	}
+                    }
+                    &.end{
+                    	.icon-pay{
+                            @extend .icon-pay-end;
+                        }
+                    }
+                }
+                .plan_tip_four{
+                	 &.active{
+                    	.icon-wait{
+                    		  @extend .icon-wait-actived;
+                    	}
+                    }
+                    &.end{
+                    	.icon-wait{
+							@extend .icon-waited-end;
+                    	}
+                    }
+                }
+                .plan_tip_five{ 
+                	 &.active{
+                    	.icon-end{
+                    		@extend .icon-end-actived;
+                    	}
+                    }
+                    &.end{
+                    	.icon-end{
+                            @extend .icon-end-end;
+                        }
+                    }
+                }
+            }
+        }
+        .pointer {
+            @include fl;
+            height:20px;
+            overflow:hidden;
+            margin-top:27px;
+            &.active {
+                .icon-pointer{
+                    @extend .icon-pointer-sprite;
+                }
+            }
+        }
+        .read_more_btn{
+        	display: block;
+        	@include size(194px,48px);
+        	border-radius:5px;
+        	border:1px solid #ececec;
+        	background:$c-fff;
+        	color:#a0a8af;
+        	text-align:center;
+        	line-height:48px;
+        	margin:0 auto;
+        	margin-top:35px;
+        	i{
+        		margin: 0;
+        	}
+        }
+    }
+}

@@ -1,0 +1,117 @@
+<extend name="Base/common" />
+<block name="body">
+    <nav class="clearfix2">
+    	<ul class="nav nav-tabs nav-tabs-default" role="tablist">
+	        <li>
+	        	<a href="/service-Order-comOrderDetail?service_order_id=<?php echo $url['service_order_id'];?>&&order_no=<?php echo $url['order_no']; ?>">社保公积金</a>
+	        </li>
+	        <li class="active">
+	        	<a href="javascript:;"> 代发工资  </a>
+	        </li class="active">
+	    </ul>
+    </nav>
+    <?php if(!empty($res['result'])):?>
+    <div class="gutter table-responsive">
+    <form id="payroll-form">
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	                <th width="10%">
+	                    <!-- <input class="icheck icheck-all" data-target="#icheck-box" type="checkbox"> --> 姓名
+	                </th>
+	                <th>身份证号码</th>
+	                <th>工资年月</th>
+	                <th>应发工资</th>
+	                <th>扣个人社保</th>
+	                <th>扣个人公积金</th>
+	                <th>扣个人所得税</th>
+	                <th>补发</th>
+	                <th>其他扣除</th>
+	                <th>实发工资</th>
+	                <th>发放</th>
+	                <th width="8%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody id="icheck-box">
+	        <volist name="res.result" id="data">
+	            <tr class="payroll-item">
+	                <td>
+	                   <!--  <input class="icheck single-icheck" name="id[]" value="1" type="checkbox"> -->{$data.user_name}
+	                </td>
+	                <td>{$data.card_num}</td>
+	                <td>{$data.date}</td>
+	                <td>{$data.wages}</td>
+	                <td>{$data.deduction_social_insurance}</td>
+	                <td>
+	                    {$data.deduction_provident_fund}
+	                </td>
+	                <td >
+	                    {$data.deduction_income_tax}
+	                </td>
+	                <td>
+	                    {$data.replacement}
+	                </td>
+	                <td>
+	                    {$data.deduction_other}
+	                </td>
+	                <td>
+	                    {$data.actual_wages}
+	                </td>
+	                <td >
+	                	<if condition="($data.state eq -2)">
+							<span class="status text-warning">发放失败</span>
+	                    <elseif condition="($data.state eq 1)"/>
+							<span class="status text-success">审核成功</span>
+						<elseif condition="($data.state eq 2)"/>
+							<span class="status text-success">发放成功</span>
+						<elseif condition="($data.state eq -1)"/>
+							<span class="status text-warning">审核失败</span>
+                        <elseif condition="($data.state eq -9)"/>
+                            <span class="status text-warning">撤销</span>
+						<else />
+							<span class="status ">审核中</span>
+	                    </if>
+	                </td>
+	                <td class="op-td">
+	                	<if condition="($data.state eq -2 || $data.state eq 1)">
+	                		<a href="javascript:;" data-service_order_salary_id="{$data.id}" data-act="verifyPayroll">发放</a>
+	                		<a href="javascript:;" data-service_order_salary_id="{$data.id}" data-act="viewPayroll">查看</a>
+						<elseif condition="($data.state eq 2)"/>
+							<a href="javascript:;" data-service_order_salary_id="{$data.id}" data-act="viewPayroll">查看</a>
+						<else />
+							<a class="c-warm" href="javascript:;" data-service_order_salary_id="{$data.id}" data-act="verifyPayroll">审核</a>
+							<a  class="c-primary" href="javascript:;" data-service_order_salary_id="{$data.id}" data-act="delPayroll">撤销</a>
+	                    </if>
+
+	                </td>
+	            </tr>
+			</volist>
+	        </tbody>
+	    </table>
+	   <!--  <button type="button" class="btn btn-wram" data-act="exportPayroll">
+	   	<i class="icon icon-export no-gutter"></i>
+	   	导出工资单
+	   </button> 
+	    <button type="button" class="btn btn-primary" data-act="updatePayrollStatus">
+	    	<i class="icon icon-update no-gutter"></i>
+	    	更新为发放成功
+	    </button>-->
+	    
+	    </form>
+		<div class="pagination">
+            {$res.page}
+        </div>
+		<!-- <button type="button" class="btn btn-primary">
+			    	<i class="icon icon-update no-gutter"></i>
+			    	更新为缴纳完成
+			    </button> -->
+
+	</div>
+    <?php else:?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php endif;?>
+</block>
+<block name="script">
+    <script data-init="payroll" type="text/javascript" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

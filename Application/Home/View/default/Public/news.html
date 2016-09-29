@@ -1,0 +1,23 @@
+<div class="information clearOver"><!-- 最新资讯 -->
+	<h2 class="index-title">最新资讯</h2>
+	<div class="wrapper">
+		<div class="information-box">
+			<volist name="channel_list" id="vo">
+				<div class="info fl">
+					<img src="/Application/Home/Assets/img/information01.jpg" alt="">
+					<dl>
+						<dt>{$vo.title}<a href="/ServiceArticle-index-category_id-{$vo.id}-cid-{$Cid}" class="fr">更多></a></dt>
+						<volist name="vo.article_list" id="vb">
+							<dd>
+								<a title="{$vb.title}" href="/ServiceArticle-articleInfo-id-{$vb.id}-category_id-{$vb.category_id}-cid-{$Cid}">
+									<span class="text-overflow col-9"><i></i>{$vb.title}</span>
+					    			<span class="text-overflow col-3 text-right">{$vb.update_time}</span>
+								</a>
+							</dd>
+						</volist>
+					</dl>
+				</div>
+			</volist>
+		</div>
+	</div>
+</div>

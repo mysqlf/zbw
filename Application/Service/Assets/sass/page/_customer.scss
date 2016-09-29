@@ -1,0 +1,421 @@
+/*
+ * 客户管理
+ */
+
+.handle-list {
+    display: none;
+    label {
+        cursor: pointer;
+    }
+}
+
+// 企业客户详情
+.customer-details {
+    position: relative;
+    margin-bottom: 150px;
+    .btn-back {
+        position: absolute;
+        top: -6px;
+        right: 0;
+    }
+    @at-root .customer-modify-wra {
+        position: absolute;
+        top: 0;
+        left: 150px;
+        font-size: 0;
+        span {
+            font-size: $f-size-normal;
+            color: $color-bg;
+        }
+        a {
+            position: relative;
+            margin: {
+                left: 27px;
+            }
+            font-size: $f-size-normal;
+            color: $color-ipt;
+            &:after {
+                display: block;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: -18px;
+                content: '';
+                border-top: 6px solid $color-gray;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                height: 0;
+                margin: auto;
+            }
+            &:hover {
+                color: $color-primary;
+                &:after {
+                    border-top-color: $color-primary;
+                }
+            }
+        }
+    }
+    fieldset {
+        position: relative;
+        padding: 10px 28px 18px;
+        margin: {
+            bottom: 20px;
+        }
+        background: $color-white;
+        legend {
+            @at-root & {
+                position: absolute;
+                top: 10px;
+                display: block;
+                width: 100%;
+                font-size: $f-size-medium;
+                color: $color-bg;
+                font-weight: 700;
+                line-height: 1;
+                padding: {
+                    top: 18px;
+                    bottom: 18px;
+                }
+                border-bottom: $border-default-width dashed $color-graylg;
+            }
+        }
+        @at-root .cusdetails {
+            width: 1140px;
+            padding: {
+                top: 85px;
+                left: 50px;
+                right: 50px;
+            }
+            .company-name {
+                font-size: $f-size-large;
+                color: $color-bg;
+                font-weight: 700;
+                line-height: 1;
+                margin: {
+                    bottom: 38px;
+                }
+                span {
+                    color: #79B618;
+                    font-size: $f-size-medium;
+                }
+            }
+            .icon {
+                margin: {
+                    left: 15px;
+                }
+            }
+        }
+        .details-item {
+            &.fl {
+                width: 520px;
+            }
+            &.details-email {
+                p {
+                    display: inline-block;
+                    color: $color-bg;
+                }
+                span {
+                    color: #79B618;
+                }
+            }
+        }
+        @at-root .details-photo {
+            margin: {
+                top: 10px;
+                left: 50px;
+                right: 50px;
+                bottom: 38px;
+            }
+            font-size: 0;
+            p {
+                display: inline-block;
+                @include size(200px, 123px);
+                border: $border-default-width dashed $table-border-color;
+                background: $color-white;
+                margin: {
+                    right: 30px;
+                }
+                overflow: hidden;
+            }
+            img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+        @at-root .details-photo-tips {
+            margin-bottom: 18px;
+            padding-left: 78px;
+            color: #CAAE5B;
+            font-size: 12px;
+            .icon {
+                float: left;
+                margin: {
+                    left: -23px;
+                    right: 0;
+                    top: 5px;
+                }
+            }
+        }
+    }
+}
+
+// 添加切换合同
+.pannel-bd-swcontract {
+    fieldset {
+        padding: {
+            top: 35px;
+            bottom: 38px;
+        }
+    }
+    .swcontract-wra {
+        width: 760px;
+    }
+    .pos-rel {
+        em {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            line-height: 35px;
+            font: {
+                weight: normal;
+                size: $f-size-normal;
+            }
+        }
+    }
+    .details-item {
+        margin-right: 60px;
+        width: auto;
+        @at-root .contract-oldId {
+            display: none;
+        }
+    }
+    .details-lb {
+        width: 80px;
+        text-align: right;
+        float: left;
+        line-height: 35px;
+        &.details-lbl {
+            width: 160px;
+        }
+    }
+    .ipt-box {
+        float: left;
+        position: relative;
+    }
+    span {
+        &.validator-error {
+            position: absolute;
+        }
+    }
+    @at-root .buttons-no-pos {
+        text-align: right;
+        .btn-back {
+            position: static;
+        }
+    }
+    @at-root .buttons {
+        text-align: center;
+        .btn-submit {
+            display: inline-block;
+            margin: {
+                top: 43px;
+            }
+        }
+        &.buttons-no-pos {
+            .btn-back {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+// 企业服务详情
+.pannel-bd-serDetail {
+    .details-item {
+        width: 100%;
+        em {
+            font-size: $f-size-normal;
+        }
+    }
+    fieldset {
+        padding: {
+            top: 35px;
+            bottom: 38px;
+        }
+        margin: {
+            bottom: 40px;
+        }
+    }
+    .pos-rel {
+        margin-top: 76px;
+        padding: 0
+    }
+    legend {
+        position: absolute;
+        left: 0;
+        top: -36px;
+        font-size: $f-size-medium;
+        font-weight: 700;
+        color: $color-bg;
+        line-height: 1;
+    }
+    @at-root .details-status {
+        label {
+            color: $color-ipt;
+        }
+    }
+    @at-root .settings-tab {
+        padding: {
+            left: 23px;
+            right: 18px;
+        }
+        > label {
+            display: block;
+            line-height: 40px;
+            &.error {
+                display: none;
+            }
+        }
+        .iradio {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 12px;
+        }
+    }
+    @at-root .status-on {
+        position: relative;
+        line-height: 40px;
+        >label {
+            position: relative;
+            z-index: 99;
+            display: block;
+        }
+        .form-items {
+            line-height: initial;
+            margin: {
+                bottom: 18px;
+            }
+            span {
+                color: $color-bg;
+                &.validator-error {
+                    color: $color-danger;
+                }
+            }
+        }
+        @at-root .settings-cnt {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 103px;
+            padding: 10px 80px 12px 30px;
+            width: 500px;
+            border: $border-default-width solid $table-border-color;
+            background: #F7F8FA;
+            &:before {
+                display: block;
+                content: '';
+                position: absolute;
+                height: 40px;
+                background: #F7F8FA;
+                border: $border-default-width solid $table-border-color;
+                border-right: 0;
+                width: 119px;
+                left: -120px;
+                top: -1px;
+            }
+            label {
+                &.lb-overtime {
+                    margin-right: 15px;
+                    line-height: 35px;
+                    margin-top: -2px;
+                }
+                color: $color-bg;
+            }
+            em {
+                font: {
+                    weight: bold;
+                    size: $f-size-normal;
+                }
+                color: $color-bg;
+            }
+            span {
+                @extend label;
+            }
+            input {
+                vertical-align: middle;
+                margin-top: -2px;
+                + em {
+                    padding-left: 8px;
+                }
+            }
+            .form-items-salary {
+                margin-left: 75px;
+                label {
+                    cursor: pointer;
+                }
+            }
+            .icheckbox {
+                margin-right: 8px;
+            }
+            @at-root .setting-lb {
+                cursor: pointer;
+            }
+        }
+    }
+    .serDetail-name {
+        font-size: $f-size-medium;
+        font-weight: 700;
+    }
+    table {
+        margin: {
+            bottom: 0;
+        }
+        td {
+            border-right: 0;
+        }
+    }
+    .ipt-box {
+        display: inline-block;
+    }
+    .details-lb {
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 12px;
+    }
+    .settings-tab {
+        > label {
+            color: $color-bg;
+        }
+    }
+    .status-on {
+        > label {
+            color: $color-bg;
+        }
+    }
+    .btn-add {
+        line-height: 42px;
+        padding: {
+            left: 50px;
+        }
+    }
+    .location {
+        color: $color-blue;
+    }
+    .btn-submit {
+        margin-top: 0;
+    }
+}
+
+.payroll-fee {
+    display: none;
+    label {
+        line-height: 35px;
+        margin-right: 15px;
+        vertical-align: top;
+        margin-top: -2px;
+    }
+    input {
+        margin-right: 8px;
+    }
+}

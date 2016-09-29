@@ -1,0 +1,21 @@
+<include file="Public/head" />
+<include file="Public/permitHead" />
+<div class="firm-content">
+	<div class="wrapper clearfix">	
+	<!-- 验证身份 -->
+		<include file="Public/getBackPassNav" />
+		<div class="reg-form retrieve-password">
+			<p class="retrieve-password-01">此账号的关联邮箱为：</p>
+			<p class="retrieve-password-02">{$Think.get.email|hideCard=###,6}</p>
+			<p class="retrieve-password-03">或致电 <em class="tel">400-007-5156</em> 找回密码</p>
+			<a class="button buttonOrange send-mail J_send-email"  href="javascript:;">发送找回邮件</a>
+		</div>
+	</div>
+
+</div>
+<include file="Public/permitFoot"/>
+<include file="Public/baseScript" />
+<script data-module="getBackPass2" src="/Application/Home/Assets/js/dist/loginReg.bundle.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,561 @@
+@charset "UTF-8";
+/*网格系统*/
+/* 
+ * @param {array} 支持生成多个类 
+ */
+/* line 6, ../../sass/sass/page/insurance.scss */
+.wrapper {
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+
+/* line 11, ../../sass/sass/page/insurance.scss */
+.addList .pageSearch {
+  line-height: 36px;
+}
+/* line 13, ../../sass/sass/page/insurance.scss */
+.addList .pageSearch input, .addList .pageSearch select {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+/* line 17, ../../sass/sass/page/insurance.scss */
+.addList .pageSearch .t1 {
+  width: 110px;
+}
+/* line 20, ../../sass/sass/page/insurance.scss */
+.addList .pageSearch .t2 {
+  width: 220px;
+}
+/* line 23, ../../sass/sass/page/insurance.scss */
+.addList .pageSearch .t3 {
+  width: 150px;
+}
+/* line 27, ../../sass/sass/page/insurance.scss */
+.addList .toIncrease {
+  width: 80px;
+  height: 34px;
+  color: #f77f3b;
+  background: #fff;
+  border: 1px solid #f77f3b;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 34px;
+}
+/* line 30, ../../sass/sass/page/insurance.scss */
+.addList .pageTable {
+  table-layout: fixed;
+}
+/* line 32, ../../sass/sass/page/insurance.scss */
+.addList .pageTable td {
+  Word-break: break-all;
+  min-height: 38px;
+  height: auto;
+  padding: 0 5px;
+}
+/* line 38, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-1 {
+  width: 60px;
+}
+/* line 39, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-2 {
+  width: 157px;
+}
+/* line 40, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-3 {
+  width: 138px;
+}
+/* line 41, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-4 {
+  width: 68px;
+}
+/* line 42, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-5 {
+  width: 68px;
+}
+/* line 43, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-6 {
+  width: 76px;
+}
+/* line 44, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-7 {
+  width: 78px;
+}
+/* line 45, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-8 {
+  width: 78px;
+}
+/* line 46, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-9 {
+  width: 100px;
+}
+/* line 47, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-10 {
+  width: 75px;
+}
+/* line 48, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-11 {
+  width: 110px;
+}
+/* line 49, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-12 {
+  padding: 0px;
+}
+/* line 51, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-12 table {
+  width: 512px;
+  margin: -1px;
+}
+/* line 54, ../../sass/sass/page/insurance.scss */
+.addList .pageTable .c-12 table td {
+  height: 38px;
+}
+
+/* line 63, ../../sass/sass/page/insurance.scss */
+.addIns {
+  padding-left: 60px;
+}
+/* line 65, ../../sass/sass/page/insurance.scss */
+.addIns .pageTitle {
+  padding-top: 0px;
+}
+/* line 67, ../../sass/sass/page/insurance.scss */
+.addIns .pageTitle span {
+  font-size: 22px;
+  color: #666;
+  line-height: 30px;
+  padding: 0px 10px 10px 10px;
+}
+/* line 74, ../../sass/sass/page/insurance.scss */
+.addIns .pageTitle .back {
+  width: 86px;
+  height: 36px;
+  color: #f77f3b;
+  background: #fff;
+  border: 1px solid #f77f3b;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 36px;
+  margin: 0px;
+}
+/* line 81, ../../sass/sass/page/insurance.scss */
+.addIns .fromTable .name {
+  padding-right: 10px;
+  text-align: right;
+  width: 80px;
+}
+/* line 86, ../../sass/sass/page/insurance.scss */
+.addIns .fromTable .month {
+  font-size: 18px;
+}
+/* line 92, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .zb_inpt {
+  width: 304px;
+}
+/* line 96, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .age {
+  margin-left: 10px;
+}
+/* line 99, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .age em {
+  font-style: normal;
+  margin-left: 10px;
+}
+/* line 106, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic {
+  position: relative;
+  width: 140px;
+  height: 100px;
+  display: inline-block;
+  margin-right: 20px;
+  border: 1px dashed #dedede;
+}
+/* line 114, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic .upBtn {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 140px;
+  height: 100px;
+  z-index: 2;
+  text-indent: -1000px;
+  overflow: hidden;
+}
+/* line 124, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic .upBtn .webuploader-pick {
+  height: 100px;
+  display: block;
+}
+/* line 130, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic .icon-add {
+  position: absolute;
+  top: 25px;
+  left: 53px;
+}
+/* line 135, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic p {
+  position: absolute;
+  top: 70px;
+  text-align: center;
+  color: #3498db;
+  width: 100%;
+}
+/* line 142, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic [type="file"] {
+  background: transparent;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+  opacity: 0;
+}
+/* line 153, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic img {
+  position: absolute;
+  top: 10px;
+  left: 28px;
+}
+/* line 159, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .ic .icon-sclosed {
+  position: absolute;
+  top: -6px;
+  right: -12px;
+  z-index: 3;
+}
+/* line 166, ../../sass/sass/page/insurance.scss */
+.addIns .addAudit .ICUpload .front {
+  background: #f8f8f8;
+}
+/* line 172, ../../sass/sass/page/insurance.scss */
+.addIns .cardinal {
+  color: #888;
+}
+/* line 176, ../../sass/sass/page/insurance.scss */
+.addIns .subhead {
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+/* line 182, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .zb_inpt {
+  width: 194px;
+  margin-right: 10px;
+}
+/* line 186, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .square {
+  margin-left: 0px;
+}
+/* line 188, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .square label {
+  margin-left: 0px;
+}
+/* line 190, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .square label input[type=checkbox] {
+  margin-right: 20px;
+}
+/* line 196, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .start .zb_inpt {
+  width: 126px;
+}
+/* line 201, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable {
+  margin-top: 15px;
+  width: 676px;
+}
+/* line 204, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable td {
+  height: 45px;
+}
+/* line 207, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .c-1 {
+  width: 120px;
+}
+/* line 208, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .c-2 {
+  width: 110px;
+}
+/* line 209, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .c-3 {
+  width: 115px;
+}
+/* line 210, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .c-4 {
+  width: 105px;
+}
+/* line 211, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .c-5 {
+  width: 110px;
+}
+/* line 212, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .c-6 {
+  width: 105px;
+}
+/* line 213, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .pageTable .orange {
+  font-weight: bold;
+}
+/* line 216, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .circle {
+  width: 100%;
+  margin: 0px;
+  margin-top: 20px;
+}
+/* line 220, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .circle label {
+  margin-left: 0px;
+  width: 100%;
+}
+/* line 224, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .circle label .c1 {
+  margin-left: 15px;
+}
+/* line 226, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .circle label .c1 input {
+  margin-left: 10px;
+}
+/* line 229, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .circle label .c1 a {
+  color: #3498db;
+  margin-left: 10px;
+  text-decoration: underline;
+}
+/* line 238, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .subtotal {
+  padding: 10px 0px;
+  text-align: right;
+  font-size: 18px;
+  color: #f77f3b;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 5px;
+}
+/* line 246, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .subtotal .square {
+  float: left;
+  color: #333;
+  font-size: 14px;
+  line-height: 45px;
+  margin-top: -10px;
+}
+/* line 256, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .CPF .name {
+  width: 110px;
+}
+/* line 260, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .CPF .scale .zb_inpt {
+  width: 160px;
+}
+/* line 263, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .CPF .scale .cardinal {
+  margin-left: 10px;
+}
+/* line 269, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .disabled {
+  border-bottom: none;
+}
+/* line 274, ../../sass/sass/page/insurance.scss */
+.addIns .buyIns .total {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  background: #f77f3b;
+}
+/* line 285, ../../sass/sass/page/insurance.scss */
+.addIns .orange_btn {
+  width: 180px;
+  height: 50px;
+  color: #f77f3b;
+  background: #fff;
+  border: 1px solid #f77f3b;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 50px;
+  font-size: 18px;
+  border-width: 2px;
+  display: block;
+  margin: 30px auto 0 auto;
+}
+
+/* line 295, ../../sass/sass/page/insurance.scss */
+.details .fromTable td {
+  height: 36px;
+  line-height: 36px;
+}
+/* line 300, ../../sass/sass/page/insurance.scss */
+.details .addAudit .ICUpload .ic img {
+  top: 20px;
+}
+
+/* line 304, ../../sass/sass/page/insurance.scss */
+.reduceTip {
+  width: 440px;
+  margin: 0px auto;
+}
+/* line 307, ../../sass/sass/page/insurance.scss */
+.reduceTip .checkbox {
+  font-size: 16px;
+  color: #666;
+  font-weight: bold;
+  margin-left: 125px;
+}
+/* line 313, ../../sass/sass/page/insurance.scss */
+.reduceTip .name {
+  text-align: right;
+  width: 135px;
+}
+/* line 317, ../../sass/sass/page/insurance.scss */
+.reduceTip .btnCont {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+}
+/* line 323, ../../sass/sass/page/insurance.scss */
+.reduceTip .btnCont a {
+  margin: 0px 10px;
+}
+/* line 326, ../../sass/sass/page/insurance.scss */
+.reduceTip .btnCont .btnB {
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  background: #3498db;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 40px;
+}
+/* line 329, ../../sass/sass/page/insurance.scss */
+.reduceTip .btnCont .btnO {
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  background: #f77f3b;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 40px;
+}
+
+/* line 334, ../../sass/sass/page/insurance.scss */
+.detailsWarranty {
+  width: 680px;
+  margin: 0px auto 70px auto;
+}
+/* line 337, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .username {
+  padding-top: 15px;
+  font-size: 26px;
+  color: #3498db;
+  text-align: center;
+  font-weight: bold;
+}
+/* line 344, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .information {
+  margin-top: 35px;
+  color: #666666;
+  font-size: 16px;
+  text-align: center;
+  line-height: 30px;
+}
+/* line 350, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .information span {
+  padding: 0px 25px;
+}
+/* line 354, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .tit1 {
+  margin-top: 50px;
+  text-align: left;
+  color: #3498db;
+  font-size: 22px;
+}
+/* line 360, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .squareB {
+  padding: 4px;
+  background: #3498db;
+  display: inline-block;
+  margin-right: 15px;
+  position: relative;
+  top: -4px;
+}
+/* line 368, ../../sass/sass/page/insurance.scss */
+.detailsWarranty ul {
+  width: 430px;
+  margin-top: 10px;
+}
+/* line 371, ../../sass/sass/page/insurance.scss */
+.detailsWarranty ul li {
+  width: 210px;
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  color: #666666;
+}
+/* line 379, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .pageTable {
+  margin-top: 20px;
+}
+/* line 381, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .pageTable td {
+  height: 40px;
+}
+/* line 382, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .pageTable .c-1 {
+  font-weight: bold;
+}
+/* line 384, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .orange {
+  color: #f77f3b;
+}
+/* line 385, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .subtotal {
+  text-align: right;
+  margin-top: 20px;
+  padding: 10px 0px;
+  border-bottom: 1px solid #dddddd;
+  font-size: 16px;
+}
+/* line 392, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .nb {
+  margin-top: 0px;
+  border: none;
+}
+/* line 396, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .total {
+  text-align: center;
+  margin-top: 60px;
+  height: 48px;
+  line-height: 48px;
+  color: #fff;
+  background: #f77f3b;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 406, ../../sass/sass/page/insurance.scss */
+.detailsWarranty .back {
+  width: 86px;
+  height: 34px;
+  color: #f77f3b;
+  background: #fff;
+  border: 1px solid #f77f3b;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 34px;
+  margin-left: 300px;
+  margin-top: 30px;
+}

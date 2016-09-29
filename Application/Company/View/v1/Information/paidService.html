@@ -1,0 +1,49 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/service.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">服务详情</span>
+        <a href="{:U('Company/Information/serviceList')}" class="back fr orange">返回</a>
+    </div>
+    <div class="serviceDetails">
+        <div class="titleBar">
+            <p>下单时间：<strong>{$productOrderResult.create_time}<span class="green"> （{$productOrderResult.state|get_status_value="ProductOrderState"}）</span></strong></p>
+            <p>产品名称：<strong class="name">{$productOrderResult.product_name}</strong>服务商：<strong>{$productOrderResult.company_name}</strong></p>
+        </div>
+        <div class="content unpaid">
+            <div class="tit1"><i class="squareB"></i>服务详情</div>
+            <ul>
+                <li>服务有效期：<strong>{$productOrderResult.overtime|strtotime|date="Y年m月d日",###}</strong></li>
+                <li>报增减截止日：<strong>{:$productOrderResult['abort_add_del_date']?'当月'.$productOrderResult['abort_add_del_date'].'日':''}</strong></li>
+                <li>账单日：<strong>{:$productOrderResult['bill_month_state']?'次月':'当月'}{$productOrderResult.abort_payment_date}日</strong></li>
+                <li>支付截止日：<strong>{:$productOrderResult['payment_month_state']?'次月':'当月'}{$productOrderResult.create_bill_date}日</strong></li>
+                <li>是否代发工资：<strong>{:$productOrderResult['is_salary']?'是':'否'}</strong></li>
+            </ul>
+            <div class="tit1" style="margin-top: 10px;"><i class="squareB"></i>服务参保地</div>
+            <table class="pageTable"><!-- 表格 -->
+                <tr>
+                    <th class="c-1">序号</th>
+                    <th class="c-2">参保地</th>
+                    <th class="c-3">社保/公积金服务费</th>
+                    <th class="c-4">代发工资服务费</th>
+                </tr>
+                <volist name="productOrderResult.warrantyLocationList" id="vo">
+                    <tr>
+                        <td>{$i}</td>
+                        <td>{$vo.locationValue}</td>
+                        <td>{$vo.ss_service_price}</td>
+                        <td>{$vo.af_service_price}</td>
+                    </tr>
+                </volist>
+
+            </table>
+            <div class="date">
+                {:$productOrderResult['pay_type']?'线上支付':'线下支付'} {$productOrderResult.pay_time}
+            </div>
+            <div class="total">总计：{:$productOrderResult['modify_price']?$productOrderResult['modify_price']:$productOrderResult['price']}元</div>
+            <a href="{:U('Company/Information/serviceList')}" class="back">返回</a>
+        </div>
+    </div>
+</block>

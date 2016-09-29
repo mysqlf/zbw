@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<title>{:C('WEB_SITE_TITLE')}</title>
+	<link rel="stylesheet" href="/Application/Home/Assets/css/main.css">
+</head>
+<body>
+	<div class="header clearOver service-header">
+		<div class="header-bar">
+			<div class="wrapper">
+				<a class="home-link" href="/" title="智保易首页"><i class="icon header-home"></i>智保易首页</a>
+
+				你好，
+				<if condition="!session('?company_user')">
+					<a class="link link-login" href="/Member-firmLogin" title="请登录">请登录</a>  
+					<a class="link link-login" href="/Member-firmRegister" title="免费注册">免费注册</a>
+				<else/>
+					<php>
+						$user = session('company_user');
+					</php>
+					{$user.company_name}
+				</if>
+				<div class="fr link link-right">
+					<a href="{:U('Article/helpCenter',array('category'=>common_question))}" title="商家入驻">商家入驻</a>
+				</div>
+				<div class="fr line link-right publish-num">
+					<i class="icon header-phone"></i>
+					公众号
+					<div class="code">
+						<img  src="/Application/Home/Assets/img/foot_ewm.jpg" alt="placeholder+image">
+					</div>
+				</div>
+
+				<if condition="session('?company_user')">
+					<div class="PaL fr line">
+						<div class="company-name ">
+						<!-- <i class="icon header-city_icon"></i> -->
+							<a href="/Company-Index-index" title="{$user.company_name}">{$user.company_name}</a>
+						</div>
+						<ul class="user-list">
+							<li><a href="{:U('Company/Order/index')}">订单进度</a></li>
+							<li><a href="{:U('Company/Account/companyUserInfo')}">账号信息</a></li>
+							<li><a href="{:U('Company/Account/companyInfo')}">企业信息</a></li>
+							<li><a href="{:U('Company/Information/myPackage')}">我的服务</a></li>
+							<li><a href="{:U('Company/Information/index')}">信息通知</a></li>
+							<li><a href="{:U('Member/logout')}">退出</a></li>
+						</ul>
+					</div>
+				</if>
+			</div>
+		</div>
+		<!-- 头部[[ -->
+		<div class="head wrapper clearOver">
+			<div class="head-logo-box fl">
+				<a class="head-logo  fl" href="{:U('Index/service',array('cid'=>$Cid))}"><i class="icon header-header_logo" style="background-image: url('{$serviceCompanyInfoResult.service_logo}');background-size: cover"></i></a>
+				<if condition="$serviceCompanyInfoResult">
+					<div class="comp-name fl">{$serviceCompanyInfoResult.company_name}</div>
+				</if>
+			</div>
+			<ul class="fr nav-list">
+				<li><a <php>if(is_active('index','service')) echo 'class="now"';</php> href="{:U('ServiceProvider/index',array('cid'=>$Cid))}">首页</a></li>
+				<li><a <php>if(is_active('socialsecurity','index')) echo 'class="now"';</php> href="{:U('SocialSecurity/index',array('cid'=>$Cid))}">服务大厅</a></li>
+				 <li><a <php>if(is_active('index','servicepoint')) echo 'class="now"';</php> href="{:U('ServiceArticle/index',array('cid'=>$Cid))}">最新资讯</a></li>
+				<li><a <php>if(is_active('article','abountus')) echo 'class="now"';</php>href="{:U('Article/aboutUs',array('cid'=>$Cid))}">关于我们</a></li>
+			</ul>
+		</div>
+		<!-- 头部]] -->
+	</div>

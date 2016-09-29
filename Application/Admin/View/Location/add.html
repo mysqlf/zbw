@@ -1,0 +1,101 @@
+<extend name="Public/base" />
+
+
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2>
+			新增城市
+		</h2>
+	</div>
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+	<ul class="tab-nav nav">
+		<volist name=":parse_config_attr($model['field_group'])" id="group">
+			<li data-tab="tab{$key}" <eq name="key" value="1">class="current"</eq>><a href="javascript:void(0);">{$group}</a></li>
+		</volist>
+	</ul>
+	<div class="tab-content">
+	<!-- 表单 -->
+	<form id="form" action="{:U('add')}" method="post" class="form-inline">
+			<div class="select_city">
+				<div class="form-controll">
+					<label>请选择</label>
+					<select name="location" id="location">
+						<option value="">-请选择-</option> 
+						<volist name="area" id="vo">
+							<option value="{$vo.id}">{$vo.name}</option>
+						</volist>
+					</select>
+				</div>
+				<div class="form-controll sencodCity">
+					 <label>请选择</label>
+					<select name="location1" id="location1">
+						<option value="">-请选择-</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-controll">
+				<label>城市名称</label>
+				<input type="text" name="city_name" placeholder="城市名称" style="border:1px solid #aeaeae;border-radius:4px;text-indent:1em;height:30px;">
+			</div>
+			<div class="form-controll">
+				<input type="submit" class="btn" value="确定"> 
+			</div>
+	 </form>
+
+	 <style type="text/css">
+			.form-controll{
+				height: 50px;
+			}
+	 </style>
+ <!--        <div class="form-item cf">
+			<button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+			<if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
+			<button class="btn save-btn" url="{:U('article/autoSave')}" target-form="form-horizontal" id="autoSave">
+				存草稿
+			</button>
+			</if>
+			<input type="hidden" name="id" value="{$info.id|default=''}"/>
+			<input type="hidden" name="pid" value="{$info.pid|default=''}"/>
+			<input type="hidden" name="model_id" value="{$info.model_id|default=''}"/>
+			<input type="hidden" name="group_id" value="{$info.group_id|default=''}"/>
+			<input type="hidden" name="category_id" value="{$info.category_id|default=''}">
+		</div> -->
+	</form>
+	</div>
+</div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+	$('#location').change(function(){
+		city_code = $(this).val();
+		var direct = ['11000000','12000000','10000000','13000000'];
+		var index = $.inArray(city_code, direct);
+		if(index!==-1){
+			$('.sencodCity').hide();
+			return false;
+		}else{
+			$('.sencodCity').show(200);
+		}
+		$.get("{:U('selectArea')}",{code:city_code},function(msg){
+			var city_html = '<option value="">-请选择-</option>';
+			if(msg.status != 0)
+			{
+				$.each(msg,function(key,val){
+					city_html += '<option value="'+val.id+'">'+val.name+'</option>';
+				});
+			}
+			$('#location1').html(city_html);
+		},'json');
+	});
+</script>
+</block>

@@ -1,0 +1,126 @@
+@charset "utf-8";
+
+@import "../variables";
+@import "../mixins";
+
+.pageTitle .tolead{
+    border: 1px solid $color-orange;
+    color:  $color-orange;
+}
+.salaryList{
+    .pageSearch{
+        line-height: 36px;
+        input,select{
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+        .t1{
+            width: 110px;
+        }
+        .t2{
+            width: 220px;
+        }
+        .t3{
+            width: 150px;
+        }
+    }
+    .pageTable{
+        table-layout:fixed;
+        td{
+            Word-break: break-all;
+            min-height: 38px;
+            height: auto;
+            padding: 5px;
+        }
+        .c-1{width: 60px;}
+        .c-2{width: 90px;}
+        .c-3{width: 110px;}
+        .c-4{width: 70px;}
+        .c-5{width: 70px;}
+        .c-6{width: 60px;}
+        .c-7{width: 60px;}
+        .c-8{width: 70px;}
+        .c-9{width: 70px;}
+        .c-10{width: 70px;}
+        .c-11{width: 80px;}
+        .c-12{width: 80px;}
+        .c-13{width: 70px;}
+        .c-14{width: 80px;}
+    }
+}
+.tolead{
+    width: 520px;
+    margin: 0px auto;
+    .tit{
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .name{
+        text-align: right;
+        width: 150px;
+    }
+    .btnCont{
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 120px;
+
+        a{
+            margin: 0px 10px;
+        }
+        .btnB{
+            @include zb-button(100px,40px,$color-blue);
+        }
+        .btnO{
+            @include zb-button(100px,40px,$color-orange);
+        }
+    }
+    .formTable{
+        margin-top: 20px;
+    }
+    .upload{
+        position: relative;
+        overflow: hidden;
+        height: 38px;
+
+        .uploadBtn{
+            display: block;
+            width: 240px;
+            height: 36px;
+            position: absolute;
+            z-index: 2;
+            text-indent: -9999px;
+
+            .webuploader-pick{
+                height: 36px;
+            }
+        }
+        [type="file"]{
+            opacity: 0;
+        }
+    }
+    .uploaded{
+        line-height: 36px;
+    }
+    .download{
+        color: $color-blue;
+        line-height: 36px;
+        margin-left: 10px;
+    }
+    .toloadBtn{
+        @include zb-button1(80px,36px,$color-blue);
+        margin-left: 10px;
+    }
+    .delBtn{
+        @include zb-button1(70px,36px,$color-red);
+        margin-left: 10px;
+    }
+}
+
+.wages-tip-view{
+    padding: 20px 0 0;
+    font-size: 18px;
+    border-top: $border-default;
+}

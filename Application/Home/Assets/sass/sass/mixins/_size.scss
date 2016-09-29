@@ -1,0 +1,37 @@
+// 宽高简写
+
+@mixin size($width, $height:$width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  @include size($size,$size);
+}
+@mixin font($size){
+	font-size:$size; 
+}
+@mixin mt($top){
+	margin-top:$top;
+}
+@mixin ml($left){
+	margin-left:$left;
+}
+@mixin mr($right){
+	margin-right:$right;
+}
+@mixin mb($bottom){
+	margin-bottom:$bottom;
+}
+@mixin pt($top){
+	padding-top:$top;
+}
+@mixin pl($left){
+	padding-left:$left;
+}
+@mixin pr($right){
+	padding-right:$right;
+}
+@mixin pb($bottom){
+	padding-bottom:$bottom;
+}

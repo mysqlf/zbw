@@ -1,0 +1,146 @@
+<include file="Public/_head" />
+<div class="sbdt-banner"></div>
+	<div class="sbtc-content clearOver">
+		<div class="wrapper">
+			<h2 class="index-title">社保产品套餐</h2>
+			<div class="corporate fl">
+				<h3>适用于企业</h3>
+				<volist name="company_product" id="vo">
+				 <div class="pro-list">
+					<div class="pro-list-icon"></div>
+					<h4>{$vo.name}</h4>
+					<i>
+					<switch  name="vo.service_type" >
+						<case value="1">适用于大中型(人数较多)企业</case>
+						<case value="2">适用于个体工商户</case>
+						<case value="3">企业体验</case>
+						<case value="4">个人体验</case>
+					</switch></i>
+			<!-- 		<if condition="$vo['member_price'] eq 0">适用于小微型(人数较少)企业</i><else/><i>适用于大中型(人数较多)企业 </i></if> -->
+					<p class="fwf">服务费</p>
+					<p class="fwf-money">￥<strong> {$vo.service_price.service_price} </strong>/ 月·人</p>
+					<if condition="0 lt $vo['member_price'] and 0 neq $vo['member_price_state']">
+						<p class="hyf"><em>套餐费</em>￥  <strong>{$vo.member_price}</strong> / 年</p>
+					<else/>
+						<p class="hyf">免套餐费</p>
+					</if>
+					<a href="{:U('Home/SocialSecurity/productDetail',array('cid'=>I('get.cid'),'id'=>$vo['id']))}" class="buttonOrange pro-btn">立即申请</a>
+					<!-- <div class="more-msg"></div>
+					<div class="more-msg-text" style="border-right: 1px solid #cdd2d5">
+						{$vo['product_detail']}
+					</div> -->
+				</div>
+				</volist>
+			</div>
+			<notempty name="person_product">
+				<div class="people fr">
+					<h3>适用于个体</h3>
+					<volist name="person_product" id="vo">
+					<div class="pro-list people-list">
+						<!--<div class="sb-ewm" style="display: none;"></div>-->
+						<div class="pro-list-icon"></div>
+						<h4>{$vo.name}</h4>
+						<i>适用于个体工商户</i>
+						<p class="fwf">服务费</p>
+						<div class="people-money clearOver">
+							<volist name="vo['service_price']" id="voo">
+							<p class="people-pay" <if condition="$key%2==0">style="width: 55%"<else/> style="width: 45%" </if>>￥ <strong>{$voo.service_price}</strong>  / 月·人</p>
+							</volist>
+						</div>
+						<if condition="0 lt $vo['member_price'] and 0 neq $vo['service_price_state']">
+							<p class="hyf"><em>套餐费</em>￥  <strong>{$vo.member_price}</strong> / 年</p>
+						<else/>
+							<p class="hyf">免套餐费</p>
+						</if>
+						<a href="{:U('Home/SocialSecurity/productDetail',array('cid'=>I('get.cid'),'id'=>$vo['id']))}" class="buttonBlue pro-btn p-btn">立即申请</a>
+					<!-- 	<div class="more-msg more-msg-blue"></div> -->
+						<!-- <div class="more-msg-text">
+							{$vo['product_detail']}
+						</div> -->
+					</div>
+					</volist>
+				</div>
+			</notempty>
+		</div>
+	</div>
+	<noempty name="add_ser_list">
+		<div class="add-service">
+			<h3>增值服务</h3>
+			<div class="add-service-pro wrapper">
+				<div class="swiper-container" style="width: 1230px; height: 310px;">
+					<div class="swiper-wrapper">
+						<php>for($i=0;$i<$loop_num;$i++){</php> 
+							<div class="swiper-slide">
+								<php>for($j=$i*4;$j<($i+1)*4;$j++){</php>
+									<php>if($j>count($add_ser_list)-1) break;</php>
+									<div class="pro-box" onmouseover="test(this)" onmouseout='test01(this)' style="background-image: url('{$add_ser_list[$j]['advertising_url']}')"><a href="tencent://message/?uin={$add_ser_list[$j]['qq']}&Site=121ask.com&Menu=yes"></a></div>
+								<php>}</php>
+							</div>
+						<php>}</php>
+					</div>
+				</div>
+				<div class="service-left"></div>
+				<div class="service-right"></div>
+			</div>
+			<!-- <div class="add-service-pro wrapper">
+				<div class="swiper-container" style="width: 1230px; height: 310px;">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<volist name="add_ser_list" id="vo">
+							<div class="pro-box" style="background-image: url('{$vo['advertising_url']}')"><a href="tencent://message/?uin={$vo['qq']}&Site=121ask.com&Menu=yes">{$vo.content}</a></div>
+							</volist>
+						</div>
+					</div>
+				</div>
+				<div class="service-left"></div>
+				<div class="service-right"></div>
+			</div> -->
+		</div>
+	</noempty>
+	<include file="Public/news" />
+	<!-- <div class="index-contact">
+		<a name='dest'></a>
+		<p>如果对本产品感兴趣，请留下您的联系方式，服务专员将尽快联系您！</p>
+		<form id="addClient" action="">
+			<ul class="index-contact-msg">
+				<li>
+					<input type="text" placeholder="请输入您的姓名" name="person" id="person"><i>*</i>
+					<div class="false-tip person_tip">请输入正确的姓名</div>
+				</li>
+				<li>
+					<input type="text" placeholder="请输入您的手机号" name="phone" id="phone"><i>*</i>
+					<div class="false-tip phone_tip">请输入正确的手机号码</div>
+				</li>
+				<li><input type="text" placeholder="请输入您的企业名称" name="company" id="company"><i></i></li>
+				<li><textarea placeholder="请输入您所需要的服务项目" name="serve-text" id="serve-text"></textarea></li>
+			</ul>
+			<input id="information" class="buttonOrange" type="button" value="提交">
+		</form>
+	</div> -->
+	<div class="foot">
+		<img src="/Application/Home/Assets/img/foot_ewm.jpg" alt="">
+		<p class="sol">关注智保易微信号</p>
+		<div class="foot-info-box">
+			<dl class="foot-info">
+				<dt>公司信息</dt>
+				<dd><a href="/Article-aboutUs">公司介绍</a></dd>
+				<dd><a href="/Article-aboutUs#contect">联系我们</a></dd>
+			</dl>
+			<dl class="foot-info">
+				<dt>帮助中心</dt>
+				<dd><a href="/Article-helpCenter-category-common_question">常见问题</a></dd>
+			</dl>
+			<dl class="foot-info">
+				<dt>最新资讯</dt>
+				<!--<dd><a href="/Article-lists-category-questions">社保资讯</a></dd>
+				<dd><a href="/Article-lists-category-xz_help">公司资讯</a></dd>
+				<dd><a href="/Article-lists-category-social_policy">行业资讯</a></dd>-->
+				<dd><a href="/Article-lists-category-help">办事指南</a></dd>
+				<dd><a href="/Article-lists-category-statute">政策法规</a></dd>
+				<dd><a href="/Article-lists-category-new">新闻动态</a></dd>
+				<dd><a href="/Article-lists-category-notice">公示公告</a></dd>
+			</dl>
+		</div>
+	</div>
+<include file="Public/_footer" />
+<script data-module="socialSecurity" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>

@@ -1,0 +1,73 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box overflow">
+        <!-- <div class="tab_box">
+            <a href="{:U('Company/Insurance/toIncrease')}" >在线新增</a>
+            <a href="{:U('Company/Insurance/toIncreaseBatch')}" class="active">批量报增</a>
+        </div> -->
+        <div class="right_head clearfix">
+            <h3 class="add_tit fl">批量报增</h3>
+            <a href="{:U('Company/Insurance/toIncrease')}" class="btn_blue fr"> 
+                在线新增
+            </a>
+        </div>
+        <form id="batchForm"> 
+        	<div class="msg_list msg_list_ls">
+            	<h3><!-- 批量报增 --><span>注：先下载对应城市的导入模板，完成编辑后，上传导入</span></h3>
+            	<div class="inp_box inp_ls_box">
+                	<label class="inp_tit">导入报增文件：<i class="inp_tip">*</i></label>
+                	<input type="text" name="fileName" value="" placeholder="上传之后自动显示文件名" class="text" required id="fileName" readonly="readonly">
+
+                	<a class="up_excel" id="filePicker">浏览</a>
+                	<a href="{:U('Company/Insurance/downloadTemplateFile')}" class="lnk_text">下载模板</a>
+                </div>
+                <div class="inp_box select_box inp_ls_box">
+                    <label class="inp_tit">服务套餐 ：<i class="inp_tip">*</i></label>
+                    <select class="select" name="productId" required id="vip_select">
+                        <option value="">请选择</option>
+                        <if condition="!empty($serviceProductOrderResult)">
+                        	<volist name="serviceProductOrderResult" id="vo">
+                        		<option value="{$vo.product_id}" data-id="{$vo.id}" data-companyid="{$vo.service_company_id}" data-overtime="{$vo.overtime}" >{$vo.product_name}<if condition="$vo['company_name']">({$vo['company_name']})</if></option>
+                        	</volist>
+                        </if>
+                    </select>
+                </div>
+                <div class="inp_box select_box inp_ls_box hide " id="location_box">
+                    <label class="inp_tit">参保地 ：<i class="inp_tip">*</i></label>
+                    <select class="select" name="location" required id="location">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div id="socialType" class="socialType">
+                </div>
+                <div class="hide" id="project_box">
+                    <div class="inp_box select_box inp_ls_box">
+                        <label class="inp_tit">社保缴费规则 ：<i class="inp_tip">*</i></label>
+                        <select class="select" name="project" required id="project">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="inp_box select_box inp_ls_box ">
+                        <label class="inp_tit">公积金缴费规则 ：<i class="inp_tip">*</i></label>
+                        <select class="select" name="proProject" required id="proProject">
+                                <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="inp_box select_box inp_ls_box">
+                    <input type="hidden" name="socRuleId" id="socRuleId" value="">
+                    <input type="hidden" name="proRuleId" id="proRuleId" value="">
+                    <input type="hidden" name="templateId" id="templateId" value="">
+                    <input type="hidden" name="filePath" id="filePath" value="">
+                	<input type="button" value="导入" class="btn ms_btn btn_orange btn_update" id="submitBtn">
+                </div>
+        	</div>
+        </form>
+        <div id="batch_table" class="batch_table">
+        	
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="toIncreaseBatch" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Insurance.bundle.js"></script>
+</block>

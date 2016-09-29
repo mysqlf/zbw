@@ -1,0 +1,61 @@
+<extend name="Base/Insurance" />
+<block name="right">
+	<div class="right_box overflow">
+		<div class="right_head">
+        	<h3 class="add_tit">套餐详情</h3>
+        </div>
+        <div class="tab_title">
+            <div class="tab_list block ls_list">
+                <label>套餐名称：</label>
+                <span class="bold package-tit">{$orderinfo.product_name}</span>
+            </div>
+            <div class="tab_list ">
+                <label>社保公积金：</label>
+                <span>预留{$orderinfo.handle_day}天办理</span>
+            </div>
+            <div class="tab_list">
+                <label>代发工资服务：</label>
+                <span class="c-primary bold"><if condition="$orderinfo['is_salary'] eq 1">已开通<else/>未开通</if></span>
+            </div>
+            <div class="tab_list block ls_list">
+                <label>服务商：</label>
+                <span>{$orderinfo.company_name}<a target=blank href="http://wpa.qq.com/msgrd?v=1&uin={$orderinfo.qq}&site=qq&menu=yes" ><i class="icon icon-qq"></i></a></span>
+            </div>
+            <div class="tab_list block ls_list">
+                <label>服务到期日：</label>
+                <span>{$orderinfo.overtime}<if condition="$orderinfo['turn'] neq ''"><span class="tip_tip">到期后切换为({$orderinfo.turn})服务 </span></if></span>
+            </div>
+        </div>
+        <div class="ls_tit">
+        	<h3>服务城市</h3>
+         </div>
+        <div class="table_con ">
+        	<table class="table text-center table_white c-text-dark">
+        		<thead>
+        			<tr>
+        				<th>序号</th>
+        				<th>服务城市</th>
+        				<th>社保/公积金服务费</th>
+        				<th>代发工资服务费</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+                <if condition="$serviceinfo">
+                <volist name="serviceinfo" id="vo">
+        		  <if condition="$vo['location'] neq 14020100">
+        			<tr>
+        				<td>{$key+1}</td>
+        				<td>{:showAreaName($vo['location'])}</td>
+        				<td>{$vo.soc_service_price}/{$vo.pro_service_price}</td>
+        				<td>{$vo.af_service_price}</td>
+        			</tr>
+        		</if>
+                </volist>
+                <else/>
+                <tr><td colspan="4" height="60px">没有符合条件的记录</td></tr>
+                </if>
+        		</tbody>
+        	</table>
+        </div>
+	</div>
+</block>

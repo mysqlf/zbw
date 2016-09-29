@@ -1,0 +1,124 @@
+<!-- 服务商首页 -->
+<extend name="Base/common" />
+<block name="body">
+	<div class="pannel-hd">
+		<h2 class="cnt-title">业务总览 <?php if($userInfo['type'] == 1  ||in_array('Members', $auth)){?><a href="<?php echo U('Business/personList'); ?>" class="more">更多></a><?php } ?></h2>
+
+		<ul class="msg-count-list clearfix">
+
+
+			<li class="list-item list-item1">
+				<a href=" <?php if($userInfo['type'] == 1  ||in_array('Business', $auth)){ echo U('Business/companyOrder?type=0');  }else echo 'javascript:'; ?>" title="待审核">
+					<span class="num"><?php echo $res['audit'] ? $res['audit'] : 0; ?></span>
+					<span class="list-foot">
+						<i class="icon icon-menu"></i>
+						待审核
+					</span>
+				</a>
+			</li>
+
+			<li class="list-item list-item2">
+				<a href="<?php if($userInfo['type'] == 1  ||in_array('Business', $auth)){ echo U('Business/companyOrder?type=3');  }else echo 'javascript:'; ?>" title="代办理">
+					<span class="num"><?php echo $res['conduct'] ? $res['conduct'] : 0; ?></span>
+					<span class="list-foot">
+						<i class="icon icon-menu"></i>
+						待办理
+					</span>
+				</a>
+			</li>
+			<li class="list-item list-item3">
+				<a href="<?php if($userInfo['type'] == 1  ||in_array('Business', $auth)){ echo U('Business/personList?type=1');  }else echo 'javascript:'; ?>" title="报增">
+					<span class="num"><?php echo $res['insuranceNumber'] ? $res['insuranceNumber'] : 0; ?></span>
+					<span class="list-foot">
+						<i class="icon icon-menu"></i>
+						报增
+					</span>
+				</a>
+			</li>
+
+			<li class="list-item list-item4">
+				<a href="<?php if($userInfo['type'] == 1  ||in_array('Business', $auth)){ echo U('Business/personList?type=3');  }else echo 'javascript:'; ?>" title="报减">
+					<span class="num"><?php echo $res['baoJianNumber'] ? $res['baoJianNumber'] : 0; ?></span>
+					<span class="list-foot">
+						<i class="icon icon-menu"></i>
+						报减
+					</span>
+				</a>
+			</li>
+			<li class="list-item list-item5">
+				<a href="<?php if($userInfo['type'] == 1  ||in_array('Business', $auth)){ echo U('Business/personList?type=2');  }else echo 'javascript:'; ?>" title="在保">
+					<span class="num"><?php echo $res['zaiBaoNumber'] ? $res['zaiBaoNumber'] : 0; ?></span>
+					<span class="list-foot">
+						<i class="icon icon-menu"></i>
+						在保
+					</span>
+				</a>
+			</li>
+
+		</ul>
+	</div>	
+
+	<?php if($userInfo['type'] == 1  || (in_array('Members', $auth))){ ?>
+	<div class="pannel-tbl">
+		<h2 class="cnt-title">我的客户<a href="<?php echo U('Members/comMembersList'); ?>" class="more">更多></a></h2>
+		<?php if($result){?>
+		<table summary="我的客户">
+			<colgroup>
+				<col width="12%" />
+				<col width="10%" />
+				<col width="8%" />
+				<col width="12%" />
+				<col width="10%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="8%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>企业名称</th>
+					<th>所在地</th>
+					<th>联系人</th>
+					<th>电话</th>
+					<th>所属行业</th>
+					<th>公司规模</th>
+					<th>注册资金</th>
+					<th>消费总额</th>
+					<th>未结差额</th>
+					<th>客服</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+                <?php $adminState = adminState(); foreach($result as $k=>$v){ ?>
+                <tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+                    <td>
+                        <a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>"><?php echo $v['company_name']; ?></a>
+                        <input type="hidden" value="<?php echo $v['id'] ?>" />
+                    </td>
+                    <td><?php echo showAreaName1($v['location']); ?></td>
+                    <td><p class="cbluelg"><?php echo $v['contact_name']; ?></p></td>
+                    <td><?php echo $v['tel_local_number']; ?></td>
+                    <td><?php echo $adminState['industry'][$v['industry']]; ?></td>
+                    <td><?php echo $adminState['employee_number'][$v['employee_number']]; ?>人</td>
+                    <td><?php echo $v['register_fund']; ?>万</td>
+                    <td><?php echo $v['price']; ?></td>
+                    <td><?php echo $v['diff_amount']; ?></td>
+                    <td><?php echo serviceAdminName($v['admin_id']); ?></td>
+                    <td>
+                        <a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>" class="tbl-handle">查看</a>
+                    </td>
+                </tr>
+            <?php } ?>
+
+			</tbody>
+		</table>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>    
+	</div>
+
+	<?php } ?>
+</block>

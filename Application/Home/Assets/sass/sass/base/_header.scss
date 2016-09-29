@@ -1,0 +1,413 @@
+/*头部*/
+
+.header {
+    background: #fff;
+    width: 100%;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.head {
+    height: 80px;
+    position: relative;
+    .nav-list {
+        width: 550px;
+        margin-right: -36px;
+        li {
+            float: left;
+            a {
+                display: block;
+                font-size: 18px;
+                color: $fontColor;
+                padding: 34px 36px 28px 36px;
+                &:hover {
+                    color: $orange;
+                }
+            }
+            .now {
+                color: $orange;
+            }
+        }
+    }
+}
+
+.head-logo-box {
+    width: 270px;
+    height: 100%;
+    padding-top: 4px;
+}
+
+
+.header-bar {
+    background: #f5f7fa;
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid #ebeef2;
+    color: #78848f;
+
+    a {
+        color: inherit;
+    }
+
+    .PaL {
+        position: relative;
+
+        .company-name {
+            padding: 0;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            text-align: right;
+            padding-right: 10px;
+
+            .icon {
+                top: 0;
+            }
+        }
+    }
+
+    .icon {
+        top: 3px;
+        position: relative;
+    }
+    
+    .link-login {
+        margin-right: 5px;
+    }
+    .home-link {
+        margin-right: 36px;
+
+        .icon {
+            margin-right: 5px;
+            top: 2px;
+        }
+    }
+
+    .link:hover {
+        color: $orange;
+    }
+
+    .link-right {
+        padding: 0 12px;
+    }
+
+    .line {
+        position: relative;
+
+        &:before {
+            content: '';
+            display: block;
+            background: #b5b5b5;
+            right: 0;
+            @include stretched-y();
+            @include size(1px,12px);
+        }
+    }
+
+    .publish-num {
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+            .code {
+                display: block;
+            }
+        }
+
+        .code {
+            position: absolute;
+            z-index: 100;
+            display: none;
+
+            img {
+                max-width: 150px;
+
+            }
+        }
+    }
+}
+
+.service-header {
+    .head-logo-box {
+        width: auto;
+
+        .comp-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 80px;
+            margin-left: 14px;
+        }
+
+        .phone {
+            margin-left: 14px;
+        }
+    }
+}
+
+
+.citys {
+    margin-top: 35px;
+    margin-left: 16px;
+    margin-right: 30px;
+    font-size: 16px;
+    width: 49px;
+    color: $fontColor;
+    i {
+        width: 10px;
+        height: 6px;
+        background-image:url('#{$img-src}/header-se153bf673f.png');
+        margin-top: 6px;
+    }
+}
+
+.PaL {
+    width: 180px;
+    @include stretched-y;
+    right: 0;
+    .login {
+        @include stretched-y;
+        right: 0;
+    }
+    &:hover {
+        .user-list {
+            display: block;
+        }
+
+        .company-name a:after {
+        	border-top-width: 0;
+        	border-bottom:5px solid #ddd;
+
+        }
+    }
+    .user-list {
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        right: 0px;
+        background: #fff;
+        z-index: 9;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        display: none;
+        li {
+            a {
+                display: block;
+                color: $fontBody;
+                font-size: $font16;
+                padding: 12px 0;
+                text-indent: 50px;
+                line-height: normal;
+
+                &:hover {
+                    color: $orange;
+                    background: #f5f5f5;
+                }
+            }
+        }
+    }
+}
+
+.header {
+    .phone {
+        height: 18px;
+        /* background: inline-image("tele.png") no-repeat left center; */
+        line-height: 22px;
+        color: $orange;
+        margin-top: 31px;
+        margin-left: 3px;
+        font-size: 18px;
+        width: 148px;
+        float: left;
+
+        .icon {
+            margin-right: 8px;
+        }
+    }
+    .login {
+        width: 180px;
+        height: 34px;
+        float: right;
+        a {
+            line-height: 32px;
+        }
+        .login-btn {
+            width: 89px;
+            background: $orange;
+            border: 1px solid $orange;
+            color: #ffebd0;
+            border-top-right-radius: 100px;
+            border-bottom-right-radius: 100px;
+            text-align: left;
+            &:hover {
+                background: $orangeHover;
+                border: 1px solid $orangeHover;
+            }
+            img {
+                float: left;
+                margin-top: 8px;
+                margin-left: 19px;
+                margin-right: 9px;
+            }
+            i {
+                width: 15px;
+                height: 17px;
+                float: left;
+                margin-top: 7px;
+                margin-left: 17px;
+                margin-right: 9px;
+                background: inline-image("login_icon.png");
+            }
+        }
+        .registered-btn {
+            width: 78px;
+            border: 1px solid #d8d8d8;
+            border-top-left-radius: 100px;
+            border-bottom-left-radius: 100px;
+            border-right: none;
+            color: $fontBody;
+            text-indent: 30px;
+            &:hover {
+                color: $orange;
+            }
+        }
+
+    }
+    .company-name {
+        line-height: 22px;
+        text-align: center;
+        font-size: $font16;
+        @include word;
+        color: $fontColor;
+        padding: 30px 0 28px 6px;
+        cursor: pointer;
+        position: relative;
+
+      /*   &:after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border: 5px solid transparent;
+            border-top-color: #D5D5D5;
+            top: 3px;
+            position: relative;
+        } */
+
+        a {
+        	position: relative;
+		    padding-right: 20px;
+		    max-width: 100%;
+		    display: inline-block;
+		    text-overflow: ellipsis;
+		    overflow: hidden;
+		    color: $fontColor;
+
+			&:after {
+	        	content: '';
+	            width: 0;
+	            height: 0;
+				display: block;
+				border: 5px solid transparent;
+				border-top-color: #D5D5D5;
+				border-bottom-width: 0;
+				@include stretched-y();
+				right: 6px;
+	        }
+        }
+
+        
+    }
+}
+
+
+/* .top-reg-bg{
+	position: fixed; 
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 99999999;
+	background: inline-image("banner_text.png");
+	form{
+		width: 400px;
+		height: 400px;
+		background: #fff;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-top: -200px;
+		margin-left: -200px;
+		border-radius: 10px;
+		z-index: 9999;
+		em{
+			font-size: 24px;
+			color: #c4c2c0;
+			float: right;
+			padding-right: 24px;
+			cursor: pointer;
+			padding-top: 10px;
+		}
+		ins{
+			position: absolute;
+			right: 0;
+			top: 40px;
+			display: block;
+			height: 23px;
+			background: #f98a19;
+			line-height: 23px;
+			color: #fff;
+			padding: 0 10px;
+			display: none;
+		}
+		h4{
+			font-size: 30px;
+			color: $orange;
+			padding: 35px 0 28px 0;
+			text-align: center;
+		}
+		.buttonOrange{
+			border:none;
+			border-radius: 5px;
+			color: #fff;
+			padding: 0;
+			width: 200px;
+			height: 52px;
+			float: none;
+			display: block;
+			margin: 0 auto;
+		}
+		p{
+			width: 350px;
+			margin: 0 auto;
+			position: relative;
+		}
+		input{
+			width: 284px;
+			height: 48px;
+			line-height: 48px;
+			border: 1px solid #cdd2d5;
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+			margin-bottom: 20px;
+			padding: 0 0 0 20px;
+			font-size: 16px;
+			color: #78848f;
+			float: left;
+			border-right: none;
+		}
+		i{
+			float: right;
+			width: 44px;
+			height: 48px;
+			background: #fff;
+			text-align: center;
+			line-height: 50px;
+			font-size: 20px;
+			font-family: "宋体";
+			color: #f98a19;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			border: 1px solid #cdd2d5;
+			border-left: none;
+		}
+	}
+} */

@@ -1,0 +1,186 @@
+/*==================================================
+  ***** 内容部分 *****
+  .pannel-hd ··············· 内容头部
+  .cnt-title ··············· 内容大标题 22px
+  .cnt-title ··············· 内容大标题 22px
+  .cnt-title ··············· 内容大标题 22px
+  .query-conditions ··············· 所有查询条件父级，只有结构上的意义，无任何样式
+  .query-tags-wra ··············· 查询状态父级
+  .query-tags ··············· 查询标签
+  .pannel-details ··············· 大标题下的分项描述
+  .pannel-bd ··············· 内容主题，主要针对详情页使用，表格为.pannel-tbl
+  .pannel-cnt ··············· 内容部分构造自适应结构（物流详情）
+  .pannel-bd-logistic ··············· 物流详情的正文部分
+  .pannel-sidebar ··············· 物流详情的侧边栏
+  .pannel-tbl ··············· 表格父级div，表格内容在_table.scss文件中
+  ==================================================*/
+
+.pannel-hd {
+    position: relative;
+    .buttons {
+        position: absolute;
+        top: -6px;
+        right: 0;
+        font-size: 0;
+        a,span {
+            font-size: $f-size-normal;
+        }
+    }
+    .btn {
+        font-size: $f-size-normal;
+        vertical-align: top;
+        margin-left: 20px;
+    }
+    @at-root .more {
+        padding-left: 23px;
+        color: $color-ipt;
+        font-size: $f-size-normal;
+        &:hover {
+            color: $color-primary;
+        }
+    }
+    @at-root .cnt-title {
+        font: {
+            size: $f-size-xlarge;
+            weight: normal;
+        }
+        line-height: 1;
+        color: $color-bg;
+        margin: {
+            bottom: 23px;
+        }
+        padding-right: 20px;
+        span {
+            font-size: $f-size-normal;
+            margin: {
+                left: 30px;
+            }
+            &.bold {
+                font-weight: bold;
+            }
+        }
+    }
+    @at-root .query-conditions {
+        @at-root .query-tags-wra {
+            margin-bottom: 20px;
+            font-size: 0;
+            @at-root .query-tags {
+                position: relative;
+                display: inline-block;
+                @include size(100px, 35px);
+                margin: {
+                    right: 13px;
+                    bottom: 10px;
+                }
+                font-size: $f-size-medium;
+                line-height: 33px;
+                text-align: center;
+                border: {
+                    radius: 5px;
+                }
+                @include button-variant($color-ipt, $color-white, 0);
+                cursor: pointer;
+                &.active,
+                &:hover {
+                    background: $color-primary;
+                    color: $color-white;
+                }
+                .nums {
+                    display: inline-block;
+                    position: absolute;
+                    z-index: 1;
+                    top: -5px;
+                    left: 0;
+                    margin-left: 85px;
+                    height: 15px;
+                    line-height: 15px;
+                    background: $color-orange;
+                    color: $color-white;
+                    padding: {
+                        left: 3px;
+                        right: 3px;
+                    }
+                    font: {
+                        size: $f-size-small;
+                        style: normal;
+                    }
+                    border: {
+                        radius: 6px;
+                    }
+                }
+            }
+        }
+    }
+    @at-root .pannel-details {
+        @at-root .details-item {
+            margin-bottom: 20px;
+            color: $color-ipt;
+            line-height: 1;
+            span {
+                color: $color-bg;
+            }
+            @at-root .details-lb {
+                color: $color-bg;
+            }
+            .ipt-box {}
+            a {
+                &:hover {
+                    color: $color-primary;
+                }
+            }
+        }
+    }
+}
+
+.pannel-bd {
+    dl {
+        padding-left: 180px;
+        overflow: hidden;
+        dt {
+            @at-root & {
+                float: left;
+                margin-left: -180px;
+            }
+        }
+    }
+    @at-root .pannel-bd-logistic {
+        min-height: 350px;
+        border: $border-default-width solid $border-default-color;
+        overflow: hidden;
+    }
+    @at-root .pannel-sidebar {
+        float: left;
+        margin-bottom: -9999px;
+        padding-bottom: 9999px;
+        width: 200px;
+        border-right: $border-default-width solid $border-default-color;
+        dl {
+            padding-left: 0;
+            dt {
+                @at-root & {
+                    float: inherit;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+    @at-root .pannel-cnt {
+        float: left;
+        margin-bottom: -9999px;
+        padding-bottom: 9999px;
+    }
+    fieldset {
+        padding: {
+            left: 50px;
+            right: 50px;
+        }
+        background: $color-white;
+    }
+}
+
+.pannel-tbl {
+    margin: {
+        bottom: 70px;
+    }
+    overflow: hidden;
+}

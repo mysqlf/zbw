@@ -1,0 +1,60 @@
+.service-query-panel {
+	padding: 20px 0;
+	/* margin-bottom: 50px; */
+
+	>.horizontal {
+		margin: 10px 0;
+
+		>.left {
+		 	width: 5em;
+		 	text-align: right;
+		 	line-height: 36px;
+		}
+	}
+
+	
+
+	>.left {
+	 	width: 5em;
+	 	text-align: right;
+	 	line-height: 36px;
+	}
+
+	.sod_select, .text-input {
+		width: 230px;
+		height: 36px;
+		margin-bottom: 0;
+	}
+	.city-picker-input{
+		width: 230px;
+		.city-picker{
+			width:300px;
+		}
+	}
+
+	.gutter-padding1 {
+		padding-left: 40px;
+	}
+
+	.gutter-padding2 {
+		padding-left: 80px;
+	}
+
+	.btn-submit {
+		width: 130px;
+		height: 42px;
+		line-height: 42px;
+		padding: 0;
+	}
+}
+
+.serice-no-data-tip {
+	color: #2c3e50;
+	font-size: 18px;
+	line-height: 34px;
+	padding: 35px 0 30px;
+}
+
+.service-list-result {
+	margin-top: 50px;
+}

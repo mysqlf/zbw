@@ -1,0 +1,226 @@
+@charset "UTF-8";
+/*
+*产生样式
+*/
+/*网格系统*/
+/* line 7, ../../sass/sass/page/home.scss */
+.trackOrder {
+  width: 1000px;
+  margin: 0px auto;
+}
+/* line 10, ../../sass/sass/page/home.scss */
+.trackOrder .order {
+  border-bottom: 1px solid #d7dcde;
+}
+/* line 12, ../../sass/sass/page/home.scss */
+.trackOrder .order .titbar {
+  color: #666;
+  font-size: 18px;
+  margin-bottom: 45px;
+  margin-top: 30px;
+}
+/* line 18, ../../sass/sass/page/home.scss */
+.trackOrder .order .titbar a {
+  font-size: 14px;
+  margin-left: 20px;
+}
+/* line 23, ../../sass/sass/page/home.scss */
+.trackOrder .order .track {
+  height: 161px;
+  margin-bottom: 35px;
+}
+/* line 26, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .undone {
+  width: 144px;
+  height: 161px;
+  display: inline-block;
+  float: left;
+  margin: 0px 15px;
+  position: relative;
+  text-align: center;
+  background: url("../../images/undone.jpg");
+}
+/* line 36, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .undone h3 {
+  font-size: 18px;
+  color: #666;
+  font-weight: normal;
+  margin-top: 60px;
+  margin-bottom: 14px;
+}
+/* line 43, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .undone p {
+  display: none;
+}
+/* line 47, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .complete {
+  background: url("../../images/complete.jpg");
+}
+/* line 49, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .complete h3 {
+  margin-top: 50px;
+}
+/* line 52, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .complete p {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  line-height: 15px;
+}
+/* line 59, ../../sass/sass/page/home.scss */
+.trackOrder .order .track .icon-next {
+  margin-top: 60px;
+  float: left;
+}
+/* line 66, ../../sass/sass/page/home.scss */
+.trackOrder .noborder {
+  border: none;
+}
+
+/* line 70, ../../sass/sass/page/home.scss */
+.nothing {
+  height: 300px;
+  line-height: 300px;
+  text-align: center;
+  font-size: 24px;
+  color: #666;
+}
+/* line 76, ../../sass/sass/page/home.scss */
+.nothing a {
+  color: #f26797;
+}
+
+/* line 80, ../../sass/sass/page/home.scss */
+.browse {
+  width: 1100px;
+  height: 190px;
+  margin-top: 40px;
+}
+/* line 84, ../../sass/sass/page/home.scss */
+.browse .item {
+  width: 130px;
+  height: 190px;
+  background-position: top;
+  background-repeat: no-repeat;
+  text-align: center;
+  float: left;
+  margin: 0px 72px;
+}
+/* line 92, ../../sass/sass/page/home.scss */
+.browse .item h2 {
+  padding-top: 45px;
+  font-size: 40px;
+  font-weight: normal;
+}
+/* line 97, ../../sass/sass/page/home.scss */
+.browse .item h3 {
+  padding-top: 70px;
+  font-size: 24px;
+}
+
+/* line 105, ../../sass/sass/page/home.scss */
+.browse .add {
+  background-image: url("../../images/add.jpg");
+}
+/* line 107, ../../sass/sass/page/home.scss */
+.browse .add h2 {
+  color: #ffb083;
+}
+/* line 110, ../../sass/sass/page/home.scss */
+.browse .add h3 {
+  color: #f77f3b;
+}
+/* line 114, ../../sass/sass/page/home.scss */
+.browse .minus {
+  background-image: url("../../images/minus.jpg");
+}
+/* line 116, ../../sass/sass/page/home.scss */
+.browse .minus h2 {
+  color: #5dade2;
+}
+/* line 119, ../../sass/sass/page/home.scss */
+.browse .minus h3 {
+  color: #3498db;
+}
+/* line 123, ../../sass/sass/page/home.scss */
+.browse .nop {
+  background-image: url("../../images/nop.jpg");
+}
+/* line 125, ../../sass/sass/page/home.scss */
+.browse .nop h2 {
+  color: #f585ac;
+}
+/* line 128, ../../sass/sass/page/home.scss */
+.browse .nop h3 {
+  color: #f26797;
+}
+/* line 132, ../../sass/sass/page/home.scss */
+.browse .salary {
+  background-image: url("../../images/salary.jpg");
+}
+/* line 134, ../../sass/sass/page/home.scss */
+.browse .salary h2 {
+  color: #81d6b1;
+}
+/* line 137, ../../sass/sass/page/home.scss */
+.browse .salary h3 {
+  color: #2cca85;
+}
+
+/* line 144, ../../sass/sass/page/home.scss */
+.has .pageTitle span {
+  color: #aaaaaa;
+  border-bottom: 3px solid #f2f2f2;
+}
+/* line 148, ../../sass/sass/page/home.scss */
+.has .pageTitle strong {
+  display: none;
+}
+/* line 154, ../../sass/sass/page/home.scss */
+.has .browse .item {
+  background-image: url("../../images/notVIP.jpg");
+}
+/* line 157, ../../sass/sass/page/home.scss */
+.has .browse .item h2 {
+  color: #f2f2f2;
+}
+/* line 160, ../../sass/sass/page/home.scss */
+.has .browse .item h3 {
+  color: #aaaaaa;
+}
+
+/* line 166, ../../sass/sass/page/home.scss */
+.contact {
+  background: #f2f2f2;
+  width: 100%;
+  height: 76px;
+  line-height: 76px;
+  font-size: 18px;
+  text-align: center;
+  color: #666;
+  position: relative;
+  margin-top: 155px;
+}
+/* line 177, ../../sass/sass/page/home.scss */
+.contact .icon-image {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  margin: -39px;
+}
+/* line 184, ../../sass/sass/page/home.scss */
+.contact span {
+  color: #f27935;
+  font-size: 24px;
+  font-family: serif;
+}
+
+/* line 191, ../../sass/sass/page/home.scss */
+.pageTitle strong {
+  font-size: 16px;
+  color: #666;
+  font-weight: normal;
+  margin-left: 25px;
+  position: relative;
+  top: 20px;
+}

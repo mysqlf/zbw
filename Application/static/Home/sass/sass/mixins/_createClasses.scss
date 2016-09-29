@@ -1,0 +1,9 @@
+@mixin createClasses($Arr,$fix,$prop){
+
+	@each $class,$val in $Arr{
+    	.#{$fix}-#{$class}{
+    		/*$Arr*/
+			#{$prop}: $val ;
+		}
+    }
+}

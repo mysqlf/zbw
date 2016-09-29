@@ -1,0 +1,66 @@
+html {
+	.layui-layer{
+		border-radius:5px;
+	}
+    .layui-layer-title {
+        background: #2c3e50;
+        color: #fff;
+    }
+    .layui-layer-btn {
+        text-align: center;
+        padding: 0 20px 22px;
+        a {
+            height: auto;
+            padding: 5px 30px;
+        }
+    } 
+    .layui-layer-setwin {
+        .layui-layer-close1 {
+            background: url(/Application/Company/Assets/v2/images/icon/close.png) no-repeat 2px -3px;
+            height: 20px;
+            width: 20px;
+            position: relative;
+            top: -1px;
+    		left: 5px;
+            background-size:20px;  
+        }
+    }
+    .layui-layer-dialog {
+    	.layui-layer-content{
+    		text-align:center;
+    	}
+    	}
+    .layui-layer-btn {
+    	.layui-layer-btn0{
+    		background:#ffa64a;
+    		border-color:#ffa64a;
+    	}
+    	}
+    /* .layui-layer-btn a{
+		margin: {
+			left: 5%;
+			right: 5%;
+		}
+	} */
+}
+
+.layer-form {
+    span.error {
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+    .disabled {
+        color: #bbb;
+    }
+    .check-box span.error {
+        top: 30px;
+    }
+    .inline-block {
+        position: relative;
+    }
+    &.error-right span.error {
+        left: auto;
+        right: 0;
+    }
+}

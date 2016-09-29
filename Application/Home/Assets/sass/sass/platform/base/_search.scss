@@ -1,0 +1,36 @@
+@at-root .search {
+    @at-root .search-lb {
+        font-size: 20px;
+        display: inline-block;
+        line-height: 40px;
+        padding: {
+            left: 15px;
+            right: 35px;
+        }
+    }
+    @at-root .search-box {
+        display: inline-block;
+        position: relative;
+        font-size: 14px;
+        vertical-align: top;
+        @at-root .search-txt {
+            padding: {
+                left: 20px;
+                right: 50px;
+                top: 8px;
+                bottom: 8px;
+            }
+            width: 500px;
+            border: 1px solid #029DFF;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        @at-root .submit-search {
+            position: absolute;
+            padding: 10px;
+            right: 12px;
+            top: 0;
+        }
+    }
+}

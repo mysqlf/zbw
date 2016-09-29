@@ -1,0 +1,46 @@
+
+@import "compass/utilities/sprites";
+
+/*sprites*/
+//头
+@import "header/*.png";
+
+$header-sprite-dimensions:true;//设置变量的值，使雪碧图都有宽高
+$header-layout:diagonal; // 建议使用对角线拼接方式,可确保生成的两张图片排列顺序一样,且是两倍size
+$header-clean-up:true;//是否删除就是sprite */
+@include all-header-sprites;  
+
+//侧边悬浮
+@import "sidebar/*.png";
+
+$sidebar-sprite-dimensions:true;//设置变量的值，使雪碧图都有宽高
+$sidebar-layout:diagonal; // 建议使用对角线拼接方式,可确保生成的两张图片排列顺序一样,且是两倍size
+$sidebar-clean-up:true;//是否删除就是sprite */
+@include all-sidebar-sprites;
+
+//登录
+@import "loginIcon/*.png";
+
+$loginIcon-sprite-dimensions:true;//设置变量的值，使雪碧图都有宽高
+$loginIcon-layout:diagonal; // 建议使用对角线拼接方式,可确保生成的两张图片排列顺序一样,且是两倍size
+$loginIcon-clean-up:true;//是否删除就是sprite */
+@include all-loginIcon-sprites;
+
+//帮助中心
+@import "helper/*.png";
+
+$helper-sprite-dimensions:true;//设置变量的值，使雪碧图都有宽高
+$helper-layout:diagonal; // 建议使用对角线拼接方式,可确保生成的两张图片排列顺序一样,且是两倍size
+$helper-clean-up:true;//是否删除就是sprite */
+@include all-helper-sprites;
+//通用
+@import "common/*.png";
+
+$common-sprite-dimensions:true;//设置变量的值，使雪碧图都有宽高
+$common-layout:diagonal; // 建议使用对角线拼接方式,可确保生成的两张图片排列顺序一样,且是两倍size
+$common-clean-up:true;//是否删除就是sprite */
+@include all-common-sprites; 
+
+.icon{
+	display: inline-block;
+}

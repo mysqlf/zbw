@@ -1,0 +1,98 @@
+<extend name="Base/Insurance"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/insurance.css" rel="stylesheet">
+</block>
+<block name="right">
+    <div class="cb-content fr clearOver addList">
+        <form class="pageSearch fl" action="{:U('Company-Insurance-increaseList')}"><!-- 搜索 -->
+            <input class="button fr" type="submit" value="查询">
+            <select name="state" class="zb_inpt fr t3">
+                <option value="" >状态</option>
+                <!--<option value="-1" <if condition="'-1' heq I('get.state','')">selected="selected"</if>>审核失败</option>
+                <option value="0" <if condition="'0' heq I('get.state','')">selected="selected"</if>>审核中</option>
+                <option value="1" <if condition="'1' heq I('get.state','')">selected="selected"</if>>审核成功</option>
+                <option value="2" <if condition="'2' heq I('get.state','')">selected="selected"</if>>调整通过</option>
+                <option value="-3" <if condition="'-3' heq I('get.state','')">selected="selected"</if>>办理失败</option>
+                <option value="3" <if condition="'3' heq I('get.state','')">selected="selected"</if>>办理成功</option>
+                <option value="-4" <if condition="'-4' heq I('get.state','')">selected="selected"</if>>缴纳失败</option>
+                <option value="4" <if condition="'4' heq I('get.state','')">selected="selected"</if>>缴纳成功</option>
+                <option value="-5" <if condition="'-5' heq I('get.state','')">selected="selected"</if>>缴纳异常</option>
+                <option value="-9" <if condition="'-9' heq I('get.state','')">selected="selected"</if>>已撤销</option>-->
+                <volist name="stateArray" id="vo">
+                    <option value="{$key}" <if condition="$key.'' heq I('get.state','')">selected="selected"</if>>{$vo.name}</option>
+                </volist>
+            </select>
+            <select name="location" id="lacation" class="zb_inpt fr t3">
+                <option value="" >参保地</option>
+                <volist name="productOrderResult" id="vo">
+                    <option value="{$vo.warranty_location}" <if condition="$vo['warranty_location'] heq I('get.location','')">selected="selected"</if>>{$vo.warrantyLocationValue}</option>
+                </volist>
+            </select>
+            <input class="zb_inpt fr t2" type="text" placeholder="身份证" name="cardNum" value="{:I('get.cardNum','')}">
+            <input class="zb_inpt fr t1" type="text" placeholder="姓名" name="personBaseName" value="{:I('get.personBaseName','')}">
+        </form>
+        <a class="toIncrease fr" href="/Company-Insurance-toIncrease.html">新建报增</a>
+        <table class="pageTable"><!-- 表格 -->
+            <tr>
+                <th class="nameWidth c-1">姓名</th>
+                <th class="c-2">身份证号码</th>
+                <th class="c-3">服务产品</th>
+                <th class="c-4">参保地</th>
+                <th class="c-5">项目</th>
+                <th class="c-6">订单月份</th>
+                <th class="c-7">缴纳月份</th>
+                <th class="c-8">社保基数</th>
+                <th class="c-9">办理状态</th>
+                <th class="c-10">备注</th>
+                <th class="c-11">操作</th>
+            </tr>
+            <volist name="serviceOrderResult" id="vo">
+                <tr>
+                    <td>{$vo.user_name|default="暂无姓名"}</td>
+                    <td>{$vo.card_num|default="暂无身份证号码"}</td>
+                    <td>{$vo.product_name|default="暂无产品名"}（{$vo.company_name|default="暂无公司名"}）</td>
+                    <td>{$vo.sodLocationValue|default="暂无参保地"}</td>
+                    <td colspan="6" class="c-12">
+                        <table class="pageTable">
+                            <volist name="vo.list" id="voo">
+                                <tr>
+                                    <td class="c-5">{$voo.sod_payment_type|get_status_value="ServiceOrderDetailPaymentType"}</td>
+                                    <td class="c-6">{$voo.order_date}</td>
+                                    <td class="c-7">{$voo.sod_pay_date}</td>
+                                    <td class="c-8">{$voo.sod_amount}</td>
+                                    <td class="c-9 <if condition="-1 == $voo['sod_detail_state']">red<else/>{$colorArray[$voo['sod_state']]}</if>">{$voo.sod_state|get_status_value="ServiceOrderDetailState",$voo['sod_detail_state']}</td>
+                                    <td class="c-10">{$voo.sod_note}</td>
+                                    <td class="c-11">
+                                        <if condition="0 eq $voo['sod_state'] or -1 eq $voo['sod_state'] or (1 eq $voo['sod_state'] and $voo['isBeforeAbortAddDelDate'] )">
+                                            <a class="orange" href="{:U('Company/Insurance/editInsurance',array('baseId'=>$voo['base_id'],'serviceOrderId'=>$voo['id'],'payDate'=>$voo['sod_pay_date'],'type'=>1))}">编辑</a>
+                                            <a class="blue" href="javascript:;" data-act="repeal" data-id="{$voo.sod_id}">撤销</a>
+                                        <elseif condition="-9 eq  $voo['sod_state']"/>
+                                            <a class="orange" href="{:U('Company/Insurance/editInsurance',array('baseId'=>$voo['base_id'],'serviceOrderId'=>$voo['id'],'payDate'=>$voo['sod_pay_date'],'type'=>1))}">重新报增</a>
+                                        <else/>
+                                            <a class="orange" href="{:U('Company/Insurance/personInfo',array('baseId'=>$voo['base_id'],'serviceOrderId'=>$voo['id'],'payDate'=>$voo['sod_pay_date'],'type'=>1))}">查看</a>
+                                        </if>
+                                    </td>
+                                </tr>
+                            </volist>
+                        </table>
+                    </td>
+                    <!--<td>
+                        <if condition="0 eq $voo['sod_state'] or -1 eq $voo['sod_state'] or (1 eq $voo['sod_state'] and $voo['isBeforeAbortAddDelDate'] )">
+                            <a class="orange" href="{:U('Company/Insurance/editInsurance',array('baseId'=>$voo['base_id'],'serviceOrderId'=>$voo['id'],'payDate'=>$voo['sod_pay_date']))}">编辑</a>
+                            <a class="blue" href="javascript:;" data-act="repeal" data-id="{$voo.sod_id}">撤销</a>
+                        <else/>
+                            <a class="orange" href="{:U('Company/Insurance/personInfo',array('baseId'=>$voo['base_id'],'serviceOrderId'=>$voo['id'],'payDate'=>$voo['sod_pay_date']))}">查看</a>
+                        </if>
+                    </td>-->
+                </tr>
+            </volist>
+        </table>
+        <!--<p class="bj-tips">每月[截止日]日前完成报增的员工将当月进行办理，逾期上报的将顺延到下个月进行办理。</p>-->
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="increase" src="/Application/static/Home/js/dist/increase.bundle.js"></script>
+</block>

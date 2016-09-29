@@ -1,0 +1,43 @@
+<header class="header">
+    <div class="container-fluid">
+        <div class="navbar-header logo">
+            <a href="{:U('Home/Index/index')}">
+                <img src="/Application/static/Home/images/logo.png" />
+            </a>
+            <h2>企业中心</h2>
+        </div>
+        <div class="dropdown navbar-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                <i class="icon icon-user"></i>
+                <span>{$companyUser['CompanyInfo']['company_name']}</span>
+                <i class="caret"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="icon icon-arrowhead arrowhead"></li>
+                <li><a href="{:U('Company/Account/companyUserInfo')}">账号信息</a></li>
+                <li><a href="{:U('Company/Information-index')}">信息通知<i class="orange zbhide" id="message">(0)</i></a></li>
+                <li><a href="{:U('Company/Account/companyInfo')}">企业信息</a></li>
+                <!--<li><a href="#">缴纳模板</a></li>
+                <li><a href="#">员工档案</a></li>-->
+                <li><a href="{:U('Company/Information/serviceList')}">我的服务</a></li>
+                <li class="logout"><a href="{:U('Home/Member/logout')}">退出<i class="icon icon-logout"></i></a></li>
+            </ul>
+            <i class="tipCircle zbhide" id="allmsg" style="display: none">0</i>
+        </div>
+        <ul class="nav navbar-nav navbar-right" id="topNav">
+            <if condition="-1 eq $memberStatus">
+	            <li class="<eq name="CONTROLLER_NAME" value="Index">active</eq>"><a href="{:U('Company/Index/index')}">企业首页</a></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Insurance">active</eq>"><span>参保状态</span></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Salary">active</eq>"><span>工资发放</span></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Progress">active</eq>"><span>进度查询</span></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Bill">active</eq>"><span>账单</span></li>
+            <elseif condition="0 elt $memberStatus"/>
+	            <li class="<eq name="CONTROLLER_NAME" value="Index">active</eq>"><a href="{:U('Company/Index/index')}">企业首页</a></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Insurance">active</eq>"><a href="{:U('Company/Insurance/increaseList')}">参保状态</a></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Salary">active</eq>"><a href="{:U('Company/Salary/index')}">工资发放</a></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Progress">active</eq>"><a href="{:U('Company/Progress/index')}">进度查询</a></li>
+	            <li class="<eq name="CONTROLLER_NAME" value="Bill">active</eq>"><a href="{:U('Company/Bill/index')}">账单</a></li>
+            </if>
+        </ul>
+    </div>
+</header>

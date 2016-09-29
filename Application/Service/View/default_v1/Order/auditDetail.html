@@ -1,0 +1,377 @@
+<extend name="Base/common" />
+<block name="body">
+    <?php if(!empty($result)):?>
+    <form id="add-audit-form" class="form-inline gutter audit-form clearfix" method="post" action="Service-Order-audit">
+        <div class="form-group col-xs-12">
+	        <a href="javascript:history.go(-1);" class="btn btn-border pull-right" style="margin-bottom: 0px;">返回</a>
+	        <if condition="$result['nextRes']">
+	        	<a href="{:U('Service/Order/audit',array('base_id'=>$result['nextRes']['base_id'],'pay_date'=>$result['nextRes']['pay_date'],'service_order_id'=>I('get.service_order_id'),'order_no'=>I('get.order_no'),'p'=>I('get.p')+1))}" class="btn btn-border pull-right" style="margin-bottom: 0px;">下一条</a>
+	        </if>
+	        <if condition="$result['prevRes']">
+	        	<a href="{:U('Service/Order/audit',array('base_id'=>$result['prevRes']['base_id'],'pay_date'=>$result['prevRes']['pay_date'],'service_order_id'=>I('get.service_order_id'),'order_no'=>I('get.order_no'),'p'=>I('get.p')-1))}" class="btn btn-border pull-right" style="margin-bottom: 0px;">上一条</a>
+	        </if>
+        </div>
+        <div class="form-group col-xs-4">
+        <label class="label-left vertical-top">
+            企业编号：
+        </label>
+        <div class="inline-block">
+        {$result.company_id}
+        </div>
+        </div>
+        <div class="form-group col-xs-8">
+            企业：{$result.company_name}
+        </div>
+    
+        <div class="form-group col-xs-4">
+         <label class="label-left vertical-top">
+            订　　单：
+        </label>
+            <span class="order-name">{$result.order_date}（{$result.company_info.province}）[{$result.company_info.company_name}]</span>
+        </div>
+        
+        <div class="form-group col-xs-6">
+            <div>
+            <label class="label-left vertical-top" for="card_num">身份证号：</label>
+            <div class="inline-block">
+            {$result.card_num}
+            <input type="hidden" id="card_num" name="card_num" value="{$result.card_num}">
+            </div>
+            <span class="gutter vertical-top">年龄  <span id="age"></span>岁</span>
+             <a class="c-primary" id="view-pic" href="javascript:;" data-href="{$result.picture}">查看照片</a>
+            </div>
+        </div>
+        <div class="form-group col-xs-4">
+            <label class="label-left vertical-top" for="username">
+                姓　　名：
+            </label>
+            <div class="inline-block">
+                {$result.user_name}
+            </div>
+            <div class="inline-block vertical-top gutter-x">
+                <?php if($result['gender'] == 1) echo '男'; ?>
+                <?php if($result['gender'] == 2) echo '女'; ?>
+            </div>
+        </div>
+        <div class="form-group col-xs-6">
+            <label class="label-left vertical-top" for="mobile">
+            手机号码：</label>
+            <div class="inline-block">
+                {$result.mobile}
+            </div>
+        </div>
+        <div class="form-group col-xs-12">
+            <label class="label-left vertical-top" for="location">
+            参保地：</label>
+            <div class="inline-block vertical-top">
+                <?php echo showAreaName($result['location']);?>
+            </div>
+            <input type="hidden" name="location" value="{$result.location}">
+        </div>
+      
+        <div id="socialSecurity-tel">
+            <div id="security-info" class="audit-form-title clearfix2 ">
+                参保信息 <i class="icon icon-info"></i>
+            </div>
+            <?php if(!empty($result['sstate'])|| !empty($result['stype'])):?>
+            <div class="form-box" data-type="1">
+                <div class="clearfix2 form-group ">
+                    <label>
+                        <input id="security-checkbox" class="buy-server icheck" type="checkbox" name="sb_buy" value="1" <?php if(!empty($result['stype']) &&  $result['sstate'] != -9) echo 'checked'; ?> disabled> 购买社保
+                    </label>
+
+                    <span class="c-gray">
+                    <?php if(!empty($result['stype']) &&  $result['sstate'] == -9) echo '(已撤销)'; ?>
+                        </span>
+                </div>
+                <div class="clearfix2">
+                <volist name="result.srule.template" id="vo">
+                    <?php if($vo['fid'] == 0): ?>
+                        <div class="form-group col-xs-6">
+                            <label class="label-left vertical-top">
+                               {$vo.name}：
+                            </label>
+                            <div class="inline-block">
+                                    <volist name="result.srule.template" id="v">
+                                        <?php if($v['fid'] == $vo['id'] && $v['selected'] == 1): ?>
+                                            <?php $sb_type_name = $v['name'];?>
+                                        <?php endif; ?>
+                                    </volist>
+                                    <?php echo $sb_type_name?$sb_type_name:'未选择';?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </volist>
+                </div>
+                <div class="form-group col-xs-6">
+                    <label class="label-left vertical-top">
+                        社保基数：
+                    </label>
+                    <div class="inline-block">
+                        {$result.samount}
+                    </div>
+
+                </div>
+
+                <div class="form-group col-xs-6">
+                    <label class="label-left vertical-top">
+                        缴纳时间：
+                    </label>
+                    <div class="inline-block vertical-top">
+                        <?php echo intval(substr($result['pay_date'],0,4));?>
+                        年
+                        <?php echo intval(substr($result['pay_date'],4,2));?>
+                        月
+                    </div>
+
+                </div>
+
+                <div class="form-group col-xs-12 table-responsive" id="sb_table">
+                    <table class="table table-bordered table-border text-center" style="width: 674px;">
+                        <thead>
+                        <tr>
+                            <th rowspan="2" width="16%">
+                                险种
+                            </th>
+                            <th colspan="2">
+                                单位缴纳
+                            </th>
+                            <th colspan="2">
+                                个人缴纳
+                            </th>
+                            <th rowspan="2">合计金额</th>
+
+                        </tr>
+                        <tr>
+                            <th>比例</th>
+                            <th>
+                                金额
+                            </td>
+                            <th>比例</th>
+                            <th>
+                                金额
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <volist name="result.srule.rule.items" id="vo">
+
+                        <tr>
+                            <td>
+                                {$vo.name}
+                            </td>
+                            <td class="sum-company-scale">
+                               {$vo.rules.company}
+
+                            </td>
+                            <td class="sum-company">{$vo.rules.companySum}</td>
+                            <td class="sum-person-scale">
+                                {$vo.rules.person}
+                            </td>
+                            <td class="sum-person">{$vo.rules.personSum}</td>
+                            <td class="sum">
+                                {$vo.rules.total}
+                            </td>
+                        </tr>
+                        </volist>
+                        <tr>
+                            <td>
+                                合计
+                            </td>
+                            <td id="total-sum-company-scale">
+                                {$result.srule.rule.total.rules.company}
+                            </td>
+                            <td id="total-sum-company">{$result.srule.rule.total.rules.companySum}</td>
+                            <td id="total-sum-person-scale">
+                                {$result.srule.rule.total.rules.person}
+                            </td>
+                            <td id="total-sum-person">{$result.srule.rule.total.rules.personSum}</td>
+
+                            <td id="total">
+                                {$result.srule.rule.total.rules.total}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group col-xs-12">
+                <?php if(!empty($result['scard_number'])): ?>
+                    <label class="label-left vertical-top">
+                        <div class="hide">
+                            <input id="has-ss-card" class="ss-card icheck"  type="radio" name="ss_card" value="1" required  <?php if(!empty($result['scard_number'])) echo 'checked'; ?>>
+                        </div>
+                        有社保卡
+                    </label>
+                    <label class="gutter-left">卡号：</label>
+                    <div class="inline-block">
+                        {$result.scard_number}
+                    </div>
+                <?php else:?>
+                    <label>
+                        <div class="hide">
+                            <input id="no-ss-card" type="radio" class="ss-card icheck" name="ss_card" value="2" required <?php if(empty($result['scard_number'])) echo 'checked'; ?>>
+                        </div>
+                        无社保卡
+                    </label>
+                    <label class="gutter-x">工本费：<span id="sb-pro_cost">{$result.srule.rule.pro_cost}</span></label>
+                    <a class="material c-primary" href="javascript:;" data-material="{$result.srule.rule.material}">所需材料</a>
+                <?php endif; ?>
+                </div>
+                
+                <div class="form-group col-xs-12">
+                    <label class="vertical-top">
+                        <?php if($result['stype'] == 1){echo '报增审核';}else if($result['stype'] == 2){echo '报减审核';}else if($result['stype'] == 3){echo '在保审核';}?>状态：
+                    </label>
+                    <div class="inline-block">
+                        <?php $arrSate = array(0=>'审核中',1=>'审核成功',-1=>'审核失败',2=>'调整通过',-3=>'失败',3=>'成功',4=>'缴纳成功',-4=>'缴纳失败',-5=>'缴纳异常',-9=>'撤销');
+                        if($result['stype'] == 1 && in_array($result['sstate'],array(3,-3))) {echo '报增'.$arrSate[$result['sstate']];}else if($result['stype'] == 2 && in_array($result['sstate'],array(3,-3))) {echo '报减'.$arrSate[$result['sstate']];}else if(in_array($result['sstate'],array(1,2)) && $result['sdetail_state'] == -1) {echo '挂起';}else{ echo $arrSate[$result['sstate']];}
+                        ?>
+
+                    </div>
+                </div>
+                <?php  $sb_total = $result['srule']['rule']['total']['rules']['total'] + $result['srule']['rule']['pro_costs'];?>
+                <div class="text-right clearfix2 c-money sum-total">
+                小计： <span id="sb-total" class="f-bold">   {$sb_total}元/月</span>
+                </div>
+            <?php endif;?>
+            <?php if(!empty($result['gstate']) || !empty($result['gtype'])):?>
+            <div class="form-box" data-type="2">
+                <div class="clearfix2 form-group ">
+                    <label>
+                        <input class="buy-server icheck" id="fund-checkbox" type="checkbox" name="gzj_buy" value="1" <?php if(!empty($result['gtype']) && $result['gstate'] != -9) echo 'checked'; ?> disabled> 购买公积金
+                    </label>
+                     <span class="c-gray">
+                    <?php if(!empty($result['gtype']) &&  $result['gstate'] == -9) echo '(已撤销)'; ?>
+                        </span>
+                </div>
+                <volist name="result.grule.template" id="vo">
+                    <?php if($vo['fid'] == 0): ?>
+                    <div class="form-group col-xs-12">
+                        <label class="label-left vertical-top">
+                            {$vo.name}：
+                        </label>
+                        <div class="inline-block">
+                            <volist name="result.grule.template" id="v">
+                                <?php if($v['fid'] == $vo['id'] && $v['selected'] == 1): ?>
+                                    <?php $gzj_type_name = $v['name'];?>
+                                <?php endif; ?>
+                            </volist>
+                            <?php echo $gzj_type_name?$gzj_type_name:'未选择';?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </volist>
+                <div class="form-group col-xs-3">
+                    <label>
+                        公积金基数：
+                    </label>
+                    <div class="inline-block">
+                        {$result.gamount}
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-9">
+                    <label class="label-left">
+                        缴纳时间：
+                    </label>
+                    <div class="inline-block">
+                        <?php echo intval(substr($result['pay_date'],0,4));?>
+                        年
+                        <?php echo intval(substr($result['pay_date'],4,2));?>
+                        月
+                    </div>
+                </div>
+                <div class="form-group col-xs-3">
+                    <label>
+                        单位缴纳比例：
+                    </label>
+                    <div class="inline-block">
+                       {$result.company_scale} %
+                    </div>
+                </div>
+                <div class="form-group col-xs-9">
+                    <label>
+                        个人缴纳比例：
+                    </label>
+                    <div class="inline-block">
+                        {$result.person_scale} %
+                    </div>
+                </div>
+
+                <div class="form-group col-xs-12">
+                <?php if(!empty($result['gcard_number'])): ?>
+                    <label class="label-left vertical-top">
+                    <div class="hide">
+                        <input id="has-gzj-card" class="gzj-card icheck" type="radio" name="gzj_card" value="1" required <?php if(!empty($result['gcard_number'])) echo 'checked'; ?>>
+                    </div>
+                    有公积金卡
+                    </label>
+                    <label class="gutter-left">卡号：</label>
+                    <div class="inline-block">
+                        {$result.gcard_number}
+                    </div>
+                <?php else:?>
+                    <label>
+                        <div class="hide">
+                            <input id="no-gzj-card" type="radio" class="gzj-card icheck" name="gzj_card" value="2" required <?php if(empty($result['gcard_number'])) echo 'checked'; ?>>
+                        </div>
+                        无公积金卡
+                    </label>
+                    <label class="gutter-x">工本费：<span id="gzj-pro_cost">{$result.grule.rule.pro_cost}</span></label>
+
+                <?php endif; ?>
+                </div>
+                 <div class="form-group col-xs-12">
+                    <label class="vertical-top">
+                        <?php if($result['gtype'] == 1){echo '报增审核';}else if($result['gtype'] == 2){echo '报减审核';}else if($result['gtype'] == 3){echo '在保审核';}?>状态：
+                    </label>
+                    <div class="inline-block">
+                        <?php $arrSate = array(0=>'审核中',1=>'审核成功',-1=>'审核失败',2=>'调整通过',-3=>'失败',3=>'成功',4=>'缴纳成功',-4=>'缴纳失败',-5=>'缴纳异常',-9=>'撤销');
+                        if($result['gtype'] == 1 && in_array($result['gstate'],array(3,-3))) {echo '报增'.$arrSate[$result['gstate']];}else if($result['stype'] == 2 && in_array($result['gstate'],array(3,-3))) {echo '报减'.$arrSate[$result['gstate']];}else if(in_array($result['gstate'],array(1,2)) && $result['gdetail_state'] == -1) {echo '挂起';}else{ echo $arrSate[$result['gstate']];}
+                        ?>
+                       
+                    </div>
+                </div>
+                <div  class="text-right clearfix2 c-money sum-total">
+                    <?php $gzj_total = $result['grule']['rule']['personSum'] + $result['grule']['rule']['pro_costs'] + $result['grule']['rule']['companySum'];?>
+                    小计： <span id="gzj-total" class="f-bold">{$gzj_total}元/月</span>
+                </div>
+
+                <div class="text-right clearfix2 c-money sum-total czj-total">
+                    <?php if(!empty($result['drule'])):?>
+                    残障金： 
+                    <span id="czj-total" class="f-bold">
+                        <?php echo $result['drule']['rule']['price']?$result['drule']['rule']['price']:0 ;?>
+                        元/月
+                    </span>
+                    <?php endif;?>
+                </div>
+            </div>
+            <?php endif;?>
+            <div class="text-right clearfix2 c-money sum-total">
+                <span class="all-total">
+                    总计： <strong id="all-total" class="f-bold">0元/月</strong>
+                </span>
+            </div>
+        </div>
+        </div>
+        <input type="hidden" name="base_id" value="{$result.base_id}">
+        <input type="hidden" name="service_order_id" value="{$result.service_order_id}">
+        <input type="hidden" name="pay_date" value="{$result.pay_date}">
+        <input type="hidden" name="order_no" value="{$result.order_no}">
+
+        <input type="hidden" name="sb_updata_type_new" value="{$result.stype}">
+        <!--<input type="hidden" name="sb_update_state_new" value="<?php if(in_array($result['sstate'],array(3,4,-4,-5)) ) {echo 1;}else{echo 0;}?>">-->
+        <input type="hidden" name="gjj_updata_type_new" value="{$result.gtype}">
+        <!--<input type="hidden" name="gjj_update_state_new" value="<?php if(in_array($result['gstate'],array(3,4,-4,-5)) ) {echo 1;}else{echo 0;}?>">-->
+
+        <input id="template_id" type="hidden" name="template_id" value="<?php echo $result['srule']['template_id']?$result['srule']['template_id']:$result['grule']['template_id'];?>">
+    </form>
+    <?php else:?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php endif;?>
+</block>
+<block name="script">
+    <script data-init="addAudit" type="text/javascript" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>

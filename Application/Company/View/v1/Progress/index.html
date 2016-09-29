@@ -1,0 +1,79 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/plan.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">进度查询</span>
+    </div>
+    <div class="planList">
+        <form class="pageSearch fr" action="{:U('Company-Progress-index')}"><!-- 搜索 -->
+            <input class="button fr" type="submit" value="查询"><!---->
+            <select name="location" id="lacation"  class="zb_inpt fr t3">
+                <option value="">参保地</option>
+                <volist name="productOrderResult" id="vo">
+                    <option value="{$vo.warranty_location}"
+                        <if condition="$vo.warranty_location eq I('get.location','')">
+                            selected="selected"
+                        </if>
+                    >{$vo.warrantyLocationValue}</option>
+                </volist>
+            </select>
+            <input class="zb_inpt fr t2" type="text" placeholder="订单年月" readonly name="orderDate" value="{:I('get.orderDate','')}">
+            <input class="zb_inpt fr t1" type="text" placeholder="姓名" name="personBaseName" value="{:I('get.personBaseName','')}">
+        </form>
+        <div style="clear:both;"></div>
+        <table class="pageTable"><!-- 表格 -->
+            <tr>
+                <th class="c-1">订单年月</th>
+                <th class="c-2">姓名</th>
+                <th class="c-3">身份证号码</th>
+                <th class="c-4">参保地</th>
+                <th class="c-5">项目</th>
+                <th class="c-6">项目详情</th>
+                <th class="c-7">参保年月</th>
+                <th class="c-8">进度</th>
+                <th class="c-9">反馈</th>
+            </tr>
+
+            <volist name="serviceOrderResult" id="vo">
+                <tr>
+                    <td>{$vo.orderDateValue}</td>
+                    <td><strong>{$vo.user_name}</strong></td>
+                    <td>{$vo.card_num}</td>
+                    <td>{$vo.sodLocationValue}</td>
+                    <td colspan="5" class="c-10">
+                        <table class="pageTable">
+                        <volist name="vo.list" id="voo">
+                            <tr>
+                                <td class="c-5"><strong>{$voo.sod_payment_type|get_status_value="ServiceOrderDetailPaymentType"}({$voo.sod_type|get_status_value="ServiceOrderDetailType"})</strong></td>
+                                <if condition="1 == $voo['sod_type'] || 3 == $voo['sod_type']">
+                                <td class="c-6" align="left" style="padding-left: 20px;">
+                                    <p>单位缴纳：{$voo.company|default=0}元</p>
+                                    <p>个人缴纳：{$voo.person|default=0}元</p>
+                                    <p>总计缴纳：{$voo.total|default=0}元</p>
+                                </td>
+                                <elseif condition="2 == $voo['sod_type']"/>
+                                <td class="c-6">
+                                 
+                                </td>
+                                </if>
+                                <td class="c-7">{$voo.sod_pay_date|int_to_date}</td>
+                                <td class="c-8 <if condition="-1 == $voo['sod_detail_state']">red<else/>{$colorArray[$voo['sod_state']]}</if>">{$voo.sod_state|get_status_value="ServiceOrderDetailState",$voo['sod_detail_state']}</td>
+                                <td class="c-9">{$voo.sod_note}</td>
+                            </tr>
+                        </volist>
+                        </table>
+                    </td>
+                </tr>
+            </volist>
+
+        </table>
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="progress" src="/Application/static/Home/js/dist/salary.bundle.js"></script>
+</block>

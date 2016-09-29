@@ -1,0 +1,25 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/home.css" rel="stylesheet">
+</block>
+<block name="body">
+    <!-- 标题 -->
+    <!--<div class="pageTitle clearOver">
+        <span class="fl">订单进度</span>
+    </div>-->
+    <div class="trackOrder">
+            <div class="nothing">
+                <strong>企业信息正在审批中，<a href="{:U('Company/Account/companyInfo',array('isChange'=>1))}"> 马上修改>></a></strong>
+            </div>
+        
+    </div>
+</block>
+<block name="footer">
+    <div class="contact">
+        <i class="icon icon-image"></i>
+        全国服务热线：<span>400-007-5156</span>
+    </div>
+</block>
+<block name="script">
+    <script data-head="0" src="/Application/static/Home/js/dist/home.bundle.js"></script>
+</block>

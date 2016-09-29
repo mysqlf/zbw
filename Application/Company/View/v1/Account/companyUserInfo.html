@@ -1,0 +1,24 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/info.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">账号信息</span>
+    </div>
+    <div class="w930 extra">
+        <ul class="item">
+            <li class="tit"><strong>账号</strong></li>
+            <li>{$companyUser.username|default="暂无用户名"}</li>
+            <li></li>
+        </ul>
+        <ul class="item nob">
+            <li class="tit"><strong>登录密码</strong></li>
+            <li>定期修改登录密码有利于保障账号安全</li>
+            <li><a class="blue_btn" href="javascript:;" id="changePassword">修改密码</a></li>
+        </ul>
+    </div>
+</block>
+<block name="script">
+    <script data-init="extra" src="/Application/static/Home/js/dist/info.bundle.js"></script>
+</block>

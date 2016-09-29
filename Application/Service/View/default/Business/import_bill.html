@@ -1,0 +1,111 @@
+<!-- 导入工资单 -->
+<extend name="Base/common" />
+<block name="body">
+	<div class="pannel-hd">
+		<h2 class="cnt-title">批量导入工资单</h2>
+		<div class="query-form">
+			<div class="query-item fl">
+				<label class="query-lb" for="">选择服务企业</label>
+				<div class="ipt-box">
+					<select name="">
+						<option>请选择企业名称</option>
+						<option>广东智通人才股份有限公司</option>
+					</select>
+				</div>
+			</div>
+			<div class="query-item fl">
+				<label class="query-lb" for="">服务套餐</label>
+				<div class="ipt-box">
+					<select name="">
+						<option>请选择服务套餐</option>
+						<option>智尊宝</option>
+					</select>
+				</div>
+			</div>
+			<div class="query-item fl">
+				<label class="query-lb" for="">上传模板</label>
+				<div class="ipt-box">
+					<input type="file" name="" class="ipt-file">
+				</div>
+			</div>
+			<div class="tips">注：先下载对应城市的导入模板，完成编辑后，上传导入。</div>
+			<button type="submit" class="btn-upload" data-act="upload">开始上传</button>
+		</div>
+	</div>
+	<div class="pannel-tbl">
+		<table summary="批量导入工资单">
+			<colgroup>
+				<col width="8%" />
+				<col width="7%" />
+				<col width="12%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="6%" />
+				<col width="12%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="8%" />
+				<col width="15%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>姓名</th>
+					<th>身份证号码</th>
+					<th>服务套餐</th>
+					<th>银行名称</th>
+					<th>社保类型</th>
+					<th>卡号</th>
+					<th>工资年月</th>
+					<th>实发工资</th>
+					<th>个人所得税</th>
+					<th>错误原因</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>0001</td>
+					<td>张三三</td>
+					<td>32874928423084204</td>
+					<td>智尊宝</td>
+					<td>中国农业银行</td>
+					<td>本地城镇</td>
+					<td>468655432256584444</td>
+					<td>2010/05</td>
+					<td>43500</td>
+					<td>3243.00</td>
+					<td>没有原因，不想发工资....</td>
+				</tr>
+				<tr class="tr-bg">
+					<td>0001</td>
+					<td>张三三</td>
+					<td>32874928423084204</td>
+					<td>智尊宝</td>
+					<td>中国农业银行</td>
+					<td>本地城镇</td>
+					<td>468655432256584444</td>
+					<td>2010/05</td>
+					<td>43500</td>
+					<td>3243.00</td>
+					<td>没有原因，不想发工资....</td>
+				</tr>
+				<tr>
+					<td>0001</td>
+					<td>张三三</td>
+					<td>32874928423084204</td>
+					<td>智尊宝</td>
+					<td>中国农业银行</td>
+					<td>本地城镇</td>
+					<td>468655432256584444</td>
+					<td>2010/05</td>
+					<td>43500</td>
+					<td>3243.00</td>
+					<td>没有原因，不想发工资....</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" data-init="salary" src="/Application/Service/Assets/js/dist/salary.bundle.js"></script>
+</block>

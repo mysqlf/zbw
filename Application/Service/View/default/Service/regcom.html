@@ -1,0 +1,96 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="accountInfo-title"><h2 class="">客户列表</h2></div>
+    <div class="gutter table-responsive">
+    <a href="/Service-Members-clientList" style="border:1px solid #dedede;display: inline-block;height:30px;line-height: 30px;width:100px;text-align: center;<?php if($_GET['search_field']=='' && $_GET['search']=='' && $_GET['state']=='') echo 'background-color:#3498db;color:white';?>" >查看全部</a>
+    <a href="/Service-Members-clientList-state-1" style="border:1px solid #dedede;display: inline-block;height:30px;line-height: 30px;width:100px;text-align: center;<if condition="$Think.get.state eq 1">background-color:#3498db;color:white;</if>">已认证</a>
+         <a href="/Service-Members-clientList-state-0" style="border:1px solid #dedede;display: inline-block;height:30px;line-height: 30px;width:100px;text-align: center;<if condition="$Think.get.state eq '0'">background-color:#3498db;color:white;</if>">未认证</a>
+        <div style="margin: 10px 0 10px 0;">
+             
+            <form action="__URL__-clientList" method='get' style="float:left">
+                <input type="search" placeholder='搜索关键字' style="float: left;height:32px;width:200px;border-radius: 4px;border:1px solid #dedede;text-indent: 1em;" name="search" value="{$Think.get.search}"> 
+                <select name="search_field" id="" style="float: left; margin:0 6px 0 6px; line-height: 34px; padding: 5px 0;">
+                    <option style="line-height: 34px;" value="">-选择搜索字段-</option>
+                    <option style="line-height: 34px;" value="0"<php>if($_GET['search_field']==='0') echo 'selected="selected"';</php>>序号</option>
+                    <option style="line-height: 34px;" value="1"<php>if($_GET['search_field']==1) echo 'selected="selected"';</php>>企业名称</option>
+                    <option style="line-height: 34px;" value="2"<php>if($_GET['search_field']==2) echo 'selected="selected"';</php>>姓名</option>
+                    <option style="line-height: 34px;" value="3"<php>if($_GET['search_field']==3) echo 'selected="selected"';</php>>电话</option>
+                </select>
+                <input type="submit" value="查询" style="float: left;height: 34px;width:100px;border:1px solid #dedede;background:#fff">
+               <!--  <php>if($_GET['search']!='' && $_GET['search_field']!=''){</php>
+               <a href="/Service-Members-clientList" style="border:1px solid #dedede;display: inline-block;height:30px;line-height: 30px;width:100px;text-align: center;">查看全部</a>
+               <php>}</php> -->
+            </form>
+          <!--   <a href="{$Think.server.PHP_SELF}?{$Think.server.QUERY_STRING}&csv=1" style="display: block;height: 32px;width:100px;border:1px solid #dedede;background:#fff;float:right;text-align: center;line-height: 32px;">导出</a> -->
+            <div style="clear:both;"></div>
+        </div>
+        <?php if(!empty($list['result'])):?>
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>企业名称</th>
+              <!--       <th>姓名</th> -->
+                    <th>执照审核</th>
+                    <th>授权审核</th>
+                    <th>注册时间</th>
+                    <th width="10%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            <volist name="list.result" id="vo">
+                <tr>
+                    <td>{$vo.company_id}|{$vo.trading_audit}</td>
+                    <td><a href="/Service-Com-comInfo?company_id={$vo.company_id}">{$vo.company_name}</a></td>
+               <!--      <td>{$vo.contact_name}</td> -->
+                   <td><?php if($vo['trading_audit'] == 1):?>
+                       审核通过
+                   <?php elseif($vo['trading_audit'] == 0):?>
+                    未审核
+                   <?php else:?>
+                    审核失败
+                   <?php endif?>
+                   </td><td><?php if($vo['lisence_audit'] == 1):?>
+                       审核通过
+                   <?php elseif($vo['lisence_audit'] == 0):?>
+                    未审核
+                   <?php else:?>
+                    审核失败
+                   <?php endif?>
+                   </td>
+                   
+                   <td>{$vo.create_time}</td> 
+                    <td>
+                        <php>if($vo['state'] == '0'){</php>
+                            <a href="javascript:setState('{$vo['id']}');" id="state{$vo.id}">标记为已联系</a>
+                        <php>}else{</php>
+                                已联系
+                        <php>}</php>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <div class="pagination">
+            {$list.page}
+        </div>
+        <?php else:?>
+        <span class="no-data-tip"> 暂无数据</span>
+        <?php endif;?>
+    </div>
+    <script src="/Application/Home/Assets/js/plug-in/jquery-1.10.2.min.js"></script>
+    <script>
+        function setState(id)
+        {
+            $.get('__URL__-setState',{id:id},function(msg){
+                if(msg==1)
+                {
+                    $('#state'+id).html('已联系');
+                }
+            });
+        }
+    </script>
+</block>
+<block name="script">
+    <script data-init="comBuyService" type="text/javascript" src="/Application/Service/Assets/js/dist/CM.bundle.js"></script>
+</block>

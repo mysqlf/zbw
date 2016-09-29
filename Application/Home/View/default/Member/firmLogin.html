@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>{:C('WEB_SITE_TITLE')}-用户登录</title>
+	<link rel="stylesheet" href="/Application/Home/Assets/css/main.css">
+</head>
+<body class="firm-login-body">
+	<div class="header other-header">
+		<div class="head wrapper clearOver">
+			<a class="head-logo header-header_logo fl" href="{:U('index/index')}"></a>
+			<h4 class="fl txt"><span class="dot">.</span>企业登录</h4>
+			<a class="firm-icon fr" href="{:U('index/index')}"></a>
+		</div>
+	</div>
+	<div class="wrapper">
+		<form id="J_login-form" action="/Member-firmLoginHandle" method="post">
+			<div class="firm-login-box">
+					<p class="input-text reg-text">
+						<label class="icon-label fl">
+							<i class="icon loginIcon-user"></i>
+						</label>
+						<input class="firm-name" type="text" placeholder="帐号" name="username" required>
+					</p>
+					<p class="input-text reg-text">
+						<label class="icon-label fl">
+							<i class="icon loginIcon-lock"></i>
+						</label>
+						<input type="password" placeholder="密码" name="password" required>
+					</p>
+					<p class="input-text">
+						<span class="reg-text firm-yzm-text">
+							<label class="icon-label fl">
+								<i class="icon loginIcon-save"></i>
+							</label>
+							<input type="text" placeholder="验证码" name="verify_code" class="firm-yzm" required />
+						</span>
+						<img class="verifyimg reloadverify" alt="点击切换" src="/Member-verifyCode.html" onclick="this.src='/Member-verifyCode.html?rand='+Math.random();">
+					</p>
+					<div class="login-fn clearOver">
+						<!-- <div class="chack-icon loginIcon-login_icon04 fl"></div> -->
+						<label class="auto-login">
+							<input class="fl icheck" type="checkbox" name="auto_login" value="1">
+							<span class="auto-login-txt">30天内自动登录</span>
+						</label>
+						<a class="fr" href="/Member-getBackPass">忘记密码？</a>
+					</div>
+					<input class="buttonOrange firmlogin-btn" type="submit" value="登录">
+					<p class="form-foot-tip">
+						没有智保易账号？
+						<a href="/Member-firmRegister.html">马上注册&gt;&gt;</a>
+					</p>
+				<div class="firmlogin-tip"></div>
+			</div>
+		</form>
+	</div>
+	
+	<div class="oter-foot">
+		<include file="Public/friend-links"/>
+		<div class="c-gray" style="font-size: 12px;">
+			<include file="Public/copyright"/>
+		</div>
+	</div>
+<include file="Public/baseScript" />
+<script data-module="login" src="/Application/Home/Assets/js/dist/loginReg.bundle.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!-- 个人对账单—账单列表 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">账单列表</h2>
+        <div class="query-conditions">
+            <div class="query-form">
+                <div class="query-item fl">
+                    <label class="query-lb" for="declarant">申报人</label>
+                    <div class="ipt-box">
+                        <input type="text" name="declarant" class="ipt w-small ellipsis" />
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="product_id">服务套餐</label>
+                    <div class="ipt-box box-small">
+                        <select name="product_id">
+                            <option value="0">服务套餐</option>
+                            <volist name="product_list" id="v">
+                                <option value="{$v.id}">{$v.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="bill_no">对账单号</label>
+                    <div class="ipt-box">
+                        <input type="text" name="bill_no" class="ipt w-normal ellipsis" />
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <lable class="query-lb" for="bill_date">对账单年月</lable>
+                    <div class="ipt-box ipt-pos fl">
+                        <input type="text" name="bill_date" class="ipt w-normal date-day" readonly />
+                        <i class="icon icon-date"></i>
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <lable class="query-lb" for="payment_type">对账单类型</lable>
+                    <div class="ipt-box box-small">
+                        <select name="payment_type">
+                            <option value="0">账单类型</option>
+                            <option value="1">社保账单</option>
+                            <option value="2">工资账单</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <lable class="query-lb" for="invoice_state">开具发票</lable>
+                    <div class="ipt-box box-small">
+                        <select name="invoice_state">
+                            <option value="">发票状态</option>
+                            <option value="0">开具发票</option>
+                            <option value="1">不开发票</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-query">查询</button>
+            </div>
+        </div>
+    </div>
+    <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+        <table summary="账单列表-企业账单-个人账单">
+            <colgroup>
+                <col width="15%" />
+                <col width="12%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="18%" />
+                <col width="10%" />
+                <col width="9%" />
+                <col width="12%" />
+                <col width="8%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>对账单号</th>
+                    <th>申报人</th>
+                    <th>服务套餐</th>
+                    <th>对账单年月</th>
+                    <th>名称</th>
+                    <th>金额</th>
+                    <th>开具发票</th>
+                    <th>快递单号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($result['result'] as $k=>$v){ ?>
+                <tr>
+                    <td>
+                        <?php echo $v['bill_no'] ?>
+                    </td>
+                    <td>
+                        <?php echo $v['person_name'] ?>
+                    </td>
+                    <td>
+                        <?php echo $v['name'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['bill_date'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['bill_name'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['price'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['invoice_state'] == 1 ? '是' : '否';?>
+                    </td>
+                    <td>
+                        <?php echo $v['invoice_express_no'];?>(
+                        <?php echo $v['invoice_express_company'];?>)
+                    </td>
+                    <td class="no-brdr"><a href="<?php echo U('Bill/perBillDetail?id='.$v['id']) ?>">明细</a></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="bill" src="/Application/Service/Assets/js/dist/bill.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

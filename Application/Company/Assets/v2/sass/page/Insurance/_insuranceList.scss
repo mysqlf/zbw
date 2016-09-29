@@ -1,0 +1,132 @@
+.right_head{
+	@include ml(20px);
+	@include mt(8px);
+	h3{
+		@include font(24px);
+		font-weight:normal;
+		.btn{
+			display:block;
+			@include fr;
+			font-size:14px;
+			color:#2c3e50;
+			&:hover{
+				border-color:$color-primary;
+				color:$color-primary;
+			}
+		}
+	}
+}
+
+.search_box{
+	@include ml(20px);
+	@include mb(20px);
+	@include mt(20px);
+	@include font(14px);
+	@include clearfix;
+
+	position:relative;
+
+	$search-sizeArr: 100px 130px 150px 200px;
+	@for $i from 1 through length($search-sizeArr){
+   		.search-size#{$i}{
+   			.sod_select, .text, select{
+   				width: nth($search-sizeArr,$i);
+   			}
+   		}
+   	}
+	.text{
+		height:35px;
+	}
+	.sod_select {
+		padding: 10px;
+		position:relative;
+		height: 35px;
+	}
+	.btn{
+		position: relative;
+		font-size: 16px;
+
+		@include line-h(35px);
+	}
+	.line {
+		padding: 0 7px;
+	}
+	label{
+		&.error{
+			position:absolute;
+			top:41px;
+			left:10px;
+		}
+		/* &#cardNum-error{
+			left:136px;
+		} */
+		/* &#personName-error{
+			left:2px;
+		} */
+	}
+	#listForm{
+		@include fl;
+	}
+	.add_btn{
+		@include fr;
+		@include size(98px,38px);
+		line-height:38px;
+		border:1px solid #88d1fa;
+		background:#dcf7fe;
+		color: #51a2f0;
+		border-radius:3px;
+		display:block;
+		i{
+			margin:0; 
+			width:33px;
+		}
+	}
+	.time_text{
+		@include fr;
+		position:relative;
+		margin-right:15px;
+		.text{
+			margin:0;
+		}
+		i{
+			position:absolute;
+			right:0;
+			top:11px;
+		}
+	}
+
+	.horizontal {
+		float: left;
+		margin-bottom: 10px;
+		margin-right: 15px;
+
+		.left {
+			text-align: right;
+			line-height: 35px;
+			/* width: 4em; */
+		}
+
+		.right {
+			padding-left: 10px;
+	/* 		margin-left: 4em; */
+			position: relative;
+		}
+
+		
+	}
+}
+.table_con{
+	@include ml(20px);
+	background:$c-fff; 
+	.table{
+		thead{
+			.idcard{
+				width:100px;
+			}
+		}
+	}
+	
+	.opt-td {
+		line-height: 22px;
+	}
+}

@@ -1,0 +1,112 @@
+<!-- 企业客户列表 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <div class="accountInfo-title">
+            <h2 class="cnt-title inline-block">企业客户列表</h2>
+            <a  href="javascript:;" class="btn btn-export fr" data-act="export">导出</a>
+        </div>
+        <div class="query-form">
+            <form id="company_query_form" method="">
+                <div class="query-item fl">
+                    <label class="query-lb" for="">企业名称</label>
+                    <div class="ipt-box">
+                        <input type="text" name="company_name" class="ipt size2 ellipsis" value="<?php echo $_GET['company_name']; ?>" />
+                    </div>
+                </div>
+               <!-- <div class="query-item fl">
+                    <label class="query-lb" for="">设置客服</label>
+                    <div class="ipt-box box-small">
+                        <select name="admin_state">
+                            <option value="0">请选择</option>
+                            <option value="1" <?php if($_GET['admin_state']){ if($_GET['admin_state'] == 1){echo 'selected';}}; ?> >是</option>
+                            <option value="2" <?php if($_GET['admin_state']){ if($_GET['admin_state'] == 2){echo 'selected';}}; ?>>否</option>
+                        </select>
+                    </div>
+                </div>-->
+                <div class="query-item fl">
+                    <label class="query-lb" for="">客服人员</label>
+                    <div class="ipt-box box-small">
+                        <select name="admin_id">
+                            <option value="0">请选择</option>                            
+                            <volist name="serviceGroup" id="v">
+                            <option value="{$v.id}" <?php if($_GET['admin_id']){ if($_GET['admin_id'] == $v['id']){echo 'selected';}}; ?>>{$v.name}</option></volist>
+                            <option value="-1">未设置</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-query fl">查询</button>
+            </form>
+            
+        </div>
+    </div>
+ <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+        <table summary="企业客户列表">
+            <colgroup>
+                <col width="15%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="10%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="7%" />
+                <col width="12%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>企业名称</th>
+                    <th>所在地</th>
+                    <th>联系人</th>
+                    <th>电话</th>
+                    <th>所属行业</th>
+                    <th>公司规模</th>
+                    <th>注册资金</th>
+                    <th>消费总额</th>
+                    <th>未结差额</th>
+                    <th>客服</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 交互说明
+                    差额总计 负数 td.cred
+                             整数 td.cgreen
+                 -->
+                <?php $adminState = adminState(); foreach($result['result'] as $k=>$v){ ?>
+                <tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+                    <td>
+                        <a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>" class="company-name"><?php echo $v['company_name']; ?></a>
+                        <input type="hidden" value="<?php echo $v['id'] ?>" />
+                    </td>
+                    <td><?php echo showAreaName1($v['location']); ?></td>
+                    <td><p class="cbluelg"><?php echo $v['contact_name']; ?></p></td>
+                    <td><?php echo $v['tel_local_number']; ?></td>
+                    <td><?php echo $adminState['industry'][$v['industry']]; ?></td>
+                    <td><?php echo $adminState['employee_number'][$v['employee_number']]; ?>人</td>
+                    <td><?php echo $v['register_fund']; ?>万</td>
+                    <td><?php echo $v['price']; ?></td>
+                    <td  class="<?php echo  is_numeric(strpos($v['amount'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['diff_amount']; ?></td>
+                    <td><?php echo serviceAdminName($v['admin_id']); ?></td>
+                    <td class="no-brdr">
+                        <?php //if(empty($v['admin_id'])){?>
+                        <a href="javascript:;" class="tbl-handle" data-act="set_service">设定客服</a>
+                        <?php // } ?>
+                        <a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>" class="tbl-handle">查看</a>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+        <div class="pagination"><?php echo $result['page']; ?></div>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>    
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="customer" src="__ASSETS__/js/dist/customer.bundle.js"></script>
+</block>

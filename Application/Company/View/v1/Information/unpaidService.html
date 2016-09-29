@@ -1,0 +1,35 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/service.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">服务详情</span>
+        <a href="{:U('Company/Information/serviceList')}" class="back fr orange">返回</a>
+    </div>
+    <div class="serviceDetails">
+        <div class="titleBar">
+            <p>下单时间：<strong>{$productOrderResult.create_time}<span class="red"> （{$productOrderResult.state|get_status_value="ProductOrderState"}）</span></strong></p>
+            <p>产品名称：<strong class="name">{$productOrderResult.product_name}</strong>服务商：<strong>{$productOrderResult.company_name}</strong></p>
+        </div>
+        <div class="content paid">
+            <div class="tit"><i class="squareB"></i>服务内容</div>
+            <ul>
+                {$productOrderResult.product_detail|html_entity_decode}
+            </ul>
+            <div class="buyTip">
+                <p><i class="icon icon-star"></i>独享企业VIP会员价</p>
+                <p><i class="icon icon-star"></i>提供覆盖入职体验、招聘套餐优惠、商业保险、员工福利、财务咨询、法律咨询产品体系。</p>
+            </div>
+            <div class="total">
+                总计：{:$productOrderResult['modify_price']?$productOrderResult['modify_price']:$productOrderResult['price']}
+            </div>
+            <if condition="0 == $productOrderResult['state']">
+            	<button class="pay">立即付款</button>
+            </if>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="unpaid" src="/Application/static/Home/js/dist/service.bundle.js"></script>
+</block>

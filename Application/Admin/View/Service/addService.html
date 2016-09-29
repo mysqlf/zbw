@@ -1,0 +1,317 @@
+<extend name="Public/base" />
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2>新增服务商</h2>
+	</div>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/bootstrap.css" />
+<link rel="stylesheet" href="__PUBLIC__/static/uploadify/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="/Public/Admin/webuploader/webuploader.css">
+  <script type="text/javascript" src="/Public/Admin/webuploader/webuploader.js"></script>
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+	<ul class="tab-nav nav">
+		<volist name=":parse_config_attr($model['field_group'])" id="group">
+			<li data-tab="tab{$key}" <eq name="key" value="1">class="current"</eq>><a href="javascript:void(0);">{$group}</a></li>
+		</volist>
+	</ul>
+	<div class="tab-content">
+		<form style="margin-top:3em;" action="{:U('addService')}" method="post" id="add_form"  class="form-horizontal">
+		<input type="hidden" name="token" value="{$token}" id="token">
+		  <div class="form-group">
+		    <label for="exampleInputEmail1" class="col-sm-2 control-label">主账号</label>
+		    <div class="col-sm-10">
+		    	<input type="text" class="form-control" name="username" placeholder="服务商主账号" required="required">
+		    	<span id="helpBlock" class="help-block">6-20字符，支持字母、数字及“-”、“_”组合</span>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		     <label for="exampleInputEmail1" class="col-sm-2 control-label">密码</label>
+		     <div class="col-sm-10">
+		    	<input type="password" class="form-control" name="password" placeholder="管理员密码"  required="required">
+		    	<span id="helpBlock" class="help-block">6-20个字符，包含字母、数字或符号</span>
+		    </div>
+		  </div>
+		    <div class="form-group">
+		   <label for="exampleInputEmail1" class="col-sm-2 control-label">确认密码</label>
+		   <div class="col-sm-10">
+		    <input type="password" class="form-control" name="r_password" placeholder="再次输入密码" required="required">
+		    <span id="helpBlock" class="help-block">重复输入密码</span>
+		    </div>
+		  </div>
+		    <div class="form-group">
+		   <label for="exampleInputEmail1" class="col-sm-2 control-label">联系人</label>
+		   <div class="col-sm-10">
+		    <input type="text" class="form-control" name="contact_name" placeholder="企业联系人姓名" required="required">
+		    <span id="helpBlock" class="help-block">2-20个字符，可以由中文和英文组成</span>
+		    </div>
+		  </div>
+		   <div class="form-group">
+		     <label for="exampleInputEmail1" class="col-sm-2 control-label">电话</label>
+		      <div class="col-sm-10">
+		   	 <input type="number" min="0" class="form-control" name="contact_phone" placeholder="联系人电话" required="required">
+		   	 <span id="helpBlock" class="help-block">输入联系人手机号</span>
+		      </div>
+		  </div>
+		     <div class="form-group">
+		     <label for="exampleInputEmail1" class="col-sm-2 control-label">传真号</label>
+		       <div class="col-sm-10">
+			    <input type="number" min="0" class="form-control" name="fax" placeholder="传真号码" >
+			     <span id="helpBlock" class="help-block">输入企业传真号</span>
+		     </div>
+		  </div>
+		    <div class="form-group">
+		   <label for="exampleInputEmail1" class="col-sm-2 control-label">邮箱</label>
+		   <div class="col-sm-10">
+		    	<input type="email" class="form-control" name="email" placeholder="邮箱" required="required">
+		   </div>
+		  </div>
+		   <div class="form-group">
+		    <label for="exampleInputEmail1" class="col-sm-2 control-label">所属行业</label>
+		    <div class="col-sm-10">
+		    	 <select name="industry" id="" >
+			    	<option value="">请选择</option>
+			    	<volist name="industry" id="vo">
+			    		<option value="{$key}">{$vo}</option>
+			    	</volist>
+			    </select>
+		   </div>
+		  </div>
+		  <div class="form-group">
+			     <label for="exampleInputEmail1" class="col-sm-2 control-label">注册资金</label>
+			     <div class="col-sm-10">
+			    	<input type="text" class="form-control" name="register_fund" placeholder="企业注册资金" >
+			    	<span id="helpBlock" class="help-block">该企业在工商局注册的资金 单位(万元)</span>
+			     </div>
+		     </div>
+		     <div class="form-group">
+		   <label for="exampleInputEmail1" class="col-sm-2 control-label">员工人数</label>
+		   <div class="col-sm-10">
+		   	   <select name="employee_number" id="">
+			    	<option value="">请选择</option>
+			    	<option value="1">1~100</option>
+			    	<option value="2">101~200</option>
+			    	<option value="3">201~500</option>
+			    	<option value="4">501~1000</option>
+			    	<option value="5">1001~2000</option>
+			    	<option value="6">2001+</option>
+			    </select>
+		   </div>
+
+		  </div>
+		   <div class="form-group">
+			   <label for="exampleInputEmail1" class="col-sm-2 control-label">服务商简称</label>
+			   <div class="col-sm-10">
+			    	<input type="text" class="form-control" name="company_name" placeholder="服务商名称" required="required">
+			    	<span id="helpBlock" class="help-block">请输入一个简短的公司名称。2-6个字符，支持中英文、数字及 - 、 _ 、（）、( )</span>
+			   </div>
+		     </div>
+			 <div class="form-group">
+			   <label for="exampleInputEmail1" class="col-sm-2 control-label">服务商全称</label>
+			   <div class="col-sm-10">
+			    	<input type="text" class="form-control" name="full_name" placeholder="服务商名称" required="required">
+			    	<span id="helpBlock" class="help-block">请输入工商局注册的公司全称。4-40个字符，支持中英文、数字及 - 、 _ 、（）、( )</span>
+			   </div>
+		     </div>
+
+		        <div class="form-group">
+			   <label for="exampleInputEmail1" class="col-sm-2 control-label">服务地区</label>
+			   <div class="col-sm-10">
+			    	<input type="text" class="form-control" name="service_region" placeholder="服务地区" >
+			    	<span id="helpBlock" class="help-block">请输入该服务商服务的地区</span>
+			   </div>
+		     </div>
+		       <div class="form-group">
+			   <label for="exampleInputEmail1" class="col-sm-2 control-label">单位性质</label>
+			   <div class="col-sm-10">
+			     <select name="property" id="">
+			    	<option value="">请选择</option>
+			    	<volist name="property" id="vo">
+			    		<option value="{$key}">{$vo}</option>
+			    	</volist>
+			    </select>
+			    </div>
+		     </div>
+		     <div class="form-group">
+			   <label for="exampleInputEmail1" class="col-sm-2 control-label">通信地址</label>
+			 <div id="city" class="col-sm-10">
+			 	<select name="location" id="province">
+				    	<option value="">请选择</option>
+				    	<volist name="area" id="vo">
+				    		<option value="{$vo.id}">{$vo.name}</option>
+				    	</volist>
+				</select>
+				<div id="second_city" style="display: inline;">
+
+				</div>
+			 </div>
+
+		     </div>
+		       <div class="form-group">
+			    <label for="exampleInputEmail1" class="col-sm-2 control-label">营业执照号</label>
+			    <div class="col-md-10">
+			    	<input type="text" class="form-control" name="license_no" placeholder="营业执照号" required="required">
+			    </div>
+		     </div>
+		  <div class="form-group">
+		  	<label for="exampleInputEmail1" class="col-sm-2 control-label">上传营业执照</label>
+		  	<div class="col-md-10">
+               	<div id="filePicker">选择图片</div>
+		    	<div id="fileList" class="uploader-list"></div>
+		  	</div>
+		  </div>
+		   <div class="form-group">
+		  	<label for="exampleInputEmail1" class="col-sm-2 control-label">企业logo</label>
+		  	<div class="col-md-10">
+		    	<div id="changeImg">选择图片</div>
+		    	<div id="imgList" class="uploader-list"></div>
+		    	<!--<span id="helpBlock" class="help-block">建议尺寸 100*50</span>-->
+		    	<span id="helpBlock" class="help-block">建议尺寸 100*100</span>
+		  	</div>
+		  </div>
+			<style>
+				.thumbnail > img{margin-left: 0px;}
+				.form-group .thumbnail{width: 210px;}
+				.thumbnail .info{text-align: center;}
+			</style>
+		 <div class="form-group">
+			   <label for="exampleInputEmail1" class="col-sm-2 control-label">公司简介</label>
+			   <div class="col-sm-10">
+			    	<textarea name="company_introduction" id="" cols="30" class="form-control" rows="3"></textarea>
+			    </div>
+		     </div>
+		     <div class="form-group" style="text-align:center;">
+			  <button type="submit" class="btn" style="width:150px">添　加</button>
+		     </div>
+		</form>	
+	</div>
+</div>
+</block>
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script>
+	$('#province').change(function() {
+		var location = $(this).val();
+		$.get('__URL__-getCity',{location:location},function(msg){
+			var html_str = '';
+			if(msg)
+			{
+				html_str = '<select name="location1" class="second_city" style="display:inline-block">';
+				html_str +='<option value="">请选择</option>';
+				$.each(msg,function(key,val){
+					html_str += '<option value="'+val.id+'">'+val.name+'</option>';
+				});
+				html_str+='</select>';
+			}
+			html_str +='<input type="text" name="company_address" class="form-control" style="display:inline-block;margin-left:1em;width: 50%;" placeholder="详细地址">';
+			$('#second_city').html(html_str);
+
+		});
+	});
+	var uploaderObj = {
+	 	create:  function(opts){
+	 		var defaluts = {
+				      // 选完文件后，是否自动上传。
+		      		auto: true,
+		      		// swf文件路径
+		      		swf: '/Public/Admin/webuploader/Uploader.swf',
+		      		// 文件接收服务端。
+		      		server: '{:U("upload")}',
+		      		// 选择文件的按钮。可选。
+		      		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		      		pick: '#changeImg',
+		      		// 只允许选择图片文件。
+		      		accept: {
+		          			title: 'Images',
+		          			extensions: 'gif,jpg,jpeg,bmp,png',
+		          			mimeTypes: 'image/*'
+		      		},
+		      		fileNumLimit:1
+		  	}
+		  	var setting =  $.extend({},defaluts,opts);
+		  	var show_img = setting.show_img;
+	 		var uploader = WebUploader.create(setting);
+	 		this.bindEvents(uploader,show_img);
+	 		return uploader;
+	 	},
+	 	bindEvents: function(uploader,show_img){
+	 		uploader.on( 'fileQueued', function( file ) {
+
+		  		var $li = $(
+		              			'<div id="' + file.id + '" class="file-item thumbnail">' +
+		                  			'<img>' +
+		                  			'<div class="info">' + file.name + '</div>' +
+		              			'</div>'
+		              		),
+		          		$img = $li.find('img');
+		      		// $list为容器jQuery实例
+		      		$(show_img).html( $li );
+		      		// 创建缩略图
+		      		// 如果为非图片文件，可以不用调用此方法。
+		      		// thumbnailWidth x thumbnailHeight 为 100 x 100
+		      		uploader.makeThumb( file, function( error, src ) {
+			          		if ( error ) {
+			              			$img.replaceWith('<span>不能预览</span>');
+			              			return;
+			          		}
+			          		$img.attr( 'src', src );
+			      	}, 200, 100 );
+		  	});
+		  	// 文件上传过程中创建进度条实时显示。
+		  	uploader.on( 'uploadProgress', function( file, percentage ) {
+		      		var $li = $( '#'+file.id ),
+		          		$percent = $li.find('.progress span');
+		      		// 避免重复创建
+		      		if ( !$percent.length ) {
+		          		$percent = $('<p class="progress"><span></span></p>')
+		                  		.appendTo( $li )
+		                  		.find('span');
+		      		}
+		    		$percent.css( 'width', percentage * 100 + '%' );
+		  	});
+
+		  	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+		  	uploader.on( 'uploadSuccess', function( file ) {
+		      		$( '#'+file.id ).addClass('upload-state-done');
+		  	});
+
+		  	// 文件上传失败，显示上传出错。
+		  	uploader.on( 'uploadError', function( file ) {
+		      		var $li = $( '#'+file.id ),
+		          		$error = $li.find('div.error');
+		      		// 避免重复创建
+		      		if ( !$error.length ) {
+		          			$error = $('<div class="error"></div>').appendTo( $li );
+		      		}
+
+		      		$error.text('上传失败');
+		  	});
+
+		  	// 完成上传完了，成功或者失败，先删除进度条。
+		  	uploader.on( 'uploadComplete', function( file ) {
+		  		$( '#'+file.id ).find('.progress').remove();
+		  		uploader.reset();
+		  	});
+	 	}
+	 }
+
+	  // 初始化Web Uploader
+	uploaderObj.create({
+      		pick: '#filePicker',
+     		show_img:'#fileList' ,
+     		//操作类型1为营业执照上传 2为服务商logo
+     		server: '{:U("upload",array("action_type"=>1,"token"=>$token))}',
+  	});
+	
+	 uploaderObj.create({
+      		pick: '#changeImg',
+     		show_img:'#imgList' ,
+     		//操作类型1为营业执照上传 2为服务商logo
+     		server: '{:U("upload",array("action_type"=>2,"token"=>$token))}',
+  	});
+</script>
+</block>

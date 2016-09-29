@@ -1,0 +1,28 @@
+文章 Article
+
+差额管理 Balance
+
+页面框架组合 Base
+
+账单管理(发票管理) Bill
+
+业务管理 Business
+
+内容管理 Content
+
+客服管理 Customer
+
+服务商后台首页 Index
+
+订单管理 Order
+
+页面公用部分 Public
+
+缴纳规则管理 Rules
+
+服务套餐管理 Product
+
+设置 Set
+
+用户信息（注册、登录、修改密码等）User
+

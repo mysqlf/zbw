@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>选择模板</title>
+</head>
+<body>
+<form action="{:U('Company/Importxls/makexls')}" method="post">
+选择产品<select name="template_id">
+        <volist name="Options" id="vo">
+        <option value="{$vo.template_id}">{$vo.name}</option>
+        </volist>
+</select>
+<input type="submit" name="提交">
+</form>
+</body>
+</html>

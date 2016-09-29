@@ -1,0 +1,114 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/insurance.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">参保信息</span>
+        <a href="javascript:history.go(-1);" class="back fr">返回</a>
+    </div>
+    <div class="detailsWarranty">
+        <h1 class="username">{$result.user_name}</h1>
+        <p class="information">性别：<strong><if condition="1 == $result['gender']">男<else/>女</if></strong><span>&nbsp;</span>年龄：<strong>{$result.age}岁</strong><span>&nbsp;</span>参保地：<strong>{$result['location']|showAreaName}</strong><br/>
+            身份证号：<strong>{$result.card_num}</strong><span>&nbsp;</span>服务产品：<strong>{$result['product_name']}（{$result['company_name']}）</strong></p>
+        <div class="content">
+            <if condition="!empty($result['stype']) &&  $result['sstate'] != -9">
+	            <div class="tit1"><i class="squareB"></i>社保({$result.sstate|get_status_value="ServiceOrderDetailState",$result['sdetail_state']})</div>
+	            <ul>
+	                <volist name="result.srule.template" id="vo">
+	                    <if condition="0 == $vo['fid']">
+	                        <li>{$vo.name}：
+	                            <strong>
+	                                <volist name="result.srule.template" id="v">
+		                              <if condition=" $v['fid'] == $vo['id'] && 1 == $v['selected'] ">{$v.name}</if>
+		                          </volist>
+		                      </strong>
+		                  </li>
+	                    </if>
+	                </volist>
+	                <li>起缴时间：<strong><if condition="$result['socPayDate']">{:intval(substr($result['socPayDate'],0,4))}年{:str_pad(intval(substr($result['socPayDate'],4,2)),2,'0',STR_PAD_LEFT )}月<else/>{:intval(substr($result['pay_date'],0,4))}年{:str_pad(intval(substr($result['pay_date'],4,2)),2,'0',STR_PAD_LEFT )}月</if></strong></li>
+	                <li>社保基数：<strong>{$result.samount}</strong></li>
+	                <li>社保卡号：<strong>{$result.scard_number}</strong></li>
+	            </ul>
+	            <table class="pageTable" width="100%">
+	                <tr>
+	                    <td rowspan="2" class="c-1">险种 </td>
+                          <td rowspan="2" class="c-1">基数 </td>
+	                    <th colspan="2">单位缴纳</th>
+	                    <th colspan="2">个人缴纳</th>
+	                    <td rowspan="2" class="c-6">合计金额</td>
+	                </tr>
+	                <tr>
+	                    <td class="c-2">比例</td>
+	                    <td class="c-3">金额</td>
+	                    <td class="c-4">比例</td>
+	                    <td class="c-5">金额</td>
+	                </tr>
+	                <volist name="result.srule.rule.items" id="vo">
+	                    <tr>
+	                        <td>
+	                            {$vo.name}
+	                        </td>
+	                        <td>
+	                            {$vo.rules.amount}
+	                        </td>
+	                        <td>
+	                            {$vo.rules.company}
+	                        </td>
+	                        <td class="sum-company">{$vo.rules.companySum}</td>
+	                        <td>
+	                            {$vo.rules.person}
+	                        </td>
+	                        <td class="sum-person">{$vo.rules.personSum}</td>
+	                        <td class="sum orange">
+	                            {$vo.rules.total}
+	                        </td>
+	                    </tr>
+	                </volist>
+	                <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <!--<td>{//$result.srule.rule.total.rules.company}</td>-->
+	                    <td class="total-sum-company" colspan="2">企业共缴纳:{$result.srule.rule.total.rules.companySum}</td>
+	                    <!--<td>{//$result.srule.rule.total.rules.person}</td>-->
+	                    <td class="total-sum-person" colspan="2">个人共缴纳:{$result.srule.rule.total.rules.personSum}</td>
+	                    <td class="orange" id="total">{$result.srule.rule.total.rules.total}</td>
+	                </tr>
+	            </table>
+	            <div class="subtotal orange">
+	                小计： <strong><?php echo $result['srule']['rule']['total']['rules']['total'] + $result['srule']['rule']['pro_costs']; ?>元/月</strong>
+	            </div>
+            </if>
+            <if condition="!empty($result['gtype']) &&  $result['gstate'] != -9">
+	            <div class="tit1" style="margin-top: 20px;"><i class="squareB"></i>公积金({$result.gstate|get_status_value="ServiceOrderDetailState",$result['gdetail_state']})</div>
+	            <ul>
+	                <li>公积金基数：<strong>{$result.gamount}</strong></li>
+	                <li>起缴时间：<strong><if condition="$result['proPayDate']">{:intval(substr($result['proPayDate'],0,4))}年{:str_pad(intval(substr($result['proPayDate'],4,2)),2,'0',STR_PAD_LEFT )}月<else/>{:intval(substr($result['pay_date'],0,4))}年{:str_pad(intval(substr($result['pay_date'],4,2)),2,'0',STR_PAD_LEFT )}月</if></strong></li>
+	                <li>单位缴纳比例：<strong>{$result.company_scale}%</strong></li>
+	                <li>个人缴纳比例：<strong>{$result.person_scale}%</strong></li>
+	                <li>公积金卡号：<strong>{$result['gcard_number']}</strong></li>
+	            </ul>
+	            <div class="subtotal orange">
+	                小计： <strong><?php echo $result['grule']['rule']['personSum'] + $result['grule']['rule']['pro_costs'] + $result['grule']['rule']['companySum']; ?>元/月</strong>
+	            </div>
+	      </if>
+	      <if condition="!empty($result['dtype']) &&  $result['dstate'] != -9">
+	            <div class="tit1" style="margin-top: 20px;"><i class="squareB"></i>残障金({$result.dstate|get_status_value="ServiceOrderDetailState",$result['ddetail_state']})</div>
+	            <div class="subtotal orange nb">
+	                残障金： <strong>{$result.drule.rule.price|default=0}元/月</strong>
+	            </div>
+	      </if>
+                <div class="total" id="all-total">总计：
+	                <?php 
+	                if((!empty($result['stype']) &&  $result['sstate'] != -9) && (!empty($result['gtype']) &&  $result['gstate'] != -9)){
+	                	echo ($result['srule']['rule']['total']['rules']['total'] + (!empty($result['scard_number'])?0:$result['srule']['rule']['pro_cost'])) + ($result['grule']['rule']['personSum'] + $result['grule']['rule']['companySum'] + (!empty($result['gcard_number'])?0:$result['grule']['rule']['pro_cost'])) + ((!empty($result['dtype']) &&  $result['dstate'] != -9)?$result['drule']['rule']['price']:0) + $result['orule']['rule']['price'];
+	                }elseif(!empty($result['stype']) &&  $result['sstate'] != -9){
+	                	echo ($result['srule']['rule']['total']['rules']['total'] + (!empty($result['scard_number'])?0:$result['srule']['rule']['pro_cost'])) + ((!empty($result['dtype']) &&  $result['dstate'] != -9)?$result['drule']['rule']['price']:0) + $result['orule']['rule']['price'];
+	                }elseif(!empty($result['gtype']) &&  $result['gstate'] != -9){
+	                	echo ($result['grule']['rule']['personSum'] + $result['grule']['rule']['companySum'] + (!empty($result['gcard_number'])?0:$result['grule']['rule']['pro_cost'])) + ((!empty($result['dtype']) &&  $result['dstate'] != -9)?$result['drule']['rule']['price']:0) + $result['orule']['rule']['price'];}else{echo '0';
+	                } ?>
+                元/月</div>
+            <a href="{:U('Company/Insurance/warrantyList')}" class="back">返回</a>
+        </div>
+    </div>
+</block>

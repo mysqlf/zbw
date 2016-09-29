@@ -1,0 +1,84 @@
+<!-- 企业客户详情 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-details customer-details">
+        <h2 class="cnt-title">企业资料</h2>
+        <div class="customer-modify-wra">
+            <?php if(!empty($$result['admin_id'])){?>
+            <span><?php echo serviceAdminName($result['admin_id']); ?></span>
+            <a href="javascript:;" data-act="handle-modify">修改</a>
+            <input type="hidden" name="ipt_hidden" value="<?php echo $result['usp_id']; ?>" />
+            <?php } ?>
+        </div>
+        <a href="javascript:history.go(-1);" class="btn btn-back">返回</a>
+        <fieldset>
+            <legend>基本资料</legend>
+            <div class="cusdetails clearfix">
+                <div class="company-name"><?php echo $result['company_name']; ?><span><?php if($result['audit'] == 1){ ?><i class="icon icon-authenticatel"></i>已认证</span><?php }elseif($result['audit'] == -1){?> 审核失败  <?php }else {?>  审核中<?php } ?></div>
+                <div class="details-item">员工人数：<span><?php echo $_adminState['employee_number'][$result['employee_number']]; ?></span></div>
+                <div class="details-item fl">企业性质：<span><?php echo $_adminState['property'][$result['property']]; ?></span></div>
+                <div class="details-item fl">注册资金：<span><?php echo $result['register_fund']; ?></span></div>
+                <div class="details-item fl">所在地区：<span><?php echo showAreaName1($result['location']); ?></span></div>
+                <div class="details-item fl">通讯地址：<span><?php echo $result['company_address']; ?></span></div>
+                <div class="details-item fl">企业固话：<span><?php echo $result['tel_local_number']; ?></span></div>
+                <div class="details-item fl">纳税人识别号：<span><?php echo $result['social_credit_code']; ?></span></div>
+                <?php  if($result['bank']){?>
+                <div class="details-item fl">开户银行名称：<span><?php echo $result['bank']; ?><?php echo $result['branch']; ?></span></div>
+                <?php } ?>
+                <?php  if($result['account']){?>
+                <div class="details-item fl">开户银行账号：<span><?php echo substr($result['account'],0,4); ?>&ensp;****&ensp;****&ensp;***&ensp;<?php echo 
+                substr($result['account'],-4); ?></span></div>
+                <?php } ?>
+            </div>
+            <div class="details-photo">
+                 <?php $picture = get_companyFile_by_companyId($result['company_id']);?>
+
+                
+                <p>
+                    <img src="<?php echo $picture['business_license']; ?>" width="100%" />dd
+                </p>
+ 
+                 <p>
+                    <img src="<?php echo $picture['tax_cegistration_certificate']; ?>" width="100%" />dd
+                </p>
+                <p>
+                    <img src="<?php echo $picture['taxpayer_qualification_certificate']; ?>" width="100%" />dd
+                </p>
+                <p>
+                    <img src="<?php echo $picture['account_opening_license']; ?>" width="100%" />dd
+                </p>                                             
+            </div>
+            <div class="details-photo-tips">
+                <i class="icon icon-photo-tips"></i>
+                <p>· 营业执照复印件，手写“仅用于智保易认证”字样，并在手写内容加盖红色印章；照片所在信息需清晰可见，内容真实有效，不得做任何修改。</p>
+                <p>· 照片支持jpg&ensp;jpeg&ensp;bmp&ensp;gif&ensp;png格式，大小不超过8M。</p>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>联系人信息</legend>
+            <div class="cusdetails">
+                <div class="details-item">联系人：<span><?php echo serviceAdminName($result['contact_name']); ?>&emsp;<?php echo $result['contact_sex']== 1 ? '先生' : '女士'; ?></span>
+                </div>
+                <div class="details-item">联系电话：<span><?php echo $result['contact_phone']; ?></span></div>
+
+                <div class="details-item details-email">
+                    联系邮箱：
+                    <p>
+                        <?php echo $result['email']; ?>
+                        <?php  if($result['email_activation']){ ?>
+                        <span><i class="icon icon-authentices"></i>邮箱已验证</span>
+                        <?php } else { ?>
+                        <div class="c-error inline-block"><i class="icon icon-fail"></i>邮箱未验证</div>
+                        <?php } ?>
+                    </p>
+                </div>
+
+                <div class="details-item">QQ：<span><?php echo $result['qq']; ?></span></div>
+            </div>
+        </fieldset>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="customer" src="__ASSETS__/js/dist/customer.bundle.js"></script>
+</block>

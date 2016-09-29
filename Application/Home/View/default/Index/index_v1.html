@@ -1,0 +1,458 @@
+<include file="Public/_headPlatform" />
+<div class="bg-gray">
+    <div class="swiper-container swiper-loading swiper-platform" id="swiper-container">
+        <!-- banner -->
+        <div class="swiper-wrapper">
+            <volist name="banner_info" id="vo">
+                <div class="swiper-slide">
+                    <a href="{$vo.picture_url}"><img src="{$vo.path}" alt="{$vo.picture_title}"></a>
+                </div>
+            </volist>
+        </div>
+        <a class="arrow-left" href="#"></a>
+        <a class="arrow-right" href="#"></a>
+        <div class="pagination"></div>
+    </div>
+    <div class="wrapper service-panel">
+        <h2 class="flatform-title text-center">明星服务商</h2>
+        <!--<div class="wrapper">-->
+        <if condition="$service_product['list']">
+            <dl class="service-com-list horizontal service-list-result">
+                <volist name="service_product.list" id="vo" offset="0" length="2">
+                    <dt class="list-com left">
+                        <div class="list_one">
+                            <!--{:getFilePath($vo['c_id'],'./Uploads/Company/','info')}service_logo.jpg -->
+                            <img class="com-logo" src="{:getFilePath($vo['c_id'],'./Uploads/Company/','info')}service_logo.jpg" alt="{$vo.company_name}">
+                            <h4 class="com-title text-center">
+	                            {$vo.company_name} <span class="f-small">{$vo.location|showAreaName=###}</span>
+	                        </h4>
+                            <div class="content clearfix">
+                                <span class="txt text-overflow">
+	                                <i class="icon common-companyProperty"></i>
+	                                <span class="txt-left">企业性质</span>
+                                <p>{$vo.property}</p>
+                                </span>
+                                <span class="txt text-overflow">
+	                                <i class="icon common-companyScale"></i>
+	                                <span class="txt-left">企业规模</span>
+                                <p>{$vo.employee_number}</p>
+                                </span>
+                                <span class="txt text-overflow">
+	                                <i class="icon common-companyPrice"></i>
+	                                <span class="txt-left">注册资金</span>
+                                <p>{$vo.register_fund|number_format=###,2}万</p>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="list_two">
+                            <img class="com-logo" src="{:getFilePath($vo['c_id'],'./Uploads/Company/','info')}service_logo.jpg" alt="{$vo.company_name}">
+                            <a class="button" href="{:U('ServiceProvider/index',array('cid'=>$vo['c_id']))}">立即前往</a>
+                            <div class="content clearfix">
+                                <p class="c-dark">{$vo.company_introduction}</p>
+                            </div>
+                        </div>
+                    </dt>
+                    <dd class="list-product right">
+                        <empty name="vo.product">
+                            <!--这里是默认图片-->
+                            <else />
+                            <volist name="vo.product" id="vb">
+                                <div class="col-4 product-item <if condition=" $vb[ 'service_type'] eq 2 or $vb[ 'service_type'] eq 4 ">product-item-per</if>">
+                                    <h4 class="product-title text-center">{$vb.name}</h4>
+                                    <span class="product-txt">
+	                                    <switch  name="vb.service_type" >
+	                                        <case value="1">适用于大中型(人数较多)企业</case>
+	                                        <case value="2">适用于个体工商户</case>
+	                                        <case value="3">企业体验</case>
+	                                        <case value="4">个人体验</case>
+	                                    </switch>
+	                                </span>
+                                    <div class="product-content">
+                                        <div class="txt-line">
+                                            <span class="txt-title">服务费</span>
+                                            <div class="pay-box">
+                                                <php>$service_price = json_decode($vb['service_price'],true);</php>
+                                                <volist name="service_price" id="price">
+                                                    <span class="txt-pay">
+	                                                    <em class="f-bold">{$price.service_price}</em>元/月/人
+	                                                </span>
+                                                </volist>
+                                            </div>
+                                            <if condition="0 lt $vb['member_price'] and 0 neq $vb['member_price_state']">
+                                                <p class="c-green hasPrice">
+                                                    套餐费
+                                                    <span class="txt-pay">
+		                                                    <em class="f-bold">{$vb.member_price|number_format=###,2}</em>元/年
+		                                                </span>
+                                                </p>
+                                                <else/>
+                                                <p class="c-green">
+                                                    免费套餐
+                                                </p>
+                                            </if>
+                                            <div class="text-center">
+                                                <div class="text_box icon clearfix">
+                                                    <span class="tit">服务人数</span>
+                                                    <span class="con">{$vb.service_num}人</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="txt-line">
+                                            <span class="txt-title"><i class="icon common-location"></i></span>
+                                            <php>$location = json_decode($vb['other_location'],true);</php>
+                                            <span class="c-gray">
+	                                            <php>
+	                                                $str = '';
+	                                                foreach($location as $val)
+	                                                {
+	                                                    $val && $str .= showAreaName($val).',';
+	                                                }
+	                                                if(rtrim($str,','))
+	                                                    echo rtrim($str,',');
+	                                                else
+	                                                    echo showAreaName($vb['location']);
+	                                            </php>
+	                                        </span>
+                                        </div>
+                                    </div>
+                                    <!--<a class="button" href="{:U('Index/index',array('cid'=>$vo['c_id']))}">立即参保</a>-->
+                                    <a class="button" href="{:U('SocialSecurity/productDetail',array('cid'=>$vo['c_id'],'id'=>$vb['id']))}">立即参保</a>
+                                </div>
+                            </volist>
+                        </empty>
+                    </dd>
+                </volist>
+            </dl>
+            <else/>
+            <div class="serice-no-data-tip text-center">
+                没有发现满足条件的服务商，您可以换个条件试试。
+                <br> 我们向你推荐如下服务商：
+            </div>
+            <dl class="service-com-list horizontal">
+                <volist name="recommend_service.list" id="vo">
+                    <dt class="list-com left">
+                        <div class="list_one">
+                            <img class="com-logo" src="{:getFilePath($vo['c_id'],'./Uploads/Company/','info')}service_logo.jpg" alt="{$vo.company_name}">
+                            <h4 class="com-title text-center">
+	                            {$vo.company_name} <span class="f-small">{$vo.location|showAreaName=###}</span>
+	                        </h4>
+                            <div class="content">
+                                <span class="txt text-overflow">
+	                                <i class="icon icon-common-companyProperty"></i>
+	                                <span class="txt-left">企业性质：</span>{$vo.property}
+                                </span>
+                                <span class="txt text-overflow">
+	                                <span class="txt-left">企业规模：</span>{$vo.employee_number}人
+                                </span>
+                                <span class="txt text-overflow">
+	                                <span class="txt-left">注册资金：</span>{$vo.register_fund|number_format=###,2}万
+                                </span>
+                            </div>
+                        </div>
+                        <div class="list_two">
+                            <img class="com-logo" src="{:getFilePath($vo['c_id'],'./Uploads/Company/','info')}service_logo.jpg" alt="{$vo.company_name}">
+                            <h4 class="com-title text-center">
+	                            {$vo.company_name} <span class="f-small">{$vo.location|showAreaName=###}</span>
+	                        </h4>
+                            <div class="content">
+                                <span class="txt">
+	                                <span class="txt-left">公司简介：</span> {$vo.company_introduction|default="该服务商暂未填写。"}
+                                </span>
+                            </div>
+                            <a class="button" href="{:U('ServiceProvider/index',array('cid'=>$vo['c_id']))}">立即前往</a>
+                        </div>
+                    </dt>
+                    <dd class="list-product right">
+                        <empty name="vo.product">
+                            <!--这里是默认图片-->
+                            <else />
+                            <volist name="vo.product" id="vb">
+                                <div class="col-4 product-item <if condition=" $key eq 1 ">product-item-per</if>">
+                                    <h4 class="product-title text-center">{$vb.name}</h4>
+                                    <span class="product-txt">
+	                                    <switch  name="vb.service_type" >
+	                                        <case value="1">适用于大中型(人数较多)企业</case>
+	                                        <case value="2">适用于个体工商户</case>
+	                                        <case value="3">企业体验</case>
+	                                        <case value="4">个人体验</case>
+	                                    </switch>
+	                                </span>
+                                    <div class="product-content">
+                                        <div class="txt-line">
+                                            <span class="txt-title">服务费：</span>
+                                            <div class="pay-box">
+                                                <php>$service_price = json_decode($vb['service_price'],true);</php>
+                                                <volist name="service_price" id="price">
+                                                    <span class="txt-pay"><em class="f-bold">{$price.service_price}</em>元/月/人</span>&nbsp;&nbsp;
+                                                </volist>
+                                            </div>
+                                        </div>
+                                        <div class="txt-line">
+                                            <span class="txt-title">会员费：</span>
+                                            <span class="txt-pay2">{$vb.member_price|number_format=###,2}元/年</span>
+                                        </div>
+                                        <div class="txt-line">
+                                            <span class="txt-title">服务城市：</span>
+                                            <php>$location = json_decode($vb['other_location'],true);</php>
+                                            <span class="c-gray">
+	                                            <php>
+	                                                $str = '';
+	                                                foreach($location as $val)
+	                                                {
+	                                                    $val && $str .= showAreaName($val).',';
+	                                                }
+	                                                if(rtrim($str,','))
+	                                                    echo rtrim($str,',');
+	                                                else
+	                                                    echo showAreaName($vb['location']);
+	                                            </php>
+	                                        </span>
+                                        </div>
+                                        <div class="txt-line">
+                                            <span class="txt-title">成功服务：</span>
+                                            <span class="c-gray">{$vb.service_num|default=0}人</span>
+                                        </div>
+                                    </div>
+                                    <a class="button" href="{:U('ServiceProvider/index',array('cid'=>$vo['c_id']))}">立即前往</a>
+                                </div>
+                            </volist>
+                        </empty>
+                    </dd>
+                </volist>
+            </dl>
+        </if>
+        <!--</div>-->
+        <!--<dl class="service-com-list horizontal">
+		<if condition="$service_product['list']">
+			<volist name="service_product.list" id="vo" offset="0" length="2">
+                <dt class="list-com left">
+                    <img class="com-logo" src="{:getFilePath($vo['c_id'],'./Uploads/Company/','info')}service_logo.jpg" alt="{$vo.company_name}">
+                    <h4 class="com-title text-center">
+						{$vo.company_name} <span class="f-small">{$vo.location|showAreaName=###}</span>
+					</h4>
+                    <div class="content">
+                        <span class="txt text-overflow">
+							<span class="txt-left">企业性质：</span>{$vo.property}
+                        </span>
+                        <span class="txt text-overflow">
+							<span class="txt-left">企业规模：</span>{$vo.employee_number}人
+                        </span>
+                        <span class="txt text-overflow">
+							<span class="txt-left">注册资金：</span>{$vo.register_fund|number_format=###,2}万
+                        </span>
+                        <span class="txt">
+							<span class="txt-left">公司简介：</span> {$vo.company_introduction|default="该服务商暂未填写。"}
+                        </span>
+                    </div>
+                    <a class="button" href="{:U('Index/index',array('cid'=>$vo['c_id']))}">立即前往</a>
+                </dt>
+                <dd class="list-product right">
+                    <empty name="vo.product">
+                        这里是默认图片
+                        <volist name="vo.product" id="vb">
+                            <div class="col-4 product-item <if condition=" $key eq 1 ">product-item-per</if>">
+                                <h4 class="product-title text-center">{$vb.name}</h4>
+                                <span class="product-txt">
+									<switch  name="vb.service_type" >
+										<case value="1">适用于大中型(人数较多)企业</case>
+										<case value="2">适用于个体工商户</case>
+										<case value="3">企业体验</case>
+										<case value="4">个人体验</case>
+									</switch>
+								</span>
+                                <div class="product-content">
+                                    <div class="txt-line">
+                                        <span class="txt-title">服务费：</span>
+                                        <div class="pay-box">
+                                            <php>$service_price = json_decode($vb['service_price'],true);</php>
+                                            <volist name="service_price" id="price">
+                                                <span class="txt-pay"><em class="f-bold">{$price.service_price}</em>元/月/人</span>&nbsp;&nbsp;
+                                            </volist>
+                                        </div>
+                                    </div>
+                                    <div class="txt-line">
+                                        <span class="txt-title">会员费：</span>
+                                        <span class="txt-pay2">
+						                    <if condition="0 lt $vb['member_price'] and 0 neq $vb['member_price_state']">
+												{$vb.member_price|number_format=###,2}元/年
+											<else/>
+												免会员费
+											</if>
+                                        </span>
+                                    </div>
+                                    <div class="txt-line">
+                                        <span class="txt-title">服务城市：</span>
+                                        <php>$location = json_decode($vb['other_location'],true);</php>
+                                        <span class="c-gray">
+											<php>
+												$str = '';
+												foreach($location as $val)
+												{
+													$val && $str .= showAreaName($val).',';
+												}
+												if(rtrim($str,','))
+													echo rtrim($str,',');
+												else
+													echo showAreaName($vb['location']);
+											</php>
+										</span>
+                                    </div>
+                                    <div class="txt-line">
+                                        <span class="txt-title">成功服务：</span>
+                                        <span class="c-gray">{$vb.service_num|default=0}人</span>
+                                    </div>
+                                </div>
+                                <a class="button" href="{:U('Index/index',array('cid'=>$vo['c_id']))}">立即前往</a>
+                            </div>
+                        </volist>
+                    </empty>
+                </dd>
+            </volist>
+            </if>
+		</dl>-->
+    </div>
+</div>
+<div class="query-bg">
+    <div class="wrapper flatform-query">
+        <h3 class="state-title">查询工具</h3>
+        <div class="city clearOver J_query-city-list" id="city_list">
+            <i class="icon  common-prev swiper_btn"></i>
+            <if condition="inquire_list">
+                <div class="swiper_container">
+                    <ul class="clearOver swiper-wrapper">
+                        <volist name="inquire_list" id="vo" empty="暂时没有数据">
+                            <li class="item swiper-slide <if condition=" $key eq 0 ">now</if>" value="{$vo.location}">{$vo.location|showAreaName=###}</li>
+                        </volist>
+
+                    </ul>
+                </div>
+            </if>
+            <i class="icon  common-next swiper_btn"></i>
+        </div>
+        <div class="city-box clearOver" id="city_box">
+            <if condition="tool_list">
+                <volist name="tool_list" id="msg" empty="暂无数据">
+                    <dl class="list_{$msg.type}" style="<if condition='$key eq 3'>margin-right:0px;</if>">
+                        <a href="{$msg.url}" target="_blank">
+                            <div class="list_bg">
+                                <i class="icon "></i>
+                            </div>
+                            <dt>
+                                <div class="msg_location">{$msg.location|showAreaName}</div>
+                                <switch name="msg.type">
+                                    <case value="1">金融社保卡办卡进度查询</case>
+                                    <case value="2">社保个人用户查询</case>
+                                    <case value="3">公积金个人用户查询</case>
+                                    <case value="4">公积金贷款计算器</case>
+                                    <default />数据错误
+                                </switch>
+                            </dt>
+                            <dd>
+                            </dd>
+                        </a>
+                    </dl>
+                </volist>
+            </if>
+        </div>
+    </div>
+</div>
+<div class="bg-gray">
+    <div class="wrapper flatform-news flatform-query">
+        <h2 class="flatform-title text-center">最新资讯</h2>
+        <div class="city clearOver J_query-city-list" id="city_tit">
+        	<i class="icon  common-prev swiper_btn"></i>
+        	<div class="swiper_content">
+            <ul class="clearOver swiper-wrapper">
+
+                <volist name="city" id="vo">
+                    <li class="item  swiper-slide <if condition='$i == 1'>now</if>" value="{$vo.location}">{$vo.location|showAreaName=###}</li>
+                </volist>
+            </ul>
+            <i class="icon  common-next swiper_btn"></i>
+            </div>
+
+        </div>
+        <div class="information-box clearOver" id="information_box">
+            <div class="info fl">
+                <img src="/Application/Home/Assets/img/flatform-info1.jpg" alt="">
+                <dl id="help_box">
+                    <volist name="article.help" id="vo">
+                        <dd>
+                            <a title="{$vo.title}" href="/Article-detail-id-{$vo.id}">
+                                <span class="text-overflow col-8"><i></i>{$vo.title}</span>
+                                <span class="text-overflow col-4 text-right">{$vo.create_time}</span>
+                            </a>
+                        </dd>
+                    </volist>
+                </dl>
+            </div>
+            <div class="info fl">
+                <img src="/Application/Home/Assets/img/flatform-info2.jpg" alt="">
+                <dl id="statute_box">
+                    <volist name="article.statute" id="vo">
+                        <dd>
+                            <a title="{$vo.title}" href="/Article-detail-id-{$vo.id}">
+                                <span class="text-overflow col-8"><i></i>{$vo.title}</span>
+                                <span class="text-overflow col-4 text-right">{$vo.create_time}</span>
+                            </a>
+                        </dd>
+                    </volist>
+                </dl>
+            </div>
+            <div class="info fl">
+                <img src="/Application/Home/Assets/img/flatform-info3.jpg" alt="">
+                <dl id="notice_box">
+                    <volist name="article.notice" id="vo">
+                        <dd>
+                            <a title="{$vo.title}" href="/Article-detail-id-{$vo.id}">
+                                <span class="text-overflow col-8"><i></i>{$vo.title}</span>
+                                <span class="text-overflow col-4 text-right">{$vo.create_time}</span>
+                            </a>
+                        </dd>
+                    </volist>
+                </dl>
+            </div>
+            <div class="info fl">
+                <img src="/Application/Home/Assets/img/flatform-info4.jpg" alt="">
+                <dl id="new_box">
+                    <volist name="article.new" id="vo">
+                        <dd>
+                            <a title="{$vo.title}" href="/Article-detail-id-{$vo.id}">
+                                <span class="text-overflow col-8"><i></i>{$vo.title}</span>
+                                <span class="text-overflow col-4 text-right">{$vo.create_time}</span>
+                            </a>
+                        </dd>
+                    </volist>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="foot">
+    <img src="/Application/Home/Assets/img/foot_ewm.jpg" alt="">
+    <p class="sol">关注智保易微信号</p>
+    <div class="foot-info-box">
+        <dl class="foot-info">
+            <dt>公司信息</dt>
+            <dd><a href="/Article-aboutUs">公司介绍</a></dd>
+            <dd><a href="/Article-aboutUs#contect">联系我们</a></dd>
+        </dl>
+        <dl class="foot-info">
+            <dt>帮助中心</dt>
+            <dd><a href="/Article-helpCenter-category-common_question">常见问题</a></dd>
+        </dl>
+        <dl class="foot-info">
+            <dt>最新资讯</dt>
+            <!--<dd><a href="/Article-lists-category-questions">社保资讯</a></dd>
+			<dd><a href="/Article-lists-category-xz_help">公司资讯</a></dd>
+			<dd><a href="/Article-lists-category-social_policy">行业资讯</a></dd>-->
+            <dd><a href="/Article-lists-category-help">办事指南</a></dd>
+            <dd><a href="/Article-lists-category-statute">政策法规</a></dd>
+            <dd><a href="/Article-lists-category-new">新闻动态</a></dd>
+            <dd><a href="/Article-lists-category-notice">公示公告</a></dd>
+        </dl>
+    </div>
+</div>
+<include file="Public/_footer" />
+</include>
+<script data-module="index" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{:C('WEB_SITE_TITLE')}</title>
+	<style>
+	*{margin: 0;padding: 0;}
+	p{line-height: 35px;}
+	.content{
+		padding: 20px;
+		width: 900px;
+	}
+	.content img{
+		margin-bottom: 20px;
+	}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<img src="/Public/Home/images/img/logo.png" alt="">
+		<p>尊敬的<span>{$firm_name}</span></p>
+		<p>贵公司已在智保易注册智通通行证，请点击以下链接激活。</p>
+		<p><a href="{$verify_url}">{$verify_url}</a></p>
+		<p>（24小时有效，请勿回复）</p>
+		<p style="text-align: right;">{:C('WEB_SITE_TITLE')}</p>
+		<p style="text-align: right;">{:date('Y-m-d H:i:s')}</p>
+	</div>
+	
+</body>
+</html>

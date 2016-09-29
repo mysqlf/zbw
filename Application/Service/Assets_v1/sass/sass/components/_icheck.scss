@@ -1,0 +1,37 @@
+html {
+	.icheckbox_square-blue, .iradio_square-blue{
+
+		@include square(17px);
+
+	}
+
+	.icheckbox_square-blue{
+
+		&.hover{
+			background-position: -18px 0;
+		}
+		&.checked {
+		    background-position: -37px 0;
+		}
+		&.checked.disabled {
+		    background-position: -72px 0;
+		}
+		&.disabled {
+		    background-position: -54px 0;
+		}
+	}
+
+	.iradio_square-blue{
+		background-position: -90px 0;
+
+		&.hover{
+			background-position: -107px 0;
+		}
+		&.checked {
+		    background-position: -125px 0;
+		}
+		&.disabled{
+			background-position: -142px 0;
+		}
+	}
+}

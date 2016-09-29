@@ -1,0 +1,291 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box overflow">
+        <div class="right_head">
+        	<h3 class="add_tit">在保参保人信息</h3>
+        </div>
+        <div class="msg_list">
+            <h3>参保人基本信息<a href="javascript:history.back(-1);" class="back_up">返回</a></h3>
+            <div class="detail_box">
+            	<div class="detail_left">
+            		<div class="detail_msg">
+	            		<label>姓名：</label>
+	            		<span>{$result.person_name}</span><span>{$result.gender|get_code_value=###,'PersonBaseGender'}{//$result.card_num|get_gender_by_idCard|get_code_value=###,'PersonBaseGender'}</span><span>{$result.card_num|get_age_by_idCard}岁</span>
+            		</div>
+	            	<div class="detail_msg">
+	            		<label>手机号：</label>
+	            		<span>{$result.mobile}</span>
+	            	</div>
+	            	<div class="detail_msg">
+	            		<label>身份证号：</label>
+	            		<span>{$result.card_num}</span>
+	            	</div>
+	            	<div class="detail_msg">
+	            		<label>户口所在地：</label>
+	            		<span>{$result.residence_location|showAreaName}</span>
+	            	</div>
+	            	<div class="detail_msg">
+	            		<label>户口性质：</label>
+	            		<span>{$result.residence_type|get_code_value=###,'PersonBaseResidenceType'}</span>
+	            	</div>
+            	</div>
+            	<div class="detail_right">
+            		<div class="id_img">
+            			<div class="id_img_box">
+            				<img src="{$result.idCardImg.idCardFront}">
+            			</div>
+            			<p>身份证正面</p>
+            		</div>
+            		<div class="id_img">
+            			<div class="id_img_box">
+            				<img src="{$result.idCardImg.idCardBack}">
+            			</div>
+            			<p>身份证反面</p>
+            		</div>
+            	</div>
+            	
+            </div>
+        </div>
+        <div class="msg_list" id="required_msg">
+                <h3>套餐选择</h3>
+                <div class="inp_box select_box">
+                    <label class="inp_tit">服务套餐 ：<i class="inp_tip">*</i></label>
+                    <select class="select select_vip" name="productId" required id="vip_select" disabled="disabled">
+                        <option value="">请选择</option>
+                        <if condition="$serviceProductOrderResult">
+                        	<volist name="serviceProductOrderResult" id="vo">
+                        		<option value="{$vo.product_id}">{$vo.product_name}<if condition="$vo['company_name']">({$vo['company_name']})</if></option>
+                        	</volist>
+                        </if>
+                    </select>
+                </div>
+                <div class="inp_box select_box">
+                    <label class="inp_tit">参保地：<i class="inp_tip">*</i></label>
+                    <select class="select select_location" name="location " required disabled="disabled">
+                        <option value="">{$result.socpi_location|showAreaName}</option>
+                    </select>
+                </div>
+                    <div class="inp_box select_box">
+                        <label class="inp_tit">社保类型：<i class="inp_tip">*</i></label>
+                        <select class="select" name="socialType" required disabled="disabled">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="inp_box select_box">
+                        <label class="inp_tit">项目类型 ：<i class="inp_tip">*</i></label>
+                        <select class="select" name="project" required disabled="disabled">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="inp_box">
+                        <label class="inp_tit">社保基数：<i class="inp_tip">*</i></label>
+                        <input type="text" name="socAmount" value="{$result.socpi_amount}" class="text sm_text" required readonly="readonly">
+                    </div>
+                    <div class="inp_box">
+                        <label class="inp_tit">起缴时间：<i class="inp_tip">*</i></label>
+                        <!--<input type="text" name="socPayDate" value="{$result.socpi_start_month|int_to_date=###,"-"}" placeholder="请选择起缴时间" class="text sm_text timepicker" readonly="readonly" required>-->
+                        <input type="text" name="socPayDate" value="{$result.socpi_start_month|int_to_date=###,"-"}" placeholder="请选择起缴时间" class="text sm_text " readonly="readonly" required>
+                    </div>
+                    <div class="gongjijin">
+                        <div class="gongjijin_tit">
+                            <div class="check_btn" id="show_Gjj">
+                                <input type="checkbox" name="isBuyPro" value="" <if condition="$result['propi_id']">checked="checked"</if> id="isBuyPro">
+                            </div>
+                            <span class="tit_text">购买公积金</span>
+                            <span class="dashed_line"></span>
+                        </div>
+                        <div class="GJJ_con" id="con_gjj">
+                            <div class="inp_box">
+                                <label class="inp_tit">公积金基数：<i class="inp_tip">*</i></label>
+                                <input type="text" name="proAmount" value="{$result.propi_amount}" class="text sm_text" required>
+                            </div>
+		                    <div class="inp_box">
+		                        <label class="inp_tit">起缴时间：<i class="inp_tip">*</i></label>
+		                        <!--<input type="text" name="proPayDate" value="{$result.propi_start_month|int_to_date=###,"-"}" placeholder="请选择起缴时间" class="text sm_text timepicker" readonly="readonly" required>-->
+		                        <input type="text" name="proPayDate" value="{$result.propi_start_month|int_to_date=###,"-"}" placeholder="请选择起缴时间" class="text sm_text " readonly="readonly" required>
+		                    </div>
+                            <div class="inp_box">
+                                <label class="inp_tit">单位缴纳比例：<i class="inp_tip">*</i></label>
+                                <input type="text" name="proCompanyScale" value="{$result.propiPaymentInfoValue.companyScale}" class="text sm_text" required>
+                                <span class="percent">%</span>
+                            </div>
+                            <div class="inp_box">
+                                <label class="inp_tit">个人缴纳比例：<i class="inp_tip">*</i></label>
+                                <input type="text" name="proPersonScale" value="{$result.propiPaymentInfoValue.personScale}" class="text sm_text" required>
+                                <span class="percent">%</span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="msg_list" id="msg_staff" style="display:block;">
+                <h3 class="no_bor">缴费信息</h3>
+                    <div id="staffdate">
+                        <div class="staff_head">
+							<div class="swiper-container">
+							  <div class="swiper-wrapper">
+							  	<volist name="result.sid_pay_date" id="vo">
+								    <div class="swiper-slide" data-value="{$vo|int_to_date=###,"-"}">{$vo}</div>
+							  	</volist>
+							  </div>
+							</div>
+							<div class="swiper_btn">
+								<i class="icon icon-next"></i>
+								<i class="icon icon-prev"></i>
+							</div>
+						</div>
+                    </div>
+                    <div id="table_box">
+                    	<table class="table table-bordered text-center">
+							<thead>
+					    		<tr>
+					                <th rowspan="2">缴纳项目</th>
+					                <th rowspan="2">社保基数</th>
+					                <th colspan="2">个人缴纳</th>
+					                <th colspan="2">企业缴纳</th>
+					                <th rowspan="2">合计金额</th>
+					            </tr>
+					            <tr>
+					                <th>缴纳比例</th>
+					                <th>缴纳金额（元）</th>
+					                <th>缴纳比例</th>
+					                <th>缴纳金额（元）</th>
+					            </tr>
+					            </thead>
+					            <tbody class="cal-content">
+					            <for start="1" end="6">
+									<tr>
+										<td class="td_bg td_bg1">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xx
+										</td>
+										<td>
+											xx
+										</td>
+									</tr>
+								</for>
+								<for start="1" end="3">
+									<tr>
+										<td class="td_bg td_bg2">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xx
+										</td>
+										<td>
+											xx
+										</td>
+									</tr>
+								</for>
+								<for start="1" end="2">
+									<tr>
+										<td class="td_bg td_bg3">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xx
+										</td>
+										<td>
+											xx
+										</td>
+									</tr>
+								</for>
+								<for start="1" end="3">
+									<tr>
+										<td class="td_bg td_bg4">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xxx
+										</td>
+										<td class="c-gray">
+											xxx
+										</td>
+										<td>
+											xx
+										</td>
+										<td>
+											xx
+										</td>
+									</tr>
+								</for>
+					            </tbody>
+					            <tfoot>
+					            	<tr>
+					            		<td colspan="2"></td>
+					            		<td colspan="2" class="c-gray">个人缴纳：<span class="price">371.36元</span></td>
+					            		<td colspan="2" class="c-gray">企业共缴纳：<span class="price">371.36元</span></td>
+					            		<td colspan="2" class="c-gray">合计：<span class="price">371.36元</span></td>
+					            	</tr>
+					            </tfoot>
+					    </table>
+                    </div>
+                <div id="page_foot">
+                    <div class="staff_box">
+                        <div class="staff_text">
+                            企业缴纳：
+                            <span class="price">371.36</span>元
+                        </div>
+                        <div class="staff_text">
+                            个人缴纳：
+                            <span class="price">371.36</span>元
+                        </div>
+                        <div class="staff_text">
+                            服务费：
+                            <span class="price">371.36</span>元
+                        </div>
+                        <div class="staff_text">
+                            总缴纳：
+                            <span class="total_price">371.36</span>元
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="insuranceDetail" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Insurance.bundle.js"></script>
+</block>

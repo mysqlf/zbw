@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Platform/head" />
+</head>
+<body class="bg">
+    <include file="Platform/header" />
+    <div id="J_banner-swiper" class="swiper-container infor-index-swiper">
+        <div class="swiper-wrapper">
+            <volist name="banner_info" id="vo">
+                <div class="swiper-slide">
+                    <a href="{$vo.picture_url}"><img src="{$vo.path}" alt="{$vo.picture_title}"></a>
+                </div>
+            </volist>   
+        </div>
+        <div class="proService-pagination"></div>
+    </div>
+
+
+    <section class="commWidth horizontal information-index">
+        <div class="left">
+            <h2 class="lg-title">热门资讯</h2>
+
+            <div id="J_infor-tab" class="tab">
+                <ul class="tab-toggle clearfix">
+                    <volist name="news_cate" id="v">
+                    <li><a class="<?php if($i==1) echo 'active';?>" href="javascript:;" data-target="#category{$i}">{$v.0}</a></li>
+                    </volist>
+                </ul>
+                <div class="tab-content">
+                    <?php $i=1;  foreach($hotNews as $k=>$v){?> 
+                    <div id="category<?php echo $i;?>" class="item <?php if($i==1) echo 'active';?>">
+                        <ul class="item category-list clearfix ">
+                                <?php  foreach($v as $key=>$val){?>
+                                <li class="category-item clearfix">
+                                    <span class="time"><?php echo date('Y-m-d', $val['create_time']); ?></span>
+                                    <div class="category-link">
+                                        <a href="<?php echo U('Article/detail?id='.$val['id']);?>" title="<?php echo $val['title']; ?>">【<?php echo $news_cate[$k][0];  ?>】<?php echo $val['title']; ?></a>
+                                    </div>
+                                </li>
+                                <?php } ?>                             
+                        </ul>
+                        <a class="more" href="<?php echo U('Article/lists?category='.$k);?>">查看更多&gt;</a>
+                    </div>
+                   <?php  $i++;} ?> 
+                </div>
+            </div>
+
+
+        </div>
+        <div class="right">
+            <h3 class="lg-title">公示公告</h3>
+            <a class="infor-add" href="<?php echo U('Article/detail?id='.$notice['hot']['id']);?>">            
+                <img src="<?php echo get_cover($notice['hot']['cover_id'])['path']; ?>" alt="">
+                <p class="txt"><?php echo $notice['hot']['title']; ?></p>
+       
+            </a>
+            <ul class="item category-list clearfix ">
+               <?php  foreach($notice['list'] as $key=>$val){?>
+                        <li class="category-item clearfix">
+                            <span class="time"><?php echo date('Y-m-d H:i', $val['create_time']); ?></span>
+                            <div class="category-link">
+                                <a href="<?php echo U('Article/detail?id='.$val['id']);?>" title="<?php echo $val['title']; ?>">【公示公告】<?php echo $val['title']; ?></a>
+                            </div>
+                        </li>
+                <?php } ?> 
+            </ul>
+            <a class="more" href="/Article-lists-category-notice">查看更多&gt;</a>
+        </div>
+    </section>
+
+
+
+<include file="Platform/footer_copyright" />
+<script data-module="information" data-methods="indexInit" src="/Application/Home/Assets/js/dist/helpCenter.bundle.js"></script>
+</body>

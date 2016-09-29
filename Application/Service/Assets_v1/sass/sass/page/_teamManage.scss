@@ -1,0 +1,53 @@
+.table-responsive {
+    a.btn-add {
+        padding: 0 20px;
+        margin-bottom: 20px;
+        border: 1px solid $color-primary;
+        font-size: 16px;
+        line-height: 40px;
+        text-align: center;
+        color: $color-primary;
+        display: block;
+        span{
+            font-size: 20px;
+            font-weight: 900;
+        }
+        &:hover {
+            background: $color-primary;
+            color: #fff;
+            text-decoration: none;
+        }
+    }
+    .accountInfo-table {
+        tr td {
+            padding-top: 15px;
+            padding-left: 1%;
+            line-height: 34px;
+            font-size: 16px;
+            color: $c-gray;
+            a.changePsw {
+                margin-left: 40px;
+                text-decoration: underline;
+            }
+            input.btn-primary {
+                width: 100px;
+                height: 40px;
+                margin: 20px auto;
+            }
+            .form-control {
+                width: 305px;
+            }
+        }
+    }
+}
+
+.user-auth.form-group{
+    padding: {
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.layer-form .user-auth span.error{
+    top: 27px;
+}

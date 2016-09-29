@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{:C('WEB_SITE_TITLE')}-邮箱验证</title>
+
+</head>
+<body>
+	<div class="reg-process">
+		<a href="/index-index.html">
+			<h2>
+				<p>企业注册</p>
+			</h2>
+		</a>
+		<input type="hidden" value="{$verify_status|default=false}" id="is_jump">
+		<div class="reg-process-content">
+			<if condition="$verify_status">
+				<div class="reg-cg" ><!-- 06-邮箱验证成功-未绑定微信 -->
+					<h3 class='reg-titile'>邮箱验证成功！</h3>
+					<p></p>
+					<a href="{:U('Index/index')}"><img src="/Application/Home/Assets/img/help_ewm.png" alt=""></a>
+					<em>扫一扫，随手掌握参保动态</em>
+				</div>
+				<div style="text-align:center"><span id="sec">10</span>秒后自动跳转首页>></div>
+			<else />
+				<div class="reg-fail02"><!-- 验证失败02 -->
+					<p>啊哦，验证失败了，点击重新发送~</p>
+					<a href="{:U('aginVerify',array('firm_id'=>$company_id))}">马上去验证>></a>
+				</div>
+			</if>
+		</div>
+	</div>
+
+<style type="text/css">
+	* {
+		margin: 0;
+		padding: 0;
+	}
+
+	html,body {
+		font: 14px/1 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
+		color:#666;
+	}
+
+	a {
+		text-decoration: none;
+	}
+	.reg-process {
+	    height: 808px;
+	    background: #f0f0f0;
+	    border-top: 6px solid #f77f3b
+	}
+
+	.reg-process h2 {
+	    background: url(/Application/Home/Assets/img/reg-success-logo.png) top center no-repeat;
+	    padding-top: 107px;
+	    margin-top: 38px;
+	    text-align: center
+	}
+
+	.reg-process h2 p {
+	    padding: 22px 0 30px 0;
+	    font-size: 26px;
+	    color: #f77f3b
+	}
+
+	.reg-process-content {
+	    background: #fff;
+	    width: 786px;
+	    height: 400px;
+	    margin: 0 auto;
+	    border-radius: 6px;
+	    padding: 60px 52px 0 52px;
+	    position: relative
+	}
+
+	.reg-titile {
+	    text-align: center;
+	    font-size: 26px;
+	    color: #f77f3b
+	}
+
+
+	.reg-cg {
+	    text-align: center
+	}
+
+	.reg-cg p {
+	    font-size: 16px;
+	    padding: 20px 0 32px 0
+	}
+
+	.reg-cg p i {
+	    color: #3498db
+	}
+
+	.reg-cg p span {
+	    color: #f77f3b
+	}
+
+	.reg-cg img {
+	    display: block;
+	    margin: 0 auto;
+	    margin-bottom: 20px
+	}
+
+	.reg-cg em {
+	    font-size: 16px;
+	    display: block;
+	    margin-bottom: 20px
+	}
+
+	.reg-cg .cg-button {
+	    display: block;
+	    width: 118px;
+	    margin: 0 auto;
+	    padding: 9px 0
+	}
+
+	.reg-fail {
+	    text-align: center
+	}
+
+	.reg-fail p {
+	    font-size: 22px;
+	    padding-top: 100px;
+	    margin-bottom: 50px
+	}
+
+	.reg-fail a {
+	    font-size: 16px;
+	    display: block;
+	    padding: 12px 0;
+	    width: 174px;
+	    margin: 0 auto
+	}
+
+	.reg-fail02 {
+	    text-align: center
+	}
+
+	.reg-fail02 p {
+	    font-size: 22px;
+	    padding-top: 80px;
+	    margin-bottom: 30px
+	}
+
+	.reg-fail02 p i {
+	    color: #3498db
+	}
+
+	.reg-fail02 a {
+	    color: #f77f3b;
+	    font-size: 22px
+	}
+</style>
+
+<script>
+
+		var is_jump = document.getElementById('is_jump').value;
+
+		if(is_jump){
+			var i = 10;
+			setInterval(function(){
+
+				document.getElementById('sec').innerHTML = i;
+				i--;
+
+				if(i<=0){
+					window.location.href="/Index-index";
+				}
+
+			},1000);
+		}
+
+</script>

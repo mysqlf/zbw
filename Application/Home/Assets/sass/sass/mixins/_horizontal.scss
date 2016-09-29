@@ -1,0 +1,8 @@
+@mixin horizontal($left, $offset: 0) {
+    >.left{
+    	width: $left;
+    }
+    >.right{
+    	margin-left: $left + $offset;
+    }
+}

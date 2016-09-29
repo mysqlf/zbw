@@ -1,0 +1,11 @@
+<!-- 搜索[[ -->
+<div class="search">
+    <label class="search-lb" for="search">搜索查询</label>
+    <div class="search-box"><!-Article-lists-->
+    <form name="form" method="get" action="{:U('Index/serviceProduct')}">
+        <input type="text" name="product_name" class="search-txt" value="<?php if($_GET['product_name']) echo $_GET['product_name']; ?>" placeholder="请输入关键字" />
+        <input type="image" src="/Application/Home/Assets/img/platform/search_small.png" class="submit-search" alt="查询" />
+        </form>
+    </div>
+</div>
+<!-- 搜索]] -->

@@ -1,0 +1,24 @@
+<!-- sidebar[[ -->
+<div class="sidebar">
+    <div class="sidebar-mask"></div>
+    <!-- 交互说明
+        当前状态dl.active dd.child-active
+     -->
+<?php $menu = C('leftMenu');?>
+    <?php foreach ($menu as $key => $value) {?>
+        <?php if($userInfo['type'] == 1 || ($userInfo['type'] !=1 && in_array($key , $auth))){ ?>
+            <dl class=" <?php if(in_array(CONTROLLER_NAME, $value['route']))  echo 'active';?>" >
+                <dt class="hasChild">
+                    <a href="<?php if($value['link']) echo $value['link']; else echo 'javascript:;' ?>"><i class="icon <?php  echo $value['tag']?>"></i><?php  echo $value['name'];?> <span class="arrow"></span></a>
+                </dt>
+                <?php if(!empty($value['children'])){
+                    foreach ($value['children'] as $k => $val) {
+                 ?>
+                <dd <?php if(in_array(CONTROLLER_NAME.'-'.ACTION_NAME, $val['route'])){ ?> class="child-active" <?php }?>><a href="<?php echo $val['link']; ?>"><?php  echo $val['name'];?></a></dd> 
+                <?php }} ?>
+            </dl>
+        <?php } ?>
+    <?php } ?>
+    
+</div>
+<!-- sidebar]] -->

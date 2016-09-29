@@ -1,0 +1,99 @@
+<!-- 添加切换合同 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">添加切换套餐<a href="javascript:history.go(-1);" class="btn btn-back">返回</a></h2>
+    </div>
+    <div class="pannel-bd pannel-bd-swcontract">
+        <form method="post" id="add_contract">
+            <div class="ipt-box">
+                <input type="hidden" name="serviceLayerForm" />
+            </div>
+            <fieldset id="field_select">
+                <div class="swcontract-wra clearfix">
+                    <div class="details-item fl">
+                        <label class="details-lb" for="product_id">产品名称：</label>
+                        <div class="ipt-box">
+                            <select name="product_id" required>
+                                <option value="">请选择</option>
+                                <volist name="_productAllList" id="v">
+                                    <option value="{$v.id}">{$v.name}</option>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="details-item fl">
+                        <label class="details-lb details-lbl" for="user_id">购买企业：</label>
+                        <div class="ipt-box">
+                            <select name="user_id" required>
+                                <option value="">请选择</option>
+                                <volist name="_selectCompany" id="v">
+                                    <option value="{$v.user_id}">{$v.company_name}</option>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="details-item fl">
+                        <label class="details-lb" for="price">套餐费：</label>
+                        <div class="ipt-box pos-rel">
+                            <input type="text" name="price" class="ipt w-normal ellipsis" autocomplete="off" required />
+                            <em>元</em>
+                        </div>
+                    </div>
+                    <div class="details-item contract-oldId fl">
+                        <label class="details-lb details-lbl" for="old_id">为此合同添加切换合同：</label>
+                        <div class="ipt-box">
+                            <select name="old_id">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-item details-status fl">
+                    <label class="details-lb" for="status">服务状态：</label>
+                    <div class="ipt-box">
+                        <div class="settings-tab ipt-box">
+                            <label class="setting-lb"><input type="radio" name="service_state" class="icheck" value="0" checked required />未签约</label>
+                            <div class="status-on">
+                                <label class="setting-lb"><input type="radio" name="service_state" class="icheck" value="2" />服务中</label>
+                                <div class="settings-cnt">
+                                    <div class="form-items clearfix">
+                                        <label class="lb-overtime" for="overtime">合同到期</label>
+                                        <div class="ipt-box">
+                                            <span class="ipt-pos">
+                                                <input type="text" name="overtime" class="ipt date-day ignore" readonly required />
+                                                <i class="icon icon-date"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-items fl">
+                                        <span><em>社保公积金：</em>办理天数&ensp;3&ensp;天</span>
+                                    </div>
+                                    <div class="form-items form-items-salary fl">
+                                        <div class="ipt-box">
+                                            <label><input type="checkbox" name="is_salary" class="icheck" value="1" /><em>提供代发工资服务</em></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-items payroll-fee fl" <?php if($result['is_salary'] == 1) echo 'style="display:block"'; ?> >
+                                        <label for="af_service_price">代发工资服务费</label>
+                                        <div class="ipt-box">
+                                            <input type="text" name="af_service_price" class="ipt w-normal ignore" value="<?php echo $result['af_service_price'] ?>" required />元/人/月
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="setting-lb"><input type="radio" name="service_state" class="icheck" value="3" />服务结束</label>
+                            <label for="service_state" class="error">签约状态必填</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="buttons">
+                <button type="submit" class="btn-submit" data-act="contract_submit">保存</button>
+            </div>
+        </form>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="customer" src="__ASSETS__/js/dist/customer.bundle.js"></script>
+</block>

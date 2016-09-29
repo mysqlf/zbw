@@ -1,0 +1,127 @@
+<!-- 代发工资订单明细 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd"><!--cgreen-->
+        <h2 class="cnt-title">付款明细<a href="javascript:history.go(-1);" class="btn btn-back">返回</a></h2>
+    </div>
+    <div class="pannel-bd">
+        <div class="pannel-details pannel-details-white clearfix">
+            <dl class="horizontal horizontal-8em col-4">
+                <dt class="left " style="width: auto">
+                    <span class="cred"><?php echo $_pay_type[$orderInfo['pay_type']]; ?></span>
+                    <span class="<?php if($orderInfo['state'] == 1) echo 'cgreen'; else echo 'cred'; ?> bold">
+                    <i class="icon <?php if($orderInfo['state'] == 1) echo 'icon-done'; else echo 'icon-fail'; ?>"></i><?php echo $_state[$orderInfo['state']]; ?>
+                    </span>
+                </dt>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    订单号：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['order_no']; ?>
+                </dd>
+            </dl>
+
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    付款方：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['company_name']; ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    生成时间：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['create_time']; ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    付款时间：
+                </dt>
+                <dd class="right">
+                    <?php echo substr($orderInfo['pay_time'],0, 16); ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    银行流水号：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['transaction_no']; ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    套餐名称：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['product_name']; ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    套餐金额：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['member_price']; ?>元
+                </dd>
+            </dl>
+
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    到期时间：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['overtime']; ?>
+                </dd>
+            </dl>
+            
+
+        </div>
+
+        <div class="pannel-details pannel-details-white clearfix">
+            <dl class="horizontal horizontal-6em">
+                <dt class="left text-right c-gray">
+                    套餐详情：
+                </dt>
+                <dd class="right">
+                    <pre>
+                        <?php echo htmlspecialchars_decode($orderInfo['product_detail']); ?>
+                    </pre>
+                </dd>
+            </dl>
+        </div>
+
+
+
+        <div class="bill-check">
+            <div class="check-amount">
+                <p class="amount-due">应付金额：<span>¥&nbsp;<em><?php echo $orderInfo['amount']; ?></em>&nbsp;</span>元</p>
+                <if condition="I('get.type') eq 2">
+               <?php if($orderInfo['state'] == 1){?>
+                <p class="balance">已结差额：<span>¥&nbsp;<em><?php echo $orderInfo['diff_amount']; ?></em>&nbsp;</span>元</p>
+                <?php }else{ ?>
+                <p class="balance">未结差额：<span>¥&nbsp;<em><?php echo $orderInfo['diff_amount']; ?></em>&nbsp;</span>元</p>
+                <?php } ?>
+                </if>
+                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo $orderInfo['actual_amount'] == 0.00 ? $orderInfo['amount'] : $orderInfo['actual_amount']; ?></em>&nbsp;</span>元</p>
+            </div>
+            <!--1线上支付 2线下支付 && $orderInfo['pay_deadline'] >= date('Y-m-d H:i:s', NOW_TIME)-->
+         <?php if($orderInfo['pay_type'] != 1 && $orderInfo['state'] != 1 ){?>
+            <button type="button" class="btn-bill" data-act="confirm_money" data-id="<?php echo $orderInfo['id']; ?>" data-type="<?php echo $orderInfo['type']; ?>"  data-paytype="2" <?php if($orderInfo['state'] == 1) echo 'disabled'; ?>>确认到款</button>
+            <input type="hidden" name="pay_order_id" value="">
+            <?php } ?>
+        </div>
+
+    </div>
+</block>
+<!-- 用于加载js代码 -->
+<block name="script">
+    <script type="text/javascript" data-init="order" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>
+

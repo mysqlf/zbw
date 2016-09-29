@@ -1,0 +1,141 @@
+/* 企业登录 */
+.other-header{
+	background: rgba(255,255,255,0.8);
+	.txt {
+		font-size: 18px;
+		padding-top: 34px;
+
+		.dot {
+			padding: 0 15px 0 25px;
+		    position: relative;
+		    top: -3px;
+		}
+	}
+}
+.firm-login-body{
+	background: url('#{$img-src}/firm_login_body.jpg') no-repeat #f8f4ec center top;
+	padding-top: 0;
+	min-height: 820px;
+	position: relative;
+}
+.firm-icon{
+	width: 24px;
+	height: 20px;
+	background: url('#{$img-src}/firm_login_icon.png');
+	margin:30px 54px 0 0;
+}
+.firm-login-box{
+	width: 410px;
+	/* min-height: 470px; */
+	background:inline-image("login_box.png");
+	border-radius: 12px;
+	box-shadow: 0 0 14px rgba(55,33,5,0.3);
+	padding: 15px 0 48px;
+	position: relative;
+	top: 184px;
+	left: 736px;
+
+	p{
+		margin-top: 30px;
+	}
+	a{
+		color: $blue;
+	}
+	.buttonOrange{
+		border:none;
+		width: 350px;
+		height: 56px;
+		color: #fff;
+		border-radius: 5px;
+		margin: 20px auto 0;
+		font-size: 18px;
+		display: block;
+	}
+
+	.form-foot-tip{
+		width: 350px;
+	    text-align: right;
+	    margin: 20px auto 0;
+	}
+}
+.input-text{
+	overflow: hidden;
+	width: 350px;
+	margin: 0 auto;
+/* 	label{
+		width: 72px;
+		height: 56px;
+		background-image: url('#{$img-src}/loginIcon-s47ee1e581b.png');
+	} */
+	input{
+		width: 278px;
+		height: 56px;
+		line-height: 56px;
+		border: 1px solid #dee2e5;
+		font-size: 16px;
+		padding-left: 20px;
+		border-left: none;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+	.firm-yzm{
+		width: 107px;
+		// float: left;
+	}
+	.verifyimg{
+		cursor:pointer;width:130px;height:52px;float: right;
+	}
+
+}
+.login-fn{
+	width: 350px;
+	margin: 0 auto; 
+	a{
+		line-height: 20px;
+	}
+	input{
+		background: #000;
+	}
+	label {
+		cursor: pointer;
+	}
+	.auto-login-txt {
+		line-height: 20px;
+		position: relative;
+   		top: 2px;
+	}
+}
+.chack-icon{
+	width: 20px;
+	height: 20px;
+	background-image:url('#{$img-src}/loginIcon-s47ee1e581b.png');
+	margin-right: 15px;
+}
+.oter-foot{
+	width: 100%;
+	background: #fff;
+	padding-top: 25px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	
+	.friend-links {
+		padding-bottom: 12px;
+	}
+
+	.copyright{
+		text-align: center;
+		padding-bottom: 30px;
+	}
+}
+.firmlogin-tip{
+	position: absolute;
+	left: 104px;
+	top: 490px;
+	line-height: 50px;
+	background: #42505f;
+	padding:0 20px;
+	font-size: 18px;
+	color: #fff;
+	display: none;
+}

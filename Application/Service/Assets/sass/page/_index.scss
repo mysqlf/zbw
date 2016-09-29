@@ -1,0 +1,88 @@
+/*
+ * 服务商首页
+ */
+
+.chart-wra {
+    padding: 45px 50px;
+    margin-bottom: 28px;
+}
+
+.msg-count-list {
+	margin: 0 -1% 50px;
+
+	@media (min-width: 1200) {
+		margin: {
+			left: -1.5%;
+			right: -1.5%;
+		}
+
+		.list-item {
+			margin: {
+				left: 1.5%;
+				right: 1.5%;
+			}
+
+			width: 17%;
+		}
+	}
+
+	.list-item {
+		$size : 230px;
+		$sizeTop: 150px;
+
+		@include size(18%, $size);
+
+	    margin: 0 1%;
+	    background: #f66;
+	    float: left;
+	    @include transition(.2s);
+
+	    &:hover {
+	    	    @include box-shadow(0 1px 30px rgba(0, 0, 0, 0.1)) ;
+    			@include translateY(-8px);
+	    }
+
+		a {
+			display: block;
+		}
+
+		.num {
+			display: block;
+			height: $sizeTop;
+			text-align: center;
+			font-size: 54px;
+			padding-top: 30px;
+			background: #fff;
+		}
+
+		.list-foot {
+			display: block;
+			height: $size - $sizeTop;
+			font-size: 18px;
+			line-height: $size - $sizeTop;
+			text-align: center;
+			color: #fff;
+			position: relative;
+
+			.icon {
+				@include stretched-y();
+				left: 20px;
+			}
+		}
+
+		$colorArr: #fba325 #35cbcb #70b9e6 #56cc91 #e1b641;
+
+		@for $i from 1 through length($colorArr) {
+	        &.list-item#{$i} {
+	            background: nth($colorArr,$i);
+
+	            .num {
+	            	color: nth($colorArr,$i);
+	            }
+	        }
+	    }
+
+	}
+
+
+}

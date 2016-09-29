@@ -1,0 +1,34 @@
+<!-- 底部[[ -->
+<div class="page-footer">
+    <p class="footer-info"><i class="icon icon-adds"></i><?php $publicFooter = publicFooter(session('user')['company_id']);  echo $publicFooter['company_address']; ?><i class="icon icon-tel"></i><?php echo $publicFooter['tel_local_number']; ?><span>周一至周五 8:00-18:00</span></p>
+    <div class="footer-nav">
+        <p>
+            <a href="http://www.chitone.com.cn/" target="_blank">集团官网</a>
+            <a href="http://www.job5156.com/" target="_blank">智通人才</a>
+            <a href="http://www.hr5156.com/" target="_blank">智通外包</a>
+            <a href="http://www.hunter5156.com/" target="_blank">智通美瀚</a>
+            <a href="http://www.xue5156.com/" target="_blank">智通学习</a>
+            <a href="http://www.mydaojia.com/" target="_blank">智通到家</a>
+            <a href="http://easy.job5156.com/" target="_blank">智事易</a>
+            <a href="http://www.uggd.com/" target="_blank" class="no-brdr">模具联盟</a>
+        </p>
+    </div>
+
+    <include file="Public/copyright"/>
+</div>
+<!-- 底部]] -->
+<include file="Public/var" />
+<!--[if lt IE 9]>
+
+     <script type="text/javascript" src="/Public/static/ie/es5-shim.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="/Application/Service/Assets/js/dist/common.bundle.js"></script>
+<script type="text/javascript" data-init="interact" src="/Application/Service/Assets/js/dist/interact.bundle.js"></script>
+<block name="script"></block>
+<!-- 用于加载js代码 -->
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}
+<div class="hidden">
+    <!-- 用于加载统计代码等隐藏元素 -->
+    <block name="hidden"></block>
+</div>

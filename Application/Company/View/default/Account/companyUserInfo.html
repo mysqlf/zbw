@@ -1,0 +1,36 @@
+<extend name="Base/Insurance" />
+<block name="right">
+	 <div class="right_box ">
+        <div class="right_head">
+            <h3 class="add_tit">账号设置</h3>
+        </div>
+        <div class="tab_title pl">
+              <i class="icon icon-userInfo"></i>
+              <span class="companyInfo_text">{$companyUser['CompanyInfo']['company_name']}</span>
+        </div>
+        <div class="tab_title pl clearfix">
+              <i class="icon icon-password"></i>
+              <span class="companyInfo_text ls_text">登录密码</span>
+              <p class="c-green audit_text"><i class="icon icon-success"></i>已设置</p>
+              <p class="tip_text">定期修改登录密码有利于保障账号安全</p>
+              <input type="button" class="btn ms_btn btn_orange pull-right" value="修改密码" id="changePassword">
+        </div>
+        <div class="tab_title pl clearfix">
+              <i class="icon icon-comEmail"></i>
+              <span class="companyInfo_text ls_text">邮箱绑定</span>
+              <if condition="!$companyUser['CompanyInfo']['email']">
+              	<p class="c-red audit_text"><i class="icon icon-error"></i>未设置</p>
+              <elseif condition="1 eq $companyUser['CompanyInfo']['email_activation']"/>
+              	<p class="c-green audit_text"><i class="icon icon-success"></i>已验证</p>
+              <elseif condition="0 eq $companyUser['CompanyInfo']['email_activation']" />
+              	<p class="c-red audit_text"><i class="icon icon-error"></i>未验证</p>
+              </if>
+              <p class="tip_text">认证后方便接收敏感操作的身份验证信息</p>
+              <a  data-email="{$companyUser['CompanyInfo']['email']}" class="btn  btn_blue pull-right" id="bind_email">绑定邮箱</a>
+              <input type="hidden" name="email" value="{$companyUser['CompanyInfo']['email']}" id="email"/>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="companyInfo" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Account.bundle.js"></script>
+</block>

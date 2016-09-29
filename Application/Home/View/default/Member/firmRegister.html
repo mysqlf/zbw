@@ -1,0 +1,72 @@
+<include file="Public/head" />
+<include file="Public/permitHead" />
+<div class="firm-content clearfix">
+	<div class="wrapper">
+		<!-- 注册 -->
+		<div class="progress">
+			<div class="progress-content">
+				<div class="firm-step step-now">
+					<i class="icon">1</i>
+					<p>创建账户</p>
+				</div>
+				<div class="firm-step-line"></div>
+				<div class="firm-step">
+					<i class="icon">2</i>
+					<p>完善资料</p>
+				</div>
+				<div class="firm-step-line"></div>
+				<div class="firm-step">
+					<i class="icon">3</i>
+					<p>注册完成</p>
+				</div>
+			</div>
+		</div>
+		<div class="reg-form">
+			<form id="J_reg-form" action="">
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-user"></i>
+					</label>
+					<input type="text" placeholder='用户名' name="username" required minlength="6" maxlength="20">
+				</p>
+				<p class="reg-text input-box">
+					<label class="icon-label">
+						<i class="icon loginIcon-lock"></i>
+					</label>
+					<input id="J_pswStronge" type="password" name="password" placeholder='密码' required minlength="6" maxlength="20">
+					<em class="pass-icon J_show-psw">
+						<i class="icon loginIcon-eye"></i>
+					</em>
+					<span class="psw-level">
+						<i class="level-txt">低</i>
+						<i class="level-item level-item1"></i>
+						<i class="level-item level-item2"></i>
+						<i class="level-item level-item3"></i>
+					</span>
+				</p>
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-lock2"></i>
+					</label>
+					<input id="confirm-psw"  name="r_password" type="password" placeholder='确认密码' required>
+				</p>
+				<div class="yzm-content">
+					<p class="reg-text fl">
+						<label class="icon-label">
+							<i class="icon loginIcon-save"></i>
+						</label>
+						<input class="yzm-box" type="text" placeholder='验证码' name="verify_code" required>
+					</p>
+					<img class="verifyimg" alt="点击切换" src="{:U('/Member/verifyCode')}" onclick="this.src='{:U('/Member/verifyCode')}?rand='+Math.random();" style="float: right;width:120px;height: 50px;cursor: pointer">
+				</div>
+				<input class="button buttonOrange reg-btn J_btn-submit" type="button" value="下一步">
+			</form>
+		</div>
+	</div>
+</div>
+<include file="Public/permitFoot"/>
+<include file="Public/baseScript" />
+<script data-module="firmRegister1" src="/Application/Home/Assets/js/dist/loginReg.bundle.js"></script>
+</body>
+</html>
+

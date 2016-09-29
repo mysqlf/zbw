@@ -1,0 +1,78 @@
+<extend name="Base/Insurance" />
+<block name="right">
+	 <div class="right_box overflow">
+	 	<div class="right_head clearfix">
+            <h3 class="add_tit fl">差额明细</h3>
+            <div class="fr c-gray" style="margin-top:12px;font-size: 14px;">
+                差额类型：
+                <span class="c-red">{$menu[$diff['item']]}{$types[$diff['type']]}</span>
+            </div>
+        </div>
+        <div class="tab_title">
+            <div class="tab_list">
+                <label>付款流水号：</label>
+             <span>{$diff.order_no}</span> 
+            </div>
+            <div class="tab_list">
+                <label>姓名：</label>
+                <span>{$diff.person_name}</span>
+            </div>
+            <div class="tab_list">
+                <label>申报人：</label>
+               <span>{$diff.contact_name}</span>
+            </div>
+            <div class="tab_list">
+                <label>申报年月：</label>
+                <span>{$diff.pay_date}</span>
+            </div>
+            <div class="tab_list">
+                <label>付款时间：</label>
+                <span>{$diff.pay_time}</span>
+            </div>
+            <div class="tab_list">
+                <label>社保基数：</label>
+                <span>{$diff.samount}元</span>
+            </div>
+        </div>
+        <div class="table_con">
+        	<table class="table text-center table_white">
+        		<thead>
+                    <tr>
+                        <th colspan="2">险种</th>
+                        <th colspan="2">基数</th>
+                        <th colspan="2">单位缴纳</th>
+                        <th colspan="2">个人缴纳</th>
+                        <th colspan="2">差额小计（元）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	
+                    <volist name="list" id="vo">
+	                	<tr <if condition="$key%2 == 0">class="even_bg"</if>>
+	                		<td colspan="2" rowspan="2">{$vo.name}</td>
+	                		<td colspan="2" rowspan="2">{$diff.samount}</td>
+	                		<td>比例</td>
+	                		<td><if condition="$vo['company']['scale']">{$vo.company.scale}+{$vo.company.fixedSum}</if></td>
+	                		<td>比例</td>
+	                		<td><if condition="$vo['person']['scale']">{$vo.person.scale}+{$vo.person.fixedSum}</if></td>
+	                		<td colspan="2" rowspan="2" <if condition="$vo['sum'] egt 0">class="c-red" >+<else /> class="c-green"></if>{$vo.sum}</td>
+	                	</tr>
+	                	<tr <if condition="$key%2 == 0">class="even_bg"</if>>
+	                		<td>金额</td>
+	                		<td <if condition="$vo['company']['sum'] egt 0"> class="c-red"<else /> class="c-green"</if>>{$vo.company.sum}</td>
+	                		<td>金额</td>
+	                		<td <if condition="$vo['person']['sum'] egt 0"> class="c-red"<else /> class="c-green"</if>>{$vo.person.sum}</td>
+	                	</tr>
+                    </volist>
+                	<tfoot></tfoot>
+                </tbody>
+        	</table>
+        </div>
+        <div class="staff_box">
+            <div class="staff_text">
+                差额合计：
+                <span class="price c-primary">{$diff.amount}</span>元
+            </div>
+        </div>
+	 </div>
+</block>

@@ -1,0 +1,217 @@
+/**
+ * 管理模块
+ */
+
+.pannel-tbl {
+    .thumb-logo {
+        max-width: 80%;
+        max-height: 100px;
+    }
+  
+}
+
+// 弹窗样式
+.layer-wra {
+    padding: 20px 30px;
+    .layer-title {
+        margin-bottom: 25px;
+        font-size: $f-size-large;
+        text-align: center;
+        color: $color-bg;
+    }
+    .ipt-box {
+        position: relative;
+       display: inline-block;
+        label {
+            cursor: pointer;
+            margin-right: 8px;
+        }
+    }
+    span {
+        &.validator-error {
+            position: absolute;
+            top: 36px;
+        }
+    }
+    .form-items {
+        margin-bottom: 20px;
+        >label {
+            line-height: 35px;
+        }
+    }
+    // 团队管理
+    &.add-team {
+        .form-items {
+            float: left;
+            width: 50%;
+            height: 55px;
+        }
+        label {
+            width: 40px;
+            line-height: 35px;
+            &.status {
+                width: 70px;
+            }
+        }
+        .icheckbox {
+            margin-right: 8px;
+        }
+    }
+    // 修改密码
+    .modifyPsw-from {
+        label {
+            width: 60px;
+            margin-right: 10px;
+            text-align: right;
+        }
+        .ipt-box {
+            display: inherit;
+        }
+    }
+    // 设定客服
+    @at-root .service-list {
+        .layer-title {
+            margin-top: 12px;
+        }
+        label {
+            width: 70px;
+            line-height: 35px;
+            margin-left: 23px;
+        }
+    }
+    // 服务城市
+    &.service-city {
+        label {
+            width: 98px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        input {
+            margin-right: 8px;
+        }
+    }
+    // 确认到款
+    @at-root .layer-confirm-money {
+        background: #F7F8FA;
+        border: $border-default;
+        padding: 20px 20px 0;
+        font-size: $f-size-medium;
+        p {
+            margin-bottom: 15px;
+            color: $color-ipt;
+            &.layer-balance,
+            &.layer-amountActual {
+                width: 48%;
+                display: inline-block;
+            }
+            &.layer-amountActual {
+                em {
+                    color: $color-primary;
+                    font-size: $f-size-large;
+                }
+            }
+            em {
+                font-weight: bold;
+                color: $color-bg;
+            }
+        }
+        span {
+            &.validator-error {
+                padding-left: 98px;
+            }
+        }
+        i {
+            font-style: normal;
+            color: $color-primary;
+        }
+    }
+    // 新增账号
+    &.add-team {
+        color: $color-bg;
+        .status {
+            font-weight: bold;
+        }
+    }
+}
+
+.af-service-price {
+    line-height: 35px;
+    span {
+        @extend .ipt;
+        display: block;
+        width: 200px;
+        float: left;
+        margin-right: 8px;
+    }
+    
+}
+
+//修改密码
+.modifyPsw-from {
+    dt {
+        line-height: 35px;
+    }
+}
+
+.form-newWord {
+    span {
+        &.validator-error {
+            left: 1px;
+        }
+    }
+    .new-ipt {
+        &.error {
+            margin-bottom: 15px;
+        }
+    }
+}
+
+.eye_icon {
+    position: absolute;
+    cursor: pointer;
+    right: 59px;
+    top: 12px;
+    background: #fff;
+    &.active {
+        .icon-eyes {
+            @extend .icon-eye
+        }
+    }
+}
+
+.psw-level {
+    position: absolute;
+    right: 58px;
+    bottom: -17px;
+    z-index: 50;
+    .level-txt {
+        font-size: 12px;
+        color: #78848f;
+        padding-right: 5px;
+        font-style: normal;
+    }
+    .level-item {
+        display: inline-block;
+        border: 1px solid #dee2e5;
+        width: 20px;
+        height: 8px;
+    }
+    .level-item1 {
+        &.active {
+            background: #f98a19;
+            border-color: #f98a19;
+        }
+    }
+    .level-item2 {
+        &.active {
+            background: #42b6fa;
+            border-color: #42b6fa;
+        }
+    }
+    .level-item3 {
+        &.active {
+            background: #5bdb94;
+            border-color: #5bdb94;
+        }
+    }
+}

@@ -1,0 +1,161 @@
+/*==================================================
+  ***** 按钮 *****
+  .btn-query ··············· 查询按钮
+  .btn-export ··············· 导出按钮
+  .btn-submit ··············· 提交按钮
+  .btn-cancle ··············· 取消按钮
+  ==================================================*/
+
+// 按钮默认
+.btn {
+    display: inline-block;
+    height: 35px;
+    line-height: 33px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: $color-primary;
+    color: $color-white;
+    border: 0;
+    cursor: pointer;
+    border: {
+        radius: $border-radius;
+    }
+    &:hover {
+        background: $color-orangelg;
+    }
+    &.btn-fill {
+        color: #fff;
+        &.btn-primary {
+            background: $color-primary;
+        }
+    }
+    .icon {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+}
+
+// 白色按钮
+.btn-border {
+    border: $border-default-width solid $color-graylg;
+    color: $color-ipt;
+    background: $color-white;
+    &:hover {
+        background: $color-white;
+        border: {
+            color: $color-primary;
+        }
+        color: $color-primary;
+        .icon {
+            @extend .icon-add-gray:hover;
+        }
+    }
+}
+
+// 查询按钮
+.btn-query {
+    @include size(100px, 35px);
+    display: inline-block;
+    height: 35px;
+    background: $color-primary;
+    color: $color-white;
+    border: {
+        radius: $border-radius;
+    }
+    cursor: pointer;
+    &:hover {
+        background: $color-orangelg;
+    }
+    .icon {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+}
+
+// 导出按钮
+.btn-export {
+    @extend .btn-query;
+    @include button-variant($color-white, #029DFF, none);
+    vertical-align: top;
+    text-align: center;
+    line-height: 35px;
+    &:hover {
+        background: #35B1FF;
+    }
+}
+
+.btn-import {
+    @extend .btn-query;
+}
+
+// 提交按钮
+.btn-submit {
+    @extend .btn-query;
+    @include size(200px, 50px);
+    font: {
+        size: $f-size-large;
+    }
+    &:disabled {
+        background: $color-graylg;
+        cursor: default;
+    }
+}
+
+// 上传
+.btn-upload {
+    @extend .btn-query;
+}
+
+// 添加
+.btn-add {
+    color: #029DFF;
+}
+
+// 开具发票
+.btn-bill {
+    @extend .btn-export;
+    @include size(120px, 35px);
+}
+
+// 修改
+.btn-modify {
+    @include size(100px, 35px);
+    font-size: $f-size-normal;
+    color: $color-ipt;
+    border: {
+        radius: $border-radius;
+        color: $color-graylg;
+        style: solid;
+        width: $border-default-width;
+    }
+    background: $color-white;
+    &:hover {
+        color: $color-primary;
+        border: {
+            color: $color-primary;
+        }
+    }
+}
+
+// 取消按钮
+.btn-cancle {
+    @extend .btn-modify;
+}
+
+// 保存
+.btn-save {
+    @extend .btn-query;
+}
+
+// 返回
+.btn-back {
+    @extend .btn-border;
+    width: 100px;
+    text-align: center;
+    font-size: $f-size-normal;
+    position: absolute;
+    margin: {
+        top: -6px;
+        left: 23px;
+    }
+}

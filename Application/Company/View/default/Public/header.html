@@ -1,0 +1,41 @@
+<header class="header">
+	<div class="view">
+    <div class="logo_box">
+    	<a href="/">
+            <img src="/Application/Company/Assets/v2/images/logo.png" />
+      	</a>
+      	 <p class="c-gray">企业管理中心</p>
+    </div>
+    <div class="nav_list">
+    	<ul>
+    		<li>
+	    		<a href="{:U('Company/Information/myPackage')}" <if condition="'Information' eq CONTROLLER_NAME and 'myPackage' eq ACTION_NAME"> class="active" </if>>
+	    			<i class="icon icon-vip-sprite" ></i>
+	    			我的套餐
+	    		</a>
+    		</li>
+    		<li class="msg_tit">
+    			<a href="{:U('Company/Information/index')}"<if condition="'Information' eq CONTROLLER_NAME and 'index' eq ACTION_NAME "> class="active" </if> >
+    				<i class="icon icon-msg-sprite"></i>
+    				信息通知
+    			</a>
+    			<span class="badge msg_tip">0</span>
+    		</li>
+    		<li class="nav_down">
+    			<a>
+    				<i class="icon icon-user-sprite"></i>
+    				<span class="text-overflow">{$companyUser['CompanyInfo']['company_name']}</span>
+    				<i class="icon icon-down-btn"></i>
+    			</a>
+    			<ul class="nav_downMenu">
+    				<li><a href="{:U('Company/Account/companyInfo')}">企业信息</a></li>
+    				<!-- <li><a href="{:U('Company/Information/serviceList')}">我的套餐</a></li> -->
+                    <!-- <li><a href="{:U('Company/Information/serviceList')}">增值记录</a></li> -->
+    				<li><a href="{:U('Company/Account/companyUserInfo')}">账号设置</a></li>
+    				<li ><a href="{:U('Home/Member/logout')}" class="no_bor">退出账号</a></li>
+    			</ul>
+    		</li>
+    	</ul>
+    </div>
+    </div>
+</header>

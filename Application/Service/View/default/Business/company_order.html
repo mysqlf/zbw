@@ -1,0 +1,489 @@
+<!-- 企业申报 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+    	<h2 class="cnt-title">企业报增减申报管理</h2>
+		<div class="buttons">
+			<a href="{:U('Service-Business-exportInsurance',array('type'=>I('get.type'),'location'=>I('get.location'),'personName'=>I('get.personName'),'companyName'=>I('get.companyName'),'cardNum'=>I('get.cardNum'),'productId'=>I('get.productId'),'companyId'=>I('get.companyId'),'adminId'=>I('get.adminId'),'state'=>I('get.state'),'handleMonth'=>I('get.handleMonth')))}" class="btn btn-export">导出</a>
+		</div>
+        <div class="query-conditions">
+            <!-- <form method="post"> -->
+            <div class="query-tags-wra">
+            	<a href="{:U('Service/Business/companyOrder')}" class="query-tags <if condition="'' heq I('type')">active</if> ">全部</a>
+            	<a href="{:U('Service/Business/companyOrder',array('type'=>0))}" class="query-tags <if condition="'0' heq I('type')">active</if> ">待审核<if condition="0 lt $count[0]"><i class="nums">{$count[0]}</i></if></a>
+            	<a href="{:U('Service/Business/companyOrder',array('type'=>1))}" class="query-tags <if condition="'1' heq I('type')">active</if> ">已审核</a>
+				<a href="{:U('Service/Business/companyOrder',array('type'=>2))}"  class="query-tags <if condition="'2' heq I('type')">active</if> ">待付款<if condition="0 lt $count[2]"><i class="nums">{$count[2]}</i></if></a>
+                <a href="{:U('Service/Business/companyOrder',array('type'=>3))}" class="query-tags <if condition="'3' heq I('type')">active</if> ">待办理<if condition="0 lt $count[3]"><i class="nums">{$count[3]}</i></if></a>
+                <a  href="{:U('Service/Business/companyOrder',array('type'=>4))}" class="query-tags <if condition="'4' heq I('type')">active</if> ">已办理</a>
+            </div>
+            <div class="query-form">
+	            <form id="listForm" action="{:U('Service/Business/companyOrder')}">
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="uname">姓名</label>
+	                    <div class="ipt-box">
+	                        <input type="text" name="personName" value="{:I('get.personName')}" class="ipt size1 ellipsis" />
+	                    </div>
+	                </div>
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="declare_company">申报企业</label>
+	                    <div class="ipt-box">
+	                        <!--<select name="userId">
+	                            <option>请选择</option>
+	                        </select>-->
+	                        <input type="text" name="companyName" value="{:I('get.companyName')}" class="ipt size1 ellipsis" />
+	                    </div>
+	                </div>
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="handle_years">办理年月</label>
+	                    <div class="ipt-box ipt-pos">
+	                        <input type="text" name="handleMonth" value="{:I('get.handleMonth')}" class="ipt date size0" readonly />
+	                        <i class="icon icon-date"></i>
+	                    </div>
+	                </div>
+	                <if condition="in_array(I('get.type'),array('2','3','4'))">
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="order_num">订单号</label>
+	                    <div class="ipt-box">
+	                        <input type="text" name="orderNo" value="{:I('get.orderNo')}" class="ipt w-normal ellipsis" />
+	                    </div>
+	                </div>
+	                </if>
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="declare_type">申报类型</label>
+	                    <div class="ipt-box box-small">
+	                        <select name="state">
+	                            <option value="" selected>全部</option>
+	                            <!--<option value="0" <if condition="'0' eq I('get.state')">selected="selected"</if> >未参保</option>-->
+	                            <option value="1" <if condition="'1' eq I('get.state')">selected="selected"</if> >报增</option>
+	                            <option value="2" <if condition="'2' eq I('get.state')">selected="selected"</if> >在保</option>
+	                            <option value="3" <if condition="'3' eq I('get.state')">selected="selected"</if> >报减</option>
+	                            <!--<option value="4" <if condition="'4' eq I('get.state')">selected="selected"</if> >停保</option>-->
+	                        </select>
+	                    </div>
+	                </div>
+	                <input type="hidden" name="type" value="{:I('get.type')}"/>
+	                <button type="submit" class="btn-query fl">查询</button>
+	            </form>
+            </div>
+            
+            <!-- </form> -->
+        </div>
+    </div>
+    <if condition="0 lt count($result)">
+	    <form id="J_salary-form" class="pannel-tbl">
+	        <table summary="企业报增减申报管理-全部">
+	            <colgroup>
+	            	<if condition="'' eq I('get.type')">
+		                <col width="14%" />
+		                <col width="7%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="7%" />
+		                <col width="12%" />
+		                <col width="7%" />
+		                <col width="7%" />
+		                <col width="8%" />
+		                <col width="12%" />
+		            <elseif condition="'0' eq I('get.type')"/>
+		                <col width="3%" />
+		                <col width="13%" />
+		                <col width="7%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="7%" />
+		                <col width="7%" />
+		                <col width="12%" />
+		                <col width="7%" />
+		                <col width="8%" />
+		                <col width="5%" />
+		                <col width="5%" />
+		            <elseif condition="'1' eq I('get.type')"/>
+		                <!--<col width="4%" />
+		                <col width="10%" />
+		                <col width="6%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="5%" />
+		                <col width="5%" />
+		                <col width="9%" />
+		                <col width="5%" />
+		                <col width="8%" />
+		                <col width="5%" />
+		                <col width="11%" />
+		                <col width="6%" />-->
+		                
+		                <col width="4%" />
+		                <col width="10%" />
+		                <col width="6%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="6.5%" />
+		                <col width="6.5%" />
+		                <col width="11.7%" />
+		                <col width="6.5%" />
+		                <col width="10.4%" />
+		                <col width="6.5%" />
+		                <col width="6%" />
+		            <elseif condition="'2' eq I('get.type')"/>
+		                <col width="12%" />
+		                <col width="7%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="5%" />
+		                <col width="5%" />
+		                <col width="9%" />
+		                <col width="5%" />
+		                <col width="5%" />
+		                <col width="8%" />
+		                <col width="10%" />
+		                <col width="5%" />
+		            <elseif condition="'3' eq I('get.type')"/>
+		                <col width="3%" />
+		                <col width="13%" />
+		                <col width="7%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="6%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="6%" />
+		                <col width="10%" />
+		                <col width="6%" />
+		                <col width="12%" />
+		                <col width="5%" />
+		            <elseif condition="'4' eq I('get.type')"/>
+		                <col width="13%" />
+		                <col width="7%" />
+		                <col width="11%" />
+		                <col width="6%" />
+		                <col width="6%" />
+		                <col width="6%" />
+		                <col width="9%" />
+		                <col width="6%" />
+		                <col width="10%" />
+		                <col width="6%" />
+		                <col width="12%" />
+		                <col width="5%" />
+	                </if>
+	            </colgroup>
+	            <thead>
+	                <tr>
+	                	<if condition="in_array(I('get.type'),array('0','1','3'))">
+		                    <th><input type="checkbox" name="" class="icheck icheck-all" /></th>
+	                    </if>
+	                    <th>申报企业</th>
+	                    <th>姓名</th>
+	                    <th>身份证号码</th>
+	                    <th>服务套餐</th>
+	                    <if condition="in_array(I('get.type'),array('0','1','2'))">
+	                    	<th>参保地</th>
+	                    </if>
+	                    <th>项目</th>
+	                    <th>基数</th>
+	                    <th>缴纳年月</th>
+	                    <th>类型</th>
+	                    <if condition="in_array(I('get.type'),array('','0','1','3','4'))">
+	                    	<th>办理年月</th>
+	                    </if>
+	                    <th>状态</th>
+	                    <if condition="in_array(I('get.type'),array('2','3','4'))">
+	                    	<th>订单号</th>
+	                    </if>
+	                    <if condition="in_array(I('get.type'),array('2'))">
+	                    	<th>付款截止时间</th>
+	                    </if>
+	                    <th>操作</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            	<volist name="result" id="vo">
+		                <tr <if condition="0 eq $i%2">class="tr-bg"</if> >
+		                	<if condition="in_array(I('get.type'),array('0','1'))">
+			                    <td>
+			                        <input type="checkbox" name="id[]" value="{:implode(',',array_filter(array($vo['socpii_id'],$vo['propii_id'])))}" class="icheck single-icheck" <if condition="false eq $vo['whetherToOperate']">disabled="disabled"</if> />
+			                    </td>
+			                <elseif condition="3 eq I('get.type')"/>
+			                    <td>
+			                        <input type="checkbox" name="id[]" value="{:implode(',',array_filter(array($vo['socpii_sid_id'],$vo['propii_sid_id'])))}" class="icheck single-icheck" <if condition="false eq $vo['whetherToOperate']">disabled="disabled"</if> />
+			                    </td>
+		                    </if>
+		                    <td>
+		                        <a href="{:U('Service/Members/companyDetail',array('id'=>$vo['company_id']))}">{$vo.company_name}</a>
+		                    </td>
+		                    <td>
+		                        <!--<p class="cbluelg">{$vo.person_name}</p>-->
+		                        {$vo.person_name}
+		                    </td>
+		                    <td>{$vo.card_num}</td>
+		                    <td>{$vo.product_name}</td>
+		                    <if condition="in_array(I('get.type'),array('0','1','2'))">
+		                    	<td>{$vo.locationValue}</td>
+		                    </if>
+			            	<if condition="'' eq I('get.type')">
+			                    <td colspan="6" class="has-tb">
+			                        <table class="inner-tbl">
+			                            <colgroup>
+			                                <col width="18%" />
+			                                <col width="14%" />
+			                                <col width="24%" />
+			                                <col width="14%" />
+			                                <col width="14%" />
+			                                <col width="16%" />
+			                            </colgroup>
+			                            <if condition="$vo['socpii_id']">
+				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
+				                                <td><p class="cpurple">社保</p></td>
+				                                <td>{$vo.socpii_amount}</td>
+				                                <td>{$vo.socpii_pay_date}</td>
+				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.socpii_handle_month|int_to_date}</td>
+				                                <td class="no-brdr"><span class="cgray">{$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
+				                            </tr>
+				                        </if>
+			                            <if condition="$vo['propii_id']">
+				                            <tr class="no-brdb" >
+				                                <td><p class="cgreenlg">公积金</p></td>
+				                                <td>{$vo.propii_amount}</td>
+				                                <td>{$vo.propii_pay_date}</td>
+				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.propii_handle_month|int_to_date}</td>
+				                                <td class="no-brdr"><span class="cgray">{$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
+				                            </tr>
+			                            </if>
+			                        </table>
+			                    </td>
+			                    <td class="no-brdr">
+			                        <a href="{:U('Service/Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>($vo['socpii_handle_month']?:$vo['propii_handle_month'])))}">查看</a>
+			                    </td>
+				            <elseif condition="'0' eq I('get.type')"/>
+			                    <td colspan="6" class="has-tb">
+			                        <table class="inner-tbl">
+			                            <colgroup>
+			                                <col width="15%" />
+			                                <col width="15%" />
+			                                <col width="26%" />
+			                                <col width="16%" />
+			                                <col width="17%" />
+			                                <col width="11%" />
+			                            </colgroup>
+			                            <if condition="$vo['socpii_id']">
+				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
+				                                <td><p class="cpurple">社保</p></td>
+				                                <td>{$vo.socpii_amount}</td>
+				                                <td>{$vo.socpii_pay_date}</td>
+				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.socpii_handle_month|int_to_date}</td>
+				                                <td class="no-brdr"><span class="cgray">{$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
+				                            </tr>
+				                        </if>
+			                            <if condition="$vo['propii_id']">
+				                            <tr class="no-brdb" >
+				                                <td><p class="cgreenlg">公积金</p></td>
+				                                <td>{$vo.propii_amount}</td>
+				                                <td>{$vo.propii_pay_date}</td>
+				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.propii_handle_month|int_to_date}</td>
+				                                <td class="no-brdr"><span class="cgray">{$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
+				                            </tr>
+			                            </if>
+			                        </table>
+			                    </td>
+			                    <td class="no-brdr">
+			                        <a href="{:U('Service/Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>($vo['socpii_handle_month']?:$vo['propii_handle_month'])))}"><if condition="false eq $vo['whetherToOperate']">查看<else/>审核</if></a>
+			                    </td>
+				            <elseif condition="'1' eq I('get.type')"/>
+			                    <td colspan="6" class="has-tb">
+			                        <table class="inner-tbl">
+			                            <colgroup>
+			                                <!--<col width="10%" />
+			                                <col width="10%" />
+			                                <col width="18%" />
+			                                <col width="10%" />
+			                                <col width="16%" />
+			                                <col width="10%" />
+			                                <col width="22%" />-->
+			                                
+			                                <col width="13%" />
+			                                <col width="13%" />
+			                                <col width="23%" />
+			                                <col width="13%" />
+			                                <col width="20%" />
+			                                <col width="13%" />
+			                            </colgroup>
+			                            <if condition="$vo['socpii_id']">
+				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
+				                                <td><p class="cpurple">社保</p></td>
+				                                <td>{$vo.socpii_amount}</td>
+				                                <td>{$vo.socpii_pay_date}</td>
+				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.socpii_handle_month|int_to_date}</td>
+				                                <td class="no-brdr"><span class="cgray">{$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
+			                                	<!--<td class="no-brdr"><span class="cgray deadline">{//:empty($vo['socpiiPayDeadline'])?'/':$vo['socpiiPayDeadline']}{//:empty($vo['socpii_pay_deadline']) || -1 == $vo['socpii_operate_state']?'/':str_replace('-','/',$vo['socpii_pay_deadline'])}</span></td>-->
+				                            </tr>
+				                        </if>
+			                            <if condition="$vo['propii_id']">
+				                            <tr class="no-brdb" >
+				                                <td><p class="cgreenlg">公积金</p></td>
+				                                <td>{$vo.propii_amount}</td>
+				                                <td>{$vo.propii_pay_date}</td>
+				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.propii_handle_month|int_to_date}</td>
+				                                <td class="no-brdr"><span class="cgray">{$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
+			                                	<!--<td class="no-brdr"><span class="cgray deadline">{//:empty($vo['propiiPayDeadline'])?'/':$vo['propiiPayDeadline']}{//:empty($vo['propii_pay_deadline']) || -1 == $vo['propii_operate_state']?'/':str_replace('-','/',$vo['propii_pay_deadline'])}</span></td>-->
+				                            </tr>
+			                            </if>
+			                        </table>
+			                    </td>
+			                    <td class="no-brdr">
+			                        <a href="{:U('Service/Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>($vo['socpii_handle_month']?:$vo['propii_handle_month'])))}">重新审核</a>
+			                    </td>
+				            <elseif condition="'2' eq I('get.type')"/>
+			                    <td colspan="7" class="has-tb">
+			                        <table class="inner-tbl">
+			                            <colgroup>
+			                                <col width="10.5%" />
+			                                <col width="10.5%" />
+			                                <col width="19%" />
+			                                <col width="10.8%" />
+			                                <col width="10.8%" />
+			                                <col width="17%" />
+			                                <col width="21.4%" />
+			                            </colgroup>
+			                            <if condition="$vo['socpii_id']">
+				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
+				                                <td><p class="cpurple">社保</p></td>
+				                                <td>{$vo.socpii_amount}</td>
+				                                <td>{//$vo.socpii_pay_date}{$vo.socpii_sid_pay_date}</td>
+				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <!--<td>{$vo.socpii_handle_month|int_to_date}</td>-->
+				                                <td><span class="cgray">{//$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}{$vo.socpii_sid_state|get_code_value="ServiceInsuranceDetailState"}</span></td>
+				                                <td><p class="cbluelg">{$vo.socpii_pay_order_no}</p></td>
+				                                <td class="no-brdr"><p class="cgray deadline">{//:empty($vo['socpiiPayDeadline'])?'/':$vo['socpiiPayDeadline']}{:empty($vo['socpii_pay_deadline']) || -1 == $vo['socpii_operate_state']?'/':str_replace('-','/',$vo['socpii_pay_deadline'])}</p></td>
+				                            </tr>
+				                        </if>
+			                            <if condition="$vo['propii_id']">
+				                            <tr class="no-brdb" >
+				                                <td><p class="cgreenlg">公积金</p></td>
+				                                <td>{$vo.propii_amount}</td>
+				                                <td>{//$vo.propii_pay_date}{$vo.propii_sid_pay_date}</td>
+				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <!--<td>{$vo.propii_handle_month|int_to_date}</td>-->
+				                                <td><span class="cgray">{//$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}{$vo.propii_sid_state|get_code_value="ServiceInsuranceDetailState"}</span></td>
+				                                <td><span class="cbluelg">{$vo.propii_pay_order_no}</span></td>
+				                                <td class="no-brdr"><span class="cgray deadline">{//:empty($vo['propiiPayDeadline'])?'/':$vo['propiiPayDeadline']}{:empty($vo['propii_pay_deadline']) || -1 == $vo['propii_operate_state']?'/':str_replace('-','/',$vo['propii_pay_deadline'])}</span></td>
+				                            </tr>
+			                            </if>
+			                        </table>
+			                    </td>
+			                    <td class="no-brdr">
+			                        <a href="{:U('Service/Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>($vo['socpii_handle_month']?:$vo['propii_handle_month'])))}">查看</a>
+			                    </td>
+				            <elseif condition="'3' eq I('get.type')"/>
+			                    <td colspan="7" class="has-tb">
+			                        <table class="inner-tbl">
+			                            <colgroup>
+			                                <col width="10.8%" />
+			                                <col width="10.8%" />
+			                                <col width="16.4%" />
+			                                <col width="11%" />
+			                                <col width="18.2%" />
+			                                <col width="10.8%" />
+			                                <col width="22%" />
+			                            </colgroup>
+			                            <if condition="$vo['socpii_id']">
+				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
+				                                <td><p class="cpurple">社保</p></td>
+				                                <td>{$vo.socpii_amount}</td>
+				                                <td>{//$vo.socpii_pay_date}{$vo.socpii_sid_pay_date}</td>
+				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.socpii_handle_month|int_to_date}</td>
+				                                <td><span class="cgray">{//$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}{$vo.socpii_sid_state|get_code_value="ServiceInsuranceDetailState"}</span></td>
+				                                <td class="no-brdr"><p class="cbluelg">{$vo.socpii_pay_order_no}</p></td>
+				                                <!--<td class="no-brdr"><p class="cgray">{:empty($vo['socpiiPayDeadline'])?'/':$vo['socpiiPayDeadline']}</p></td>-->
+				                            </tr>
+				                        </if>
+			                            <if condition="$vo['propii_id']">
+				                            <tr class="no-brdb" >
+				                                <td><p class="cgreenlg">公积金</p></td>
+				                                <td>{$vo.propii_amount}</td>
+				                                <td>{//$vo.propii_pay_date}{$vo.propii_sid_pay_date}</td>
+				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.propii_handle_month|int_to_date}</td>
+				                                <td><span class="cgray">{//$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}{$vo.propii_sid_state|get_code_value="ServiceInsuranceDetailState"}</span></td>
+				                                <td class="no-brdr"><span class="cbluelg">{$vo.propii_pay_order_no}</span></td>
+				                                <!--<td class="no-brdr"><span class="cgray">{:empty($vo['propiiPayDeadline'])?'/':$vo['propiiPayDeadline']}</span></td>-->
+				                            </tr>
+			                            </if>
+			                        </table>
+			                    </td>
+			                    <td class="no-brdr">
+			                        <a href="{:U('Service/Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>($vo['socpii_handle_month']?:$vo['propii_handle_month']),'isApprove'=>1))}">办理</a>
+			                    </td>
+				            <elseif condition="'4' eq I('get.type')"/>
+			                    <td colspan="7" class="has-tb">
+			                        <table class="inner-tbl">
+			                            <colgroup>
+			                                <col width="10.8%" />
+			                                <col width="10.8%" />
+			                                <col width="16.4%" />
+			                                <col width="11%" />
+			                                <col width="18.2%" />
+			                                <col width="10.8%" />
+			                                <col width="22%" />
+			                            </colgroup>
+			                            <if condition="$vo['socpii_id']">
+				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
+				                                <td><p class="cpurple">社保</p></td>
+				                                <td>{$vo.socpii_amount}</td>
+				                                <td>{//$vo.socpii_pay_date}{$vo.socpii_sid_pay_date}</td>
+				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.socpii_handle_month|int_to_date}</td>
+				                                <td><span class="cgray">{//$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}{$vo.socpii_sid_state|get_code_value="ServiceInsuranceDetailState"}</span></td>
+				                                <td class="no-brdr"><p class="cbluelg">{$vo.socpii_pay_order_no}</p></td>
+				                                <!--<td class="no-brdr"><p class="cgray">{:empty($vo['socpiiPayDeadline'])?'/':$vo['socpiiPayDeadline']}</p></td>-->
+				                            </tr>
+				                        </if>
+			                            <if condition="$vo['propii_id']">
+				                            <tr class="no-brdb" >
+				                                <td><p class="cgreenlg">公积金</p></td>
+				                                <td>{$vo.propii_amount}</td>
+				                                <td>{//$vo.propii_pay_date}{$vo.propii_sid_pay_date}</td>
+				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
+				                                <td>{$vo.propii_handle_month|int_to_date}</td>
+				                                <td><span class="cgray">{//$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}{$vo.propii_sid_state|get_code_value="ServiceInsuranceDetailState"}</span></td>
+				                                <td class="no-brdr"><span class="cbluelg">{$vo.propii_pay_order_no}</span></td>
+				                                <!--<td class="no-brdr"><span class="cgray">{:empty($vo['propiiPayDeadline'])?'/':$vo['propiiPayDeadline']}</span></td>-->
+				                            </tr>
+			                            </if>
+			                        </table>
+			                    </td>
+			                    <td class="no-brdr">
+			                        <a href="{:U('Service/Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>($vo['socpii_handle_month']?:$vo['propii_handle_month']),'isApprove'=>1))}" class="cbluelg">查看</a>
+			                    </td>
+				            </if>
+		                </tr>
+		            </volist>
+	            </tbody>
+	        </table>
+	        <if condition="'0' eq I('get.type') or '1' eq I('get.type')">
+                <button class="btn payroll-handle" data-page="declare" data-act="batch_audit" type="button">批量审核</button>
+            <elseif condition="'3' eq I('get.type')"/>
+                <button class="btn payroll-handle" data-page="declare" data-act="batch_transact" type="button">批量办理</button>
+            </if>
+            
+	        <div class="pagination">
+	            {$page}
+	        </div>
+	    </form>
+    <else/>
+    	<span class="no-data-tip">未找到符合条件的记录</span>
+    </if>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="company_declare" src="/Application/Service/Assets/js/dist/business.bundle.js"></script>
+</block>

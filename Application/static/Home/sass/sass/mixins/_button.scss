@@ -1,0 +1,23 @@
+@mixin button-variant($color, $background, $border) {
+    color:$color;
+    background: $background;
+    border: $border;
+    text-align: center;
+    border-radius:5px;
+    display: inline-block;
+    cursor:pointer;
+}
+
+@mixin zb-button($width,$height,$background) {
+    width:$width;
+    height: $height;
+    @include button-variant(#fff,$background,0px);
+    line-height: $height;
+}
+
+@mixin zb-button1($width,$height,$color) {
+    width:$width;
+    height: $height;
+    @include button-variant($color,#fff,1px solid $color);
+    line-height: $height;
+}

@@ -1,0 +1,67 @@
+
+$font-family-default: "Microsoft Yahei";
+$body-bg:#eaedf1;
+//img
+$imgBaseUrl: "../images";
+
+
+// 主色
+$c-gray:#78848f;
+$c-blue:#59a4f0;
+$c-red:#ff4400;
+$c-msg:#f98a19;
+$c-fff:#fff;
+$color-primary: #f98a19;
+$color-second: #2d475f;
+$color-warm: #f77f3b;
+
+$color-danger: #ff4400;
+$color-warning: #f26797;
+$color-success: #3498db;
+
+$color-money: #f77f3b;
+$c-gray-lighter: #b5b5b5;
+$c-dark: #414141;
+
+$c-search:#5dade2;  //搜索按钮背景色
+$c-required: #ff0000;//必填的颜色
+$table-border-color:#cdd2d5;
+
+
+$color-primary-active: darken($color-primary, 10%);
+$color-danger-active: darken($color-danger, 10%);
+$color-warning-active: darken($color-warning, 10%);
+$color-success-active: darken($color-success, 10%);
+$color-warm-active: darken($color-warm,10%);
+$notice-color: #ff5722; //通知颜色
+
+
+// 字体大小
+$f-size-title: 16px;
+$f-size-middle: 18px;
+
+// 间距
+
+$gutter: 15px;
+
+//链接---------------------------色
+
+$color-link: $color-primary; //链接色有可能不同于主色
+$color-link-active: $color-primary; //链接色有可能不同于主色
+
+
+// Borders
+// --------------------------------------------------
+
+$border-default-width: 1px;
+$border-default-color: #e5e5e5;
+$border-form-color:#e5e5e5;
+$border-default: $border-default-width solid $border-default-color;
+$border-radius: 0.3rem;
+
+
+/*网格系统*/
+//网格数
+$grid-columns: 12;
+//网格间隔
+$grid-gutter-width: 0;

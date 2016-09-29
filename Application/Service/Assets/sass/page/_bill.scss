@@ -1,0 +1,116 @@
+/*
+ * 发票管理（账单管理）
+ */
+
+.pannel-details-white {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    .horizontal {
+        margin-bottom: 10px;
+        padding-left: 0;
+
+        >.left {
+            margin-left: 0;
+        }
+    }
+
+}
+
+.pannel-hd-bill {
+    h2 {
+        height: 22px;
+    }
+    .pannel-details {
+        padding: {
+            top: 30px;
+            right: 30px;
+            bottom: 10px;
+            left: 30px;
+        }
+        margin: {
+            bottom: 30px;
+        }
+        background: $color-white;
+        .details-item {
+            @at-root .details-item {
+                display: inline-block;
+                width: 45%;
+                em {
+                    font-weight: bold;
+                    font-size: $f-size-medium;
+                    color: $color-bg;
+                }
+            }
+        }
+        @at-root .dif-amount-details{
+            padding: 30px 30px 20px;
+            background: $color-white;
+            margin-bottom: 20px;
+        }
+    }
+    // 账单金额计算
+    @at-root .bill-check {
+        margin: {
+            top: 30px;
+            bottom: 30px;
+        }
+        text-align: right;
+        @at-root .check-amount {
+            margin: {
+                bottom: 20px;
+            }
+            color: $color-bg;
+            p {
+                display: inline-block;
+                margin-left: 40px;
+                &.amount-actual {
+                    em {
+                        color: $color-primary;
+                        font-size: 20px;
+                    }
+                }
+            }
+            i {
+                font-size: $f-size-normal;
+                font-style: normal;
+            }
+            em {
+                font: {
+                    weight: bold;
+                    family: 'Arial';
+                }
+            }
+        }
+    }
+}
+
+#J_invoice-form-layer {
+    color: #78848f;
+    .horizontal {
+        margin-bottom: 20px;
+        >.left {
+            line-height: 35px;
+        }
+    }
+    .layer-title {
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 0 0 10px;
+        border-bottom: 1px solid #e6e8ea;
+        padding: 5px 0
+    }
+    .layer-pannel {
+        margin-bottom: 15px;
+    }
+}
+
+// 差额明细
+.dif-amount-details {
+    label {
+        display: inline-block;
+        width: 88px;
+        text-align: right;
+    }
+}

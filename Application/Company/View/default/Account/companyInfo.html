@@ -1,0 +1,212 @@
+<extend name="Base/Insurance" />
+<block name="right">
+	<if condition="0 eq $companyInfo['audit'] && empty($companyInfo['social_credit_code']) or 1 eq I('get.change')" >
+	    <div class="right_box overflow">
+	        <div class="right_head">
+	            <h3 class="add_tit">企业信息</h3>
+	        </div>
+	        <div class="msg_list">
+	            <h3>基本资料<span class="mg-l">为保证服务质量，办理业务需先认证企业信息。我们承诺以下所填信息不会外泄，请放心填写！</span></h3>
+	            <form id="companyForm">
+	                <div class="inp_box">
+	                    <label class="inp_tit">企业简称：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="companyName" value="{$companyInfo.company_name}" required>
+	                </div>
+	                <div class="inp_box clear">
+	                    <label class="inp_tit">企业全称：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="fullName" value="{$companyInfo.full_name}" required>
+	                    <span class="text_tip c-gray">需和营业执照一致</span>
+	                </div>
+	                <div class="inp_box big_inp_box clear">
+	                    <label class="inp_tit">员工人数：<i class="inp_tip">*</i></label>
+	                    <div class="inp_radio">
+	                        <input type="radio" name="employeeNumber" value="1" class="residenceType" required <if condition="1 eq $companyInfo['employee_number']">checked="checked"</if> > 1-100
+	                    </div>
+	                    <div class="inp_radio">
+	                        <input type="radio" name="employeeNumber" value="2" class="residenceType" required <if condition="2 eq $companyInfo['employee_number']">checked="checked"</if> > 101-200
+	                    </div>
+	                    <div class="inp_radio">
+	                        <input type="radio" name="employeeNumber" value="3" class="residenceType" required <if condition="3 eq $companyInfo['employee_number']">checked="checked"</if> > 201-500
+	                    </div>
+	                    <div class="inp_radio">
+	                        <input type="radio" name="employeeNumber" value="4" class="residenceType" required <if condition="4 eq $companyInfo['employee_number']">checked="checked"</if> > 501-1000
+	                    </div>
+	                    <div class="inp_radio">
+	                        <input type="radio" name="employeeNumber" value="5" class="residenceType" required <if condition="5 eq $companyInfo['employee_number']">checked="checked"</if> > 1001-2000
+	                    </div>
+	                    <div class="inp_radio ">
+	                        <input type="radio" name="employeeNumber" value="6" class="residenceType" required <if condition="6 eq $companyInfo['employee_number']">checked="checked"</if> > 2000以上
+	                    </div>
+	                </div>
+	                <div class="inp_box">
+	                    <label class="inp_tit">企业性质：<i class="inp_tip">*</i></label>
+	                    <select class="select" name="property" required>
+	                        <option value="">请选择</option>
+	                        <!--<option value="1">外资企业</option>
+	                        <option value="2">中外合营（合资、合作）</option>
+	                        <option value="3">台资企业</option>
+	                        <option value="4">港资企业</option>
+	                        <option value="5" selected="">私营·民营企业</option>
+	                        <option value="6">股份制企业</option>
+	                        <option value="7">跨国公司（集团）</option>
+	                        <option value="8">国有企业</option>
+	                        <option value="9">事业单位</option>
+	                        <option value="10">社会团体</option>
+	                        <option value="11">政府机关</option>
+	                        <option value="20">其他</option>-->
+	                        <volist name=":C('PROPERTY')" id="vo">
+	                            <option value="{$key}" <if condition="$key eq $companyInfo['property']">selected="selected"</if> >{$vo}</option>
+	                        </volist>
+	                    </select>
+	                </div>
+	                <div class="inp_box">
+	                    <label class="inp_tit">注册资金(万)：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="registerFund" value="{$companyInfo.register_fund}" required>
+	                </div>
+	                <div class="inp_box select_box ctiy_box clear">
+	                    <label class="inp_tit">所在地：<i class="inp_tip">*</i></label>
+	                    <div class="city-picker-input text">
+	                        <span class="picker-txt">请选择</span>
+	                        <input class="hidden-txt" type="hidden" name="location" required value="{$companyInfo.location}" id="residenceLocation">
+	                    </div>
+	                </div>
+	                <div class="inp_box">
+	                    <label class="inp_tit">通讯地址：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="companyAddress" value="{$companyInfo.company_address}" required>
+	                    <span class="text_tip c-gray">寄服务合同和发票</span>
+	                </div>
+	                <div class="inp_box clear">
+	                    <label class="inp_tit">企业固话：<i class="inp_tip">*</i></label>
+	                    <!--<input type="text" class="text" name="telCityCode" value="{$companyInfo.tel_city_code}" required>-->
+	                    <input type="text" class="text" name="telLocalNumber" value="{$companyInfo.tel_local_number}" required>
+	                </div>
+	                <div class="inp_box">
+	                    <label class="inp_tit">纳税人识别号：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="socialCreditCode" value="{$companyInfo.social_credit_code}" required>
+	                </div>
+	                <div class="inp_box">
+	                    <label class="inp_tit">开户行名称：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="bank" value="{$companyInfo.companyBank.bank}" required>
+	                </div>
+	                <div class="inp_box">
+	                    <label class="inp_tit">开户银行账户号：<i class="inp_tip">*</i></label>
+	                    <input type="text" class="text" name="account" value="{$companyInfo.companyBank.account}" required>
+	                </div>
+	                <div class="update_img_big update_img">
+	                	<div class="upload_box">
+	                		<div id="filePicker" class="upload_btn">
+	                        	<i class="icon icon-addImg"></i>
+	                    	</div>
+	                    	<p><i class="c-red">*</i>营业执照</p>
+	                    	<input type="hidden" name="businessLicense" value="{$companyFile.business_license}" required id="businessLicense">
+	                	</div>
+	                	<div class="upload_box">
+	                		<div id="filePicker2" class="upload_btn">
+	                        	<i class="icon icon-addImg"></i>
+	                    	</div>
+	                    	<p><i class="c-red">*</i>税务登记照</p>
+	                    	<input type="hidden" name="taxCegistrationCertificate" value="{$companyFile.tax_cegistration_certificate}" required id="taxCegistrationCertificate">
+	                	</div>
+	                	<div class="upload_box">
+	                		<div id="filePicker3" class="upload_btn">
+	                        	<i class="icon icon-addImg"></i>
+	                    	</div>
+	                    	<p><i class="c-red">*</i>纳税人资格证</p>
+	                    	<input type="hidden" name="taxpayerQualificationCertificate" value="{$companyFile.taxpayer_qualification_certificate}" required id="taxpayerQualificationCertificate">
+	                	</div>
+	                	<div class="upload_box">
+	                		<div id="filePicker4" class="upload_btn">
+	                        	<i class="icon icon-addImg"></i>
+	                    	</div>
+	                    	<p><i class="c-red">*</i>银行开户许可证</p>
+	                    	<input type="hidden" name="accountOpeningLicense" value="{$companyFile.account_opening_license}" required id="accountOpeningLicense">
+	                	</div>
+	                	<div class="update_tip clear">
+	                		<p>
+	                		<i class="icon icon-laba"></i>
+	                		· 营业执照复印件，手写“仅用于智保易认证”字样，并在手写内容加盖红色印章；照片所在信息需清晰可见，内容真实有效，不得做任何修改。</p>
+	                		<p class="t-p">· 照片支持jpg  jpeg  gif  png格式，大小不超过2M。</p>
+	                	</div>
+	                </div>
+	           
+	        </div>
+	        <div class="msg_list">
+	            <h3>联系人信息</h3>
+	            <div class="inp_box big_inp_box clear">
+	            	<label class="inp_tit">联系人：<i class="inp_tip">*</i></label>
+	            	<input type="text" class="text" name="contactName" value="{$companyInfo.contact_name}" required>
+	            	<span class="text_tip c-gray">须和授权协议一致姓名</span>
+	            	<div class="inp_radio ">
+	                    <input type="radio" name="contactSex" value="1" required="" class="residenceType" required <if condition="1 eq $companyInfo['contact_sex']">checked="checked"</if> > 先生
+	                </div>
+	                <div class="inp_radio ">
+	                    <input type="radio" name="contactSex" value="2" required="" class="residenceType" required <if condition="2 eq $companyInfo['contact_sex']">checked="checked"</if>> 女士
+	                </div>
+	            </div>
+	            <div class="inp_box big_inp_box clear">
+	            	<label class="inp_tit">联系电话：<i class="inp_tip">*</i></label>
+	            	<input type="text" class="text" name="contactPhone" value="{$companyInfo.contact_phone}" required>
+	            </div>
+	            <div class="inp_box big_inp_box clear">
+	            	<label class="inp_tit">联系邮箱：<i class="inp_tip">*</i></label>
+	            	<input type="text" class="text" name="email" value="{$companyInfo.email}" required><if condition="1 eq $companyInfo['email_activation']"><span class="email-state confirmed"><i class="icon icon-done"></i>邮箱已认证</span><else/><span class="email-state no-confirm"><i class="icon icon-fail"></i>邮箱未认证</span></if>
+	            </div>
+	            <div class="inp_box big_inp_box clear">
+	            	<label class="inp_tit">QQ：<i class="inp_tip">*</i></label>
+	            	<input type="text" class="text" name="qq" value="{$companyInfo.qq}" required>
+	            </div>
+	        </div>
+	        <input type="button" value="保存" id="submitBtn" class="btn btn_orange ls_btn submit_btn">
+	        </form>
+	    </div>
+	<elseif condition="0 eq $companyInfo['audit'] && !empty($companyInfo['social_credit_code'])"/>
+	    <div class="right_box ">
+	        <div class="right_head">
+	            <h3 class="add_tit">企业信息</h3>
+	        </div>
+	        <div class="aduit_box">
+	            <div class="aduit_list">
+	                <i class="icon icon-aduit-now"></i>
+	                <h3 class="c-gray">企业信息审核中</h3>
+	                <p class="c-gray">审核过程中，系统功能暂不可用</p>
+	                <p class="c-gray">请耐心等待</p>
+	                <a href="{:U('Company/Account/companyInfo',array('change'=>1))}" class="btn btn_white ms_btn">修改信息</a>
+	            </div>
+	        </div>
+	    </div>
+	<elseif condition="1 eq $companyInfo['audit']"/>
+		<div class="right_box ">
+	        <div class="right_head">
+	            <h3 class="add_tit">企业信息</h3>
+	        </div>
+	        <div class="aduit_box">
+	            <div class="aduit_list">
+	                <i class="icon icon-aduit-success"></i>
+	                <h3>审核成功</h3>
+	                <p class="c-green">系统功能可以正常使用</p>
+	                <p class="c-gray">如修改资料，资料将重新审核</p>
+	                <p class="c-gray">期间系统功能暂不可用</p>
+	                <a href="{:U('Company/Account/companyInfo',array('change'=>1))}" class="btn btn_white ms_btn">重新审核</a>
+	            </div>
+	        </div>
+	    </div>
+	<elseif condition="-1 eq $companyInfo['audit']"/>
+		<div class="right_box ">
+	        <div class="right_head">
+	            <h3 class="add_tit">企业信息</h3>
+	        </div>
+	        <div class="aduit_box">
+	            <div class="aduit_list">
+	                <i class="icon icon-aduit-fail"></i>
+	                <h3>审核失败</h3>
+	                <p class="c-gray">您的企业信息审核失败：<span class="c-red">资料不齐全</span></p>
+	                <a href="{:U('Company/Account/companyInfo',array('change'=>1))}" class="btn btn_white ms_btn">完善资料</a>
+	            </div>
+	        </div>
+	    </div>
+    </if>
+</block>
+<block name="script">
+    <script src="/Application/Company/Assets/v2/js/area.js"></script>
+    <script data-init="companyInfo" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Account.bundle.js"></script>
+</block>

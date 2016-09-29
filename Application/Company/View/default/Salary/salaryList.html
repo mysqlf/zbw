@@ -1,0 +1,55 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box">
+        <div class="right_head">
+        	<h3 class="add_tit">代发工资</h3>
+        </div>
+        <div class="search_box">
+        	<form action="{:U('Company/Order/searchByOrderNo')}" method="post" id="listForm">
+	        	<input type="hidden" name="type" value="2">
+	        	<input type="text" value="{$orderno|default=''}" class="text" name="orderNo" placeholder="订单编号">
+	        	<input type="button" class="btn ms_btn btn_orange " value="查询" id="submitBtn">
+	        </form>
+        </div>
+        <div class="table_con">
+        	<table class="table  text-center table_white">
+				<thead>
+		    		<tr>
+		                <th >订单编号</th>
+		                <th>订单名称</th>
+		                <th>代发人数</th>
+		                <th>进度</th>
+		                <th>操作</th>
+		            </tr>
+		            </thead>
+		            <tbody class="cal-content">
+		            	<volist name="list" id="vo">
+		            	 	<tr>
+								<td>
+									{$vo.order_no}
+								</td>
+								<td class="c-gray">
+									{$vo.order_date}工资{$vo.name}
+								</td>
+								<td class="c-gray">
+									{$vo.count}
+								</td>
+								<td>
+									{$vo.orderstate}
+								</td>
+								<td>
+									<a href="{:U('Company/Order/salaryinfo',array('orderId'=>$vo['id']))}" class="c-blue">详情</a>
+								</td>
+							</tr>
+					    </volist>
+		            </tbody>
+		            <tfoot>
+		            </tfoot>
+		    </table>
+        </div>
+        {$page}
+    </div>
+</block>
+<block name="script">
+    <script data-init="salalist" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Order.bundle.js"></script>
+</block>

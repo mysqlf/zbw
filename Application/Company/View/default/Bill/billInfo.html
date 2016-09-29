@@ -1,0 +1,207 @@
+<!-- <extend name="Base/Insurance" /> -->
+<block name="right">
+	 <div class="right_box overflow">
+	 	<div class="right_head">
+            <h3 class="add_tit">{$overview.bill_name}</h3>
+        </div>
+        <div class="tab_title clearfix tab_ls_title">
+        	<div class="fl_tab fl">
+        		<div class="tab_text ">
+	                <label>对账单号：</label>
+	                <span>{$overview.bill_no}<span class="c-gray">{$overview.bill_date|default='/'}</span></span>
+            	</div>
+            	<div class="tab_text ">
+	                <label>服务商：</label>
+	                <span>{$overview.company_name}<span class="c-green"><if condition="$overview['invoice_consignee'] "><i class="icon icon-success"></i>已开发票</if></span></span>
+            	</div>
+            	<div class="tab_text ">
+	                <label>收件人：</label>
+	                <span>{$overview.invoice_consignee|default='/'}</span>
+            	</div>
+            	<div class="tab_text ">
+	                <label>电话：</label>
+	                <span>{$overview.invoice_consignee_phone|default='/'}</span>
+            	</div>
+            	<div class="tab_text ">
+	                <label>快递单号：</label>
+	                <span>{$overview.invoice_express_no|default='/'}</span>
+            	</div>
+        	</div>
+            <div class="fr fr_tab">
+            	<div class="tab_text ">
+	                <label>应付金额：</label>
+	                <span>￥{$overview.price|default='0'}</span>
+            	</div>
+            	<div class="tab_text ">
+	                <label>已结差额：</label>
+	                <span >￥{$overview.diff_amount|default='0'}<if condition="$overview['diff_amount'] neq 0"><a href="{:U('Company/Diffamount/index')}" class="c-gray lnk_btn">明细</a></if></span>
+            	</div>
+            	 <div class="tab_text">
+                    <label>实付金额：</label>
+                    <span class="c-primary f-blod money"><span class="money-unit">￥</span>{$overview.payprice|default='0'}</span>
+                </div> 
+            </div>
+        </div>
+         <ul class="page-inner-nav clearfix">
+            <li>
+                <a <if condition="I('get.act') eq inc ||$act=='inc'">class="active"</if> href="{:U('Company/Bill/billInfo',array('act'=>'inc','bill'=>I('get.bill')))}">
+                    社保公积金
+                </a>
+            </li>
+            <li>
+                <a <if condition="I('get.act') eq salary">class="active"</if> href="{:U('Company/Bill/billInfo',array('act'=>'salary','bill'=>I('get.bill')))}">
+                    代发工资
+                </a>
+            </li>
+            <li>
+                <a <if condition="I('get.act') eq service">class="active"</if> href="{:U('Company/Bill/billInfo',array('act'=>'service','bill'=>I('get.bill')))}">
+                    服务套餐
+                </a>
+            </li>
+            <li class="fr">
+                <a href="{:U('Company/Bill/exportBilltoExcel',array('bill'=>$overview['id']))}" class="btn_blue">
+                    导出对账单
+                </a>
+            </li>
+        </ul>
+        <div class="table_con">
+            <if condition="$act == inc">
+        	<table class="table text-center table_white">
+        		<thead>
+                    <tr>
+                       <th>姓名</th>
+                       <th>身份证号码</th>
+                       <th>服务套餐</th>
+                       <th>参保地</th>
+                      <!--  <th>服务类型</th> -->
+                       <th>缴纳年月</th>
+                       <th colspan="2">社保基数</th>
+                       <th colspan="2">公积金基数</th>
+                       <th>服务费</th>
+                       <th>合计</th>
+                    </tr>
+                </thead>
+                <tbody>
+	                <if condition="$billinc">
+	                    <volist name="billinc" id="vo">
+	                        <tr <if condition="$key%2 eq 1 "> class="even_bg"</if>>
+	                        	<td rowspan="2">{$vo.person_name}</td>
+	                            <td rowspan="2">{$vo.card_num}</td>
+	                            <td rowspan="2">{$vo.name}</td>
+	                            <td rowspan="2">{$vo.location}</td>
+	                         <!--    <td rowspan="2">{$vo.type}<if condition="$vo['type'] eq 1 ">报增<elseif condition="$vo['type'] eq 2"/>在保<elseif condition="$vo['type'] eq 3"/> 报减</if></td> -->
+	                            <td rowspan="2">{$vo.pay_date}</td>
+	                            <td>单位</td>
+	                            <td>{$vo.soc_company|default='/'}</td>
+	                            <td>单位</td>
+	                            <td >{$vo.pro_company|default='/'}</td><!-- class="c-red" -->
+	                            <td rowspan="2">{$vo.service_price}</td>
+	                            <td rowspan="2" >{$vo.price}</td><!-- calss="c-green" -->
+	                        </tr>
+	                        <tr <if condition="$key%2 eq 1 "> class="even_bg"</if>>
+	                            <td>个人</td>
+	                            <td >{$vo.soc_person|default='/'}</td><!--class="c-green"-->
+	                            <td>个人</td>
+	                            <td>{$vo.pro_person|default='/'}</td>
+	                        </tr>
+	                    </volist>
+	                <else/>
+	                    <tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+	                </if>
+                	<tfoot></tfoot>
+                </tbody>
+        	</table>
+            <elseif condition="$act == salary"/>
+            <table class="table text-center table_white">
+                <thead>
+	                <tr>
+	                    <th>姓名</th>
+	                    <th>身份证号码</th>
+	                    <th>城市</th>
+	                    <th>服务套餐</th>
+	                    <th>银行名称</th>
+	                    <th>银行卡号</th>
+	                    <th>工资年月</th>
+	                    <th>个人所得税</th>
+	                    <th>实发工资</th>
+	                    <th>服务费</th>
+	                    <th>合计</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+		            <if condition="$billsalary">
+		                <volist name="billsalary" id="vo">
+		                    <tr <if condition="$key%2 eq 1 "> class="even_bg"</if>>
+		                        <td>
+		                            <a class="c-text-dark" href="">{$vo.person_name}</a>
+		                        </td>
+		                        <td>
+		                            {$vo.card_num}
+		                        </td>
+		                        <td>
+		                            {$vo.location|showAreaName}
+		                        </td>
+		                        <td>
+		                            {$vo.name}
+		                        </td>
+		                        <td>
+		                            {$vo.bank}{$vo.branch}
+		                        </td>
+		                        <td>
+		                            {$vo.account}
+		                        </td>
+		                        <td>
+		                            {$vo.date|int_to_date}
+		                        </td>
+		                        <td>
+		                            {$vo.tax}
+		                        </td>
+		                        <td>
+		                            {$vo.actual_salary}
+		                        </td>
+		                        <td>
+		                          {$vo.af_service_price|default="/"}
+		                        </td>
+		                        <td>
+		                            {$vo.price|default="/"}
+		                        </td>
+		                    </tr>
+		                </volist>
+		            <else/>
+		                <tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+		            </if>
+	                <tfoot></tfoot>
+	            </tbody>
+            </table>
+
+            <elseif condition="$act == service"/>
+            <table class="table text-center table_white">
+                <thead>
+	                <tr>
+	                    <th>合同号</th>
+	                    <th>服务套餐</th>
+	                    <th>套餐费</th>
+	                    <th>总额</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+		            <if condition="$billservice">
+		                <volist name="billservice" id="vs">
+		                     <tr>
+		                       <td>{$vs.id}</td>
+		                        <td>{$vs.name}</td>
+		                        <td>{$vs.price}</td>
+		                        <td>{$vs.actual_amount}</td>
+		                    </tr>
+		                </volist>
+		            <else/>
+		                <tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+		            </if>
+	                <tfoot></tfoot>
+	            </tbody>
+            </table>
+            </if>
+        </div>
+       
+	 </div>
+</block>

@@ -1,0 +1,121 @@
+<!-- 企业服务详情 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">企业服务详情<a href="javascript:history.go(-1);" class="btn btn-back">返回</a></h2>
+    </div>
+    <div class="pannel-bd pannel-bd-serDetail">
+        <form method="post" id="service_detail">
+            <input type="hidden" value="<?php echo $result['id'] ?>" name="ipt_hidden" />
+            <fieldset>
+                <div class="details-item">服务套餐：<span class="serDetail-name"><?php echo $result['product_name'] ?></span></div>
+                <div class="details-item">购买企业：<span><?php echo $result['company_name'] ?></span></div>
+                <?php if($result['turn_id']){ ?>
+                <div class="details-item">服务到期后自动切换成：<span><a href="<?php echo U('Customer/productOrderDetail?id='.$result['return_pro_id']);?>" class=cbluelg><?php echo $result['return_pro_name']; ?>-套餐编号<?php echo $result['return_pro_id']; ?></a></span></div>
+                <?php } ?>
+                <div class="details-item details-status">
+                        <label class="details-lb" for="status">服务状态：</label>
+                        <div class="ipt-box">
+                            <div class="settings-tab ipt-box">
+                                <label class="setting-lb"><input type="radio" name="service_state" class="icheck" value="0" required <?php if($result['service_state'] == 0) echo 'checked';?> />未签约</label>
+                                <div class="status-on">
+                                    <label class="setting-lb"><input type="radio" name="service_state" class="icheck" value="2"  <?php if($result['service_state'] == 2) echo 'checked';?>/>服务中</label>
+                                    <div class="settings-cnt" <?php if($result['service_state'] == 2) echo 'style="display:block"';?>  >
+                                        <div class="form-items clearfix">
+                                            <label class="lb-overtime" for="overtime">合同到期</label>
+                                            <div class="ipt-box">
+                                                <p class="ipt-pos">
+                                                    <input type="text" name="overtime" class="ipt date-day set-startDate" readonly required value="<?php echo $result['overtime'] ?>" />
+                                                    <i class="icon icon-date"></i>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-items fl">
+                                            <span><em>社保公积金：</em>办理天数&ensp;3&ensp;天</span>
+                                        </div>
+                                        <div class="form-items form-items-salary fl">
+                                            <div class="ipt-box">
+                                                <label><input type="checkbox" name="is_salary" class="icheck" value="1" <?php if($result['is_salary'] == 1) echo 'checked';?> /><em>提供代发工资服务</em></label>
+                                            </div>
+                                        </div>
+                                        <div class="form-items payroll-fee fl" <?php if($result['is_salary'] == 1) echo 'style="display:block"'; ?> >
+                                            <label for="af_service_price">代发工资服务费</label>
+                                            <div class="ipt-box">
+                                                <input type="text" name="af_service_price" class="ipt w-normal ignore" value="<?php echo $result['af_service_price'] ?>" required />元/人/月
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="setting-lb"><input type="radio" name="service_state" class="icheck" value="3" <?php if($result['service_state'] == 3) echo 'checked';?> />服务结束</label>
+                                <label for="service_state" class="error">签约状态必填</label>
+                            </div>
+                        </div>
+                    </div>
+            </fieldset>
+            <fieldset class="pos-rel">
+                <legend>服务城市</legend>
+                <?php if(is_array($result['warranty_location'])){ ?>
+                <div class="form-items-list">
+                    <table summary="服务城市">
+                        <colgroup>
+                            <col width="14%" />
+                            <col width="18%" />
+                            <col width="18%" />
+                            <col width="18%" />
+                            <?php if($result['is_salary']){?>
+                            <col width="18%" /> 
+                            <?php } ?>
+                            <col width="14%" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>服务城市</th>
+                                <th>代发社保服务费</th>
+                                <th>代发公积金服务费</th>
+                                <?php if($result['is_salary']){?>
+                                <th>代发工资服务费</th>
+                                <?php } ?>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($result['warranty_location'] as $k=>$v){?>
+                            <tr>
+                                <td>
+                                    <p class="location-id"><?php echo $v['id']; ?></p>
+                                </td>
+                                 <td>
+                                    <p class="location" data-location="<?php echo $v['location']; ?>"><?php echo showAreaName($v['location']); ?></p>
+                                </td>
+                                <td>
+                                    <p class="soc-service-price"><?php echo $v['soc_service_price'] ?></p>
+                                </td>
+                                <td>
+                                    <p class="pro-service-price"><?php echo $v['pro_service_price'] ?></p>
+                                </td>
+                                 <?php if($result['is_salary']){?>
+                                <td>
+                                    <p class="af-service-price"><?php echo $v['af_service_price'] ?></p>
+                                </td><?php } ?>
+                                <td>
+                                    <a href="javascript:;" data-act="delete" title="删除"><i class="icon icon-del"></i></a>
+                                </td>
+                            </tr>
+                        <?php } ?> 
+                        </tbody>
+                    </table>
+                </div>
+                <?php } ?>
+                <a href="javascript:;" class="btn-add" data-act="set_city" data-id="<?php echo $result['id'] ?>"><i class="icon icon-add"></i>添加服务城市</a>
+            </fieldset>
+            <div class="buttons">
+                <button type="submit" class="btn-submit" data-act="service_submit">保存</button>
+            </div>
+        </form>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__ASSETS__/js/modules/area.js"></script>
+    <script type="text/javascript" data-init="customer" src="__ASSETS__/js/dist/customer.bundle.js"></script>
+</block>

@@ -1,0 +1,36 @@
+<include file="Public/head" />
+
+<include file="Public/permitHead" />
+<div class="firm-content">
+	<div class="wrapper clearfix">
+	    <!-- 设置新密码 -->
+	    <include file="Public/getBackPassNav" />
+	    <div class="reg-form retrieve-password">
+			<form class="clearOver" id="findPsw-form" name="findPswForm" action="{:U('getPassHandle')}" method="post">
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-user"></i>
+					</label>
+					<input type="text" placeholder='用户名' name="user_name" required minlength="6" maxlength="20">
+				</p>
+				<div class="yzm-content">
+					<p class="reg-text fl">
+						<label class="icon-label">
+							<i class="icon loginIcon-save"></i>
+						</label>
+						<input class="yzm-box" type="text" placeholder='验证码' name="verify_code" required>
+					</p>
+					<img class="verifyimg" alt="点击切换" src="{:U('/Member/verifyCode')}" onclick="this.src='{:U('/Member/verifyCode')}?rand='+Math.random();" style="float: right;width:120px;height: 50px;cursor: pointer">
+				</div>
+				<input class="button buttonOrange reg-btn J_btn-submit" type="button" value="下一步">
+			</form>
+		</div>
+	</div>
+
+</div>
+<include file="Public/permitFoot"/>
+<include file="Public/baseScript" />
+<script data-module="getBackPass" src="/Application/Home/Assets/js/dist/loginReg.bundle.js"></script>
+</body>
+</html>
+

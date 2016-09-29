@@ -1,0 +1,108 @@
+@charset "utf-8";
+
+@import "../variables";
+@import "../mixins";
+
+.billList{
+    .pageSearch{
+        line-height: 36px;
+        input,select{
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+        .t1{
+            width: 110px;
+        }
+        .t2{
+            width: 220px;
+        }
+        .t3{
+            width: 150px;
+        }
+    }
+    margin-bottom: 100px;
+    .pageTable{
+
+        .c-1{width: 160px;}
+        .c-2{width: 170px;}
+        .c-3{width: 170px;}
+        .c-4{width: 170px;}
+        .c-5{width: 170px;}
+        .c-6{width: 120px;}
+        .c-6{width: 130px;}
+    }
+    .bj-tips{
+        color: $color-red;
+        font-weight: bold;
+        font-size: 14px;
+    }
+}
+
+.bilDetail{
+    margin-bottom: 100px;
+    .tit{
+        margin-top:30px;
+        margin-bottom: 20px;
+        color:#666666;
+        font-size:16px;
+        font-weight: bold;
+
+        .billComName{
+            font-size: 22px;
+            display: inline-block;
+            margin-right: 42px;
+        }
+
+        .billTime{
+            margin-right: 30px;
+        }
+
+        .billPay{
+            color:$color-orange;
+        }
+    }
+
+    .caption{
+        td{
+            height: 40px;
+        }
+    }
+    .fwb{
+        font-weight: bold;
+        color: #414141;
+        td,th{
+            font-weight: bold;
+            color: #414141;
+        }
+    }
+    .pageTable{
+        td,th{
+            padding: 0px 5px;
+        }
+    }
+
+    .payAmount{
+        text-align: right;
+        margin-top:10px;
+        color:$color-orange;
+
+        span{
+            font-weight: bold;
+        }
+        span.amount{
+            margin-right: 30px;
+        }
+        .payBtn{
+            @include zb-button(100px,40px,$color-orange);
+            font-size: 16px;
+            margin-top: 30px;
+        }
+    }
+
+    .pageTable{
+        .orange{
+            text-decoration: underline;
+        }
+    }
+
+}

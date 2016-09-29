@@ -1,0 +1,22 @@
+.bankCardInfo{
+	.cardInfo{
+		width: 450px;
+	    margin: 50px auto 0;
+	    display: block;
+	    overflow: hidden;
+	    clear: both;
+	}
+	a.btn-border-success {
+        &:hover {
+            i {
+                @extend .icon-h_setBankCard;
+            }
+        }
+    }
+    .noCard {
+        margin-top: 45px;
+        font-size: 18px;
+        text-align: center;
+        color: #414141;
+    }
+}

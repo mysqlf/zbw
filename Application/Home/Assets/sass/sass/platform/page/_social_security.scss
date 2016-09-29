@@ -1,0 +1,168 @@
+// 社保计算/社保查询
+.banner-social-cal {
+    background: url(#{$img-src}/banner/banner_social_cal.jpg) no-repeat center 0;
+    height: 280px;
+    overflow: hidden;
+}
+
+.banner-social-query {
+    @include background(url(#{$img-src}/banner/banner_social_query.jpg) no-repeat center 0);
+    height: 240px;
+    overflow: hidden;
+}
+
+.query-wra {
+    padding: {
+        top: 42px;
+        bottom: 150px;
+    }
+    margin: {
+        top: -64px;
+        bottom: 95px;
+    }
+    background: #FFFFFF;
+    color: #2C3E50;
+    border: 1px solid #EAEDF1;
+    h3 {
+        margin: {
+            bottom: 23px;
+        }
+        font: {
+            size: 26px;
+            weight: normal;
+        }
+        color: #2C3E50;
+        text-align: center;
+        line-height: 1;
+    }
+}
+
+.query-tool-city {
+    padding: {
+        left: 78px;
+        right: 78px;
+    }
+    margin-bottom: 52px;
+    @at-root .query-tool-list {
+        font-size: 0;
+        text-align: center;
+        li {
+            display: inline-block;
+            font-size: 16px;
+            padding: {
+                left: 12px;
+                right: 12px;
+            }
+            margin: {
+                bottom: 4px;
+            }
+            &.active {
+                a {
+                    color: #F98A19;
+                }
+            }
+        }
+        a {
+            display: block;
+            white-space: nowrap;
+            color: #2C3E50;
+            &:hover {
+                color: #F98A19;
+            }
+        }
+    }
+}
+
+.query-container {
+    position: relative;
+    @at-root .query-list-wra {
+        overflow: hidden;
+    }
+    @at-root .query-tool-cnt {
+        margin: {
+            left: -15px;
+            right: -15px;
+        }
+        li {
+            color: #2C3E50;
+            text-align: center;
+            width: 280px;
+            float: left;
+            margin: {
+                left: 10px;
+                right: 10px;
+            }
+            @at-root .query-tool-type {
+                margin: {
+                    left: auto;
+                    right: auto;
+                }
+                width: 142px;
+                height: 130px;
+                text-align: center;
+                -webkit-transition-duration: 0.5s;
+                -moz-transition-duration: 0.5s;
+                -ms-transition-duration: 0.5s;
+                transition-duration: 0.5s;
+                span {
+                    display: inline-block;
+                    margin-top: 24px;
+                    width: 78px;
+                    height: 78px;
+                    -webkit-transition-duration: 0.8s;
+                    -moz-transition-duration: 0.8s;
+                    -ms-transition-duration: 0.8s;
+                    transition-duration: 0.8s;
+                }
+            }
+            @at-root .query-tool-type1 {
+                span {
+                    @include background(url(#{$img-src}/icon_query1.png) no-repeat center 0);
+                }
+            }
+            @at-root .query-tool-type2 {
+                span {
+                    @include background(url(#{$img-src}/icon_query2.png) no-repeat center 0);
+                }
+            }
+            @at-root .query-tool-type3 {
+                span {
+                    @include background(url(#{$img-src}/icon_query3.png) no-repeat center 0);
+                }
+            }
+            @at-root .query-tool-type4 {
+                span {
+                    @include background(url(#{$img-src}/icon_query4.png) no-repeat center 0);
+                }
+            }
+            @at-root .query-tool-desc {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            @at-root .query-tool-tit {
+                @extend .query-tool-desc;
+                display: block;
+                font-size: 16px;
+                margin: {
+                    top: -9px;
+                    bottom: 8px;
+                }
+            }
+        }
+        a {
+            color: #2C3E50;
+            &:hover {
+                color: #F98A19;
+                .query-tool-type {
+                    height: 142px;
+                    margin-top: -12px;
+                    @include background(url(#{$img-src}/icon_query_bg.png) no-repeat center 0);
+                }
+                .type {
+                    margin-top: 24px;
+                }
+            }
+        }
+    }
+}

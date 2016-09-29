@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<include file="Platform/head" />
+</head>
+<body>
+	<include file="Platform/header" />
+	<div class="commWidth information-wrap">
+
+		<div class="horizontal"> 
+			<ul class="left information-nav">
+				<li class="aside-mask"></li>
+				<volist name="category" id="vo">
+				<li><a href="/Article-lists-category-{$vo.name}" <php>if($info['category_id']==$vo['id']){ echo 'class="active"';$name=$vo['title'];$img_name = $vo['name'];$url="/Article-lists-category-".$vo['name'];}</php>>{$vo.title}</a></li>
+			</volist>
+
+			</ul>
+			<div class="right article">
+				<h3 class="article-title">{$info.title}</h3>
+				<div class="article-time">时间：{$info.create_time|date="Y-m-d",###}</div>
+				<pre class="article-content">{$info.content|html_entity_decode|htmlspecialchars_decode}</pre>
+			</div>
+			
+		</div>
+	</div>
+
+
+
+<include file="Platform/footer_copyright" />
+
+</body>

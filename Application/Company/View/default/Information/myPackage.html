@@ -1,0 +1,157 @@
+<!-- <extend name="Base/Insurance" /> -->
+<block name="right">
+    <div class="right_box">
+        <div class="right_head">
+        	<h3 class="add_tit">我的套餐 <span class="f-small">（支付套餐费、待客服设定服务后即可正常使用）</span></h3>
+        </div>
+        <div class="search_box clearfix">
+        	<form action="{:U('Company/Information/filterMypro')}" method="get" id="listForm">
+        		<dl class="horizontal horizontal-3em">
+	        		<dt class="left">服务商</dt>
+	        		<dd class="right search-size2">
+	        			<select class="select" name="companyId">
+			        		<option value="">全部</option>
+			        		<if condition="$scom">
+			        			<volist name="scom" id="vo">
+			        				<option value="{$vo.company_id}" <if condition="$vo['company_id'] == I('get.companyId')">selected="selected"</if> >{$vo.company_name}</option>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<!-- state -9 删除 0 未支付 1已支付 -1支付失败 -2撤销 2确认付款 -->
+	        	<dl class="horizontal  horizontal-4em">
+	        		<dt class="left">付款状态</dt>
+	        		<dd class="right search-size2">
+	        			<select class="select" name="state">
+	        				
+			        		<option value="3" <if condition="3 eq I('get.state')">selected="selected"</if>>全部</option>
+			        		<option value="0" <if condition="'' neq I('get.state') &&  0 == I('get.state')">selected="selected"</if>>未支付</option>
+			        		<option value="1" <if condition="1 == I('get.state')">selected="selected"</if>>支付成功</option>
+			        		<option value="-1" <if condition="-1 == I('get.state')">selected="selected"</if>>支付失败</option>
+			        	</select>
+	        		</dd>
+	        	</dl>
+			<!-- service_state -1 停止服务 0未签约 1已签约 2服务中 3服务完成 -->
+	        	<dl class="horizontal  horizontal-4em">
+	        		<dt class="left">服务状态</dt>
+	        		<dd class="right search-size2">
+	        			<select class="select" name="service_state">
+			        		<option value="4" <if condition="4 eq I('get.service_state')">selected="selected"</if>>全部</option>
+			        		<volist name="servicestate" id="vo" key="key">
+							<option value="{$key-1}" <if condition="$key-1 eq I('get.service_state') && '' neq I('get.service_state')">selected="selected"</if>>{$vo}</option>
+							</volist>
+
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal  horizontal-2em">
+	        		<dt class="left">客服</dt>
+	        		<dd class="right search-size1">
+	        			<select class="select" name="adminId">
+			        		<option value="">全部</option>
+			        		<if condition="$cs">
+			        			<volist name="cs" id="vo">
+			        				<option value="{$vo.company_id}" <if condition="$vo['company_id'] == I('get.adminId')">selected="selected"</if> >{$vo.name}</option>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<input type="button" class="btn ms_btn btn_orange pull-left" value="查询" id="submitBtn">
+	        </form>
+        </div>
+
+        <div class="table_con">
+	    <table class="table text-center table_white c-text-dark">
+	        <thead>
+	            <tr>
+	                <th>套餐编号</th>
+	                <th>套餐名称</th>
+	                <th>到期时间</th>
+	                <th>套餐费(元)</th>
+	                <th>付款状态</th>
+	                <th>服务状态</th>
+	                <th>客服</th>
+	                <th>订单号</th>
+	                <th>操作</th>
+		
+	            </tr>
+	        </thead>
+	        <tbody class="cal-content">
+	        <if condition="$prolist">
+	        <volist name="prolist" id="vo">   
+	            <tr>
+	                <td>
+	                   {$vo.id}
+	                </td>
+	                <td>
+	                   {$vo.product_name}
+	                </td>
+	                <td>
+	                    {$vo.overtime}
+	                </td>
+	                <td>
+	                    {$vo.price}
+	                </td>
+	                <td>
+	                   <if condition="$vo['state'] egt 1">
+	                    		已支付
+	                    <elseif condition="$vo['state'] eq -1"/> 
+	                    		支付失败
+	                    <elseif condition="$vo['state'] eq 0"/>
+	                    		未支付
+	                    </if>
+	                </td>
+	                <td><!-- service_state -1  0 1 2服务中 3服务完成 -->
+	                    {$showstate[$vo['service_state']]}
+	                </td>
+	                <td>
+	                   <if condition="$vo['service_state'] egt 0"><a target=blank href="http://wpa.qq.com/msgrd?v=1&uin={$vo.csqq}&site=qq&menu=yes">{$vo.csname}</a><else/>/</if>
+	                </td>
+	                <td>
+	                	{$vo.order_no}
+	                </td>
+	                <td>
+	                   	<if condition="$vo['state'] elt 0">
+	                   			<a href="{:U('Company/Order/payservice',array('orderId'=>$vo['pid']))}" class="c-text-dark">支付</a>
+	                   	</if>
+	                   	<a href="{:U('Company/Information/serviceDetail',array('id'=>$vo['id']))}" class="c-text-dark">查看服务</a>
+	                </td>
+	            </tr>
+	        </volist>
+	       	<else/>
+	       		<!--<tr>
+	       			<td colspan="9" height="60">
+	       				<if condition="I('get.state')||I('get.service_state')||I('get.adminId')">
+	       				没有符合条件的记录
+	       				<else/>
+	       				<a href="{:U('Home/Index/serviceProduct')}">您还没有购买套餐 立即购买</a>
+	       				</if>
+	       			</td>
+	       		</tr>-->
+	       		<tr><td class="empty_box">
+		       		<div class="empty_list">
+		       			<if condition="I('get.state')||I('get.service_state')||I('get.adminId')">
+		       				未找到符合条件的记录
+		       			<else/>
+		       				<a href="{:U('Home/Index/serviceProduct')}">您还没有购买套餐 立即购买</a>
+		       			</if>
+		       		</div>
+	       		</td></tr>
+	       	</if>
+	        </tbody>
+	    </table>
+		<!--<input id="J_btn-pay" type="button" class="btn ms_btn btn_orange pull-left btn-pay" value="立即支付"> -->
+	    <if condition="$page">
+		    <div class="page_box">
+		        {$page}
+		    </div>
+	    </if>
+	</div>
+
+    </div>
+</block>
+<block name="script">
+    <script data-init="salalist" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Order.bundle.js"></script>
+</block>

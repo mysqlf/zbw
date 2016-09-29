@@ -1,0 +1,152 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>模板列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+		   <a class="btn" href="{:U('add')}">新 增</a>
+		 <!--    <button class="btn ajax-post" url="{:U('changeStatus?method=resumeUser')}" target-form="ids">启 用</button>
+			<button class="btn ajax-post" url="{:U('changeStatus?method=forbidUser')}" target-form="ids">禁 用</button>
+			<button class="btn ajax-post confirm" url="{:U('changeStatus?method=deleteUser')}" target-form="ids">删 除</button>-->
+		</div>
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				  <div class="controls_new fl"> 
+						<select name="location1" class="input-small" id="location">
+							<option value="0"  >选择省</option>
+							<volist name="AREA['pro']" id="v">
+								<option value="{$v.id}" <eq name="v.id" value="$AREA['pro_check']">selected</eq>  >{$v.name}</option>
+							</volist>
+						</select>
+
+						<select name="location"class="input-small" id="city_name" style="display: none;">
+							<if condition="$AREA['city']">
+								<option value="0">选择城市</option>
+								<volist name="AREA['city']" id="v">
+									<option value="{$v.id}" <eq name="v.id" value="$AREA['code']">selected</eq> >{$v.name}</option>
+								</volist>
+							</if>
+						</select>
+					</div>
+					
+	<div class="controls_new fl"  style="margin-left: 5px">
+	<label class="item-label_1">状态<span class="check-tips"></span></label>
+		<select name="type"class="input-mid" id="type">
+			<option value="" >状态	</option>
+			<option value="1" <eq name="type" value="1">selected</eq>>启用</option>
+			<option value="0" <eq name="type" value="0">selected</eq>>暂停</option>
+			<option value="-1" <eq name="type" value="-1">selected</eq>>停用</option>
+		</select>
+	</div>					
+	<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+	</div>
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+	<table class="">
+	<thead>
+		<tr>
+		<!-- <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th> -->
+		<!-- <th>编号</th> -->
+		<th class="">城市</th>
+		<th class="">缴纳方式</th>		
+		<th class="">社保模板</th>
+		<th class="">最后修改时间</th>
+						<th class="">最后操作者</th>
+		<th class="">操作</th>
+		
+		</tr>
+	</thead>
+	<tbody>
+		<notempty name="template_info.list">
+		<volist name="template_info.list" id="vo">
+		<tr>
+								  <!--   <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td>
+									<td>{$vo.id}</td> -->
+			<td>{$vo.name} </td>
+			<td><if condition="$vo.soc_payment_type eq 1">缴当月<else />缴次月</if></td>				
+			<td> 
+											<!-- <switch name="vo.state" ><case value="1" >启用</case><case value="0">暂停</case><case value="-1">停用</case></switch> -->
+											{$vo.id|getTemplateNum=###}
+									</td>
+			<td>{$vo.modify_time}</td>	
+									<td>{$vo.admin_id|getAdminName=###}</td>
+			<td>
+				<a href="{:U('ProductTemplate/edit?template_id='.$vo['id'].'&location='.$vo['location'])}" class="authorize">修改</a>
+				<a href="{:U('ProductTemplate/status?template_id='.$vo['id'].'&location='.$vo['location'])}" class="authorize ">状态</a>
+									 </td>
+		</tr>
+		</volist>
+						<else />
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+	</table>
+	</div>
+	<div class="page">
+		{$template_info.page}
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript" src="/Public/Admin/js/template_base.js"></script>
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var query  = $('.search-form').find('select').serialize();
+		query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+		query = query.replace(/^&/g,'');
+//        console.log(query);
+		if( url.indexOf('?')>0 ){
+			url += '&' + query;
+		}else{
+			url += '?' + query;
+		}       
+		window.location.href = url;
+	});
+
+	//回车自动提交
+	$('.search-form').find('input').keyup(function(event){
+		if(event.keyCode===13){
+			$("#search").click();
+		}
+	});
+});
+if($("#city_name option").val()){
+	$("#city_name").show();
+}
+//城市联动
+/*$("#location").change(function(){
+	var location = $(this).val();
+	var h = '';
+	if(location){
+		$.getJSON('admin.php?s=/LocationDemand-select_area.html',{'code':location},function(data){         
+			if(data.status != 0){ 
+				h = '<option value="0">请选择城市</option>'; 
+				$.each(data, function(k, v){
+					h += '<option value=\"'+v.id+'\">'+v.name+'</option></volist>';
+				})
+			
+				$("#city_name").show();
+				$("#city_name").html(h);
+			  //  $("#city_name").attr('name', 'location');
+				//$("#location").attr('name', 'location1');
+			}else{              
+				//$("#location").attr('name', 'location');
+				$("#city_name").hide();
+				//$("#city_name").attr('name', 'location1');
+
+			}
+		});
+
+	}
+})*/
+
+</script>
+</block>

@@ -1,0 +1,216 @@
+<?php if($state != 1):?>
+<?php if($result['stype'] == 1 || (empty($result['stype']) AND ($result['gtype'] != 2) ) ) :?>
+<input type="hidden" name="sb_type" value="1">
+<?php if($result['sstate'] == 0 || $result['sstate'] == -1 || $result['sstate'] == -9   || ( ($result['sstate'] == 1 || $result['sstate'] == 2) &&  $result['sdetail_state'] == -1) ) :?>
+<div class="panel-audit clearfix2">
+    <div class="title">社保报增审核</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio"  name="sb_state" class="sb_state states icheck" <?php if($result['sstate'] == 0) echo 'checked';?> required value="0">
+            审核中
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="sb_state" class="sb_state states states-success icheck" <?php if($result['sstate'] == 1 || $result['sstate'] == 2) echo 'checked';?> required value="1">
+            审核通过
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="sb_state_guadan" <?php if($result['sdetail_state'] == -1) echo 'checked';?> value="-1" >
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" <?php if($result['sstate'] == -1) echo 'checked';?> required value="-1">
+            审核失败
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php elseif($result['sstate'] == 1 || $result['sstate'] == 2 || $result['sstate'] == -3): ?>
+<div class="panel-audit clearfix2">
+    <div class="title">社保报增办理</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="3">
+            报增成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="sb_state" class="sb_state states states-success icheck" required value="-3" <?php if($result['sstate'] == -3) echo 'checked';?>>
+            报增失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="sb_state_guadan" value="-1" <?php if($result['sdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php elseif($result['sstate'] == 3 || $result['sstate'] == -4 ||  $result['sstate'] == -5 || $result['sstate'] == 4): ?>
+<div class="panel-audit clearfix2">
+    <div class="title">社保缴纳</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="4" <?php if($result['sstate'] == 4) echo 'checked';?>>
+            缴纳成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="sb_state" class="sb_state states states-success icheck" required value="-4" <?php if($result['sstate'] == -4) echo 'checked';?>>
+            缴纳失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="sb_state_guadan" value="-1" <?php if($result['sdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12" style="margin-bottom: 10px;">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="-5" <?php if($result['sstate'] == -5) echo 'checked';?>>
+            缴纳异常
+            <input class="input-remark gutter-left form-control" type="text" name="sb_balance" placeholder="反馈"  value="{$result.sbalance}">
+        </label>
+    </div>
+
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php endif; ?>
+<?php endif; ?>
+
+<?php if($result['stype'] == 2 || (empty($result['stype']) AND ($result['gtype'] == 2) ) ) :?>
+<input type="hidden" name="sb_type" value="2">
+<?php if($result['sstate'] == 0 || $result['sstate'] == -1 || ($result['sstate'] == 1 &&  $result['sdetail_state'] == -1)) :?>
+<div class="panel-audit clearfix2">
+    <div class="title">社保报减审核</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="0" <?php if($result['sstate'] == 0) echo 'checked';?>>
+            审核中
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="sb_state" class="sb_state states states-success icheck" required value="1" <?php if($result['sstate'] == 1) echo 'checked';?>>
+            审核通过
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="sb_state_guadan" value="-1" <?php if($result['sdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required <?php if($result['sstate'] == -1) echo 'checked';?>>
+            审核失败
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php elseif($result['sstate'] == 1 || $result['sstate'] == 2 ||  $result['sstate'] == -3 ||  $result['sstate'] == 3): ?>
+<div class="panel-audit clearfix2">
+    <div class="title">社保报减办理</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="3" <?php if($result['sstate'] == 3) echo 'checked';?>>
+            报减成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="sb_state" class="sb_state states states-success icheck" required value="-3" <?php if($result['sstate'] == -3) echo 'checked';?>>
+            报减失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="sb_state_guadan" value="-1" <?php if($result['sdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php endif; ?>
+<?php endif; ?>
+
+<?php if($result['stype'] == 3 ) :?>
+<input type="hidden" name="sb_type" value="3">
+<div class="panel-audit clearfix2">
+    <div class="title">社保缴纳</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="4" <?php if($result['sstate'] == 4) echo 'checked';?>>
+            缴纳成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="sb_state" class="sb_state states states-success icheck" required value="-4" <?php if($result['sstate'] == -4) echo 'checked';?>>
+            缴纳失败
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="sb_state_guadan" value="-1" <?php if($result['sdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="sb_state" class="sb_state states icheck" required value="-5" <?php if($result['sstate'] == -5) echo 'checked';?>>
+            缴纳异常
+            <input class="input-remark gutter-left form-control" type="text" name="sb_balance" placeholder="反馈"  value="{$result.sbalance}">
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="sb_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php endif; ?>
+<?php endif; ?>

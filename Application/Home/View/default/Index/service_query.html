@@ -1,0 +1,57 @@
+<!-- 社保查询 -->
+<!DOCTYPE html>
+<html>
+<head>
+	<include file="Platform/head" />
+</head>
+<body class="bg">
+	<div class="pos">
+		<include file="Platform/header" />
+	</div>
+	<div class="banner-social-query"></div>
+	<div class="query-wra commWidth">
+		<h3>查询工具</h3>
+		<div class="query-tool-city">
+			<ul class="query-tool-list">
+				<volist name="inquire_list" id="vo" empty="暂时没有数据">
+					<li class="item <if condition="$key eq 0">active</if>" value="{$vo.location}"><a href="javascript:;">{$vo.location|showAreaName=###}</a></li>
+				</volist>
+			</ul>
+		</div>
+		<div class="query-container">
+			<ul class="query-tool-cnt clearfix">
+			<volist name="tool_list" id="msg" empty="暂无数据">
+				<li>
+					<a href="{$msg.url}" target="_blank">
+						<div class="query-tool-type query-tool-type{$msg.type}"><span class="type"></span></div>
+						<p class="query-tool-tit">{$msg.location|showAreaName}</p>
+						<p class="query-tool-desc">
+							<switch name="msg.type">   
+							 	<case value="1">金融社保卡办卡进度查询</case> 
+								<case value="2">社保个人用户查询</case>   
+								<case value="3">公积金个人用户查询</case>   
+								<case value="4">公积金贷款计算器</case>   
+							 	<default />数据错误
+							</switch>
+						</p>
+					</a>
+				</li>
+			</volist>	
+			</ul>
+		</div>
+	</div>
+	
+	<include file="Platform/footer_copyright" />
+
+<script data-module="servicepoint" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

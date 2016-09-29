@@ -1,0 +1,22 @@
+//绝对居中
+@mixin stretched($top:auto,$bottom:auto,$left:auto,$right:auto){
+	margin:auto;
+	position: absolute;
+    //产生位置
+	$position-arr : (top: $top,bottom: $bottom,left: $left,right: $right);
+	@each $attr,$position in $position-arr{
+         @if $position != auto{
+         	#{$attr}: $position;
+         }
+	}
+	
+}
+@mixin stretched-full(){
+   @include stretched(0,0,0,0);
+}
+@mixin stretched-x(){
+   @include stretched(auto,auto,0,0);
+}
+@mixin stretched-y(){
+   @include stretched(0,0,auto,auto);
+}

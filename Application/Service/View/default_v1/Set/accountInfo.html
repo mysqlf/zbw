@@ -1,0 +1,63 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">账号信息</h2></div>
+    <div class="gutter table-responsive">
+	    <form id="accountInfo-form" class="accountInfo-form" action="">
+
+		   <div class="clearfix2">
+	            <label class="label-left">
+	                角色：
+	            </label>
+	            <div class="inline-block">
+                    <?php echo adminState()['group'][$result['group']] ;?>
+	               
+	            </div>
+	        </div>
+	        <div class="clearfix2">
+	            <label class="label-left">
+	                账号：
+	            </label>
+	            <div class="inline-block">
+	               {$result.username} <a href="javascript:" class="changePwd" data-act="changePwd">修改密码</a>
+	            </div>
+	        </div>
+            <?php if($result['type'] != 1 && $result['group'] != 1) :?>
+	        <div class="form-group col-xs-12">
+	            <label class="label-left vertical-top">
+	                <span class="c-required">*</span>姓名：
+	            </label>
+	            <div class="inline-block">
+	                <input type="text" class="form-control form-control-middle" required name="name" placeholder="" value="{$result.name}" >
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12">
+	            <label class="label-left vertical-top">
+	                电话：
+	            </label>
+	            <div class="inline-block">
+	                <input type="text" class="form-control form-control-middle" name="telphone" placeholder="" value="{$result.telphone}" >
+	            </div>
+	        </div>
+	        <div class="form-group col-xs-12">
+	            <label class="label-left vertical-top">
+	                qq：
+	            </label>
+	            <div class="inline-block">
+	                <input type="text" class="form-control form-control-middle" name="qq" placeholder="" value="{$result.qq}" >
+	            </div>
+	        </div>
+            <input type="hidden" name="id" value="{$result.id}">
+			
+			<div class="text-center btn-footer col-xs-12">
+				<input type="submit" class="btn btn-primary" value="保 存">
+			</div>
+            <?php endif; ?>
+
+	    </form>
+
+	</div>
+</block>
+<block name="script">
+    <script data-init="accountInfo" type="text/javascript" src="/Application/Service/Assets/js/dist/set.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

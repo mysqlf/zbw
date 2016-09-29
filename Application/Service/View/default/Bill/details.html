@@ -1,0 +1,197 @@
+<!-- 对账单明细-社保公积金-代发工资-服务套餐 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd pannel-hd-bill">
+        <h2 class="cnt-title"><?php echo $billInfo['company_name'];?><?php if($result['billInfo']['invoice_state'] == 1){?><span class="cred">已开票</span><?php } ?></h2>
+        <div class="pannel-details">
+            <div class="details-item">对账单号：<span><?php echo $result['billInfo']['bill_no'];?></span></div>
+            <div class="details-item">企业：<span><?php echo $result['billInfo']['company_name'];?></span></div>
+            <div class="details-item">年月：<span><?php echo $result['billInfo']['bill_date'];?></span></div>
+            <?php if($result['billInfo']['invoice_state'] == 1){?>
+            <div class="details-item">快递单号：<span><?php echo $result['billInfo']['invoice_express_no'];?>（<?php echo $result['billInfo']['invoice_express_company'];?>）</span></div>
+            <div class="details-item">收件人：<span><?php echo $result['billInfo']['invoice_consignee'];?></span></div>
+            <div class="details-item">联系人电话：<span><?php echo $result['billInfo']['invoice_consignee_phone'];?></span></div>
+            <?php } ?>
+        </div>
+        <div class="buttons buttons-no-pos">
+            <a href="<?php echo U('Bill/comBillDetail', array('type'=>$type,'id'=>$id,'export'=>1)); ?>" class="btn-export">导出对账单</a>
+            <a href="javascript:history.go(-1);" class="btn btn-back">返回</a>
+        </div>
+    </div>
+    <div class="pannel-tbl">
+    <?php  $sb_count = '0'; if(is_array($result['resSb'] ) && count($result['resSb'] > 0)){?>
+        <table summary="社保公积金" class="table">
+            <caption>社保公积金</caption>
+            <colgroup>
+                <col width="6%" />
+                <col width="12%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="7%" />
+                <col width="7%" />
+                <col width="7%" />
+                <col width="5%" />
+                <col width="7%" />
+                <col width="7%" />
+                <col width="5%" />
+                <col width="7%" />
+                <col width="7%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>身份证号码</th>
+                    <th>服务套餐</th>
+                    <th>参保地</th>
+                    
+                    <th>缴纳年月</th>
+                    <th>社保<br />（单位）</th>
+                    <th>社保<br />（个人）</th>
+                    <th>社保类型</th>
+                    <th>公积金<br />（单位）</th>
+                    <th>公积金<br />（个人）</th>
+                    <th>公积金类型</th>
+                    <th>服务费</th>
+                    <th>合计</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($result['resSb'] as $key=>$val){?>
+                <tr class="<?php if(($key+1)%2==0) echo 'tr-bg'; ?>">
+                    <td>
+                        <p><?php echo $val['person_name'] ?></p>
+                    </td>
+                    <td>
+                        <p><?php echo $val['card_num'] ?></p>
+                    </td>
+                    <td><?php echo $val['product_name'] ?></td>
+                    <td>
+                        <p><?php echo showAreaName1($val['template_location'], 2); ?></p>
+                    </td>                    
+                    <td><?php echo $val['pay_date']; ?></td>
+                    <td><?php echo moneyNumberformat($val['sb_com']);?></td>
+                    <td><?php echo moneyNumberformat($val['sb_per']);?></td>
+                    <td><?php $str = adminState(); echo $str['warranty'][$val['sb_type']];?></td>
+                    <td><?php echo moneyNumberformat($val['gjj_com']);?></td>
+                    <td><?php echo moneyNumberformat($val['gjj_per']);?></td>
+                    <td><?php $str = adminState(); echo $str['warranty'][$val['gjj_type']];?></td>
+                    <td><?php echo moneyNumberformat($val['service_price']);?></td>
+                    <td><?php $sb_line_count = ($val['sb_com']+$val['sb_per']+$val['gjj_com']+$val['gjj_per']+$val['service_price']);  echo moneyNumberformat($sb_line_count) ;?></td>
+                </tr>
+            <?php  $sb_count = $sb_line_count+$sb_count;} ?>
+            </tbody>
+        </table>
+        <?php } ?>
+        <?php  $salary_count = '0'; if(is_array($result['resSalary'] ) && count($result['resSalary'] > 0)){?>
+        <table summary="代发工资详情">
+            <caption>代发工资</caption>
+            <colgroup>
+                <col width="10%" />
+                <col width="13%" />
+                <col width="9%" />
+                <col width="13%" />
+                <col width="13%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="10%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>身份证号码</th>
+                    <th>服务套餐</th>
+                    <th>银行</th>
+                    <th>卡号</th>
+                    <th>工资年月</th>
+                    <th>实发工资</th>
+                    <th>个人所得税</th>
+                    <th>服务费</th>
+                    <th>合计</th>
+                </tr>
+            </thead>
+            <tbody>
+             <?php foreach($result['resSalary'] as $key=>$val){?>
+                <tr class="<?php if(($key+1)%2==0) echo 'tr-bg'; ?>">
+                    <td>
+                        <p><?php echo $val['person_name'] ?></p>
+                    </td>
+                    <td>
+                        <p><?php echo $val['card_num'] ?></p>
+                    </td>
+                    <td>
+                        <p><?php echo $val['product_name'] ?></p>
+                    </td>
+                    <td>
+                        <p><?php echo $val['bank'] ?></p>
+                    </td>
+                    <td>
+                        <p><?php echo $val['account'] ?></p>
+                    </td>
+                    <td><?php echo substr($val['date'], 0, 4).'/'. substr($val['date'], -2, 2); ?></td>
+                    <td class="cbluelg"><?php echo moneyNumberformat($val['actual_salary']);?></td>
+                    <td class="cbluelg"><?php echo moneyNumberformat($val['tax']);?></td>
+                    <td class="cbluelg"><?php echo moneyNumberformat($val['service_price']);?></td>
+                    <td><?php $salary_line_count = $val['actual_salary']+$val['tax']+$val['service_price']; echo moneyNumberformat($salary_line_count);?></td>
+                </tr>
+                <?php  $salary_count = $salary_line_count+$salary_count;} ?>
+               
+            </tbody>
+        </table>
+         <?php } ?>
+         <?php $product_count = '0'; if(is_array($result['product'] ) && count($result['product'] > 0)){?>
+        <table summary="服务套餐">
+            <caption>服务套餐</caption>
+            <colgroup>
+                <col width="28%" />
+                <col width="24%" />
+                <col width="24%" />
+                <col width="24%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>合同号</th>
+                    <th>服务套餐</th>
+                    <th>套餐费</th>
+                    <th>总额</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php  foreach($result['product'] as $key=>$val){?>
+                <tr class="<?php if(($key+1)%2==0) echo 'tr-bg'; ?>">
+                    <td>
+                        <p><?php echo $val['id']; ?></p>
+                    </td>
+                    <td>
+                        <p><?php echo $val['product_name']; ?></p>
+                    </td>
+                    <td><?php echo moneyNumberformat($val['price']);?></td>
+                    <td><?php echo moneyNumberformat($val['price']);?></td>
+                </tr>
+            <?php $product_count = $val['price']+$product_count;} ?>
+            </tbody>
+        </table>
+        <?php } ?><?php $count = $sb_count+$salary_count+$product_count;//echo $sb_count,'/',$salary_count,'/',$product_count,'/',$count;?>
+        <div class="bill-check">
+        	<div class="check-amount">
+                <p class="amount-due">应付金额：<span>¥&nbsp;<em><?php echo moneyNumberformat($result['billInfo']['price']);?></em>&nbsp;</span>元</p>
+                <p class="balance">差额：<span>¥&nbsp;<em><?php echo moneyNumberformat($result['billInfo']['diff_amount']);?></em>&nbsp;</span>元</p>
+                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo $result['billInfo']['price'] + $result['billInfo']['diff_amount'] ;
+           ?>
+                 </em>&nbsp;</span>元</p>   
+                
+                
+            </div>
+        	<button type="button" class="btn-bill" data-act="invoice" data-price="<?php echo $result['billInfo']['price'] + $result['billInfo']['diff_amount'] ;
+           ?>">开具发票</button>
+            <input type="hidden" name="company_name" value="<?php echo $result['billInfo']['company_name'];?>">
+            <input type="hidden" name="contact_name" value="<?php echo $result['billInfo']['contact_name'];?>">
+            <input type="hidden" name="contact_phone" value="<?php echo $result['billInfo']['contact_phone'];?>">
+            <input type="hidden" name="id" value="<?php echo $result['billInfo']['id'];?>">
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="bill" src="/Application/Service/Assets/js/dist/bill.bundle.js"></script>
+</block>

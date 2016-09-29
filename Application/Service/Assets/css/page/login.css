@@ -1,0 +1,19 @@
+/* line 1, ../../sass/sass/page/login.scss */
+.header {
+  height: 100px;
+  overflow: hidden;
+}
+/* line 4, ../../sass/sass/page/login.scss */
+.header .head {
+  width: 1200px;
+  margin: 0 auto;
+  line-height: 100px;
+}
+/* line 9, ../../sass/sass/page/login.scss */
+.header .head span {
+  margin-top: 10px;
+  font-weight: 900;
+  font-size: 30px;
+  color: #355370;
+  display: inline-block;
+}

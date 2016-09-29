@@ -1,0 +1,46 @@
+<!-- 平台服务商头部[[ -->
+<!-- 交互说明
+	 .fixed 悬浮状态
+ -->
+<div class="ind-header clearfix">
+	<div class="header">
+		<div class="logo fl">
+			<a href="/">智保易</a>
+		</div>
+		<div class="header-nav fl">
+			<ul class="nav-list">
+				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='index') echo 'class="active"';</php> ><a href="{:U('Index/index')}">首页</a></li>
+				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='serviceproduct') echo 'class="active"';</php>><a href="{:U('Index/serviceProduct')}" >服务机构</a></li>
+				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='servicepoint') echo 'class="active"';</php>><a  href="{:U('Index/servicePoint')}">社保查询</a></li>
+				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='socCalculate') echo 'class="active"';</php>><a href="{:U('Index/socCalculate')}">社保计算</a></li>
+				<li <php>if(strtolower(CONTROLLER_NAME)=='Article' && strtolower(ACTION_NAME)=='index') echo 'class="active"';</php>><a  href="{:U('Article/index')}">资讯</a></li>
+			</ul>
+		</div>
+		<!-- 交互说明
+			 .no-logged 未登录
+			 .logged 已登录
+
+		 -->
+		<div class="user-info fr">
+		<if condition="!session('?company_user')">
+			<div class="no-logged">
+				<a href="{:U('Home/Member/firmLogin')}" class="company-login" target="_blank">企业客户登录</a>
+				<a href="{:U('Service/User/login')}" class="services-login" target="_blank">服务机构登录</a>
+			</div>
+		</if>	
+		<if condition="session('?company_user')">
+			<div class="logged ">
+				<span class="logged-hd"><i class="icon icon-avator"></i></span>
+				<ul class="logged-bd">
+					<li><a href="{:U('Company/Order/index')}">订单进度</a></li>
+					<li><a href="{:U('Company/Account/companyUserInfo')}">账号信息</a></li>
+					<li><a href="{:U('Company/Information/myPackage')}">我的套餐</a></li>
+					<li><a href="{:U('Company/Information/index')}">信息通知 <span class="badge">10</span></a></li>
+					<li><a href="{:U('Member/logout')}">退出</a></li>
+				</ul>
+			</div>
+		</if>	
+		</div>
+	</div>
+</div>
+<!-- 平台服务商头部]] -->

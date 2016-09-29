@@ -1,0 +1,103 @@
+<extend name="Base/common" />
+<block name="body">
+    <nav class="clearfix2">
+    	<ul class="nav nav-tabs nav-tabs-default" role="tablist">
+	        <li class="active">
+	        	<a href="javascript:;">社保公积金</a>
+	        </li>
+	        <li>
+	        	<a href="/service-Order-comSalaryList-service_order_id-<?php echo $url['service_order_id'];?>-order_no-<?php echo $url['order_no']; ?>"> 代发工资</a>
+	        </li>
+	    </ul>
+    </nav>
+
+    <?php if(!empty($res['result'])):?>
+    <div class="gutter table-responsive">
+    	<div class="form-search form-inline">
+    		<!--<input type="text" class="form-control" placeholder="企业名称">
+    		<input type="text" class="form-control" placeholder="姓名">
+    		<input type="text" class="form-control" placeholder="身份证">
+    		<input type="text" class="form-control" placeholder="参保地">
+    		<select name="" id="" class="form-control">
+    			<option value="">审核状态</option>
+    		</select>
+    		<input type="button" class="btn btn-primary btn-search" value="查询">-->
+    	</div>
+    	<a href="javascript:history.go(-1);" class="btn btn-border pull-right" style="margin-bottom: 30px;">返回</a>
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	                <th width="10%" style="text-align: left">
+	                    <input class="icheck icheck-all" type="checkbox"> 订单月份
+	                </th>
+	                <th>企业名称</th>
+	                <th>姓名</th>
+	                <th>身份证号码</th>
+	                <th>参保地</th>
+	                <th width="120">项目</th>
+					<th width="200">参保状态</th>
+	                <th width="200">办理状态</th>
+	                <th width="8%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+			<?php foreach($res['result'] as $k=>$v){?>
+	            <tr>
+	                <td class="text-left">
+	                    <input class="icheck single-icheck" type="checkbox"> <?php echo $v['order_date'];?>
+	                </td>
+	                <td><?php echo $v['company_name'];?></td>
+	                <td><?php echo $v['user_name'];?></td>
+	                <td><?php echo $v['card_num'];?></td>
+	                <td><?php echo $v['location'];?></td>
+
+
+	                <td class="divider-box" colspan="3">
+	                <table class="table table-bordered table-inner">
+					    <tbody>
+							<?php foreach($v['payment_type'] as $k1=>$v1){?>
+					        <tr>
+					            <td  width="121">
+					                <?php echo $v['payment_type'][$k1];?>
+					            </td>
+					            <td width="201">
+					                <a href="/Service-Order-audit-base_id-<?php echo $v['base_id']?>-service_order_id-<?php echo $v['service_order_id']?>-pay_date-<?php echo $v['pay_date']?>-order_no-<?php echo $v['order_no']?>" class="<?php if($v['type'][$k1]){if($v['type'][$k1]=='报减'){echo 'tag tag-cool';}else{echo 'tag tag-warm';}}?>" title="<?php echo $v['type'][$k1];?>"><?php echo $v['type'][$k1];?></a>
+					            </td>
+					            <td width="201">
+									<?php echo $v['state'][$k1];?>
+					            </td>
+					            
+					        </tr>
+					  	<?php }?>
+					    </tbody>
+					</table>
+</td>
+<td class="op-td">
+    <a class="c-warm" href="/Service-Order-audit-base_id-<?php echo $v['base_id'];?>-service_order_id-<?php echo $v['service_order_id'];?>-pay_date-<?php echo $v['pay_date'];?>-order_no-<?php echo $v['order_no'];?>-p-<?php echo $k+1+(I('get.p',1)-1)*20;?>" data-id="11">审核 </a>
+    <a class="c-primary" href="/Service-Order-viewDetail-base_id-<?php echo $v['base_id'];?>-service_order_id-<?php echo $v['service_order_id'];?>-pay_date-<?php echo $v['pay_date'];?>-order_no-<?php echo $v['order_no'];?>-state-1-p-<?php echo $k+1+(I('get.p',1)-1)*20;?>" data-id="11">查看 </a>
+</td>
+</tr>
+<?php }?>
+</tbody>
+</table>
+<div class="pagination">
+            {$res.page}
+        </div>
+	    <button type="button" class="btn btn-warm">
+	    	<i class="icon icon-export no-gutter"></i>
+	    	导出报增减记录
+	    </button>
+		<button type="button" class="btn btn-primary">
+	    	<i class="icon icon-update no-gutter"></i>
+	    	更新为缴纳完成
+	    </button>
+
+	</div>
+    <?php else:?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php endif;?>
+</block>
+<block name="script">
+    <script data-init="payroll" type="text/javascript" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

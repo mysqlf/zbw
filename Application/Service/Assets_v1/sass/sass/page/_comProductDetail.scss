@@ -1,0 +1,85 @@
+
+form.comProductDetail{
+	padding:15px;
+	label{
+		line-height: 34px;
+		&.label-left{
+			min-width: 100px;
+		}
+	}
+	.w-select{
+		width:190px;
+	}
+	textarea.service-fee{
+		width:485px;
+		height: 170px;
+	}
+	textarea.pay-explain{
+		width:800px;
+		height: 170px;
+	}
+	.status{
+		label{
+			margin-right: 20px;
+		}
+	}
+	.sure{
+		width:180px;
+		height: 48px;
+		background: $color-primary;
+		font-size: 18px;
+		color:#fff;
+	}
+
+}
+.cityList{
+	position: relative;
+}
+
+.J_other-city{
+	.cityList{
+		margin-left: 10px;
+    	float: left;
+    	height: 54px;
+	}
+}
+.cityUl{
+	width:210px;
+	max-height:250px;
+	overflow: auto;
+	border:1px solid #ddd;
+	border-top:0;
+	border-radius:0 0 5px 5px;
+	display:none;
+	background:#fff;
+	position:absolute;
+	top:35px;
+	left: 0;
+	z-index:1000;
+	li{
+		padding-left:12px;
+		cursor:pointer;
+		line-height: 1.8em;
+		&:hover{
+			background:$color-primary;
+			color:#fff;
+		}
+	}
+}
+.webuploader-container{
+	width:80px;
+	float: left;
+	line-height:20px;
+	overflow:hidden;
+	.webuploader-pick{
+		padding:10px;
+	}
+	p{
+		font-size:14px;
+	}
+}
+
+.remove-icon{
+	color: #999;
+	display:none;
+}

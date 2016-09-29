@@ -1,0 +1,63 @@
+<extend name="Public/base" />
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2>QQ客服管理</h2>
+	</div>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/bootstrap.css" />
+<link rel="stylesheet" href="__PUBLIC__/static/uploadify/uploadify.css" />
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+	<div class="tab-content">
+		<form style="margin-top:3em;" action="{:U('addKf')}" method="post">
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">客服名称</label>
+		    <input type="text" class="form-control" name="kf_name" placeholder="QQ客服名称如：客服1" required="required">
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">客服QQ号码</label>
+		    <input type="text" class="form-control" name="kf_qq" placeholder="新增客服的qq号码" >
+		  </div>
+		  <button type="submit" class="btn btn-default">添　加</button>
+		</form>	
+	</div>
+</div>
+ <div class="data-table table-striped">
+	<table class="">
+    <thead>
+        <tr>
+		<!-- <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th> -->
+		<th>编号</th>
+		<th class="">客服名称</th>
+		<th class="">QQ号码</th>
+		<th class="">操作</th>
+		
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="kf_list">
+		<volist name="kf_list" id="vo">
+		<tr>
+            <!-- <td><input class="ids" type="checkbox" name="id[]" value="{$vo.id}" /></td> -->
+            <td>{$key}</td>
+			<td>{$vo.kf_name} </td>
+			<td>{$vo.kf_qq}</td>	
+			<td>
+				<a href="{:U('Website/delKf?key='.$key)}">删除</a>
+            </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="9" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+</block>
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+</block>

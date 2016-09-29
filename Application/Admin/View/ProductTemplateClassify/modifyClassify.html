@@ -1,0 +1,66 @@
+<form action="{:U('modifyClassify')}" method="post" id="modifyClassify">
+	<input type="hidden" name="template_id" value="{$template_id}">
+	<div class="form-item">
+		<div class="table-striped" style="width: 100%; overflow: hidden; height: auto;">
+	<table id="table_tem">
+		 <tr>
+		  	<td width="20">&nbsp;</td>
+			<td width="80" align="left">分类名称</td>
+			<td width="50"> 
+				<input type="text" name="category" class="text input-small" value="{$classify.name}" style="border:1px solid #dedede" readonly="readonly">
+				<input type="hidden" name="category_id" value="{$classify.id}">
+			</td>
+			 <td width="20">&nbsp;</td>
+			<td width="65"></td>
+			<td >&nbsp;</td>
+		 </tr>
+		  <tr style="height: 5px; line-height: 5px">
+			<td width="20" height="5" >&nbsp;</td>
+			<td width="80"  align="left" style=" font-weight: bold;">分类选项</td>
+			<td width="50"></td>
+			<td width="20">&nbsp;</td>
+			<td width=""></td>
+			 <td >&nbsp;</td>
+		 </tr>
+		 <volist name="classify.category_sub" id="vo">
+			 <tr id="item_classify">
+			   	<td width="20">&nbsp;</td>
+			   	<td colspan="2" align="left">
+			   		<input type="text" name="category_sub[]" class="text input-small" value="{$vo.name}" style="border:1px solid #dedede">
+			   		<input type="hidden" name="category_sub_id[]" class="text input-small" value="{$vo.id}" style="border:1px solid #dedede">
+			   	</td>
+			    	<td width="" colspan="3"><div class="btn  hidden fl delete" data="1" >删除</div></td>
+			   	<td>&nbsp;</td>
+			 </tr>
+		 </volist>
+	</table>
+		<div class="form-item"><div class="btn  hidden fl" id="template_sub_add" style="margin-left:20px" >增加条数</div></div>
+	</div>
+</form> 
+<script type="text/javascript">
+	$('.delete').click(function(){
+		var that = $(this);
+		var del_id = $(this).parent().prev().find('input[type=hidden]').val();
+		var val = $(this).parent().prev().find('input[type=text]').val();
+		if(!val){
+			$(this).parent().parent().remove();
+			return ;
+		}
+		$.post('{:U("delCalssify")}',{id:del_id},function(msg){
+			if(msg.status==0)
+			{ 
+				that.parent().parent().remove();
+				/*layer.msg(msg.msg, {icon: 6, time: 1000});
+			}else{
+				layer.msg(msg.msg, {icon: 1, time: 1000});*/
+			}
+		},'json');
+	});
+
+	$('#template_sub_add').click(function(){
+		var add_html = $('#item_classify').clone(true);
+		add_html.find('input[type=text]').val('');
+		add_html.find('input[type=hidden]').val(0);
+		$('#table_tem').append(add_html);
+	});
+</script>

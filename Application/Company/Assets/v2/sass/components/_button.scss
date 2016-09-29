@@ -1,0 +1,42 @@
+
+.btn-warm{
+	background:$color-warm;
+	border:1px solid $color-warm;
+	color:#fff;
+	&:hover,&:focus{color:#fff;}
+}
+.btn-border{
+	padding:6px 25px;
+	background:#fff;
+	border:1px solid $color-warm;
+	color:$color-warm;
+	&:hover{color:#fff;background:$color-warm-active;}
+}
+.btn-search{
+	padding:6px 20px;
+	background:$c-search;
+	border:$c-search;
+}
+.btn-border-success{
+	width:135px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	display: block;
+	border: 1px solid $color-success;
+	font-size: 16px;
+	color: $color-success;
+	&:hover{
+		color: #fff;
+		background: $color-success;
+	}
+
+}
+
+.btn-lg{
+	font-size: 16px;
+    padding: 8px 34px;
+}
+
+
+

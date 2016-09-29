@@ -1,0 +1,182 @@
+<!-- <extend name="Base/Insurance" /> -->
+<block name="right">
+    <div class="right_box overflow">
+        <div class="right_head">
+        	<h3 class="add_tit">我的订单</h3>
+        </div>
+        <div class="search_box">
+	        <form action="{:U('Company/Order/searchPayOrder')}" method="get" id="listForm">
+	        	<input type="hidden" name="types" value="1">
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">订单号</dt>
+	        		<dd class="right search-size2">
+	        			<input type="text" class="text x_text" value="{:I('get.orderNo')}" name="orderNo" placeholder="订单编号">
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-3em">
+	        		<dt class="left">服务商</dt>
+	        		<dd class="right search-size3">
+	        			<select class="select" name="companyId">
+			        		<option value="">全部</option>
+			        		<if condition="$scom">
+			        			<volist name="scom" id="vo">
+			        				<option value="{$vo.company_id}" <if condition="$vo['company_id'] eq I('get.companyId')">selected="selected"</if> >{$vo.company_name}</option>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-2em">
+	        		<dt class="left">状态</dt>
+	        		<dd class="right search-size1">
+	        			<select class="select" name="state">
+			        		<option value="2" <if condition="2 eq I('get.state')">selected="selected"</if>>全部</option>
+							<option value="1" <if condition="1 eq I('get.state')">selected="selected"</if>>付款成功</option>
+							<option value="0" <if condition="I('get.state') === '0' ">selected="selected"</if>>待付款</option>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	    
+	        	
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">订单类型</dt>
+	        		<dd class="right search-size1">
+	        			<select class="select" name="type">
+			        		<option value="0" <if condition="0 eq I('get.type')">selected="selected"</if>>全部</option>
+			        		<option value="2" <if condition="2 eq I('get.type')">selected="selected"</if>>社保公积金</option>
+			        		<option value="3" <if condition="3 eq I('get.type')">selected="selected"</if>>代发工资</option>
+			        		<option value="1" <if condition="1 eq I('get.type')">selected="selected"</if>>产品服务</option>
+			        	</select>
+	        		</dd>
+	        	</dl>
+
+	        	<!-- <dl class="horizontal horizontal-4em">
+	        		<dt class="left">生成时间</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size2">
+							<input id="create-begin" type="text" class="text timepicker" value="{:I('get.creatstart')}" name="creatstart" placeholder="生成开始时间" readonly>
+			        		<i class="icon icon-time-picker"></i>
+						</div>
+			        	<span class="line">-</span>
+			        	<div class="time-picker-box search-size2">
+				        	<input id="create-end" type="text" class="text timepicker" value="{:I('get.creatend')}" name="creatend" placeholder="生成结束时间" readonly>
+				        	<i class="icon icon-time-picker"></i>
+				        </div>
+	        		</dd>
+	        	</dl> -->
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">付款时间</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size2">
+							<input id="pay-begin" type="text" class="text timepicker" value="{:I('get.paystart')}" name="paystart" placeholder="付款开始时间" readonly>
+			        		<i class="icon icon-time-picker"></i>
+						</div>
+			        	<span class="line">-</span>
+			        	<div class="time-picker-box search-size2">
+				        	<input id="pay-end" type="text" class="text timepicker" value="{:I('get.payend')}" name="payend" placeholder="付款结束时间" readonly>
+				        	<i class="icon icon-time-picker"></i>
+				        </div>
+	        		</dd>
+	        	</dl>
+
+	        	<input type="button" class="btn ms_btn btn_orange pull-left" value="查询" id="submitBtn">
+	        </form>
+        </div>
+        <div class="table_con">
+        	<table class="table  text-center table_white">
+				<thead>
+		    		<tr>
+		                <th >订单号</th>
+		                <th>服务商</th>
+		                <th>参保地</th>
+		                <th>订单月份</th>
+		               <th>订单类型</th>
+		               <th>付款方式</th>
+		               <th>状态</th>
+		               <th>金额</th>
+		               <th>已结差额</th>
+		               <th>实付金额</th>
+		               <th>截止付款</th>
+		               <th>客服人员</th>
+		               <th>操作</th>
+		            </tr>
+		            </thead>
+		            <tbody class="cal-content">
+		            <if condition="$list">
+		            <volist name="list" id="vo">
+		            	<tr>
+		            		<td>
+		            			{$vo.order_no}
+		            		</td>
+		            		<td>
+		            			{$vo.company_name|default='/'}
+		            		</td>
+		            		<td>
+		            			{$vo.location}
+		            		</td>
+		            		<td>
+		            			{$vo.handle_month}
+		            		</td>
+		            		<td>
+		            			<if condition="$vo['type'] eq 1">服务订单
+		            			<elseif condition="$vo['type'] eq 2"/>社保公积金订单 
+								<elseif condition="$vo['type'] eq 3"/>代发工资订单</if>
+		            		</td>
+		            		<td>
+		            			<if condition="$vo['pay_type'] eq 1">线上支付 
+		            			<elseif condition="$vo['pay_type'] eq 2"/>线下支付
+		            			<else />/</if>
+		            		</td>
+		            		<td>
+		            			<if condition="$vo['state'] eq 0">待支付 
+		            			<elseif condition="$vo['state'] eq 1"/>支付成功 
+								<elseif condition="$vo['state'] eq -1"/>支付失败</if>
+		            		</td>
+		            		<td>
+		            			{$vo.amount}
+		            		</td>
+		            		<td>
+		            			{$vo.diff_amount}
+		            		</td>
+		            		<td>
+		            			{$vo.actual_amount}
+		            		</td>
+
+		            		<td class="J_pay-deadline">
+		            			<if condition="$vo['state'] neq 0">/<else/>{$vo.pay_deadline|default='/'|str_replace='-','/',###}</if>
+		            		</td>
+		            		<td>
+		            			<a target=blank href="http://wpa.qq.com/msgrd?v=1&uin={$vo.qq}&site=qq&menu=yes">{$vo.name}</a>
+		            		</td>
+		            		<td class="opt-td">
+		            			<a <if condition="$vo['type'] eq 1">
+		            				href="{:U('Company/Order/payservice',array('orderId'=>$vo['id']))}"
+		            			 <elseif condition="$vo['type'] eq 2"/>
+									href="{:U('Company/Order/payinc',array('orderId'=>$vo['id']))}"
+								<else/>
+									href="{:U('Company/Order/paysalary',array('orderId'=>$vo['id']))}"
+		            			</if>
+		            			 class="c-blue">明细</a>
+		            			<br>
+		            		</td>
+		            	</tr>
+		            </volist>
+		            <else/>
+		            	<tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+		            </if>
+		            </tbody>
+		    </table>
+		    <if condition="$page">
+				<div class="page_box">
+					{$page}
+				</div>
+			</if>
+        </div>
+        
+    </div>
+    
+</block>
+<block name="script">
+    <script data-init="index" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Order.bundle.js"></script>
+</block>

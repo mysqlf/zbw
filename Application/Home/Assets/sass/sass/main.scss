@@ -1,0 +1,101 @@
+@charset "utf-8";
+@import "compass";
+$supported-browsers: chrome,firefox,ie;
+
+$img-src: '../img';
+//颜色
+$fontColor:#2c3e50;
+$fontBody:#78848f;
+$c-error: #ff4400;
+
+$orange:#f98a19;
+$orangeHover:#ffa64a;
+$orangeActive:#ffe1bf;
+
+$ash:#999;
+$ashHover:#999;
+$ashActive:#999;
+
+$blue:#43b5fb;
+$blueHover:#88d1fa;
+$blueActive:#d6f0ff;
+
+$green:#2cca85; 
+$greenHover:#9adec1;
+$greenActive:#06854d;
+
+$warning:#f26797;
+$warningHover:#f585ac;
+$warningActive:#ce5880;
+
+//字体
+$font26:26px;
+$font22:22px;
+$font16:16px;
+
+$c-border: #d5d5d5;
+// 表格
+$table-border-color: #cdd2d5;
+
+
+/*超出省略*/
+@mixin word{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+/*引入样式*/
+
+@import "mixins/base";//网格
+@import "mixins/_horizontal";//网格
+@import "mixins/grid";//网格
+@import "mixins/size";//宽高简写
+@import "mixins/clearfix";//清除浮动
+@import "mixins/stretched";//绝对居中
+@import "mixins/button";//button
+@import "mixins/createPseudo";//添加伪类 before after
+@import "mixins/extendActive";//用于继承:active类 如icon 继承icon:active
+
+@import "./base/restStyle";/* 重置样式 */
+@import "./base/layout";/* 布局样式 */
+@import "./base/icon";
+@import "./base/calculator";/* 计算器样式 */
+@import "./base/city-picker";/* 地区选择 */
+@import "./base/select";/* 地区选择 */
+@import "./base/table";/* table样式 */
+@import "./module";/* 按钮、侧边栏 */
+@import "./base/header";/* 头部 */
+@import "./base/idangerous.swiper";/* banner */
+@import "./base/footer";/* 脚部 */
+
+@import "./page/login";/* 企业登录 */
+@import "./page/firmRegister";/* 企业注册 */
+@import "./page/index";/* 首页 */
+@import "./page/SocialSecurity";/* 社保大厅 */
+@import "./page/servicePoint";/* 全国服务 */
+@import "./page/abountUs";/* 关于我们 */
+@import "./page/Article";/* 最新资讯 */
+@import "./page/question";/* 帮助中心（常见问题） */
+@import "./page/platformIndex";/* 平台首页 */
+@import "./page/serviceProduct";/* 服务商 */
+
+
+/* 布局 */
+@import "compass/layout";
+@include sticky-footer(65px,'#layout',"#layout_footer",'#foot'); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

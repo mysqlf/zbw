@@ -1,0 +1,29 @@
+//服务套餐
+
+#productService {
+
+	.J_picker {
+		width: 222px;
+	}
+
+	.upload-box .J_picker-btn {
+		width: 80px;
+	}
+
+	.iradio, .icheckbox {
+		top: 0;
+	}
+
+	.icheck-label {
+		margin-right: 20px;
+		line-height: 35px;
+	}
+}
+
+#uploader-view {
+	margin-top: 10px;
+	img {
+		max-height: 240px;
+	}
+	
+}

@@ -1,0 +1,668 @@
+.selBox {
+    clear: both;
+    position: absolute;
+    width: 620px;
+    padding-bottom: 15px;
+    background: #fff;
+    z-index: 9999;
+    
+}
+
+.selBox input[type="checkbox"],
+.selBox input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #aaa;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    top: -1px
+}
+
+input[type=checkbox]:checked {
+    background: url(./images/ck_checked.png) no-repeat #fff center 2px;
+}
+
+
+.selBox h3 {
+    line-height: 26px;
+    color: #4b4b4b;
+    padding-top: 8px;
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+
+.selBox .arrow {
+    position: absolute;
+    top: -17px;
+    left: 10px;
+    height: 0px;
+    width: 0px;
+    border-width: 6px;
+    border-style: dashed dashed solid dashed;
+    border-color: transparent transparent #888 transparent;
+    overflow: hidden;
+}
+
+.selBox .btnClose {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: url(./images/jbox-btn-close.png) no-repeat center;
+    text-indent: -9999px;
+    padding: 5px;
+}
+
+.selBox .btnClose:hover {
+    background-color: #F98A19;
+}
+
+.selBox .sel-footer {
+    text-align: center;
+}
+
+.selBox .sel-footer .btnOk {
+    /* position: absolute; */
+    /* right: 15px; */
+    /* top: 9px; */
+    /* bottom: 0; */
+    display: inline-block;
+    margin: 15px auto 12px;
+    padding: 6px 36px;
+    line-height: 28px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #F98A19;
+    color: #fff;
+    /* border-radius: 3px; */
+}
+
+.selBox .btnOk:hover {
+    text-decoration: none;
+}
+
+.selBox .titBar {
+    height: 50px;
+    line-height: 50px;
+    background: #F98A19;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.selBox .titBar h2 {
+    float: left;
+    display: inline;
+    font-size: 18px;
+    font-weight: normal;
+    margin-right: 10px;
+    line-height: 50px;
+    padding-left: 10px;
+}
+
+.selBox .titBar .btnBoxColose {
+    float: right;
+    display: inline;
+}
+
+.selBox .toolBar {
+    position: relative;
+    margin: 0 10px 0 10px;
+    /* border-bottom: solid 1px #ccc; */
+    padding: 0 5px;
+}
+
+.selBox .toolBar .btnOk {
+    border: solid 1px #ccc;
+    background: #0e8708;
+    color: #fff;
+    cursor: pointer;
+}
+
+.selBox .tip {
+    height: 25px;
+    /* margin-bottom: 8px; */
+    line-height: 25px;
+    float: left;
+    color: #666;
+}
+
+.selBox .btnArea {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.selBox .btnArea a {
+    width: 55px;
+    height: 24px;
+    line-height: 24px;
+    background-color: #c0c0c0;
+    font-size: 14px;
+    display: block;
+    text-align: center;
+}
+
+.selBox .btnArea a span {
+    color: #fff;
+    background: transparent;
+}
+
+.selBox .btnArea a:hover {
+    background-color: #F98A19;
+}
+
+.selBox .btnArea a:hover span {
+    color: #fff;
+}
+
+.selBox .toolBar .btnArea a:hover {
+    color: #F98A19;
+    border-color: #F98A19;
+}
+
+.selBox .toolBar .btnArea a:hover span {
+    color: #fff;
+}
+
+.selBox .sBar {
+    float: left;
+    margin: 12px 0 0 40px;
+    line-height: normal;
+}
+
+.selBox .sBar em {
+    display: none;
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px;
+    padding: 0 5px;
+    color: #fff;
+}
+
+.selBox .sBar .sel-search {
+    position: relative;
+    background-color: #fff;
+    display: inline-block;
+    float: left;
+    border: 1px solid #fff;
+}
+
+.selBox .sBar .icon {
+    width: 16px;
+    height: 20px;
+    overflow: hidden;
+    text-indent: -9999em;
+    background-position: 0 -182px;
+    margin: 7px 10px 0;
+    cursor: pointer;
+}
+
+.selBox .sBar input {
+    width: 130px;
+    height: 28px;
+    line-height: 28px;
+    background-color: #F98A19;
+    border: 0;
+    padding: 0 5px;
+    color: #fff;
+    float: left;
+}
+
+.selBox .sBar input::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.selBox .sBar input:-moz-placeholder {
+    color: #fff;
+}
+
+.selBox .sBar input::-moz-placeholder,
+.selBox .sBar textarea::-moz-placeholder {
+    color: #fff;
+}
+
+.selBox .sBar input:-ms-input-placeholder {
+    color: #fff;
+}
+
+.selBox .item {
+    float: left;
+    display: inline;
+    width: 70px;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 2px;
+    color: #333;
+    font-size: 12px;
+    /* font-family: tahoma, \5b8b\4f53, arial, 'Hiragino Sans GB', sans-serif; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    _white-space: normal;
+}
+
+.selBox .item {
+    float: left;
+    display: inline;
+    width: 70px;
+    height: 28px;
+    line-height: 25px;
+    margin-right: 2px;
+    color: #4d4d4d;
+    font-size: 12px;
+    /* font-family: tahoma, \5b8b\4f53, arial, 'Hiragino Sans GB', sans-serif; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    _white-space: normal;
+    border: 1px solid transparent;
+}
+
+.selBox .en .item {
+    width: 100px;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+.selBox .item:hover {
+    text-decoration: none;
+}
+
+.selBox .item input {
+    vertical-align: middle;
+    margin-right: 5px;
+    position: relative;
+    margin-left: 5px;
+    top: 0;
+}
+
+.selBox .item label {
+    vertical-align: middle;
+    font-weight: normal;
+}
+
+.selBox .selectedCont {
+    margin: 12px 15px 0;
+    position: relative;
+}
+
+.selBox .toolBar .selectedCont {
+    margin-left: 0;
+    /* margin-right: 80px; */
+    min-height: 34px;
+}
+
+.selBox .selectedCont .selectedA {
+    margin-left: 4.5em;
+    margin-right: 84px;
+    overflow: hidden;
+    position: relative;
+}
+
+.selBox .selectedCont .st {
+    float: left;
+    display: inline;
+    height: 24px;
+    line-height: 24px;
+    margin: 0 3px 8px 3px;
+    color: #F98A19;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+}
+
+.selBox .selectedCont b {
+    float: left;
+    display: inline;
+    margin: 0 15px 0 10px;
+    font-weight: normal;
+}
+
+.selBox .selectedCont .btn_del {
+    float: left;
+    display: inline;
+    position: relative;
+    width: 18px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: #F98A19;
+    overflow: hidden;
+    font-size: 18px;
+}
+
+.selBox .selectedCont .btn_del:hover {
+    /* color: #F98A19; */
+    /* background-color: #F98A19; */
+    /* background-position: -17px center; */
+    text-decoration: none;
+}
+
+.selBox .selectedCont .stList {
+    display: none;
+    position: absolute;
+    left: -1px;
+    top: 22px;
+    width: 210px;
+    border: solid 1px #c0c0c0;
+    border-radius: 0 3px 3px 3px;
+    background: #fff;
+    z-index: 99;
+}
+
+.selBox .selectedCont .stList p {
+    float: left;
+    display: inline;
+    width: 60px;
+    padding-left: 10px;
+    margin: 1px 0;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.selBox .selectedCont .stList .hover {
+    background: #eee;
+    color: #000;
+}
+
+.selBox .selectedCont .stList em {
+    position: absolute;
+    top: -6px;
+    left: -1px;
+    width: 70px;
+    height: 6px;
+    background: #fff;
+    border-left: solid 1px #c0c0c0;
+    border-right: solid 1px #c0c0c0;
+}
+
+.selBox .selectedCont .stList .noData {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: red;
+}
+
+.selBox .hotCI {
+    clear: both;
+    padding: 5px;
+    margin: 0 10px;
+}
+
+.selBox .list {
+    clear: both;
+    position: relative;
+    margin: 5px 20px;
+    zoom: 1;
+    margin-left: 13px;
+    display: inline-block;
+    width: 780px;
+}
+
+.selBox .list dl {
+    clear: both;
+}
+
+.selBox .list .odd {
+    background: #f1f1f1;
+}
+
+.selBox .list .odd {
+    background: #f1f1f1;
+    /* padding-bottom: 4px; */
+}
+
+.selBox .list .even {}
+
+.selBox .list dl dt {
+    float: left;
+    display: inline;
+    width: 67px;
+    line-height: 29px;
+    font-weight: bold;
+    color: #F98A19;
+    padding-left: 5px;
+}
+
+.selBox .list dl dd {
+    float: left;
+    display: inline;
+}
+
+.selBox .en dl dt {
+    width: 97px;
+}
+
+.selBox .en dl dd {
+    width: 408px;
+}
+
+.selBox .list .hasSub,
+.selBox .hotCI .hasSub {
+    position: relative;
+}
+
+.selBox .list .hasSub.on.dir-right,
+.selBox .hotCI .hasSub.on.dir-right {
+    border-left: 0;
+    border-right: 1px solid #F98A19;
+    padding-left: 1px;
+}
+
+.selBox .list .hasSub:hover,
+.selBox .hotCI .hasSub:hover {
+    background-position: 62px 10px;
+}
+
+.selBox .list .hasSub label,
+.selBox .hotCI .hasSub label {
+    /* margin-right: 8px; */
+    /* width: 80%; */
+    /* display: inline-block; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+}
+
+.selBox .hotCI .hasSub label {
+    display: inline;
+    font-weight: normal;
+}
+
+.selBox .list .on,
+.selBox .list .on:hover,
+.selBox .hotCI .on,
+.selBox .hotCI .on:hover {
+    border: 1px solid #F98A19;
+    border-right: 0;
+    position: relative;
+    z-index: 2000;
+    background-color: #fff;
+}
+
+.selBox .en .hasSub {
+    background-position: 92px -20px;
+}
+
+.selBox .en .hasSub:hover {
+    background-position: 92px 10px;
+}
+
+.selBox .en .on,
+.selBox .en .on:hover {
+    background-position: 92px -48px;
+}
+
+.selBox .subCI {
+    position: absolute;
+    display: none;
+    width: 312px;
+    border: solid 1px #F98A19;
+    /* box-shadow: 2px 2px 4px 0px #999; */
+    background: #fff;
+    padding: 5px;
+    zoom: 1;
+    z-index: 1000;
+}
+
+.selBox .subCI .item {
+    width: 100px;
+}
+
+.selBox .subCI a {}
+
+.selBox .subCI {}
+
+.selBox .list .itemPost {
+    width: 190px;
+    border: 1px solid transparent;
+    border-right-color: #fff;
+    border-right: 0;
+}
+
+.selBox .list .hasSub:after,
+.selBox .hotCI .hasSub:after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    border: 5px solid transparent;
+    border-left-color: #ccc;
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    margin-top: -4px;
+    z-index: 10;
+}
+
+.selBox .list .hasSub:hover:after,
+.selBox .hotCI .hasSub:hover:after {
+    border-left-color: #F98A19;
+}
+
+.selBox .list .hasSub.on:after,
+.selBox .list .hasSub.on:hover:after,
+.selBox .list .hasSub.selected:after {
+    /* border-left-color: #fff; */
+}
+
+.selBox .list .itemPost:hover {}
+
+.selBox .selected,
+.selBox .list .selected,
+.selBox .selectedSub,
+.selBox .list .selectedSub {
+    color: #F98A19;
+}
+
+.selBox .list .itemPost.on {
+    border-color: #F98A19;
+    z-index: 2000;
+    border-right-color: #fff;
+}
+
+.selBox .list .selected:after,
+.selBox .selectedSub:after,
+.selBox .list .selectedSub:after {}
+
+.selBox .subPost {
+    position: absolute;
+    display: none;
+    width: 365px;
+    border: solid 1px #F98A19;
+    /* box-shadow: 2px 2px 4px 0px #999; */
+    background: #fff;
+    padding: 5px;
+    zoom: 1;
+    /* margin-left: 1px; */
+}
+
+.selBox .subPost .item {
+    width: 170px;
+}
+
+.selBox .subPost a {}
+
+.selBox .subPost {
+    z-index: 1000;
+}
+
+.selBox .list .itemInds {
+    width: 164px;
+    line-height: 25px;
+}
+
+.selBox .searchPanel {
+    clear: both;
+    display: none;
+    margin: 5px 0 5px 5px;
+    height: 300px;
+    overflow: auto;
+}
+
+.selBox .searchPanel dl {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 6px;
+}
+
+.selBox .searchPanel .odd {
+    /* background: #fcfce8; */
+}
+
+.selBox .searchPanel dt {
+    display: inline;
+    float: left;
+    width: 160px;
+    font-weight: bold;
+}
+
+.selBox .searchPanel dt .item {
+    width: 100%;
+}
+
+.selBox .searchPanel dd {
+    display: inline;
+    float: left;
+    width: 610px;
+}
+
+.selBox .searchPanel .item {
+    width: 180px;
+    margin-right: 10px;
+}
+
+.selBox .searchPanel .item:hover {
+    color: #F98A19;
+}
+
+
+/*ÌÔ±êÇ©*/
+
+.selBox .tagJobCat {}
+
+.selBox .tagJobCat .item {
+    width: 110px;
+}
+
+.selBox .tagJobCat dl {
+    padding-left: 70px;
+}
+
+.selBox .tagJobCat dl dt {
+    width: 70px;
+    margin-left: -75px;
+}
+
+.selBox .tagJobCat dl dd {
+    float: none;
+    display: inline;
+}

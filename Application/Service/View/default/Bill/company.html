@@ -1,0 +1,111 @@
+<!-- 企业对账单—发票列表 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">发票列表</h2>
+        <div class="query-conditions">
+            <form name="form1" action="<?php echo U('Bill/comBillList') ?>" method="get">
+                <div class="query-form">
+                    <div class="query-item fl">
+                        <label class="query-lb" for="company_name">企业名称</label>
+                        <div class="ipt-box">
+                            <input type="text" name="company_name" value="<?php if($_GET['company_name']) echo $_GET['company_name'];?>" class="ipt w-normal ellipsis" />
+                        </div>
+                    </div>
+                    <div class="query-item fl">
+                        <label class="query-lb" for="bill_no">单号</label>
+                        <div class="ipt-box">
+                            <input type="text" name="bill_no" value="<?php if($_GET['bill_no']) echo $_GET['bill_no'];?>" class="ipt w-normal ellipsis" />
+                        </div>
+                    </div>
+                    <div class="query-item fl">
+                        <label class="query-lb" for="bill_date">账单年月</label>
+                        <div class="ipt-box ipt-pos">
+                            <input type="text" name="bill_date" value="<?php if($_GET['bill_date']) echo $_GET['bill_date'];?>" class="ipt w-small date" readonly />
+                            <i class="icon icon-date"></i>
+                        </div>
+                    </div>
+                    <div class="query-item fl">
+                        <label class="query-lb" for="invoice_state">开具发票</label>
+                        <div class="ipt-box box-small">
+                            <select name="invoice_state">
+                                <option value="999">发票状态</option>
+                                <option value="0" <?php if($_GET[ 'product_id'] && $_GET[ 'product_id']==0 ) echo 'selected';?>>否</option>
+                                <option value="1" <?php if($_GET[ 'product_id'] && $_GET[ 'product_id']==1 ) echo 'selected';?>>是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-query fl">查询</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+        <table summary="发票列表-企业对账单-个人对账单">
+            <colgroup>
+                <col width="15%" />
+                <col width="12%" />
+                <col width="8%" />
+                <col width="18%" />
+                <col width="10%" />
+                <col width="9%" />
+                <col width="12%" />
+                <col width="8%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>单号</th>
+                    <th>企业名称</th>
+                    <th>账单年月</th>
+                    <th>名称</th>
+                    <th>金额</th>
+                    <th>开具发票</th>
+                    <th>快递单号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($result['result'] as $k=>$v){ ?>
+                <tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+                    <td>
+                        <?php echo $v['bill_no'];?>
+                    </td>
+                    <td class="cbluelg">
+                        <a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>"><?php echo $v['company_name'];?></a>
+                    </td>
+                    <td>
+                        <?php echo $v['bill_date'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['bill_name'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['price'];?>
+                    </td>
+                    <td>
+                        <?php echo $v['invoice_state'] == 1 ? '是' : '否';?>
+                    </td>
+                    <td>
+                        <p>
+                            <?php if($v['invoice_state'] == 1){?>
+                            <?php echo $v['invoice_express_no'];?>(
+                            <?php echo $v['invoice_express_company'];?>)
+                            <?php } ?>
+                        </p>
+                    </td>
+                    <td class="no-brdr"><a href="<?php echo U('Bill/comBillDetail?type='.$type.'&id='.$v['id']) ?>">明细</a></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div class="pagination"><?php echo $result['page']; ?></div>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="bill" src="/Application/Service/Assets/js/dist/bill.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

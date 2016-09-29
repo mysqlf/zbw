@@ -1,0 +1,31 @@
+@mixin triangle($size:6px, $color:#bbb,$dir:top){
+	&:before{
+		content: "";
+	    position: absolute;
+	    right: 10px;
+	    top: 0;
+	    bottom: 0;
+	    margin: auto;
+	    color: #bbb;
+	    border: $size solid transparent;
+	    border-#{$dir}-color: $color;
+	    height: 0;
+	    width: 0;
+
+	    @if $dir == top {
+	    	border-bottom: 0;
+	    } @else if $dir == bottom{
+	    	border-top: 0;
+	    } @else if $dir == left{
+	    	border-right: 0;
+	    } @else if $dir == right{
+	    	border-left: 0;
+	    }
+	}
+}
+
+
+@mixin line-h ($h) {
+	height: $h;
+	line-height: $h;
+}

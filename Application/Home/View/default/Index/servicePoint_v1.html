@@ -1,0 +1,72 @@
+<include file="Public/_headPlatform" />
+<div class="state-banner"></div>
+
+<div class="wrap1100">
+	<div class="calculator-box"></div>
+</div>
+<div>
+	<div class="wrap1100">
+		<h3 class="state-title">查询工具</h3>
+		<div class="city clearOver J_query-city-list">
+			<ul class="clearOver">
+				<volist name="inquire_list" id="vo" empty="暂时没有数据">
+					<li class="item <if condition="$key eq 0">now</if>" value="{$vo.location}"  >{$vo.location|showAreaName=###}</li>
+				</volist>
+			</ul>
+		</div>
+		<div class="city-box clearOver" id="city_box">
+			<volist name="tool_list" id="msg" empty="暂无数据">
+				<dl style="background: #fff url('{$msg.src}') center 30px no-repeat;<if condition='$key eq 3'> margin-right:0px;</if>">
+					<dt>{$msg.name}<br/>
+						<switch name="msg.type">   
+						 	<case value="1">社保查询</case> 
+							<case value="2">社保办卡进度查询</case>   
+							<case value="3">公积金查询</case>   
+							<case value="4">公积金进度查询</case>   
+						 	<default />数据错误
+						</switch>
+					</dt>
+					<dd>
+						<a href="{$msg.url}" target="_blank">前往</a>
+					</dd>
+				</dl>
+			</volist>
+		</div>
+	</div>
+</div>
+<div class="wrap1100">
+	<div class="foot">
+		<img src="/Application/Home/Assets/img/foot_ewm.jpg" alt="">
+		<p class="sol">关注智保易微信号</p>
+		<div class="foot-info-box">
+			<dl class="foot-info">
+				<dt>公司信息</dt>
+				<dd><a href="/Article-aboutUs">公司介绍</a></dd>
+				<dd><a href="/Article-aboutUs#contect">联系我们</a></dd>
+			</dl>
+			<dl class="foot-info">
+				<dt>帮助中心</dt>
+				<dd><a href="/Article-helpCenter-category-common_question">常见问题</a></dd>
+			</dl>
+			<dl class="foot-info">
+				<dt>最新资讯</dt>
+				<!--<dd><a href="/Article-lists-category-questions">社保资讯</a></dd>
+				<dd><a href="/Article-lists-category-xz_help">公司资讯</a></dd>
+				<dd><a href="/Article-lists-category-social_policy">行业资讯</a></dd>-->
+				<dd><a href="/Article-lists-category-help">办事指南</a></dd>
+				<dd><a href="/Article-lists-category-statute">政策法规</a></dd>
+				<dd><a href="/Article-lists-category-new">新闻动态</a></dd>
+				<dd><a href="/Article-lists-category-notice">公示公告</a></dd>
+			</dl>
+		</div>
+	</div>
+
+</div>
+
+
+
+<include file="Public/_footer" />
+
+<script data-module="servicepoint" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>
+
+

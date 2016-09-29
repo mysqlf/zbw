@@ -1,0 +1,102 @@
+/*
+ * 设置
+ */
+
+// 团队管理
+.btn-addTeam {
+    padding: {
+        left: 21px;
+        right: 21px;
+    }
+}
+
+// 银行信息
+.bank-info {
+    background: $color-white;
+    padding: 55px 120px 132px;
+    @at-root .card-info {
+        margin-left: 32%;
+    }
+    @at-root .card-info-ipt {
+        label {
+            line-height: 35px;
+        }
+    }
+    .form-items {
+        margin-bottom: 18px;
+    }
+    label {
+        width: 78px;
+        margin-right: 18px;
+        text-align: right;
+        color: $color-ipt;
+    }
+    .ipt-box {
+        color: $color-bg;
+        display: inline-block;
+    }
+    .btn-modify {
+        margin: {
+            top: 15px;
+            left: 104px;
+        }
+    }
+    @at-root .form-items-buttons {
+        font-size: 0;
+        button {
+            font-size: $f-size-normal;
+        }
+        .btn-save {
+            margin-left: 104px;
+            margin-top: 26px;
+        }
+        .btn-cancle {
+            margin-left: 20px;
+            margin-top: 26px;
+        }
+    }
+    @at-root .noCard{
+        padding-top: 40px;
+        font-size: $f-size-large;
+        text-align: center;
+        .icon{
+            margin-right: 20px;
+        }
+        a{
+            color: $color-blue;
+            &:hover{
+                color: $color-primary;
+            }
+        }
+    }
+}
+
+// 账号信息
+.account-info-wra {
+    padding: 55px 120px 132px;
+    .details-item {
+        width: 100%;
+        padding-left: 34%;
+    }
+    label {
+        width: 60px;
+        float: left;
+        margin-left: -78px;
+        text-align: right;
+        line-height: 35px;
+    }
+    i {
+        font-style: normal;
+        padding-right: 5px;
+    }
+    .ipt-box {
+        line-height: 35px;
+    }
+    a {
+        margin-left: 20px;
+    }
+    .btn-submit {
+        margin-left: 35%;
+        margin-top: 18px;
+    }
+}

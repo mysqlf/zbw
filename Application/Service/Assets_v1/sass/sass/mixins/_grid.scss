@@ -1,0 +1,37 @@
+
+%float-left{
+	float: left;
+} 
+
+@mixin makeFloatGrid($num:12,$gutter:0,$index:1){
+	@for $i from $index through $num {
+	  .col-#{$i} { 
+	  	@extend %float-left;
+	  	width: percentage($i / $num); 
+	  	@if $gutter != 0{
+	  		padding-left : $grid-gutter-width/2 px;
+	  		padding-right : $grid-gutter-width/2 px;
+	  	}
+	  }
+	}
+}
+
+@mixin makeFlexGrid($num:12,$gutter:0,$index:1){
+	@for $i from $index through $num {
+	  @if $i == 1 {
+        .flex-col{
+          @include _flex($i);
+
+        }
+	  }
+	  .flex-col-#{$i} { 
+	  	@include _flex($i);
+
+	  	@if $gutter != 0{
+	  		padding-left : $grid-gutter-width/2 px;
+	  		padding-right : $grid-gutter-width/2 px;
+	  	}
+	  }
+	}
+}
+

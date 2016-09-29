@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<include file="Platform/head" />
+</head>
+<body>
+	<div class="fixed-header">
+		<include file="Platform/header" />
+	</div>
+	
+	<div class="swiper-container swiper-fixed">
+		<div class="swiper-wrapper">
+            <volist name="banner_info" id="vo">
+                <div class="swiper-slide">
+                    <a href="{$vo.picture_url}"><img src="{$vo.path}" alt="{$vo.picture_title}"></a>
+                </div>
+            </volist>			
+		</div>
+		<div class="banner-pagination"></div>
+	</div>
+	<!-- 企业用户/服务商登录[[ -->
+	<?php if(!session('?company_user')){?>
+	<div class="user-login-wra">
+		<ul class="login-tabs">
+			<li class="active"><a href="javascript:;">企业用户</a></li>
+			<li><a href="javascript:;">服务商</a></li>
+		</ul>
+		<div class="user-login-cnt">
+			<!-- 企业用户登录[[ -->
+			<div class="login-item" style="display: block;">
+				<form id="J_login-form" action="/Member-firmLoginHandle" method="post" autocomplete="off">
+					<div class="firm-login-box">
+						<div class="firm-item">
+							<label class="icon-label fl">
+								<i class="icon icon-login-user"></i>
+							</label>
+							<input type="text" name="username" placeholder="帐号" class="ipt" required />
+						</div>
+						<div  class="firm-item">
+							<label class="icon-label fl">
+								<i class="icon icon-login-pwd"></i>
+							</label>
+							<input type="password" name="password" placeholder="密码" class="ipt" required />
+						</div>
+						<div  class="firm-item-valid clearfix">
+							<span class="valid-txt fl">
+								<label class="icon-label fl">
+									<i class="icon icon-login-valid"></i>
+								</label>
+								<input type="text" name="verify_code" placeholder="验证码" class="ipt" required />
+							</span>
+							<span class="verifyimg-box fr">
+								<img src="/Member-verifyCode.html" class="verifyimg reloadverify" alt="点击切换" onclick="this.src='/Member-verifyCode.html?rand='+Math.random();">
+							</span>
+						</div>
+						<div class="login-fn">
+							<label class="auto-login">
+								<input class="icheck" type="checkbox" name="auto_login" value="1">30天内自动登录
+							</label>
+							<a class="fr" href="/Member-getBackPass">忘记密码</a>
+						</div>
+						<input type="submit" class="user-submit J_btn-submit" value="登录" />
+						<p class="user-login-tips">没有智保易账号？<a href="/Member-firmRegister.html">马上注册&gt;</a></p>
+					</div>
+				</form>
+			</div>
+			<!-- 企业用户登录]] -->
+			<!-- 服务商登录[[ -->
+			<div class="login-item">
+				<form id="login-form" method="post" autocomplete="off">
+					<div class="firm-login-box">
+						<div class="firm-item">
+							<label class="icon-label fl">
+								<i class="icon icon-login-user"></i>
+							</label>
+							<input type="text" id="inputEmail" name="username" placeholder="帐号" class="ipt" ajaxurl="/member/checkUserNameUnique.html" datatype="*1-16" required />
+						</div>
+						<div  class="firm-item">
+							<label class="icon-label fl">
+								<i class="icon icon-login-pwd"></i>
+							</label>
+							<input type="password" id="inputPassword" name="password" placeholder="密码" class="ipt" required />
+						</div>
+						<input type="submit" class="user-submit J_btn-submit" value="登录" />
+					</div>
+				</form>
+			</div>
+			<!-- 服务商登录]] -->
+		</div>
+	</div>
+	<?php } ?>
+	<!-- 企业用户/服务商登录]] -->
+	<div class="sec sec1">
+		<div class="commWidth">
+			<h2>推荐服务机构</h2>
+			<div class="sec-cnt clearfix">
+				<ul class="pro-list">
+		        <?php foreach($service_product['result'] as $k=>$v){ ?>
+		            <li>
+		                <div class="pro-logo"><img src="{:getFilePath($v['cid'],'./Uploads/Company/','info')}service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></div>
+		                <h5 class="pro-title"><?php echo $v['name']; ?></h5>
+		                <p class="pro-desc"><?php echo $applicable_object[$v['applicable_object']]; ?></p>
+		                <div class="pro-fee-cnt">
+		                	<?php if($v['service_type'] == 2){?>
+			                <dl class="pro-fee height">
+			                    <dt>服务费</dt>
+			                    <?php foreach($v['service_price'] as $key=>$val){?>
+			                    <dd><em><?php echo $val['service_price']; ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
+			                    <?php } ?>
+			                </dl>
+			                <?php }elseif($v['service_type'] == 1){?>
+			                    <dl class="pro-fee">
+			                        <dt>服务费</dt>
+			                    <?php foreach($v['service_price'] as $key=>$val){?>
+			                    <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+			                    <?php } ?>
+			                    </dl>
+
+			                <?php } ?>
+			                <?php if($v['service_price_state'] == 1){?>
+			                    <dl class="pro-fee">
+			                        <dt>套餐费</dt>
+			                        <dd><em>2888</em>元/年</dd>
+			                    </dl>
+			                <?php }else{ if($v['service_type'] == 1){?>
+
+			                    <dl class="pro-fee">
+			                        <dd><span class="fee-free">免套餐费</span></dd>
+			                    </dl>
+			                <?php }}?>
+		                </div>
+
+		                <a href="{:U('SocialSecurity/productDetail',array('cid'=>$v['cid'],'id'=>$v['id']))}" class="btn no-mgt">立即参保</a>
+		            </li>
+		            <?php } ?>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="sec sec2">
+		<div class="commWidth">
+			<h2>您的烦恼是什么？</h2>
+			<p class="title-desc">缴纳社保公积金的烦恼</p>
+			<div class="sec-cnt clearfix">
+				<ul class="problem-list clearfix">
+					<li>
+						<div><span class="icon icon-time">耗时费力</span></div>
+						<b class="problem-list-tit">耗时费力</b>
+						<p class="problem-list-desc">办理流程复杂</p>
+						<p class="problem-list-desc">要准备各种参保材料</p>
+					</li>
+					<li>
+						<div><span class="icon icon-policy">政策不一</span></div>
+						<b class="problem-list-tit">政策不一</b>
+						<p class="problem-list-desc">政策随时变化</p>
+						<p class="problem-list-desc">不能第一时间获取相关信息</p>
+					</li>
+					<li>
+						<div><span class="icon icon-risk">用工风险</span></div>
+						<b class="problem-list-tit">用工风险</b>
+						<p class="problem-list-desc">员工口味难调</p>
+						<p class="problem-list-desc">忘停忘缴，用工风险增加</p>
+					</li>
+					<li>
+						<div><span class="icon icon-solve">审计难题</span></div>
+						<b class="problem-list-tit">审计难题</b>
+						<p class="problem-list-desc">档案记录不全</p>
+						<p class="problem-list-desc">员工参保信息丢失</p>
+					</li>
+				</ul>
+			</div>
+			<p class="title-desc mgb">工资发放的烦恼</p>
+			<div class="sec-cnt clearfix">
+				<ul class="problem-list problem-salary clearfix">
+					<li>
+						<span class="icon icon-satisfy"></span>
+						<div class="problem-salary-cnt">
+							<b class="problem-salary-tit">无法满足</b>
+							<p>外派员工发薪报税需求</p>
+						</div>
+					</li>
+					<li>
+						<span class="icon icon-report"></span>
+						<div class="problem-salary-cnt salary-report-cnt">
+							<b class="problem-salary-tit">报表繁多</b>
+							<p>费时费力易出错</p>
+						</div>
+					</li>
+					<li>
+						<span class="icon icon-salary-info"></span>
+						<div class="problem-salary-cnt">
+							<b class="problem-salary-tit">员工薪酬信息</b>
+							<p>查询、调取、修改困难</p>
+						</div>
+					</li>
+					<li>
+						<span class="icon icon-salary-security"></span>
+						<div class="problem-salary-cnt vtop-cnt">
+							<b class="problem-salary-tit">薪酬泄密难以控制</b>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="sec sec3">
+		<h3>您在平台能享受的产品服务是什么?</h3>
+		<div class="sec3-cnt">
+			<div class="swiper-container pro-service commWidth">
+				<ul class="sec3-tabs">
+					<li class="active"><a href="javascript:;">HR-SaaS管理系统</a></li>
+					<li><a href="javascript:;">五险一金相关服务</a></li>
+					<li><a href="javascript:;">薪酬代发相关服务</a></li>
+					<li><a href="javascript:;">社保查询/计算器</a></li>
+				</ul>
+				<div class="swiper-wrapper sec3-wrapper clearfix">
+					<div class="swiper-slide">
+						<div class="fl">
+							<p class="sec3-cnt-tit">企业管理中心-永久免费使用</p>
+							<ol class="sec3-cnt-list">
+								<li><a href="javascript:;">在线企业员工批量报增减</a></li>
+								<li><a href="javascript:;">在线企业员工批量录入代发薪酬信息</a></li>
+								<li><a href="javascript:;">智能化差额管理模块，让金额管理更加准确可靠</a></li>
+								<li><a href="javascript:;">智能化对账、开发票管理</a></li>
+								<li><a href="javascript:;">基于人工智能基础上的业务办理全程跟踪与前置提醒</a></li>
+							</ol>
+						</div>
+						<div class="sec3-cnt-pic fl">
+							<img src="/Application/Home/Assets/img/platform/sec3_cnt_pic1.jpg" width="680" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="fl">
+							<p class="sec3-cnt-tit">企业管理中心-永久免费使用</p>
+							<ol class="sec3-cnt-list">
+								<li><a href="javascript:;">在线企业员工批量报增减</a></li>
+								<li><a href="javascript:;">在线企业员工批量录入代发薪酬信息</a></li>
+								<li><a href="javascript:;">智能化差额管理模块，让金额管理更加准确可靠</a></li>
+								<li><a href="javascript:;">智能化对账、开发票管理</a></li>
+								<li><a href="javascript:;">基于人工智能基础上的业务办理全程跟踪与前置提醒</a></li>
+							</ol>
+						</div>
+						<div class="sec3-cnt-pic fl">
+							<img src="/Application/Home/Assets/img/platform/sec3_cnt_pic1.jpg" width="680" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="proService-pagination"></div>
+			</div>
+		</div>
+	</div>
+	<div class="sec sec4">
+		<div class="commWidth">
+			<div class="sec4-cnt">
+				<div class="thead">
+					<div class="advantage fl">智保易</div>
+					<div class="vs fl">
+						<span class="icon icon-vs"></span>
+					</div>
+					<div class="inferiority fl">其他互联网社保</div>
+				</div>
+				<div class="tbody">
+					<div class="advantage fl">
+						<ul class="advantage-list">
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-advantage1"></i>
+								</span>
+								<b class="advantage-tit">集团专业服务优势</b>
+								<p>借助智通人才连锁集团20+年人力资源的专业服务经验<br />前期线下导入旗下50+分子公司作为服务机构</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-advantage2"></i>
+								</span>
+								<b class="advantage-tit">专业资质审核认证</b>
+								<p>严格把控入驻服务机构资质审核<br />要求正规的“双证”《人力资源服务许可》《劳务派遣经营许可》</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-advantage3"></i>
+								</span>
+								<b class="advantage-tit">交易透明化</b>
+								<p>平台商品服务价格100%透明<br />交易订单明细由系统自动化生成，杜绝不良商家无消费陷阱</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-advantage4"></i>
+								</span>
+								<b class="advantage-tit">智能化HR-SaaS系统</b>
+								<p>智能化跟踪订单，社保缴纳下单环节的全程在线化、<br />全程无人工干预，提高企业HR与服务机构办事效率</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-advantage5"></i>
+								</span>
+								<b class="advantage-tit">全程数据安全</b>
+								<p>平台后台全程监控<br />绝不泄漏服务机构和企业客户数据信息</p>
+							</li>
+						</ul>
+					</div>
+					<div class="inferiority fr">
+						<ul class="inferiority-list">
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-inferiority1"></i>
+								</span>
+								<b class="advantage-tit">自建“虚”中介平台</b>
+								<p>社保代理服务经验年限不够，难以审核服务机构的服务品质</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-inferiority2"></i>
+								</span>
+								<b class="advantage-tit">无资质证书</b>
+								<p>不具备人力资源服务和劳务派遣许可资质，涉嫌违规经营</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-inferiority3"></i>
+								</span>
+								<b class="advantage-tit">交易价格混乱</b>
+								<p>低价或免费是噱头，把社保费先交才能享受所谓低价或免费</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-inferiority4"></i>
+								</span>
+								<b class="advantage-tit">HR-SaaS系统功能复杂，使用效率不高</b>
+								<p>“SaaS+云”系统的产品功能复杂，使用效率不高</p>
+							</li>
+							<li>
+								<span class="ad-list-img">
+									<i class="icon icon-inferiority5"></i>
+								</span>
+								<b class="advantage-tit">客户数据泄漏频频发生</b>
+								<p>没承诺企业客户和服务机构的数据隐私安全</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="sec sec5">
+		<div class="commWidth">
+			<h2>购买流程</h2>
+			<ol class="steps-list clearfix">
+				<li>
+					<div class="steps-img"><span class="icon icon-step1"></span></div>
+					<div class="steps-cnt">
+						<p class="steps-nums steps-nums1">注册/登录</p>
+						<ul class="steps-link">
+							<li><a href="javascript:;">填写企业基本信息</a></li>
+							<li><a href="javascript:;">完善审核信息</a></li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<div class="steps-img"><span class="icon icon-step2"></span></div>
+					<div class="steps-cnt">
+						<p class="steps-nums steps-nums2">选购套餐服务</p>
+						<ul class="steps-link steps-link2">
+							<li><a href="javascript:;">选择产品服务</a></li>
+							<li><a href="javascript:;">签订服务合同</a></li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<div class="steps-img"><span class="icon icon-step3"></span></div>
+					<div class="steps-cnt">
+						<p class="steps-nums steps-nums3">在线申报</p>
+						<ul class="steps-link steps-link3">
+							<li><a href="javascript:;">企业中心社保报增</a></li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<div class="steps-img"><span class="icon icon-step4"></span></div>
+					<div class="steps-cnt">
+						<p class="steps-nums steps-nums4">支付</p>
+						<ul class="steps-link">
+							<li><a href="javascript:;">在线支付/银行转账</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="last-child">
+					<div class="steps-img"><span class="icon icon-step5"></span></div>
+					<div class="steps-cnt">
+						<p class="steps-nums steps-nums5">办理完成</p>
+						<ul class="steps-link steps-link5">
+							<li><a href="javascript:;">服务机构线下办理</a></li>
+							<li><a href="javascript:;">员工下个月在保</a></li>
+						</ul>
+					</div>
+				</li>
+			</ol>
+		</div>
+	</div>
+	<div class="sec sec6">
+		<div class="commWidth">
+			<h2>最新资讯</h2>
+			<div class="ind-search">
+			<form name="form" method="get" action="{:U('Article/lists')}" target="_blank">
+				<input type="text" name="keyword" class="ind-search-txt" placeholder="请输入..." />
+				<input type="submit" class="btn-ind-search" value="" />
+				</form>
+			</div>
+			<ul class="sec6-tabs">
+                <volist name="city" id="vo">
+                    <li class="<if condition='$i == 1'>active</if>" value="{$vo.location}"><a href="javascript:;">{$vo.location|showAreaName=###}</a></li>
+                </volist>
+			</ul>
+			<div class="new-info">
+				<ul class="newInfo-list clearfix">
+					<li>
+						<img src="/Application/Home/Assets/img/platform/info1.jpg" width="270" alt="">
+						<div id="help">
+							<volist name="article.help" id="vo">
+							<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							</volist>
+						</div>
+					</li>
+					<li>
+						<img src="/Application/Home/Assets/img/platform/info2.jpg" width="270" alt="">
+						<div id="statute">
+						 	<volist name="article.statute" id="vo">
+							<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							</volist>
+						</div>
+					</li>
+					<li>
+						<img src="/Application/Home/Assets/img/platform/info3.jpg" width="270" alt="">
+						 <div id="notice">
+						 	<volist name="article.notice" id="vo">
+						 	<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							</volist>
+						 </div>
+					</li>
+					<li>
+						<img src="/Application/Home/Assets/img/platform/info4.jpg" width="270" alt="">
+						<div id="new">
+							<volist name="article.new" id="vo">
+							<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							</volist>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<include file="Platform/footer" />
+	<script type="text/javascript" data-module="ind_platform" src="/Application/Home/Assets/js/dist/ind_platform_v1.2.bundle.js"></script>
+</body>
+</html>

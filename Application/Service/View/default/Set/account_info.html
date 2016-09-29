@@ -1,0 +1,44 @@
+<!-- 账号信息 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-bd">
+        <fieldset class="account-info-wra">
+            <form id="accountInfo_form" class="accountInfo-form">
+                <div class="details-item">
+                    <label>角色</label>
+                    <div class="ipt-box"><?php echo adminState()['group'][$result['group']] ;?></div>
+                </div>
+                <div class="details-item">
+                    <label>账号</label>
+                    <div class="ipt-box">{$result.username}<a href="javascript:" class="change-pwd cbluelg" data-act="change_pwd">修改密码</a></div>
+                </div>
+                <?php if($result['type'] == 1 && $result['group'] == 1) :?>
+                <div class="details-item">
+                    <label><i class="cred">*</i>姓名</label>
+                    <div class="ipt-box">
+                        <input type="text" class="ipt w-large" name="name" placeholder="" value="{$result.name}" required />
+                    </div>
+                </div>
+                <div class="details-item">
+                    <label>电话</label>
+                    <div class="ipt-box">
+                        <input type="text" class="ipt w-large" name="telphone" placeholder="" value="{$result.telphone}" />
+                    </div>
+                </div>
+                <div class="details-item">
+                    <label>QQ</label>
+                    <div class="ipt-box">
+                        <input type="text" class="ipt w-large" name="qq" placeholder="" value="{$result.qq}" />
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{$result.id}" />
+                <button type="submit" class="btn-submit">保存</button>
+                <?php endif; ?>
+            </form>
+        </fieldset>
+    </div>
+</block>
+<block name="script">
+    <script data-init="account_info" type="text/javascript" src="/Application/Service/Assets/js/dist/set.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

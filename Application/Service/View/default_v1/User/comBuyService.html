@@ -1,0 +1,78 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">服务列表</h2></div>
+    <div class="gutter table-responsive">
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	            	<th>服务编号</th>
+	                <th>产品名称</th>
+	                <th>企业名称</th>
+	                <th>客服</th>
+	                <th>会员费</th>
+	                <th>订单状态</th>
+	                <th>服务状态</th>
+	                <th>有效期</th>
+	                <th>代发工资？</th>
+	                <th>参保的数量</th>
+	                <th width="10%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td>000000000</td>
+	                <td>年费会员产品</td>
+	                <td>广东智通人才</td>
+	                <td>某某某</td>
+	                <td>1000</td>
+	                <td>待支付</td>
+	                <td>未签约</td>
+	                <td>2016/12/31</td>
+	                <td>是</td>
+	                <td>3</td>
+	                <td class="op-td">
+	                	<a class="c-warm" href="javascript:;" data-act="changePrice" data-id="11">修改价格 </a>
+	                    <a class="c-primary" href="javascript:;" data-act="allot" data-id="11">分配 </a>
+	                </td>
+	            </tr>
+				<tr>
+	                <td>000000000</td>
+	                <td>年费会员产品</td>
+	                <td>广东智通人才</td>
+	                <td>某某某</td>
+	                <td>1000</td>
+	                <td>待支付</td>
+	                <td>未签约</td>
+	                <td>2016/12/31</td>
+	                <td>是</td>
+	                <td>3</td>
+	                <td class="op-td">
+	                	<a class="c-warm" href="javascript:;" data-act="setService" data-id="11">服务设定 </a>
+	                    <a class="c-primary" href="javascript:;" data-act="allot" data-id="11">分配 </a>
+	                </td>
+	            </tr>
+	            <tr>
+	                <td>000000000</td>
+	                <td>年费会员产品</td>
+	                <td>广东智通人才</td>
+	                <td>某某某</td>
+	                <td>1000</td>
+	                <td>待支付</td>
+	                <td>未签约</td>
+	                <td>2016/12/31</td>
+	                <td>是</td>
+	                <td>3</td>
+	                <td class="op-td">
+	                	<a class="c-warm" href="javascript:;" data-id="11">查看 </a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+		
+
+	</div>
+</block>
+<block name="script">
+    <script data-init="comBuyService" type="text/javascript" src="/Application/Service/Assets/js/dist/user.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

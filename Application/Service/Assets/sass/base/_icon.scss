@@ -1,0 +1,23 @@
+//图标
+$icon-layout: vertical; // 雪碧图排列方式，vertical(垂直，默认值), horizontal(水平), diagonal(对角线), smart(最小方式)
+$icon-sprite-dimensions: true; //设置变量的值，使雪碧图都有宽高
+$icon-clean-up: true; //清除过期的sprite false,true  默认值为true
+
+@import "compass/utilities/sprites"; //加载compass sprites模块
+@import "icon/*.png"; //导入icon文件夹下的所有png图片
+
+.icon{
+	display: inline-block;
+	position: relative;
+	margin: 0 5px;
+	top:-1px;
+	vertical-align: middle;
+
+	&.no-gutter{
+		margin: 0;
+	}
+
+}
+
+@include all-icon-sprites; //输出所有的雪碧图css
+

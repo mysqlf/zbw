@@ -1,0 +1,149 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/home.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">订单进度</span>
+    </div>
+    <div class="trackOrder">
+        <if condition="-1 == $memberStatus">
+            <!--不是会员-->
+            <div class="nothing">
+                <strong>您还不是智保易会员，<a href="{:U('Home/SocialSecurity/index')}"> 马上参保>></a></strong>
+            </div>
+        <elseif condition="0 == $memberStatus"/>
+            <!--会员已过期-->
+            <div class="nothing">
+                <strong>智保易会员已过期，<a href="{:U('Home/SocialSecurity/index')}"> 马上参保>></a></strong>
+            </div>
+        <else/>
+	        <!--订单进度-->
+	        <if condition="$companyResult['order']">
+		        <volist name="companyResult.order" id="vo">
+			        <div class="order <if condition="count($companyResult['order']) eq $i">noborder</if>">
+			            <div class="titbar">{$vo.order_date}（{$vo.location.locationDefaultValue|default='合肥'}）[{$vo.company_name}] <a href="{:U('Company-Progress-index',array('serviceOrderId'=>$vo['id']))}">详情>></a></div>
+			            <div class="track">
+			                <volist name="vo.order_state_info" id="voo" key="j">
+			                    <div class="undone <if condition="!empty($voo['time'])">complete</if>">
+			                    <h3>{$voo.value}</h3>
+			                    <p>{$voo.timeArray.date|default=''}<br/>{$voo.timeArray.time|default=''}</p>
+			                    </div>
+			                    <if condition="count($vo['order_state_info']) != ($j)"><i class="icon icon-next"></i></if>
+			                </volist>
+			            </div>
+			        </div>
+		        </volist>
+		  <else/>
+		  	暂无订单进度
+		  </if>
+        </if>
+    </div>
+    <if condition='-1 == $memberStatus'>
+	    <div class="has"><!--会员已过期与不是会员加上has-->
+	        <div class="pageTitle clearOver">
+	        <span class="fl">参保一览</span>
+	        <strong class="fl">参保地：合肥</strong>
+	    </div>
+	    <div class="browse">
+	        <div class="add item">
+	            <!--<a href="{:U('Company-Insurance-increaseList')}">-->
+	            <h2>0</h2>
+	            <h3>+报增</h3>
+	            </a>
+	        </div>
+	        <div class="minus item">
+	            <!--<a href="{:U('Company-Insurance-reduceList')}">-->
+	            <h2>0</h2>
+	            <h3>-报减</h3>
+	            </a>
+	        </div>
+	        <div class="nop item">
+	            <!--<a href="{:U('Company-Insurance-warrantyList')}">-->
+	            <h2>0</h2>
+	            <h3>在保人员</h3>
+	            </a>
+	        </div>
+	        <div class="salary item">
+	            <!--<a href="{:U('Company-Salary-index')}">-->
+	            <h2>0</h2>
+	            <h3>代发工资</h3>
+	            </a>
+	        </div>
+	    </div>
+    <elseif condition="0 == $memberStatus"/>
+	    <div class="has"><!--会员已过期与不是会员加上has-->
+	        <div class="pageTitle clearOver">
+	        <span class="fl">参保一览</span>
+	        <strong class="fl">参保地：{$companyResult.insurance.locationDefaultValue|default='合肥'}</strong>
+	    </div>
+	    <div class="browse">
+	        <div class="add item">
+	            <!--<a href="{:U('Company-Insurance-increaseList')}">-->
+	            <h2>{$companyResult.insurance.add_num|default='0'}</h2>
+	            <h3>+报增</h3>
+	            </a>
+	        </div>
+	        <div class="minus item">
+	            <!--<a href="{:U('Company-Insurance-reduceList')}">-->
+	            <h2>{$companyResult.insurance.del_num|default='0'}</h2>
+	            <h3>-报减</h3>
+	            </a>
+	        </div>
+	        <div class="nop item">
+	            <!--<a href="{:U('Company-Insurance-warrantyList')}">-->
+	            <h2>{$companyResult.insurance.warranty_num|default='0'}</h2>
+	            <h3>在保人员</h3>
+	            </a>
+	        </div>
+	        <div class="salary item">
+	            <!--<a href="{:U('Company-Salary-index')}">-->
+	            <h2>{$companyResult.insurance.payroll_credit_num|default='0'}</h2>
+	            <h3>代发工资</h3>
+	            </a>
+	        </div>
+	    </div>
+    <else/>
+	    <div class="">
+	        <div class="pageTitle clearOver">
+	        <span class="fl">参保一览</span>
+	        <strong class="fl">参保地：{$companyResult.insurance.locationDefaultValue|default='合肥'}</strong>
+	    </div>
+	    <div class="browse">
+	        <div class="add item">
+	            <a href="{:U('Company-Insurance-increaseList')}">
+	            <h2>{$companyResult.insurance.add_num|default='0'}</h2>
+	            <h3>+报增</h3>
+	            </a>
+	        </div>
+	        <div class="minus item">
+	            <a href="{:U('Company-Insurance-reduceList')}">
+	            <h2>{$companyResult.insurance.del_num|default='0'}</h2>
+	            <h3>-报减</h3>
+	            </a>
+	        </div>
+	        <div class="nop item">
+	            <a href="{:U('Company-Insurance-warrantyList')}">
+	            <h2>{$companyResult.insurance.warranty_num|default='0'}</h2>
+	            <h3>在保人员</h3>
+	            </a>
+	        </div>
+	        <div class="salary item">
+	            <a href="{:U('Company-Salary-index')}">
+	            <h2>{$companyResult.insurance.payroll_credit_num|default='0'}</h2>
+	            <h3>代发工资</h3>
+	            </a>
+	        </div>
+	    </div>
+    </if>
+    </div>
+</block>
+<block name="footer">
+    <div class="contact">
+        <i class="icon icon-image"></i>
+        全国服务热线：<span>400-007-5156</span>
+    </div>
+</block>
+<block name="script">
+    <script data-head="0" src="/Application/static/Home/js/dist/home.bundle.js"></script>
+</block>

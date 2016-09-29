@@ -1,0 +1,134 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">账单详情</h2></div>
+	
+    <?php if(!empty($result['result'])):?>
+    <div class="gutter table-responsive ">
+    	<div class="detail-head clearfix2">
+			<div class="company-name pull-left">
+				<h2><?php echo $result['bill']['company_name'];?></h2>
+				<p>账单月：<?php echo substr($result['bill']['order_date'] , 0, 4) . '年' . substr($result['bill']['order_date'] , 4, 2) . '月';?></p>
+			</div>
+			<a href="javascript:history.go(-1);" class="btn btn-border pull-right">返回</a>
+			<a href="{:U('Service/Bill/downloadBill1',array('id'=>I('id',0),'bno'=>I('bno')))}" class="btn btn-border pull-right">导出明细</a>
+		</div>
+
+	    <table class="table table-bordered table-border text-center">
+	        <thead>
+	            <tr>
+	            	<th rowspan="2">账单年月</th>
+	                <th rowspan="2">姓名</th>
+	                <th rowspan="2">身份证号</th>
+	                <th rowspan="2">参保地</th>
+	                <th rowspan="2">服务类型</th>
+	                <th rowspan="2">缴纳年月</th>
+	                <th colspan="2">社保</th>
+	                <th colspan="2">公积金</th>
+	                <th rowspan="2">残障金/其他</th>
+	                <th rowspan="2">个人所得税</th>
+	                <th rowspan="2">实发工资</th>
+	                <th rowspan="2">上期结余</th>
+	                <th rowspan="2">服务费</th>
+	                <th rowspan="2">合计</th>
+	            </tr>
+	            <tr>
+	            	<th>单位</th>
+	            	<th>个人</th>
+	            	<th>单位</th>
+	            	<th>个人</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	<?php if(count($result['result'])<=0){?><tr><td colspan="16">暂无记录</td></tr><?php }?>
+	        	<?php foreach ($result['result'] as $v){?>
+	            <tr>
+	                <td><?php echo substr($result['bill']['order_date'] , 0, 4) . '/' . substr($result['bill']['order_date'] , 4, 2);?></td>
+	                <td><?php echo $v['user_name'] ? $v['user_name'] : '未命名';?></td>
+	                <td><?php echo $v['card_num'] ? $v['card_num'] : '未知';?></td>
+	                <td><?php echo $v['location'] ? showAreaName($v['location']) : '未知';?></td>
+	                <td><?php $state = max(array($v['provident_fund_state'],$v['social_insurance_state'],$v['disable_state']));echo adminState()['warranty'][$state]?adminState()['warranty'][$state]:'未知';?></td>
+	                <td><?php echo substr($v['pay_date'] , 0 , 4).'/'.substr($v['pay_date'] , 4 , 2);?></td>
+	                <td>
+		               <?php echo $v['soc_company'];?>
+	                </td>
+	                <td>
+						<?php echo $v['soc_person'] = $v['soc_person'] > 0 ? $v['soc_person'] : $v['deduction_social_insurance'];?>
+	                </td>
+	                <td>
+		                <?php echo $v['pro_company'];?>
+	                </td>
+	                <td>
+
+					    <?php echo $v['pro_person'] = $v['pro_person']>0?$v['pro_person']:$v['deduction_provident_fund'];?>
+	                </td>
+	                <td><?php echo $v['disabled'].'/'.$v['other'];?></td>
+	                <td><?php echo $v['tex'];?></td>
+	                <td><?php echo $v['actual_salary'];?></td>
+	                <td>
+	                	<span class="<?php echo $v['balance']>0 ? 'plus' : 'minus';?>"><?php echo $v['balance'];?></span>
+	                </td>
+	                <td><?php echo $v['soc_service']+$v['pro_service']+$v['dis_service']+$v['salary_service'];?></td>
+	                <td><?php echo $v['soc_company']+$v['tex']+$v['soc_person']+$v['pro_company']+$v['pro_person']+$v['disabled']+$v['other']+$v['actual_salary']+$v['soc_service']+$v['pro_service']+$v['dis_service']+$v['salary_service']+$v['soc_post_price']+$v['pro_post_price'];?></td>
+	            </tr>
+				<?php }?>
+	        </tbody>
+	    </table>
+
+        <div class="pagination">
+            {$result.page}
+        </div>
+		
+		<form id="pay-form" class="bill-detail clearfix2" >
+			<ul class="bill-total">
+				<li class="col-xs-4">账单金额：<span><?php echo $result['bill']['price']?>元</span></li>
+				<li class="col-xs-4">上期结余：<span><?php echo $result['bill']['per_balance_total']?$result['bill']['per_balance_total']:0.00;?>元</span></li>
+				<li class="col-xs-4">所需实付合计：<span><?php echo $result['bill']['price']-($result['bill']['per_balance_total']?$result['bill']['per_balance_total']:0.00)?>元</span></li>
+			</ul>
+			<?php if ($result['bill']['state'] != 2){?>
+			<div class="bill-status col-xs-6">
+				<p><input class="icheck" required type="radio" name="has_pay" value="" > 已付款</p>
+				<div class="form-group col-xs-12 ">
+                    <label class="label-left vertical-top">
+                        实付：
+                    </label>
+                    <div class="inline-block">
+                        <input type="text" class="form-control" required name="actual_price" value="">
+                    </div>
+                    <span class="vertical-top inline-block">元</span>
+                </div>
+                <div class="form-group col-xs-12">
+                    <label class="label-left vertical-top">
+                        备注：
+                    </label>
+                    <div class="inline-block">
+                        <input type="text" class="form-control feedBack-text "  placeholder="反馈" name="note" value="">
+                    </div>
+                </div>
+
+				<p>
+				<button class="btn btn-primary gutter-y" data-act="comBillpayment" >提 交</button>
+				</p>
+			</div>
+			<?php }else{?>
+			<div class="col-xs-6">
+				<p class="pay-way">
+				<!--在线支付：<span class="c-gray">2016/03/11 19:00:00</span>
+				<br>-->
+				线下支付 <span class="c-gray"><?php echo $result['bill']['pay_time'];?> </span><br>
+				备    注 <span class="c-gray"><?php echo $result['bill']['note'];?></span>
+				</p>
+
+			</div>
+			<?php }?>
+			<input type="hidden" name="id" value="{$id}">
+			<input type="hidden" name="bill_no" value="{$bno}">
+		</form>
+	</div>
+    <?php else:?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php endif;?>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="comBillDetail" src="/Application/Service/Assets/js/dist/bill.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

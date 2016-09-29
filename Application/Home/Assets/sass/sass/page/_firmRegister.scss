@@ -1,0 +1,347 @@
+
+.firm-body{
+	/* background:#f2f2f2 url('#{$img-src}/firm-bg.png') no-repeat bottom center;
+	padding:0 0 82px 0;
+	height: 100%; */
+	padding-top: 0;
+}
+.firm-head{
+	height: 100px;
+}
+.register-logo{
+	float: left;
+	width: 200px;
+	height: 71px;
+	background: url('#{$img-src}/register-logo.png');
+	margin-top: 11px;
+}
+.firm-page{
+	float: left;
+	line-height: 100px;
+	color: #5d6c79;
+	font-size: 18px;
+	padding-left: 30px;
+
+	.dot {
+		font-size: 20px;
+	    padding-right: 20px;
+	    position: relative;
+	    top: -3px;
+	}
+}
+.go-login{
+	float: right;
+	line-height: 100px;
+
+	a{
+		color: #42b6fa;
+	}
+}
+.firm-foot{
+	width: 100%;
+	background: #fff;
+	text-align: center;
+
+	.reg-txt {
+		font-size: 18px;
+		padding: 18px 0;
+		color: #cdd2d5;
+	}
+
+	.copyright {
+		font-size: 12px;
+		color: #9ba3aa;
+		padding: 0 0 10px;
+	}
+
+	&.firm-foot2 {
+		.copyright {
+			padding: 20px 0;
+		}
+	}
+}
+.progress{ 
+	height: 72px;
+	margin: 0 auto;
+	margin-top: 47px;
+	text-align: center;
+}
+.progress-content{
+	display: inline-block;
+}
+.firm-step{
+	float: left;
+	width: 70px;
+	text-align: center;
+	margin: 0 5px;
+
+	.icon {
+		display: block;
+		margin: 0 auto;
+		line-height: 42px;
+		font-size: 18px;
+		color: #fff;
+
+		@extend .loginIcon-progress1;
+	}
+	p{
+		margin-top: 18px;
+	}
+}
+.step-now{
+	.icon {
+		@extend .loginIcon-progress2;
+	}
+	p{
+		color: $orange;
+	}
+}
+.firm-step-line{
+	width: 180px;
+	height: 4px;
+	background: #dcdcdc;
+	float: left;
+	margin-top: 19px;
+}
+
+.firm-content{
+	/* min-height: 100%; */
+	background:#f2f2f2 url('#{$img-src}/firm-bg.png') no-repeat bottom center;
+	padding-bottom: 56px;
+}
+.reg-form{
+	width: 450px;
+	height: 450px;
+	background: #fff;
+	margin: 0 auto;
+	margin-top: 41px;
+	border-radius: 12px;
+	box-shadow: 0 0 15px #C6CCD0; 
+	padding-top: 30px;
+}
+.reg-text{
+	width: 370px;
+	height: 56px;
+	border-radius: 5px;
+	border: 1px solid #dee2e5;
+	margin: 0 auto;
+	margin-bottom: 25px;
+	position: relative;
+	z-index: 1;
+	display: block;
+	overflow: visible;
+	text-align: left;
+
+	@at-root .firm-login-box &{
+		width: 350px;
+
+	}
+
+	&.firm-yzm-text{
+		width: 200px !important;
+		float: left;
+		margin-bottom: 20px;
+
+		input{
+			width: 125px !important;
+		}
+	}
+
+
+	span.validator-error{
+		position: absolute;
+	    left: 0;
+	    bottom: -20px;
+	}
+
+	input{
+		border: none;
+		width: 297px;
+		height: 54px;
+		// float: right;
+		padding-left: 20px;
+		font-size: 16px;
+		color: #5d6c79;
+		line-height: 56px;
+
+		@at-root .firm-login-box &{
+			width: 277px;
+		}
+
+	}
+
+	.icon-label{
+		position: relative;
+	    width: 70px;
+	    height: 100%;
+	    display: inline-block;
+	    float: left;
+
+	    &:before{
+	    	content: '';
+	    	background: #dee2e5;
+	    	width: 1px;
+	    	height: 60%;
+	    	@include stretched-y();
+	    	right: 0;
+	    }
+
+		.icon{
+			@include stretched-full();
+		}
+	}
+}
+.yzm-content{
+	width: 370px;
+	margin: 0 auto
+}
+.yzm-content p{
+	width: 220px;
+}
+.reg-text .yzm-box{
+	width: 147px;
+}
+/* 创建账户 */
+.pass-icon{
+
+	z-index: 1;
+	cursor: pointer;
+	right: 0;
+	width: 40px;
+	background: #fff;
+
+	&,.icon{
+		@include stretched-y();
+	}
+	.icon{
+		left: 0;
+		right: 0;
+	}
+	&.active{
+		.icon {
+			@extend .loginIcon-eye2;
+		}
+		
+	}
+}
+.reg-btn{
+	width: 370px;
+	height: 56px;
+	margin: 0 auto;
+	display: block;
+	font-size: 18px;
+}
+/* 完善资料 */
+/* 完成 */
+.go-verification{
+	font-size: 16px;
+	margin-top: 25px;
+	a{
+		color: $blue;
+	}
+}
+.reg-over{
+	width: 650px;
+	padding-top: 50px;
+	text-align: center;
+	.title{
+		font-size: 24px;
+		color: $orange;
+		font-weight: bold;
+	}
+	img{
+		display: inline-block;
+		margin: 22px 0 10px 0;
+	}
+}
+.cb-btn{
+	display: inline-block;
+	width: 120px;
+	height: 35px;
+	line-height: 20px;
+	margin-top: 40px;
+}
+/* 找回密码 */
+.retrieve-password{
+	height: 380px;
+	padding-top: 65px;
+	text-align: center;
+}
+.retrieve-password-btn{
+	margin-top: 50px;
+}
+.retrieve-password-01{
+	font-size: 18px;
+	margin-bottom: 18px;
+	color: #666666;
+	margin-top: 24px;
+}
+.retrieve-password-02{
+	color: $orange;
+	font-size: 24px;
+	margin-bottom: 36px;
+	font-weight: bold;
+}
+.retrieve-password-03{
+	font-size: 16px;
+
+	.tel{
+		font-weight: bold;
+		color: #666;
+	}
+}
+.send-mail{
+	display: inline-block;
+	width: 370px;
+	height: 56px;
+	font-size: 18px;
+	line-height: 42px;
+	margin-top: 50px;
+}
+/* 新密码设置成功 */
+.retrieve-password-success{
+	color: $orange;
+	font-size: 24px;
+	margin: 77px 0 10px 0;
+}
+.password-success-index{
+	margin-top: 36px;
+	display: block;
+	color: #666;
+	text-decoration: underline;
+	padding-bottom: 10px;
+}
+/* 填写用户名 */
+.fill-box{
+	margin: 15px 0 40px 0;
+}
+
+.psw-level{
+    position: absolute;
+    right: 0;
+    bottom: -20px;
+    z-index: 50;
+
+    .level-item {
+    	display: inline-block;
+    	border: 1px solid #dee2e5;
+    	@include size(20px,8px);
+    }
+
+    $levelArr: #f98a19 #42b6fa #5bdb94;
+
+
+    @for $i from 1 through length($levelArr){
+   		.level-item#{$i}.active{
+   			background: nth($levelArr,$i);
+			border-color: nth($levelArr,$i);
+   		}
+   	}
+
+
+    .level-txt{
+    	font-size: 12px;
+    	color: #78848f;
+    	padding-right: 5px;
+    }
+}

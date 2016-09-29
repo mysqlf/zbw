@@ -1,0 +1,468 @@
+<extend name="Public/base" />
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2>
+			新增社保模板
+		</h2>
+	</div>
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+
+	<div class="tab-content">
+	<!-- 表单 -->
+	<form id="form" action="{:U('add')}" method="post" class="form-horizontal">
+		<!-- 基础文档模型 -->
+		<div class="form-item" >
+			<div class="form_item_sub" style="width:100%">
+				<label class="item-label_1">城市<span class="check-tips"></span></label>
+				<div class="controls_new">
+					<select name="location1" class="input-small" id="location">
+						<option value="0"  >选择城市</option>
+						<volist name="_area" id="v">						
+							<option value="{$v.id}"  >{$v.name}</option>
+						</volist>
+					</select>
+					<select name="location2" class="input-small" id="city_name" style="display: none;">
+					</select>
+					<select name="location" class="input-small" id="region" style="display:none;"></select>						
+				</div>
+
+			</div>	
+		</div>
+		<!-- <p>社保：</p>	 -->
+		<div class="form_item_sub">	
+			<label class="item-label_1">缴纳方式<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<select name="soc_payment_type" class="input-mid" id="soc_payment_type">
+				<option value="1" selected="" >缴当月</option>
+				<option value="2">缴次月</option>
+				</select>
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">报增截止日<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<select name="soc_deadline" class="input-mid deadline" id="soc_deadline">
+				<option value="">请选择</option>
+					<php>
+						for($i=1;$i<=31;$i++)
+						{
+							$strs .= "<option value=".$i.">".$i."</option>";
+						}
+						echo $strs;
+					</php>
+				</select>
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">最大补缴月<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<select name="soc_payment_month" class="input-mid" id="soc_payment_month">
+				<option value="">请选择</option>
+					<php>
+						for($j=1;$j<=12;$j++)
+						{
+							$string .= "<option value=".$j.">".$j."</option>";
+						}
+						echo $string;
+					</php>
+				</select>
+			</div>				
+		</div>
+		<div style="clear:both"></div>	
+		  <p>公积金：</p>		
+		 <div class="form_item_sub">	
+			<label class="item-label_1">缴纳方式<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<select name="pro_payment_type"class="input-mid" id="pro_payment_type">
+				<option value="1" selected="" >缴当月</option>
+				<option value="2">缴次月</option>
+				</select>
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">报增截止日<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<select name="pro_deadline" class="input-mid deadline" id="pro_deadline">
+				<option value="">请选择</option>
+					<php>
+						for($i=1;$i<=31;$i++)
+						{
+							$str .= "<option value=".$i.">".$i."</option>";
+						}
+						echo $str;
+					</php>
+				</select>
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">最大补缴月<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<select name="pro_payment_month" class="input-mid" id="pro_payment_month">
+				<option value="">请选择</option>
+					<php>
+						for($j=1;$j<=12;$j++)
+						{
+							$string .= "<option value=".$j.">".$j."</option>";
+						}
+						echo $string;
+					</php>
+				</select>
+			</div>				
+		</div>
+		<div style="clear:both"></div>	
+		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>社保</h2></div>
+		 <div class="form-item">
+			 <div class="">
+				<div class="fl " id="category_list_1">
+			
+				</div>
+			</div>				
+			<div class="btn s hidden fl create_classify" data-type="1" id="create_sb_classify" >创建社保分类</div>	
+		</div>
+			<!--<div class="tab-nav main-title" style="padding-bottom: 5px;"><h3>社保分类</h3></div>-->
+		
+	
+	    <div class="table-striped" style="width: 850px; overflow: hidden; height: auto;">
+		<table width="850" >
+		  <tr>
+		   <td width="20">&nbsp;</td>
+		    <td width="80">基数范围</td>
+		    <td width="50"><input type="text" name="sb[min]" class="text input-small" value="" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td  width="20"  align="center">~</td>
+		    <td width="50"><input type="text" name="sb[max]" class="text input-small" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" ></td>
+		    <td >&nbsp;</td>
+		    <td width=""></td>
+
+
+		  </tr>
+		 </table> 
+		<table width="850" id="baoxian" > 
+		<tr><td width="75" align="right">能否补缴</td></tr>
+		<tr>
+		    <td width="60" align="center"><input type="checkbox" name="bujiao[]" value="0" class="bujiao"></td>
+		    <td width="100" align="center">养老保险<input type="hidden" name="sb[items][]" value="养老保险"/></td>	   
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value="" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>	 
+		    <td width="80"  align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数&nbsp;</td> 
+		     <td width="150"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">~<input type="text" name="sb[amountmax][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>	
+		</tr>
+		<tr>
+		    <td width="60" align="center"><input type="checkbox" name="bujiao[]" value="1" class="bujiao"></td>
+		    <td width="100" align="center">医疗保险<input type="hidden" name="sb[items][]" value="医疗保险"/></td>
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数&nbsp;</td> 
+		     <td width="150"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">~<input type="text" name="sb[amountmax][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>	
+		  </tr>
+		<tr>
+		    <td width="60" align="center"><input type="checkbox" name="bujiao[]" value="2" class="bujiao"></td>
+		    <td width="100" align="center">失业保险<input type="hidden" name="sb[items][]" value="失业保险"/></td>
+		  
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+		 
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数&nbsp;</td> 
+		     <td width="150"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">~<input type="text" name="sb[amountmax][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>	
+		  </tr>
+		<tr>
+		    <td width="60" align="center"><input type="checkbox" name="bujiao[]" value="3" class="bujiao"></td>
+		    <td width="100" align="center">生育保险<input type="hidden" name="sb[items][]" value="生育保险"/></td>
+		   
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+		  
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数&nbsp;</td> 
+		     <td width="150"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">~<input type="text" name="sb[amountmax][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>	
+		  </tr>  
+		<tr>
+		    <td width="60" align="center"><input type="checkbox" name="bujiao[]" value="4" class="bujiao"></td>
+		    <td width="100" align="center">工伤保险<input type="hidden" name="sb[items][]" value="工伤保险"/></td>
+		  
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数&nbsp;</td> 
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">~<input type="text" name="sb[amountmax][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>	
+		  </tr>
+		<!-- <tr>
+		    <td width="60" align="center"><input type="checkbox" name="bujiao[]" value="5" class="bujiao"></td>
+		    <td width="100" align="center">重大疾病医疗<input type="hidden" name="sb[items][]" value="重大疾病医疗"/></td>		 
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">~<input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="" colspan="2">元</td>		
+		    <td width="80"  align="right">基数</td> 
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>  
+		     <td width="" colspan="2">元</td>	
+		  </tr> -->
+		</table>
+		<div class="h5">&nbsp;</div>
+		<!--<div style="overflow: hidden;"><div class="btn s hidden fl" id="add_baoxian" >添加险种</div></div>
+		<div  style="height: 40px; line-height: 30px"><p>注：不包含的险种不设置数额即可</p></div>
+		<div class="form-item">
+		<label class="item-label_1" >社保卡工本费<span class="check-tips"></span></label> <input type="text" name="sb[pro_cost]" class="text input-small"  value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"/>&nbsp; 元/人</div>	-->
+		<div class="form-item">
+			<label class="item-label_1">所需材料<span class="check-tips"></span></label>
+		</div>	
+		<div class="form_item_sub">
+				<textarea class="ke-edit-textarea" hidefocus="true" name="sb[material]"style="width: 800px; height: 238px;border: 1px solid #dedede;text-indent: 1em;"></textarea>
+		</div>
+		</div>
+		<div class="tab-nav main-title" style="padding: 5px;border:none;"><h2 style="font-size: 16px;">社保其他收费</h2></div>
+		<div class="form-item">	
+			<div class="table-striped" style="width: 800px; overflow: hidden; height: auto;">
+				<table width="900" id="sb_other_data" >
+				  <tr>
+				   <td width="20">&nbsp;</td>
+				    <td width="60">费用名称</td>
+				    <td width="60"><input type="text" name="sb_other[name][]" class="text input-small" value=""  ></td>
+				    <td width="60" align="right">单位金额</td>
+				    <td width="50"><input type="text" name="sb_other[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+				    <td width="20">元</td>
+				    <td width="80">个人金额</td>
+				    <td width="50"><input type="text" name="sb_other[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+				    <td width="20" >元</td>
+				    <td >&nbsp;</td>
+				    <td><!--<div class="btn s hidden fl other_delete" >删除</div>--></td>		    
+				  </tr>
+  
+				 </table>		
+				<div class="tab-nav main-title" style=""><div class="btn s hidden fl" style=" margin-left: 20px" id="sb_other_add">添加</div></div>		 
+			 </div>
+		</div>	
+	<!--公积金-->	
+		<div class="h5">&nbsp;</div>
+		<div class="tab-nav main-title" style=""><h2>公积金</h2>&nbsp;</div>
+	<!-- 	<div class="form-item">
+			<div class="">
+					<div class="fl " id="category_list_2">
+					</div>
+			</div>	
+			<div class="btn s hidden fl create_classify"data-type="2"  >创建公积金分类</div>	
+	 	  </div> -->
+	 	 
+	   <div class="form-item">
+	     <div class="table-striped " style="width: 800px; overflow: hidden; height: auto;">
+			 <table width="800" >
+			  <tr>
+			   <td width="20">&nbsp;</td>
+			    <td width="80">基数范围</td>
+			    <td width="50"><input type="text" name="gjj[min]" class="text input-small" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+			    <td  width="20"  align="center">~</td>
+			    <td width="50"><input type="text" name="gjj[max]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+			    <td >&nbsp;</td>
+			    <td width=""></td>
+			  </tr>
+			  <tr>
+			  	<td width="20">&nbsp;</td>
+			  	<td width="80">是否取整</td>
+			  	<td width="80"><input type="checkbox" name="gjj[intval]" value="1"></td>
+			  </tr>
+			 </table> 
+			  <table width="800"> 
+			  <tr>
+			    <td width="20">&nbsp;</td>
+			    <td width="80" >单位比例</td>
+			   
+			    <td width="80" >
+					<select name="gjj_com_scale"class="input-small scale_gjj" id="gjj_com_scale">						
+						<option value="5">比例范围</option>	
+						<option value="1">固定比例</option>
+		    		</select>
+			    </td>
+				<td class="gjj_com">
+					<table>
+						<tr>
+						   <td width="10"></td>
+						    <td width="50"><input type="text" name="gjj[company][]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+						    <td width="20"  align="center">~</td>
+						    <td width="50"><input type="text" name="gjj[company][]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+						    <td></td>
+						</tr>
+					</table>
+				</td>
+		    	      
+			  </tr>
+			  <tr>
+			    <td width="20"></td>
+			    <td width="80">个人比例</td>	   
+			    <td width="80">
+					<select name="gjj_per_scale"class="input-small" id="gjj_person_scale">						
+						<option value="1">固定比例</option>
+						<option value="5">比例范围</option>	
+		    		</select>
+			    </td>
+			    <td class="gjj_person">
+				    <table width="100%" style="background-color: transparent;">
+				    	<tr>
+				    		<td width="10"></td>
+						    <td width="150" ><input type="text" name="gjj[person]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\d\,]/g,'')" onafterpaste="value=value.replace(/[^\d\,]/g,'')"  maxlength="20"></td><td></td>
+						    <td  width="20"  align="center">% </td>
+						    <td width="">如是多个固定值，请用英文逗号隔开</td>	    	
+				    	</tr>
+				    </table>
+			    </td>
+			
+			  </tr>
+		<!-- 	  <tr>
+			<td width="20"></td>
+			<td width="80">公积金卡工本费</td>
+			<td width="80"><input type="text" class="text input-small" name="gjj[pro_cost]" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"/></td>
+			<td width="20">元/人</td>
+		</tr> -->
+			  </table>
+	  </div>
+	  </div>
+
+	  <!--<div class="form-item"  style="margin-top: 10px">
+	  <label class="item-label_1">公积金卡工本费<span class="check-tips"></span></label> <input type="text" class="text input-small" name="gjj[pro_cost]" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"/>&nbsp; 元/人</div>-->
+	  <div class="tab-nav main-title" style="padding:5px;border:none;"><h2 style="font-size: 16px;">公积金其他收费</h2></div>
+	  <div class="form-item">	
+			<div class="table-striped" style="width: 800px; overflow: hidden; height: auto;">
+				<table width="900" id="gjj_other_data" >
+				  <tr>
+				   <td width="20">&nbsp;</td>
+				    <td width="60">费用名称</td>
+				    <td width="60"><input type="text" name="gjj_other[name][]" class="text input-small" value=""  ></td>
+				    <td width="60" align="right">单位金额</td>
+				    <td width="50"><input type="text" name="gjj_other[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+				    <td width="20">元</td>
+				    <td width="80">个人金额</td>
+				    <td width="50"><input type="text" name="gjj_other[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+				    <td width="20" >元</td>
+				    <td >&nbsp;</td>
+				    <td><!--<div class="btn s hidden fl other_delete" >删除</div>--></td>		    
+				  </tr>
+  
+				 </table>		
+				<div class="tab-nav main-title" style=""><div class="btn s hidden fl" style=" margin-left: 20px" id="gjj_other_add">添加</div></div>		 
+			 </div>
+		</div>		
+	  <div class="h5">&nbsp;</div>
+<!-- 
+		<div class="tab-nav main-title" style="padding-bottom: 5px"><h2>残障金</h2><div class="btn  s hidden fl" >创建残障金分类</div></div>	 -->
+
+		<!-- <div class="form-item">
+			<div class="form_item_sub" style="width:100%;">		
+				<div class="controls_new">
+					<input type="text" class="text input-mid" name="czj[disabled]"  value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"/>元/人/月
+					<label for="follow" style="margin-left:1em;">缴纳方式</label>
+					<select name="czj[follow]" id="follow">
+						<option value="1">跟随社保</option>
+						<option value="2">跟随公积金</option>
+					</select>
+				</div>		
+			</div>
+		</div> -->
+		<div class="form-item cf">
+			<button class="btn submit-btn  hidden ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+		</div>
+	</form>
+	</div>
+</div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+
+$('#submit').click(function(){
+	$('#form').submit();
+});
+
+$(function(){
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    showTab();
+
+	
+
+});
+</script>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__JS__/template_base.js"></script>
+<script type="text/javascript" src="__JS__/template_add.js"></script>
+
+</block>

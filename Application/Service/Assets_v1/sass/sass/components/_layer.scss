@@ -1,0 +1,47 @@
+html {
+
+	.layui-layer-title{
+		background: $color-primary;
+		color: #fff;
+	}
+
+	.layui-layer-btn{
+		text-align: center;
+   		padding: 0 20px 22px;
+
+   		a{
+   			height: auto;
+   			padding: 5px 30px;
+   		}
+	}
+	/* .layui-layer-btn a{
+		margin: {
+			left: 5%;
+			right: 5%;
+		}
+	} */
+}
+
+.layer-form{
+	span.error{
+		position: absolute;
+		top: 100%;
+		left: 0;
+	}
+
+	.disabled{
+		color: #bbb;
+	}
+
+	.check-box span.error{
+		top: 30px;
+	}
+	.inline-block{
+		position: relative;
+	}
+	
+	&.error-right span.error{
+		left: auto;
+		right: 0;
+	}
+}

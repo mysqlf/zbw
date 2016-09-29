@@ -1,0 +1,91 @@
+<!-- 服务套餐 -->
+<extend name="Base/common" />
+<block name="body">
+	<div class="pannel-hd">
+		<h2 class="cnt-title">服务产品</h2>
+		<div class="buttons">
+			<a href="{:U('Product/productDetail?service_type=1')}" class="btn btn-fill btn-primary btn-add"><i class="icon icon-add-white"></i>添加企业产品</a>
+			<a href="{:U('Product/productDetail?service_type=2')}" class="btn btn-border"><i class="icon icon-add-gray"></i>添加个人产品</a>
+		</div>
+	</div>
+    <div class="pannel-tbl">
+        <?php if(empty($res['result'])):?>
+	    <table summary="服务套餐">
+	    	<colgroup>
+	    	
+	    		<col width="11%" />
+	    		<col width="11%" />
+	    		<col width="11%" />
+	    		<col width="10%" />
+	    		<col width="10%" />
+	    		<col width="16%" />
+	    		<col width="10%" />
+	    		<col width="8%" />
+	    	</colgroup>
+	        <thead>
+	            <tr>
+
+	                <th>名称</th>
+	                <th>类型</th>
+	                <th>会员费</th>
+	                <th>有效期</th>
+	                <th>参保地数量</th>
+	                <th>最后编辑时间</th>
+	                <th>状态</th>
+	                <th width="8%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+				<volist name="result['result']" id="vo">
+		            <tr class="<?php if(($key+1)%2==0) echo 'tr-bg'; ?>">
+		       
+		                <td class="cgray">{$vo.name}</td>
+		                <td class="cgray"><?php echo $_service_type[$vo['service_type']]; ?></td>
+		                <td class="cgray">{$vo.member_price}</td>
+		                <td class="cgray">
+		                	<?php $vo['service_price'] = json_decode($vo['service_price'], true);
+		                	if($vo['service_type'] == 1){
+		                		echo $vo['service_price'][0]['validity'],'个月';
+		                	}else{
+		                		foreach($vo['service_price'] as $k=>$v){
+		                			echo $v['validity'],'个月<br/>';
+		                		}
+		                	}
+							?>
+		                </td>
+		                <td>
+							{$vo.location_num}
+		                </td>
+		                <td>
+		                    {$vo.update_time}
+		                </td>
+		                <td>
+		                	<?php echo $_state[$vo['state']]; ?>
+		                </td>
+		                <td class="op-td">
+		                    <a href="{:U('Service/Product/productDetail',array('id'=>$vo['id'],'service_type'=>$vo['service_type']))}" class="tbl-handle" title="编辑">编辑</a>
+		                    <a href="javascript:;" data-act="removePackage" data-product_id="{$vo.id}" class="tbl-handle" title="删除">删除</a>
+		                </td>
+		            </tr>
+	            </volist>
+
+	        </tbody>
+	    </table>
+	    <div class="pagination">
+	    	{$result.page}
+	    </div>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+		<!-- <button type="button" class="btn btn-primary">
+			    	<i class="icon icon-update no-gutter"></i>
+			    	更新为缴纳完成
+			    </button> -->
+
+	</div>
+
+</block>
+<block name="script">
+   <script type="text/javascript" data-module="packageList" src="__ASSETS__/js/dist/package.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

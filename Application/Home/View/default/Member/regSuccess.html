@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{:C('WEB_SITE_TITLE')}-企业注册成功</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/stylesheets/base.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/stylesheets/main.css">
+</head>
+<body>
+	<div class="reg-process">
+		<a href="/index-index.html">
+			<h2>
+				<p><if condition="$Think.get.email">找回密码<else />企业注册</if></p>
+			</h2>
+		</a>
+		<div class="reg-process-content">
+			
+			<div class="reg-cg"><!-- 注册成功 -->
+				<h3 class='reg-titile'><if condition="$Think.get.email">您正在智保易上找回密码！<else />感谢您注册智保易账号！</if></h3>
+				<p>验证邮件已发送 <i>{$Think.session.tmp_user_email|hidecard=###,6}</i>，<span><if condition="$email_login_url eq ''">请登录邮箱完成验证<else/><a href="{$email_login_url}" target="_blank" style="color: #f77f3b;">马上去验证>></a></if></span></p>
+				<img src="__PUBLIC__/Home/images/img/ewm.jpg" alt="">
+				<em>扫一扫，随手掌握参保动态</em>
+				<a class="kong-button cg-button" href="{:U('SocialSecurity/index')}">马上参保>></a>
+			</div>
+		</div>
+	</div>
+<include file="Public/footer" />

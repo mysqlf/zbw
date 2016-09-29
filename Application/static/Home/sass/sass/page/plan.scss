@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+@import "../variables";
+@import "../mixins";
+
+.planList{
+    .pageSearch{
+        line-height: 36px;
+        input,select{
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+        .t1{
+            width: 110px;
+        }
+        .t2{
+            width: 220px;
+        }
+        .t3{
+            width: 150px;
+        }
+    }
+    .pageTable{
+        table-layout:fixed;
+        td{
+            Word-break: break-all;
+            min-height: 38px;
+            height: auto;
+            padding:0 5px;
+        }
+        .c-1{width: 80px;}
+        .c-2{width: 80px;}
+        .c-3{width: 130px;}
+        .c-4{width: 80px;}
+        .c-5{width: 80px;}
+        .c-6{width: 180px;}
+        .c-7{width: 80px;}
+        .c-8{width: 190px;}
+        .c-9{width: 190px;}
+        .c-10{
+            padding: 0px;
+            table{
+                width: 722px;
+                margin: -1px;
+
+                td{
+                    height: 38px;
+                }
+            }
+
+        }
+    }
+}

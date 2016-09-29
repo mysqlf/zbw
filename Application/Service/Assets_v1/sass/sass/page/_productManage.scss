@@ -1,0 +1,35 @@
+.tab-list{
+	height:65px;
+	border-bottom:1px solid #b5b5b5;
+	margin-bottom:40px;
+	line-height:62px;
+	.tab-btn{
+		a{
+			padding: 0 20px;
+			font-size: 16px;
+			margin-right: 10px;
+			display: inline-block;
+			&.on{
+				border-bottom: 3px solid $color-primary;
+			}
+		}
+	}
+	a.btn-add{
+		margin-left: 20px;
+	}
+}
+.edit_product{
+	width:470px;
+	overflow:hidden;
+}
+#add_city,.form-control{
+	width:190px;
+	border-radius:4px;
+
+}
+#upLoad{
+	// width:80px;
+	// height:34px;
+	// background:$color-warm;
+	
+}

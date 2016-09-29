@@ -1,0 +1,66 @@
+<include file="Public/head" />
+<include file="Public/permitHead" />
+<div class="firm-content">
+	<div class="wrapper clearfix">
+		<!-- 注册 -->
+		<div class="progress">
+			<div class="progress-content">
+				<div class="firm-step">
+					<i class="icon">1</i>
+					<p>创建账户</p>
+				</div>
+				<div class="firm-step-line"></div>
+				<div class="firm-step step-now">
+					<i class="icon">2</i>
+					<p>完善资料</p>
+				</div>
+				<div class="firm-step-line"></div>
+				<div class="firm-step">
+					<i class="icon">3</i>
+					<p>注册完成</p>
+				</div>
+			</div>
+		</div>
+		<div class="reg-form">
+			<form id="J_reg-form" action="">
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-company"></i>
+					</label>
+					<input name="company_name" type="text" placeholder='企业简称' required>
+				</p>
+				<!--<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-company"></i>
+					</label>
+					<input name="full_name" type="text" placeholder='企业全称' required>
+				</p>-->
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-email"></i>
+					</label>
+					<input name="email" type="email" placeholder='邮箱' required>
+				</p>
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-user"></i>
+					</label>
+					<input name="contact_name" type="text" placeholder='联系人姓名' required>
+				</p>
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-contact"></i>
+					</label>
+					<input name="contact_phone" type="text" placeholder='联系人电话' required>
+				</p>
+				<input class="button buttonOrange reg-btn J_btn-submit" type="submit" value="下一步">
+			</form>
+		</div>
+	</div>
+</div>
+<include file="Public/permitFoot"/>
+<include file="Public/baseScript" />
+<script data-module="firmRegister2" src="/Application/Home/Assets/js/dist/loginReg.bundle.js"></script>
+</body>
+</html>
+

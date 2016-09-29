@@ -1,0 +1,41 @@
+<include file="Public/head" />
+<include file="Public/permitHead" />
+<div class="firm-content">
+	<div class="wrapper clearfix">	<!-- 设置新密码 -->
+		<include file="Public/getBackPassNav" />
+		<div class="reg-form retrieve-password">
+			<form  id="J_reg-form" action="">
+				<p class="reg-text input-box">
+					<label class="icon-label">
+						<i class="icon loginIcon-lock"></i>
+					</label>
+					<input id="J_pswStronge" type="password" name="password" placeholder='新密码' required minlength="6" maxlength="20">
+					<em class="pass-icon J_show-psw">
+						<i class="icon loginIcon-eye"></i>
+					</em>
+					<span class="psw-level">
+						<i class="level-txt">低</i>
+						<i class="level-item level-item1"></i>
+						<i class="level-item level-item2"></i>
+						<i class="level-item level-item3"></i>
+					</span>
+				</p>
+				<p class="reg-text">
+					<label class="icon-label">
+						<i class="icon loginIcon-lock2"></i>
+					</label>
+					<input id="confirm-psw"  name="r_password" type="password" placeholder='确认新密码' required>
+				</p>
+				<input class="button buttonOrange reg-btn retrieve-password-btn J_btn-submit" type="button" value="下一步">
+			</form>
+		</div>
+	</div>
+
+</div>
+<include file="Public/permitFoot"/>
+<include file="Public/baseScript" />
+<script data-module="getBackPass3" src="/Application/Home/Assets/js/dist/loginReg.bundle.js"></script>
+</body>
+</html>
+
+

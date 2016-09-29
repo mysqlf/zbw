@@ -1,0 +1,161 @@
+@charset "UTF-8";
+/*网格系统*/
+/* 
+ * @param {array} 支持生成多个类 
+ */
+/* line 5, ../../sass/sass/page/service.scss */
+.serviceDetails {
+  margin-bottom: 100px;
+}
+/* line 7, ../../sass/sass/page/service.scss */
+.serviceDetails .titleBar {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 30px;
+  line-height: 40px;
+  color: #666;
+}
+/* line 14, ../../sass/sass/page/service.scss */
+.serviceDetails .titleBar .red {
+  color: #f26797;
+}
+/* line 15, ../../sass/sass/page/service.scss */
+.serviceDetails .titleBar .green {
+  color: #2cca85;
+}
+/* line 17, ../../sass/sass/page/service.scss */
+.serviceDetails .titleBar .name {
+  margin-right: 50px;
+}
+/* line 21, ../../sass/sass/page/service.scss */
+.serviceDetails .content {
+  width: 680px;
+  margin: 0px auto;
+}
+/* line 24, ../../sass/sass/page/service.scss */
+.serviceDetails .content ul {
+  width: 680px;
+}
+/* line 26, ../../sass/sass/page/service.scss */
+.serviceDetails .content ul li {
+  width: 335px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+}
+/* line 31, ../../sass/sass/page/service.scss */
+.serviceDetails .content ul li .icon-pass {
+  margin-right: 10px;
+}
+/* line 41, ../../sass/sass/page/service.scss */
+.serviceDetails .paid .tit {
+  text-align: center;
+  color: #888888;
+  font-size: 16px;
+  margin-top: 50px;
+}
+/* line 47, ../../sass/sass/page/service.scss */
+.serviceDetails .paid .squareG {
+  padding: 4px;
+  background: #888;
+  display: inline-block;
+  margin: 0px 5px;
+}
+/* line 53, ../../sass/sass/page/service.scss */
+.serviceDetails .paid ul {
+  margin-top: 40px;
+}
+/* line 56, ../../sass/sass/page/service.scss */
+.serviceDetails .paid .buyTip {
+  line-height: 40px;
+}
+/* line 59, ../../sass/sass/page/service.scss */
+.serviceDetails .paid .buyTip .icon-star {
+  margin-right: 10px;
+}
+/* line 63, ../../sass/sass/page/service.scss */
+.serviceDetails .paid .total {
+  text-align: right;
+  margin-top: 90px;
+  color: #f77f3b;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 70, ../../sass/sass/page/service.scss */
+.serviceDetails .paid .pay {
+  width: 100%;
+  height: 46px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid #f77f3b;
+  color: #f77f3b;
+  background: #fff;
+  margin-top: 20px;
+}
+/* line 83, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .tit1 {
+  margin-top: 50px;
+  text-align: left;
+  color: #3498db;
+  font-size: 22px;
+}
+/* line 89, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .squareB {
+  padding: 4px;
+  background: #3498db;
+  display: inline-block;
+  margin-right: 15px;
+  position: relative;
+  top: -4px;
+}
+/* line 98, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid ul li {
+  height: 36px;
+  line-height: 36px;
+  color: #666666;
+}
+/* line 104, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .pageTable {
+  margin-top: 20px;
+}
+/* line 106, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .pageTable .c-1 {
+  width: 80px;
+}
+/* line 107, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .pageTable .c-2 {
+  width: 110px;
+}
+/* line 109, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .date {
+  margin-top: 60px;
+  font-size: 16px;
+  color: #f77f3b;
+  text-align: right;
+}
+/* line 115, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .total {
+  text-align: center;
+  margin-top: 20px;
+  height: 48px;
+  line-height: 48px;
+  color: #fff;
+  background: #f77f3b;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 125, ../../sass/sass/page/service.scss */
+.serviceDetails .unpaid .back {
+  width: 86px;
+  height: 34px;
+  color: #f77f3b;
+  background: #fff;
+  border: 1px solid #f77f3b;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 34px;
+  margin-left: 300px;
+  margin-top: 30px;
+}

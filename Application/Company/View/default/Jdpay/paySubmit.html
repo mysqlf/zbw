@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>智保易--订单支付页面</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no"/>
+</head>
+<body  onload="autosubmit()">
+<!--以下信息为标准的 HTML 格式 + PHP 语言 拼凑而成的 网银在线 支付接口标准演示页面 无需修改-->
+
+<form method="post" name="E_FORM" action="https://tmapi.jdpay.com/PayGate?encoding=UTF-8">
+    <input type="hidden" name="v_mid"         value="<?php echo $param['v_mid'];?>">
+    <input type="hidden" name="v_oid"         value="<?php echo $param['v_oid'];?>">
+    <input type="hidden" name="v_amount"      value="<?php echo $param['v_amount'];?>">
+    <input type="hidden" name="v_moneytype"   value="<?php echo $param['v_moneytype'];?>">
+    <input type="hidden" name="v_url"         value="<?php echo $param['v_url'];?>">
+    <input type="hidden" name="v_md5info"     value="<?php echo $param['v_md5info'];?>">
+ 
+ <!--以下几项项为网上支付完成后，随支付反馈信息一同传给信息接收页 --> 
+    
+    <input type="hidden" name="remark1"       value="<?php echo $param['remark1'];?>">
+    <input type="hidden" name="remark2"       value="<?php echo $param['remark2'];?>">
+
+<!--以下几项只是用来记录客户信息，可以不用，不影响支付 -->
+    <input type="hidden" name="v_rcvname"      value="<?php echo $param['v_rcvname'];?>">
+    <input type="hidden" name="v_rcvtel"       value="<?php echo $param['v_rcvtel'];?>">
+    <input type="hidden" name="v_rcvpost"      value="<?php echo $param['v_rcvpost'];?>">
+    <input type="hidden" name="v_rcvaddr"      value="<?php echo $param['v_rcvaddr'];?>">
+    <input type="hidden" name="v_rcvemail"     value="<?php echo $param['v_rcvemail'];?>">
+    <input type="hidden" name="v_rcvmobile"    value="<?php echo $param['v_rcvmobile'];?>">
+
+    <input type="hidden" name="v_ordername"    value="<?php echo $param['v_ordername'];?>">
+    <input type="hidden" name="v_ordertel"     value="<?php echo $param['v_ordertel'];?>">
+    <input type="hidden" name="v_orderpost"    value="<?php echo $param['v_orderpost'];?>">
+    <input type="hidden" name="v_orderaddr"    value="<?php echo $param['v_orderaddr'];?>">
+    <input type="hidden" name="v_ordermobile"  value="<?php echo $param['v_ordermobile'];?>">
+    <input type="hidden" name="v_orderemail"   value="<?php echo $param['v_orderemail'];?>">
+
+</form>
+<script>
+    function autosubmit(){
+			javascript:document.E_FORM.submit();
+		}
+</script>
+</body>
+</html>

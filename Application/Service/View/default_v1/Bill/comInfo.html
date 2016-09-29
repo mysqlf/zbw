@@ -1,0 +1,25 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">企业信息</h2></div>
+    <div class="comInfo">
+    	<a href="javascript:history.go(-1);"  class="btn btn-border pull-right">返回</a>
+	    <h2>{$result.company_name} <span><?php if($result['audit']== 1){echo '已认证';}else{echo '未认证';}?></span></h2>
+	    <ul>
+	    	<li>企业性质：<?php  echo adminState()['property'][$result['property']];?></li>
+	    	<li>所属行业：<?php echo adminState()['industry'][$result['industry']];?></li>
+	    	<li>所在地区：<?php echo showAreaName1($result['location']);?></li>
+	    	<li>公司规模：<?php echo adminState()['employee_number'][$result['employee_number']];?></li>
+	    	<li>企业固话：{$result.phone}</li>
+	    	<li>联系人：{$result.contact_name}   <?php if(!empty($result['contact_name'])) { if($result['contact_sex'] == 2){echo '女士';}else{echo '先生';} }  ?> </li>
+	    	<li>联系电话：{$result.contact_phone}</li>
+	    	<li>邮箱：{$result.email}</li>
+	    	<li>qq：{$result.qq}</li>
+	    	<li>通讯地址：<?php if(!empty($result['company_location'])) {echo showAreaName1($result['company_location']).$result['company_address'];}?></li>
+	    	<li>授权协议    <a href="{$companyFile.lisenceFile}" class="btn btn-primary">浏览</a></li>
+	    </ul>
+	</div>
+</block>
+<block name="script">
+    <script type="text/javascript" src="/Application/Service/Assets/js/dist/bill.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

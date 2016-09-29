@@ -1,0 +1,50 @@
+/*==================================================
+  ***** 分页 *****
+  *** 放在table之后 ***
+  .pagination ··············· 分页最外层div
+  .current ··············· 当前状态
+  ==================================================*/
+
+.pagination {
+    margin: {
+        bottom: 70px;
+    }
+    text-align: right;
+    font-size: 0;
+    span {
+        display: inline-block;
+        margin: {
+            left: 3px;
+            right: 3px;
+        }
+        padding: {
+            right: 12px;
+            left: 12px;
+        }
+        height: 33px;
+        line-height: 33px;
+        -webkit-transition: all 0.12s linear;
+        -moz-transition: all 0.12s linear;
+        -ms-transition: all 0.12s linear;
+        transition: all 0.12s linear;
+        @include button-variant(#888888, $color-white, $border-default-width solid #DEDEDE);
+        font-size: $f-size-normal;
+        &:hover {
+            @include button-variant($color-primary, $color-white, $border-default-width solid $color-primary);
+        }
+    }
+    a {
+        @extend span;
+    }
+    .current {
+        @include button-variant($color-primary, $color-white, $border-default-width solid $color-primary);
+        cursor: pointer;
+    }
+    .rows {
+        background: transparent;
+        border: 0;
+        &:hover {
+            @include button-variant(#888888, transparent, 0);
+        }
+    }
+}

@@ -1,0 +1,16 @@
+@mixin createPseudo($width:auto,$height:auto,$content:''){
+	content: $content;
+	display: block;
+	position: relative;
+
+    $sizeArr: (width: $width,height: $height);
+
+    @each $atrr,$size in $sizeArr{
+
+    	@if $size != auto {
+			#{$atrr}: $size;
+		}
+    }
+
+	
+}

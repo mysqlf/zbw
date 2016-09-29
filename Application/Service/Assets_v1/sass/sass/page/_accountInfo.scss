@@ -1,0 +1,57 @@
+.accountInfo-form{
+	width: 450px;
+	margin: 0 auto;
+	font-size: 16px;
+	margin-top: 40px;
+
+	.label-left{
+		width: 5em;
+		text-align: right;
+	}
+
+	.btn-footer{
+		margin-top: 15px;
+
+		.btn{
+			font-size: 16px;
+			padding: 10px 35px;
+		}
+	}
+
+	.changePsw{
+		margin-left: 40px;
+		text-decoration: underline;
+		color: $color-primary;
+		font-size: 14px;
+	}
+}
+
+.modifyPsw-from{
+	input.error:before{
+		content: '';
+		display: block;
+		width: 50px;
+		height: 50px;
+		background: #f66;
+		@extend .icon-error;
+	}
+}
+
+.accountInfo-title {
+    height: 50px;
+    padding: 0 40px;
+    background: #ebebeb;
+    overflow: hidden;
+    h2 {
+        margin: 0 !important;
+        line-height: 50px !important;
+        font-weight: 900 !important;
+        color: #5d758d;
+        font-size: 18px;
+    }
+    a.pull-right{
+        font-size: 16px;
+        line-height: 50px;
+        color: #414141;
+    }
+}

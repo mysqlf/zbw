@@ -1,0 +1,87 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">焦点图管理</h2>
+
+    </div>
+<!--_thumb.jpg-->
+    <div class="pannel-tbl upload-box">
+        <table >
+            <colgroup>
+                <col width="8%" />
+                <col width="12%" />
+                <col width="8%" />
+                <col width="8%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>位置</th>
+                    <th>缩略图</th>
+                    <th>建议大小</th>
+                    <th>操作</th>
+ 
+                </tr>
+            </thead>
+            <tbody>
+                <volist name="result['place1']" id="v">
+                    <tr>
+                        <td>
+                                首页banner{$i}                            
+                        </td>
+                        <td>
+                            <img class="thumb-logo" src="{$v.url}" alt="">
+                        </td>
+                        <td>
+                            1680*768
+                        </td>
+
+                        <td class="no-brdr">
+                            <div class="J_picker" data-ids="{$v.id}">选择图片</div>
+                            <button class="J_picker-btn" class="btn">上传</button>
+                        </td>
+                    </tr>
+                </volist>
+                <!--合作客户-->
+                    <tr>
+                        <td>
+                                合作客户                            
+                        </td>
+                        <td>
+                            <img class="thumb-logo" src="{$result['place2']['url']}" alt="">
+                        </td>
+                        <td>
+                            1680*768
+                        </td>
+
+                        <td class="no-brdr">
+                            <div class="J_picker" data-ids="{$result['place2']['id']}">选择图片</div>
+                            <button class="J_picker-btn" class="btn">上传</button>
+                        </td>
+                    </tr>
+            <!-- 社保大厅-->
+                    <tr>
+                        <td>
+                                社保大厅                            
+                        </td>
+                        <td>
+                            <img class="thumb-logo" src="{$result['place3']['url']}" alt="">
+                        </td>
+                        <td>
+                            1680*768
+                        </td>
+
+                        <td class="no-brdr">
+                            <div class="J_picker" data-ids="{$result['place3']['id']}">选择图片</div>
+                            <button class="J_picker-btn" class="btn">上传</button>
+                        </td>
+                    </tr>            
+            </tbody>
+        </table>
+    </div>
+
+</block>
+<block name="script">
+    <script data-module="adImg" src="__ASSETS__/js/dist/content.bundle.js"></script>
+</block>
+
+

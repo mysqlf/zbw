@@ -1,0 +1,114 @@
+<!-- 差额管理（个人） -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">差额管理</h2>
+        <div class="query-form">
+            <div class="query-item fl">
+                <label class="query-lb" for="">订单号</label>
+                <div class="ipt-box">
+                    <input type="text" name="" class="ipt w-normal ellipsis" />
+                </div>
+            </div>
+            <div class="query-item fl">
+                <lable class="query-lb" for="">姓名</lable>
+                <div class="ipt-box">
+                    <input type="text" name="" class="ipt w-small ellipsis" />
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">申报人</label>
+                <div class="ipt-box">
+                    <input type="text" name="" class="ipt w-small ellipsis" />
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">办理年月</label>
+                <div class="ipt-box ipt-pos">
+                    <input type="text" name="" class="ipt w-normal date-day" readonly />
+                    <i class="icon icon-date"></i>
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">付款时间</label>
+                <div class="ipt-box">
+                    <span class="ipt-pos">
+                        <input type="text" name="" id="pay-begin" class="ipt w-normal date-day" readonly />
+                        <i class="icon icon-date"></i>
+                    </span>&emsp;-&emsp;<span class="ipt-pos">
+                        <input type="text" name="" id="pay-end" class="ipt w-normal date-day" readonly />
+                        <i class="icon icon-date"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">差额类型</label>
+                <div class="ipt-box box-small">
+                    <select name="">
+                        <option>请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">服务类型</label>
+                <div class="ipt-box box-small">
+                    <select name="">
+                        <option>请选择</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-query fl">查询</button>
+        </div>
+    </div>
+    <div class="pannel-tbl">
+        <table summary="差额管理（个人）">
+        	<colgroup>
+        		<col width="15%" />
+        		<col width="8%" />
+        		<col width="8%" />
+        		<col width="8%" />
+        		<col width="8%" />
+        		<col width="11%" />
+        		<col width="11%" />
+        		<col width="12%" />
+        		<col width="11%" />
+        		<col width="8%" />
+        	</colgroup>
+            <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>申报人</th>
+                    <th>姓名</th>
+                    <th>办理年月</th>
+                    <th>服务类型</th>
+                    <th>差额类型</th>
+                    <th>付款时间</th>
+                    <th>差额</th>
+                    <th>生成时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 交互说明
+                    差额 负数 td.cred
+                         整数 td.cgreen
+                 -->
+                <tr>
+                    <td class="cbluelg">1594987987879897777832</td>
+                    <td>张三</td>
+                    <td class="cbluelg">张三</td>
+                    <td>2016/06</td>
+                    <td>社保公积金</td>
+                    <td>公积金缴纳规则调整</td>
+                    <td>2016-06-30 12:30:00</td>
+                    <td>+30000.00</td>
+                    <td>2016-06-30 12:30:00</td>
+                    <td class="no-brdr"><a href="javascript:;">明细</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="balance" src="/Application/Service/Assets/js/dist/balance.bundle.js"></script>
+</block>

@@ -1,0 +1,96 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/salary.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">工资发放</span>
+        <a href="{:U('Company/Salary/downloadSalaryTemplate',array('type'=>'xls'))}" class="download fr">下载模板</a>
+        <!--{:U('Company/Salary/downloadSalaryTemplate')}?type=  xls或者xlsx-->
+        <a href="javascript:;" data-act="tolead" class="tolead fr">导入工资单</a>
+        <!-- href="{:U('Company/Salary/getExcel')}?productOrderId=&&location=" -->
+    </div>
+    <div class="salaryList">
+        <form class="pageSearch fr" action="{:U('Company-Salary-index')}"><!-- 搜索 -->
+            <!--提交链接及参数，表单都用post的吧" href="{:U('Company/Salary/getSalaryRecord')}?userName=&&date=&&cardNum=&&state"-->
+            <input class="button fr" type="submit" value="查询"><!--123-->
+            <select name="state" id="" class="zb_inpt fr t3">
+                <option value="" >发放情况</option>
+                <!--<option value="2" <if condition="I('get.state') eq '2'">selected="selected"</if> >发放成功</option>
+                <option value="1" <if condition="I('get.state') eq '1'">selected="selected"</if>>审核通过</option>
+                <option value="0" <if condition="I('get.state') eq '0'">selected="selected"</if>>审核中</option>
+                <option value="-1" <if condition="I('get.state') eq '-1'">selected="selected"</if>>审核失败</option>
+                <option value="-2" <if condition="I('get.state') eq '-2'">selected="selected"</if>>发放失败</option>-->
+                <volist name="stateArray" id="vo">
+                    <option value="{$key}" <if condition="$key.'' heq I('get.state','')">selected="selected"</if>>{$vo.name}</option>
+                </volist>
+            </select>
+            <input class="zb_inpt fr t3" type="text" name="date" readonly placeholder="工资年月" value="{:I('get.date')}">
+            <input class="zb_inpt fr t2" type="text" name="cardNum" placeholder="银行卡号" value="{:I('get.cardNum')}">
+            <input class="zb_inpt fr t1" type="text" name="userName" placeholder="姓名" value="{:I('get.userName')}">
+        </form>
+        <div style="clear:both;"></div>
+        <table class="pageTable"><!-- 表格 -->
+            <tr>
+                <th class="c-1">姓名</th>
+                <th class="c-2">身份证号码</th>
+                <th class="c-3">服务产品</th>
+                <th class="c-4">工资年月</th>
+                <th class="c-5">应发工资</th>
+                <th class="c-6">扣个人<br />社保</th>
+                <th class="c-7">扣个人<br />公积金</th>
+                <th class="c-8">扣所得税</th>
+                <th class="c-9">补发</th>
+                <th class="c-10">扣除</th>
+                <th class="c-11">实发工资</th>
+                <th class="c-12">发放情况</th>
+                <th class="c-13">备注</th>
+                <th class="c-14">操作</th>
+            </tr>
+            <volist name="list" id="sa">
+                <tr>
+                    <td>{$sa.user_name}</td>
+                    <td>{$sa.card_num}</td>
+                    <td>{$sa.product_name}({$sa.company_name})</td>
+                    <td>{$sa.salaryDate}</td>
+                    <td>{$sa.wages}</td>
+                    <td>{$sa.deduction_social_insurance}</td>
+                    <td>{$sa.deduction_provident_fund}</td>
+                    <td>{$sa.deduction_income_tax}</td>
+                    <td>{$sa.replacement}</td>
+                    <td>{$sa.deduction_other}</td>
+                    <td>{$sa.actual_wages}</td>
+                    <if condition = '$sa.state lt 0'>
+                        <td class="red">
+                            <elseif condition = '$sa.state eq 0'/>
+                        <td class="green">
+                            <else/>
+                        <td>
+                    </if>
+                    {$sa.salaryState}</td>
+                    <td>{$sa.remark}</td>
+                    <td>
+                        <if condition = '$sa.state eq -1'>
+                            <a class="blue" title="修改" href="javascript:;" data-act="editSalary" data-salaryid="{$sa.id}">修改</a>
+                        <elseif condition = '$sa.state eq 0'/>
+                            <a class="blue" title="修改" href="javascript:;" data-act="editSalary" data-salaryid="{$sa.id}">修改</a>
+                            <a class="orange"  data-act="delSalary"  data-salaryid="{$sa.id}" href="javascript:;">撤销</a>
+                        </if>
+                        <if condition = '$sa.state gt 0 or $sa.state eq -2'>
+                            <a class="orange" data-act="viewSalary"  data-salaryid="{$sa.id}" href="javascript:;">查看</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+
+        </table>
+
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+
+</block>
+<block name="script">
+    <script data-init="salary" src="/Application/static/Home/js/dist/salary.bundle.js"></script>
+</block>

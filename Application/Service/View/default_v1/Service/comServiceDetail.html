@@ -1,0 +1,75 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">企业服务详情</h2></div>
+    <div class="gutter comServiceDetail">
+		<a href="javascript:history.go(-1);" class="btn-border pull-right">返回</a>
+        <?php if(!empty($result)):?>
+		<div class="order-info clearfix2">
+			<ul>
+				<li class="col-xs-4">订单编号： {$result.order_no}</li>
+				<li class="col-xs-4">产品名称： {$result.product_name}</li>
+				<li class="col-xs-4">购买企业： {$result.company_name}</li>
+			</ul>
+			<div class="pay-block clearfix2">
+				<div class="pull-left col-xs-3"><span><em>￥</em><?php if(!empty($result['modify_price'])){echo $result['modify_price'];}else{echo $result['price'];}?></span><?php echo adminState()['product_order_state'][$result['state']];?></div>
+				<?php if($result['state'] == 2):?>
+                <span>付款时间：{$result.pay_time}    </span>
+                <?php else :?>
+                <?php if(!in_array($result['service_state'],array(-1,3)) && in_array($result['state'],array(-1,1,0))):?>
+                <a href="javascript:;" class="pay pull-right col-xs-3" data-act="comPayment" data-id="{$result['id']}" >确定支付</a>
+                <?php endif;?>
+                <?php endif;?>
+			</div>
+		</div>
+		<div class="service-info">
+
+			<h2>服务状态：
+			<span><?php echo adminState()['service_state'][$result['service_state']];?></span> 
+			 <?php if(!in_array($result['service_state'],array(-1,3))):?>
+			<?php if($result['state'] == 2 ):?> <a href="javascript:;" class="btn-set" data-json='<?php echo json_encode($result);?>' data-act="comSetService">设定</a></h2> <?php endif;?><?php endif;?>
+
+			<ul class="col-xs-12">
+				<li class="col-xs-4">服务有效期：<?php if(!empty($result['overtime'])){echo $result['overtime'];}else{echo '未设定';}?></li>
+				<li class="col-xs-4">报增减截止日：<?php if(!empty($result['abort_add_del_date'])){echo $result['abort_add_del_date'].'日';}else{echo '未设定';}?></li>
+				<li class="col-xs-4">账单日：<?php if(!empty($result['create_bill_date'])){if($result['bill_month_state'] == 1){echo '次月'.$result['create_bill_date'].'号';}else{echo '当月'.$result['create_bill_date'].'号';} }else{echo '未设定';}?></li>
+				<li class="col-xs-4">支付截止日：<?php if(!empty($result['abort_payment_date'])){if($result['payment_month_state'] == 1){echo '次月'.$result['abort_payment_date'].'号';}else{echo '当月'.$result['abort_payment_date'].'号';} }else{echo '未设定';}?></li>
+				<li class="col-xs-4">是否代发工资：<?php if($result['is_salary'] == 0){echo '否';}elseif($result['is_salary'] == 1){echo '是';}else{'未设定';}?></li>
+			</ul>
+			<h2 class="clearfix2">服务参保地</h2>
+			<table class="table-bordered text-center table-address">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>参保地</th>
+						<th>社保/公积金服务费</th>
+						<th>代发工资服务费</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+                    <volist name="result.warranty_location" id="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td><?php echo showAreaName($vo['location']);?></td>
+						<td>{$vo.ss_service_price}</td>
+						<td>{$vo.af_service_price}</td>
+						<td><a href="javascript:;"  data-act="modifyLocation" data-location="{$vo['location']}" data-id="{$result['id']}" data-location_id="{$vo.id}" data-ss_service_price="{$vo.ss_service_price}" data-af_service_price="{$vo.af_service_price}">修改</a></td>
+					</tr>
+                    </volist>
+				</tbody>
+			</table>
+            <?php if(!in_array($result['service_state'],array(-1,3))):?>
+            <?php if($result['state'] == 2 ):?>
+			<a href="javascript:;" class="btn-addAddress" data-act="addLocation" data-id={$result['id']} data-state="{$result['service_price_state']}"><span>+</span>添加参保地</a>
+            <?php endif;?>
+            <?php endif;?>
+		</div>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+	</div>
+</block>
+<block name="script">
+    <script data-init="comMemBersDetail" type="text/javascript" src="/Application/Service/Assets/js/dist/CM.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

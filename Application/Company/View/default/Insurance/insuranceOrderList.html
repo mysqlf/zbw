@@ -1,0 +1,366 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box overflow">
+        <div class="right_head">
+        	<h3 class="add_tit">社保公积金</h3>
+        </div>
+        <ul class="page-inner-nav clearfix">
+            <li>
+            	<a <if condition="'' heq I('type')">class="active"</if> href="{:U('Company/Insurance/insuranceOrderList')}" >
+            		全部
+            	</a>
+            </li>
+            <li>
+            	<a <if condition="'0' heq I('type')">class="active"</if> href="{:U('Company/Insurance/insuranceOrderList',array('type'=>0))}" >
+            		待审核
+            		<if condition="0 lt $count[0]">
+            			<i class="badge">{$count[0]}</i>
+            		</if>
+            	</a>
+            </li>
+            <li>
+            	<a <if condition="'1' heq I('type')">class="active"</if> href="{:U('Company/Insurance/insuranceOrderList',array('type'=>1))}" >
+            		已审核
+            	</a>
+            </li>
+            <li>
+            	<a <if condition="'2' heq I('type')">class="active"</if> href="{:U('Company/Insurance/insuranceOrderList',array('type'=>2))}" >
+            		待付款
+            		<if condition="0 lt $count[2]">
+            			<i class="badge">{$count[2]}</i>
+            		</if>
+            	</a>
+            </li>
+            <li>
+            	<a <if condition="'3' heq I('type')">class="active"</if> href="{:U('Company/Insurance/insuranceOrderList',array('type'=>3))}" >
+            		待办理
+            		<if condition="0 lt $count[3]">
+            			<i class="badge">{$count[3]}</i>
+            		</if>
+            	</a>
+            </li>
+            <li>
+            	<a <if condition="'4' heq I('type')">class="active"</if> href="{:U('Company/Insurance/insuranceOrderList',array('type'=>4))}" >
+            		已办理
+            	</a>
+            </li>
+        </ul>
+        <div class="search_box">
+	        <form id="listForm" action="{:U('Company/Insurance/insuranceOrderList')}">
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">服务套餐</dt>
+	        		<dd class="right search-size3">
+	        			<select class="select" name="productId">
+			        		<option value="">请选择</option>
+			        		<if condition="$serviceProductOrderResult">
+			        			<volist name="serviceProductOrderResult" id="vo">
+			        				<option value="{$vo.product_id}" <if condition="$vo['product_id'] eq I('get.productId')">selected="selected"</if> >{$vo.product_name}</option>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">服务商</dt>
+	        		<dd class="right search-size4">
+	        			<select class="select" name="companyId">
+			        		<option value="">请选择</option>
+			        		<if condition="$serviceProviderResult">
+			        			<volist name="serviceProviderResult" id="vo">
+			        				<option value="{$key}" <if condition="$key eq I('get.companyId')">selected="selected"</if> >{$vo}</option>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">客服</dt>
+	        		<dd class="right search-size3">
+	        			<select class="select" name="adminId">
+			        		<option value="">请选择</option>
+			        		<if condition="$userServiceProviderResult">
+			        			<volist name="userServiceProviderResult" id="vo">
+			        				<if condition="!empty($vo['admin_id']) && !empty($vo['name'])"><option value="{$vo.admin_id}" <if condition="$vo['admin_id'] heq I('get.adminId')">selected="selected"</if> >{$vo.name}</option></if>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	
+	        	<dl class="horizontal horizontal-2em">
+	        		<dt class="left">类型</dt>
+	        		<dd class="right search-size3">
+	        			<select class="select" name="state">
+			        		<option value="">请选择</option>
+			        		<!--<option value="0" <if condition="'0' eq I('get.state')">selected="selected"</if> >未参保</option>-->
+			        		<option value="1" <if condition="'1' eq I('get.state')">selected="selected"</if> >报增</option>
+			        		<option value="2" <if condition="'2' eq I('get.state')">selected="selected"</if> >在保</option>
+			        		<option value="3" <if condition="'3' eq I('get.state')">selected="selected"</if> >报减</option>
+			        		<!--<option value="4" <if condition="'4' eq I('get.state')">selected="selected"</if> >已停保</option>-->
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	
+	        	<dl class="horizontal horizontal-4em clear-left">
+	        		<dt class="left">姓名</dt>
+	        		<dd class="right search-size3">
+	        			<input type="text" class="text x_text" value="{:I('get.personName')}" name="personName" placeholder="姓名">
+	        		</dd>
+	        	</dl>
+	        	
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">身份证号</dt>
+	        		<dd class="right search-size4">
+	        			<input type="text" class="text" value="{:I('get.cardNum')}" name="cardNum" placeholder="身份证">
+	        		</dd>
+	        	</dl>
+	        	
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">办理年月</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size3">
+							<input type="text" class="text timepicker" value="{:I('get.handleMonth')}" name="handleMonth" placeholder="办理年月" readonly>
+			        		<i class="icon icon-time-picker"></i>
+						</div>
+			        	<!--<span class="line">-</span>
+			        	<div class="time-picker-box search-size3">
+				        	<input type="text" class="text" value="{:I('get.endTime')}" name="endTime" placeholder="申报结束时间" readonly>
+				        	<i class="icon icon-time-picker"></i>
+				        </div>-->
+	        		</dd>
+	        	</dl>
+	        	<input type="hidden" value="{:I('get.type')}" name="type">
+	        	<input type="button" class="btn ms_btn btn_orange pull-left" value="查询" id="submitBtn">
+	        </form>
+	    	<!--<a href="{:U('Company/insurance/toIncrease')}" class="add_btn"><i class="icon icon-add"></i>新增报增</a> -->
+        </div>
+        <div class="table_con">
+        	<form id="payList">
+        	<table class="table text-center table_white c-text-dark">
+				<thead>
+		    		<tr>
+		            	<!--<if condition="1 eq I('get.type')">
+			                <th width="">
+			                	<input class="icheck icheck-all" type="checkbox">
+			                </th>
+			            </if>-->
+		                <th width="">姓名</th>
+		                <th width="" class="idcard">身份证号码</th>
+		                <th width="">服务商</th>
+		                <th>参保地</th>
+						<!--<th>户口类型</th> -->
+		                <!-- <th>项目类型</th> -->
+		                <th >项目</th>
+		                <th >类型</th>
+		                <th >基数</th>
+		                
+		                <th >缴纳年月</th>
+		                <th >办理年月</th>
+		                <th>状态</th>
+	            		<if condition="1 eq I('get.type')"><th>备注</th></if>
+	            		<if condition="1 lt I('get.type')"><th>付款流水号</th></if>
+	            		<if condition="in_array(I('get.type'),array(2))"><th>付款截止时间</th></if>
+		                <th>操作</th>
+		            </tr>
+	            </thead>
+	            <tbody class="cal-content">
+	            	<if condition="!empty($result)">
+	            		<volist name="result" id="vo">
+	            			<tr <if condition="$i%2 eq 0">class="even_bg"</if> >
+								<td class="" rowspan="{$vo.count}">
+									<a href="{:U('Company/Insurance/insuranceDetail',array('baseId'=>$vo['base_id']))}" class="c-text-dark">{$vo.person_name}</a>
+								</td>
+								<td rowspan="{$vo.count}"> 
+									{$vo.card_num}
+								</td>
+								<td class="c-gray" rowspan="{$vo.count}">
+									{$vo.product_name}<p>{$vo.company_name}</p>
+								</td>
+								<td class="c-gray" rowspan="{$vo.count}">
+									{$vo['location']|showAreaName}
+								</td>
+								<if condition="($vo['count'] eq 1 and !empty($vo['socpii_id'])) or $vo['count'] eq 2">
+									<td class="c-pink">
+										社保
+									</td>
+									<td class="c-gray">
+										{$vo['socpii_state']|get_code_value=###,"PersonInsuranceState"}
+									</td>
+									<td class="c-gray">
+										{:(empty($vo['socpii_amount'])?'':$vo['socpii_amount'])}
+									</td>
+									
+									<td class="c-gray">
+										<if condition="in_array(I('get.type'),[0,1])">
+											{:(empty($vo['socpii_pay_date'])?'':$vo['socpii_pay_date'])}
+										<else/>
+											{:(empty($vo['socpii_sid_pay_date'])?'':$vo['socpii_sid_pay_date'])}
+										</if>
+									</td>
+									<td class="c-gray" >
+										{:(empty($vo['socpii_handle_month'])?'':$vo['socpii_handle_month'])}
+									</td>
+									<td <if condition="0 gt $vo['socpii_operate_state']">class="c-danger"</if> >
+										<if condition="2 eq I('get.type') and 1 eq $vo['socpii_operate_state'] and $vo['socpii_pay_order_id']">
+											待付款
+										<else/>
+											<if condition="in_array(I('get.type'),[0,1])">
+												{$vo['socpii_operate_state']|get_code_value=###,"PersonInsuranceInfoOperateState",$vo['audit']}
+											<else/>
+												{$vo['socpii_sid_state']|get_code_value=###,"ServiceInsuranceDetailState"}
+											</if>
+										</if>
+									</td>
+				            		<if condition="1 eq I('get.type')">
+					            		<td>
+						                	{$vo.socpii_remark|default="/"}
+						                </td>
+				            		</if>
+				            		<if condition="1 lt I('get.type')">
+					            		<td>
+						                	{$vo.socpii_pay_order_no|default=""}
+						                </td>
+				            		</if>
+				            		<if condition="in_array(I('get.type'),array(2))">
+					            		<td>
+						                	<span class="pay-deadline">{//:empty($vo['socpii_payment_deadline'])?'/':get_deadline($vo['socpii_payment_deadline'])}
+						                	{:empty($vo['socpii_pay_deadline']) || -1 == $vo['socpii_operate_state']?'/':str_replace('-','/',$vo['socpii_pay_deadline'])}</span>
+						                </td>
+				            		</if>
+								<elseif condition="$vo['count'] eq 1 and !empty($vo['propii_id'])" />
+									<td class="c-green">
+										公积金
+									</td>
+									<td class="c-gray">
+										{$vo['propii_state']|get_code_value=###,"PersonInsuranceState"}
+									</td>
+									<td class="c-gray">
+										{:(empty($vo['propii_amount'])?'':$vo['propii_amount'])}
+									</td>
+									
+									<td class="c-gray">
+										<if condition="in_array(I('get.type'),[0,1])">
+											{:(empty($vo['propii_pay_date'])?'':$vo['propii_pay_date'])}
+										<else/>
+											{:(empty($vo['propii_sid_pay_date'])?'':$vo['propii_sid_pay_date'])}
+										</if>
+									</td>
+									<td class="c-gray">
+										{:(empty($vo['propii_handle_month'])?'':$vo['propii_handle_month'])}
+									</td>
+									<td <if condition="0 gt $vo['propii_operate_state']">class="c-danger"</if> >
+										<if condition="2 eq I('get.type') and 1 eq $vo['propii_operate_state'] and $vo['propii_pay_order_id']">
+											待付款
+										<else/>
+											<if condition="in_array(I('get.type'),[0,1])">
+												{$vo['propii_operate_state']|get_code_value=###,"PersonInsuranceInfoOperateState",$vo['audit']}
+											<else/>
+												{$vo['propii_sid_state']|get_code_value=###,"ServiceInsuranceDetailState"}
+											</if>
+										</if>
+									</td>
+				            		<if condition="1 eq I('get.type')">
+					            		<td>
+						                	{$vo.propii_remark|default="/"}
+						                </td>
+				            		</if>
+				            		<if condition="1 lt I('get.type')">
+					            		<td>
+						                	{$vo.propii_pay_order_no|default=""}
+						                </td>
+				            		</if>
+				            		<if condition="in_array(I('get.type'),array(2))">
+					            		<td>
+						                	<span class="pay-deadline">{//:empty($vo['propii_payment_deadline'])?'/':get_deadline($vo['propii_payment_deadline'])}
+						                	{:empty($vo['propii_pay_deadline']) || -1 == $vo['propii_operate_state']?'/':str_replace('-','/',$vo['propii_pay_deadline'])}</span>
+						                </td>
+				            		</if>
+								</if>
+								<td class="c-gray opt-td" rowspan="{$vo.count}">
+									<!--<a href="{:U('Company/Insurance/insuranceInfoDetail',array('baseId'=>$vo['base_id'],'handleMonth'=>$vo['socpii_handle_month']?:$vo['propii_handle_month'],'socpiiId'=>$vo['socpii_id'],'propiiId'=>$vo['propii_id'],'insurance_id'=>implode('_',array_filter(array($vo['socpii_id'],$vo['propii_id'])))))}" class="c-blue">明细</a>-->
+									<a href="{:U('Company/Insurance/insuranceInfoDetail',array('baseId'=>$vo['base_id'],'handleMonth'=>$vo['socpii_handle_month']?:$vo['propii_handle_month']))}" class="c-blue">明细</a>
+									<if condition="'0' heq $vo['socpii_operate_state'] or '0' heq $vo['propii_operate_state'] ">
+										<!--<a href="{:U('Company/Insurance/editIncrease',array('baseId'=>$vo['base_id']))}" class="c-gray">修改</a>-->
+										<a  class="c-gray cancel_btn" data-baseid="{$vo['base_id']}" data-id="{:implode(',',array_filter(array($vo['socpii_id'],$vo['propii_id'])))}">撤销</a>
+									</if>
+								</td>
+							</tr>
+							<if condition="$vo['count'] eq 2">
+								<tr <if condition="$i%2 eq 0">class="even_bg"</if> >
+									<td class="c-green">
+										公积金
+									</td>
+									<td class="c-gray">
+										{$vo['propii_state']|get_code_value=###,"PersonInsuranceState"}
+									</td>
+									<td class="c-gray">
+										{:(empty($vo['propii_amount'])?'':$vo['propii_amount'])}
+									</td>
+									
+									<td class="c-gray">
+										<if condition="in_array(I('get.type'),[0,1])">
+											{:(empty($vo['propii_pay_date'])?'':$vo['propii_pay_date'])}
+										<else/>
+											{:(empty($vo['propii_sid_pay_date'])?'':$vo['propii_sid_pay_date'])}
+										</if>
+									</td>
+									<td class="c-gray">
+										{:(empty($vo['propii_handle_month'])?'':$vo['propii_handle_month'])}
+									</td>
+									<td <if condition="0 gt $vo['propii_operate_state']">class="c-danger"</if> >
+										<if condition="2 eq I('get.type') and 1 eq $vo['propii_operate_state'] and $vo['propii_pay_order_id']">
+											待付款
+										<else/>
+											<if condition="in_array(I('get.type'),[0,1])">
+												{$vo['propii_operate_state']|get_code_value=###,"PersonInsuranceInfoOperateState",$vo['audit']}
+											<else/>
+												{$vo['propii_sid_state']|get_code_value=###,"ServiceInsuranceDetailState"}
+											</if>
+										</if>
+									</td>
+				            		<if condition="1 eq I('get.type')">
+					            		<td>
+						                	{$vo.propii_remark|default="/"}
+						                </td>
+				            		</if>
+				            		<if condition="1 lt I('get.type')">
+					            		<td>
+						                	{$vo.propii_pay_order_no|default=""}
+						                </td>
+				            		</if>
+				            		<if condition="in_array(I('get.type'),array(2))">
+					            		<td>
+						                	<span class="pay-deadline">{//:empty($vo['propii_payment_deadline'])?'/':get_deadline($vo['propii_payment_deadline'])}
+						                	{:empty($vo['propii_pay_deadline']) || -1 == $vo['propii_operate_state']?'/':str_replace('-','/',$vo['propii_pay_deadline'])}</span>
+						                </td>
+				            		</if>
+								</tr>
+
+							</if>
+	            		</volist>
+	            		
+	            	<else/>
+	            		<tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+	            	</if>
+	            </tbody>
+	            <tfoot>
+	            </tfoot>
+		    </table>
+		    </form>
+		    <!--<if condition="1 eq I('get.type')">
+		    	<input id="J_btn-pay" type="button" class="btn ms_btn btn_orange pull-left btn-pay" value="立即支付">
+		    </if>-->
+		    
+		    <if condition="$page">
+			    <div class="page_box">
+			    	{$page}
+			    </div>
+		    </if>
+	        
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="insuranceList" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Insurance.bundle.js"></script>
+</block>

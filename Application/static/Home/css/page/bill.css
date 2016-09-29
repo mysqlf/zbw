@@ -1,0 +1,142 @@
+@charset "UTF-8";
+/*网格系统*/
+/* 
+ * @param {array} 支持生成多个类 
+ */
+/* line 6, ../../sass/sass/page/bill.scss */
+.billList {
+  margin-bottom: 100px;
+}
+/* line 7, ../../sass/sass/page/bill.scss */
+.billList .pageSearch {
+  line-height: 36px;
+}
+/* line 9, ../../sass/sass/page/bill.scss */
+.billList .pageSearch input, .billList .pageSearch select {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+/* line 13, ../../sass/sass/page/bill.scss */
+.billList .pageSearch .t1 {
+  width: 110px;
+}
+/* line 16, ../../sass/sass/page/bill.scss */
+.billList .pageSearch .t2 {
+  width: 220px;
+}
+/* line 19, ../../sass/sass/page/bill.scss */
+.billList .pageSearch .t3 {
+  width: 150px;
+}
+/* line 26, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-1 {
+  width: 160px;
+}
+/* line 27, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-2 {
+  width: 170px;
+}
+/* line 28, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-3 {
+  width: 170px;
+}
+/* line 29, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-4 {
+  width: 170px;
+}
+/* line 30, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-5 {
+  width: 170px;
+}
+/* line 31, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-6 {
+  width: 120px;
+}
+/* line 32, ../../sass/sass/page/bill.scss */
+.billList .pageTable .c-6 {
+  width: 130px;
+}
+/* line 34, ../../sass/sass/page/bill.scss */
+.billList .bj-tips {
+  color: #f26797;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* line 41, ../../sass/sass/page/bill.scss */
+.bilDetail {
+  margin-bottom: 100px;
+}
+/* line 43, ../../sass/sass/page/bill.scss */
+.bilDetail .tit {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #666666;
+  font-size: 16px;
+  font-weight: bold;
+}
+/* line 50, ../../sass/sass/page/bill.scss */
+.bilDetail .tit .billComName {
+  font-size: 22px;
+  display: inline-block;
+  margin-right: 42px;
+}
+/* line 56, ../../sass/sass/page/bill.scss */
+.bilDetail .tit .billTime {
+  margin-right: 30px;
+}
+/* line 60, ../../sass/sass/page/bill.scss */
+.bilDetail .tit .billPay {
+  color: #f77f3b;
+}
+/* line 66, ../../sass/sass/page/bill.scss */
+.bilDetail .caption td {
+  height: 40px;
+}
+/* line 70, ../../sass/sass/page/bill.scss */
+.bilDetail .fwb {
+  font-weight: bold;
+  color: #414141;
+}
+/* line 73, ../../sass/sass/page/bill.scss */
+.bilDetail .fwb td, .bilDetail .fwb th {
+  font-weight: bold;
+  color: #414141;
+}
+/* line 79, ../../sass/sass/page/bill.scss */
+.bilDetail .pageTable td, .bilDetail .pageTable th {
+  padding: 0px 5px;
+}
+/* line 84, ../../sass/sass/page/bill.scss */
+.bilDetail .payAmount {
+  text-align: right;
+  margin-top: 10px;
+  color: #f77f3b;
+}
+/* line 89, ../../sass/sass/page/bill.scss */
+.bilDetail .payAmount span {
+  font-weight: bold;
+}
+/* line 92, ../../sass/sass/page/bill.scss */
+.bilDetail .payAmount span.amount {
+  margin-right: 30px;
+}
+/* line 95, ../../sass/sass/page/bill.scss */
+.bilDetail .payAmount .payBtn {
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  background: #f77f3b;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 40px;
+  font-size: 16px;
+  margin-top: 30px;
+}
+/* line 103, ../../sass/sass/page/bill.scss */
+.bilDetail .pageTable .orange {
+  text-decoration: underline;
+}

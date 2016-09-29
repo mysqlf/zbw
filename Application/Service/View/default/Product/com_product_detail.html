@@ -1,0 +1,133 @@
+<!-- 企业套餐详情 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title"><if condition="1 eq I('get.service_type')">企业<elseif condition="2 eq I('get.service_type')"/>个人</if>产品详情<a href="javascript:history.go(-1);" class="btn btn-back">返回</a></h2>
+    </div>
+    <form id="J_form" action="" method="post">
+        <input name="product_id"  type="hidden" value="{$result.id}">
+        <input name="service_type"  type="hidden" value="<?php echo $_GET['service_type']; ?>">
+      <div class="clearfix">
+        <div class="pannel-detail clearfix z-index1000">
+          <dl class="horizontal horizontal-5em fl">
+              <dt class="left text-right">套餐名称：</dt>
+              <dd class="right size2">
+                  <input class="ipt size1 " name="name" value="{$result.name}" type="text" required>
+              </dd>
+          </dl>
+          <dl class="horizontal horizontal-5em fl">
+              <dt class="left text-right">套餐费：</dt>
+              <dd class="right">
+                  <input class="ipt size0" type="text" name="member_price" required value="{$result.member_price}" > 元
+
+                  <label class="icheck-label">
+                    <input class="icheck" type="checkbox" value="1"  name="service_price_state"  <?php if($result['service_price_state'] == 1 && $result['id']) echo 'checked'; ?>>
+                    免套餐费
+                  </label>
+              </dd>
+          </dl>
+
+        <?php if($_GET['service_type'] == 1){ ?>
+          <dl class="horizontal horizontal-5em fl clear-l">
+              <dt class="left text-right">服务费：</dt>
+              <dd class="right size2">
+                <input name="service_price[]" class="ipt size0" type="number" required value="<?php echo $result['service_price'][0]['service_price']; ?>">
+              元／月·人
+              </dd>
+          </dl>
+
+          <dl class="horizontal horizontal-5em fl">
+              <dt class="left text-right">服务期限：</dt>
+              <dd class="right size0 ipt-box">
+                  <select name="validity" required>
+                    <option value="">请选择</option>
+                    <for start="1" end="13">
+                      <option value="{$i}" <?php if($i == $result['service_price'][0]['validity']) echo 'selected'; ?>>{$i}</option>
+                    </for>
+                  </select>
+              </dd>
+          </dl>
+          <?php }?>
+
+          <dl class="horizontal horizontal-8em fl">
+              <dt class="left text-right">服务城市：</dt>
+              <dd class="right">
+                <div class="inline-block city-ipt size2">
+                    <a href="javascript:;" id="btn_serviceCity" title="点击选择服务城市"><span>服务城市</span></a>
+                    <input id="id_serviceCity" name="other_location" type="hidden" tabindex="-1" value="<?php echo implode(',', $result['other_location']); ?>">
+                    <input name="" id="name_serviceCity" type="text" class="ipt validate-parent" value="" readonly required>
+                </div>
+
+              </dd>
+          </dl>
+          <dl class="horizontal horizontal-8em fl">
+              <dt class="left text-right">适用对象：</dt>
+              <dd class="right size0 ipt-box">
+                  <select name="applicable_object" required>
+                    <option value="">请选择</option>
+                    <volist name="applicable_object" id="v">
+                      <option value="{$key}" <?php if($key == $result['applicable_object']) echo 'selected'; ?>>{$v}</option>
+                    </volist>
+                  </select>
+              </dd>
+          </dl>    
+      <?php if($_GET['service_type'] == 2){ ?>
+        <div id="J_package-box">
+          <dl class="J_package-item horizontal horizontal-5em fl clear-l">
+              <dt class="left text-right">服务费：</dt>
+              <dd class="right size2">
+                <input name="validity[]" required  type="hidden" value="3">
+                <input name="service_price[]" class="ipt size0" type="number" required value="<?php echo $result['service_price'][0]['service_price']; ?>">
+              元／3月·人
+              </dd>
+          </dl>
+          <dl class="J_package-item horizontal horizontal-5em fl">
+              <dt class="left text-right">服务费：</dt>
+              <dd class="right size2">
+                <input name="validity[]"  type="hidden" value="6">
+                <input name="service_price[]" class="ipt size0" type="number" required value="<?php echo $result['service_price'][1]['service_price']; ?>">
+              元／6月·人
+              </dd>
+          </dl>
+          <dl class="J_package-item horizontal horizontal-5em fl">
+              <dt class="left text-right">服务费：</dt>
+              <dd class="right size2">
+                <input name="validity[]"  type="hidden" value="12">
+                <input name="service_price[]" class="ipt size0" type="number" required value="<?php echo $result['service_price'][2]['service_price']; ?>">
+              元／12月·人
+              </dd>
+          </dl>
+        </div>
+      <?php }?>
+      </div>
+
+      <h3 class="pannel-detail-title">产品详情</h3>
+      <div class="clear-l" style="padding-bottom: 20px;">
+        <script id="editor" type="text/plain" style="height:400px;" name="product_detail" required >
+          <?php if($result['product_detail']) echo stripcslashes(htmlspecialchars_decode($result['product_detail']));?>
+        </script>
+      </div>
+    </div>
+    <div class="icheck-box">
+      <volist name="_state" id="v">
+        <label class="icheck-label">
+          <input class="icheck" type="radio" value="{$key}" <if condition="$key eq $result['state']"> checked </if> name="state">
+          {$v} 
+        </label>
+      </volist>
+    </div>
+
+    <div class="btn-box text-center" >
+        <input id="J_submit-btn" data-act="submit" class="btn-submit center-block" type="button" value="发布">
+    </div>
+    </form>
+</block>
+<block name="script">
+    <script src="__ASSETS__/js/plug/ueditor/ueditor.config.js"></script>
+    <script src="__ASSETS__/js/plug/ueditor/ueditor.all.min.js"></script>
+    <script src="__ASSETS__/js/plug/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">var UEeditor = UE.getEditor('editor');</script>
+    <script data-module="packageList" data-methods="detailInit" src="__ASSETS__/js/dist/package.bundle.js"></script>
+
+</block>
+<!-- 用于加载js代码 -->

@@ -1,0 +1,8 @@
+<div class="sidebar">
+    <ul>
+        <li><a <if condition=" 'Insurance' eq CONTROLLER_NAME and ('increaseList' eq ACTION_NAME or 'toIncrease' eq ACTION_NAME )">class="now"</if> href="{:U('Company/Insurance/increaseList')}">报增</a></li>
+        <li><a <if condition=" 'Insurance' eq CONTROLLER_NAME and 'reduceList' eq ACTION_NAME ">class="now"</if> href="{:U('Company/Insurance/reduceList')}">报减</a></li>
+        <li><a <if condition=" 'Insurance' eq CONTROLLER_NAME and 'warrantyList' eq ACTION_NAME ">class="now"</if> href="{:U('Company/Insurance/warrantyList')}">在保</a></li>
+        <li><a <if condition=" 'Insurance' eq CONTROLLER_NAME and 'stopList' eq ACTION_NAME ">class="now"</if> href="{:U('Company/Insurance/stopList')}">已停保</a></li>
+    </ul>
+</div>

@@ -1,0 +1,225 @@
+@charset "UTF-8";
+/*网格系统*/
+/* 
+ * @param {array} 支持生成多个类 
+ */
+/* line 6, ../../sass/sass/page/salary.scss */
+.pageTitle .tolead {
+  border: 1px solid #f77f3b;
+  color: #f77f3b;
+}
+
+/* line 11, ../../sass/sass/page/salary.scss */
+.salaryList .pageSearch {
+  line-height: 36px;
+}
+/* line 13, ../../sass/sass/page/salary.scss */
+.salaryList .pageSearch input, .salaryList .pageSearch select {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+/* line 17, ../../sass/sass/page/salary.scss */
+.salaryList .pageSearch .t1 {
+  width: 110px;
+}
+/* line 20, ../../sass/sass/page/salary.scss */
+.salaryList .pageSearch .t2 {
+  width: 220px;
+}
+/* line 23, ../../sass/sass/page/salary.scss */
+.salaryList .pageSearch .t3 {
+  width: 150px;
+}
+/* line 27, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable {
+  table-layout: fixed;
+}
+/* line 29, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable td {
+  Word-break: break-all;
+  min-height: 38px;
+  height: auto;
+  padding: 5px;
+}
+/* line 35, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-1 {
+  width: 60px;
+}
+/* line 36, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-2 {
+  width: 90px;
+}
+/* line 37, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-3 {
+  width: 110px;
+}
+/* line 38, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-4 {
+  width: 70px;
+}
+/* line 39, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-5 {
+  width: 70px;
+}
+/* line 40, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-6 {
+  width: 60px;
+}
+/* line 41, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-7 {
+  width: 60px;
+}
+/* line 42, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-8 {
+  width: 70px;
+}
+/* line 43, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-9 {
+  width: 70px;
+}
+/* line 44, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-10 {
+  width: 70px;
+}
+/* line 45, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-11 {
+  width: 80px;
+}
+/* line 46, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-12 {
+  width: 80px;
+}
+/* line 47, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-13 {
+  width: 70px;
+}
+/* line 48, ../../sass/sass/page/salary.scss */
+.salaryList .pageTable .c-14 {
+  width: 80px;
+}
+
+/* line 51, ../../sass/sass/page/salary.scss */
+.tolead {
+  width: 520px;
+  margin: 0px auto;
+}
+/* line 54, ../../sass/sass/page/salary.scss */
+.tolead .tit {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+/* line 60, ../../sass/sass/page/salary.scss */
+.tolead .name {
+  text-align: right;
+  width: 150px;
+}
+/* line 64, ../../sass/sass/page/salary.scss */
+.tolead .btnCont {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 120px;
+}
+/* line 70, ../../sass/sass/page/salary.scss */
+.tolead .btnCont a {
+  margin: 0px 10px;
+}
+/* line 73, ../../sass/sass/page/salary.scss */
+.tolead .btnCont .btnB {
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  background: #3498db;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 40px;
+}
+/* line 76, ../../sass/sass/page/salary.scss */
+.tolead .btnCont .btnO {
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  background: #f77f3b;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 40px;
+}
+/* line 80, ../../sass/sass/page/salary.scss */
+.tolead .formTable {
+  margin-top: 20px;
+}
+/* line 83, ../../sass/sass/page/salary.scss */
+.tolead .upload {
+  position: relative;
+  overflow: hidden;
+  height: 38px;
+}
+/* line 88, ../../sass/sass/page/salary.scss */
+.tolead .upload .uploadBtn {
+  display: block;
+  width: 240px;
+  height: 36px;
+  position: absolute;
+  z-index: 2;
+  text-indent: -9999px;
+}
+/* line 96, ../../sass/sass/page/salary.scss */
+.tolead .upload .uploadBtn .webuploader-pick {
+  height: 36px;
+}
+/* line 100, ../../sass/sass/page/salary.scss */
+.tolead .upload [type="file"] {
+  opacity: 0;
+}
+/* line 104, ../../sass/sass/page/salary.scss */
+.tolead .uploaded {
+  line-height: 36px;
+}
+/* line 107, ../../sass/sass/page/salary.scss */
+.tolead .download {
+  color: #3498db;
+  line-height: 36px;
+  margin-left: 10px;
+}
+/* line 112, ../../sass/sass/page/salary.scss */
+.tolead .toloadBtn {
+  width: 80px;
+  height: 36px;
+  color: #3498db;
+  background: #fff;
+  border: 1px solid #3498db;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 36px;
+  margin-left: 10px;
+}
+/* line 116, ../../sass/sass/page/salary.scss */
+.tolead .delBtn {
+  width: 70px;
+  height: 36px;
+  color: #f26797;
+  background: #fff;
+  border: 1px solid #f26797;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 36px;
+  margin-left: 10px;
+}
+
+/* line 122, ../../sass/sass/page/salary.scss */
+.wages-tip-view {
+  padding: 20px 0 0;
+  font-size: 18px;
+  border-top: 1px solid #e5e5e5;
+}

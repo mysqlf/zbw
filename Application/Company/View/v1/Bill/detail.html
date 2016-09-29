@@ -1,0 +1,73 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/bill.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">账单详情</span>
+        <a class="back fr" href="{:U('Company/Bill/index')}">返回</a>
+        <a class="back fr" href="{:U('Company/Bill/downloadBill',array('id'=>I('get.id'),billNo=>I('get.billNo')))}">导出明细</a>
+        <!--<a class="back fr" href="{:U('Company/Bill/downloadBill1',array('id'=>I('get.id'),billNo=>I('get.billNo')))}">导出明细</a>-->
+    </div>
+    <div class="bilDetail">
+        <input type="hidden" name="billId" id="billId" value="{$serviceBillResult.id}" />
+        <input type="hidden" name="billNo" id="billNo" value="{$serviceBillResult.bill_no}" />
+        <div class="tit"><h1 class="billComName">{$serviceBillResult['company_name']|default="暂无公司名称"}</h1><span class="billTime">{$serviceBillResult['order_date']|int_to_date="年"}月</span><span class="billPay">{$serviceBillResult['state']|get_status_value="ServiceBillState"}</span></div>
+        <table class="pageTable">
+            <tr class="fwb">
+                <td rowspan="2" scope="col" width="66">账单年月</td>
+                <td rowspan="2" scope="col" width="60">姓名</td>
+                <td rowspan="2" scope="col" width="150">身份证号码</td>
+                <td rowspan="2" scope="col" width="60">参保地</td>
+                <td rowspan="2" scope="col" width="66">服务类型</td>
+                <td rowspan="2" scope="col" width="70">缴纳年月</td>
+                <th colspan="2" scope="col" width="110">社保</th>
+                <th colspan="2" scope="col" width="110">公积金</th>
+                <td rowspan="2" scope="col" width="60">残障金/其他</td>
+                <td rowspan="2" scope="col" width="70">个人所得税</td>
+                <td rowspan="2" scope="col" width="70">实发工资</td>
+                <td rowspan="2" scope="col" width="66">个人差额</td>
+                <td rowspan="2" scope="col" width="55">服务费</td>
+                <td rowspan="2" scope="col" width="70">合计金额</td>
+            </tr>
+            <tr class="caption fwb">
+                <td>单位</td>
+                <td>个人</td>
+                <td>单位</td>
+                <td>个人</td>
+            </tr>
+            <volist name="serviceBillDetail" id="vo">
+                <tr>
+                    <td>{$serviceBillResult['order_date']}</td>
+                    <td>{$vo.user_name}</td>
+                    <td>{$vo.card_num}</td>
+                    <td>{:showAreaName($vo['location'])?showAreaName($vo['location']):'未知'}</td>
+                    <td>{:(0 == max($vo['provident_fund_state'] , $vo['social_insurance_state'] , $vo['disable_state']))?'未知':get_status_value(max($vo['provident_fund_state'] , $vo['social_insurance_state'] , $vo['disable_state']),'PersonBaseState')}</td>
+                    <td>{$vo.pay_date|int_to_date}</td>
+                    <td class="orange">{$vo.soc_company}</td>
+                    <td class="orange">{:($vo['soc_person']>0)?$vo['soc_person']:$vo['deduction_social_insurance']}</td>
+                    <td class="orange">{$vo.pro_company}</td>
+                    <td class="orange">{:($vo['pro_person']>0)?$vo['pro_person']:$vo['deduction_provident_fund']}</td>
+                    <td>{$vo['disabled'] + $vo['other'] + $vo['soc_post_price'] + $vo['pro_post_price']}</td>
+                    <td class="orange">{$vo.tex}</td>
+                    <td class="orange">{$vo.actual_salary}</td>
+                    <td class="blue"><if condition="0 lt $vo['balance']">+</if>{$vo.balance}</td>
+                    <td>{$vo['soc_service'] + $vo['pro_service'] + $vo['dis_service'] + $vo['salary_service']}</td>
+                    <td class="fwb">{:(($vo['soc_person']>0)?$vo['soc_person']:$vo['deduction_social_insurance'])+(($vo['pro_person']>0)?$vo['pro_person']:$vo['deduction_provident_fund'])+$vo['soc_post_price']+$vo['pro_post_price']+$vo['soc_company']+$vo['tex']+$vo['pro_company']+$vo['disabled']+$vo['other']+$vo['actual_salary']+$vo['soc_service']+$vo['pro_service']+$vo['dis_service']+$vo['salary_service']}</td>
+                </tr>
+            </volist>
+        </table>
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+        <div class="payAmount">
+            <p>账单金额：<span class="amount">{$serviceBillResult['price']|default="0.00"}元</span>往期差额：<span class="amount">{$serviceBillResult['per_balance_total']|default="0.00"}元</span>所需实付合计：<span>{:$serviceBillResult['price']-($serviceBillResult['per_balance_total']?$serviceBillResult['per_balance_total']:0.00)}元<span></span></p>
+            <if condition="0 eq $serviceBillResult['state']">
+            	<button class="payBtn" data-act="pay">付款</button>
+            </if>
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="detail" src="/Application/static/Home/js/dist/bill.bundle.js"></script>
+</block>

@@ -1,0 +1,61 @@
+<extend name="Base/Insurance"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/insurance.css" rel="stylesheet">
+</block>
+<block name="right">
+    <div class="cb-content fr clearOver addList">
+        <form class="pageSearch fl" action="{:U('Company-Insurance-warrantyList')}"><!-- 搜索 -->
+            <input class="button fr" type="submit" value="查询">
+            <select name="location" id="lacation" class="zb_inpt fr t3">
+                <option value="" >参保地</option>
+                <volist name="productOrderResult" id="vo">
+                    <option value="{$vo.warranty_location}" <if condition="$vo.warranty_location eq I('get.location','')">selected="selected"</if>>{$vo.warrantyLocationValue}</option>
+                </volist>
+                <!--<option value="">发放情况1</option>
+                <option value="">发放情况2</option>
+                <option value="">发放情况3</option>-->
+            </select>
+            <input class="zb_inpt fr t2" type="text" placeholder="身份证" name="cardNum" value="{:I('get.cardNum','')}">
+            <input class="zb_inpt fr t1" type="text" placeholder="姓名" name="personBaseName" value="{:I('get.personBaseName','')}">
+        </form>
+        <table class="pageTable"><!-- 表格 -->
+            <tr>
+                <th class="nameWidth">姓名</th>
+                <th>身份证号码</th>
+                <th>手机号</th>
+                <th>服务商</th>
+                <th>参保地</th>
+                <th>社保起缴时间</th>
+                <th>公积金起缴时间</th>
+                <th>操作</th>
+            </tr>
+            <volist name="serviceOrderResult" id="vo">
+                    <tr>
+                    <td>{$vo.user_name|default="暂无姓名"}</td>
+                    <td>{$vo.card_num|default="暂无身份证号码"}</td>
+                    <td>{$vo.mobile|default="暂无手机号"}</td>
+                    <td>{$vo.product_name|default="暂无产品名"}（{$vo.company_name|default="暂无公司名"}）</td>
+                    <td>{$vo.locationValue|default="暂无参保地"}</td>
+                    <td>{$vo.soc_pay_date|int_to_date}</td>
+                    <td>{$vo.pro_pay_date|int_to_date}</td>
+                    <td>
+	                	<if condition="0 eq $vo['sod_state'] or -1 eq $vo['sod_state']">
+		                    <a class="orange" href="javascript:;">编辑</a>
+		                    <a class="blue"  href="javascript:;" data-act="reduc" data-id="{$vo.base_id}">报减</a>
+	                    <else/>
+		                    <a class="orange"  href="{:U('Company/Insurance/insuranceInfo',array('baseId'=>$vo['base_id'],'serviceOrderId'=>$vo['id'],'socPayDate'=>$vo['soc_pay_date'],'proPayDate'=>$vo['pro_pay_date']))}">查看</a>
+		                    <a class="blue"  href="javascript:;" data-act="reduc" data-id="{$vo.base_id}">报减</a>
+	                    </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+        <!--<p class="bj-tips">每月[截止日]日前完成报增的员工将当月进行办理，逾期上报的将顺延到下个月进行办理。</p>-->
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="warranty" src="/Application/static/Home/js/dist/increase.bundle.js"></script>
+</block>

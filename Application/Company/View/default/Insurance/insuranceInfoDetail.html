@@ -1,0 +1,367 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box overflow">
+        <div class="tab_box">
+            <a href="{:U('Company/Insurance/toIncrease')}" class="active">在线新增</a>
+            <a href="{:U('Company/Insurance/toIncreaseBatch')}">批量报增</a>
+        </div>
+        <form id="toIncreaseForm">
+            <div class="msg_list">
+                <h3>参保人基本信息</h3>
+                <if condition="1 eq $personBaseResult['audit'] or !$personBaseResult['whetherToOperate']">
+	                <div class="detail_box detail_unchange">
+	                	<div class="detail_left">
+	                		<div class="detail_msg">
+	                			<label>姓名：</label>
+	                			<span>{$personBaseResult.person_name}</span>
+	                			<span>{$personBaseResult.gender|get_code_value="PersonBaseGender"}</span>
+	                			<span>{$personBaseResult.card_num|get_age_by_idCard}岁</span>
+	                		</div>
+	                		<div class="detail_msg">
+	                			<label>手机号：</label>
+	                			<span>{$personBaseResult.mobile}</span>
+	                		</div>
+	                		<div class="detail_msg">
+	                			<label>身份证号：</label>
+	                			<span>{$personBaseResult.card_num}</span>
+	                		</div>
+	                		<div class="detail_msg">
+	                			<label>户口所在地：</label>
+	                			<span>{$personBaseResult.residence_location|showAreaName}</span>
+	                		</div>
+	                		<div class="detail_msg">
+	                			<label>户口性质：</label>
+	                			<span>{$personBaseResult.residence_type|get_code_value="PersonBaseResidenceType"}</span>
+	                		</div>
+	                	</div>
+	                	<div class="update_img">
+		            		<div class="upload_btn webuploader-container new_btn">
+		            			<img src="{$personBaseResult['idCardImg']['idCardFront']}">
+		            			<div class="scale icon">正</div>
+		            		</div>
+		            		<div class="upload_btn webuploader-container new_btn">
+		            			<img src="{$personBaseResult['idCardImg']['idCardBack']}">
+		            			<div class="scale icon">反</div>
+		            		</div>
+	            		</div>
+	                </div>
+                </if>
+                <div <if condition="1 eq $personBaseResult['audit'] or !$personBaseResult['whetherToOperate']">class="hide"</if>>
+                	<div class="fl">
+                		<div class="inp_box">
+		                    <label class="inp_tit">姓名：<i class="inp_tip">*</i></label>
+		                    <input type="text" name="personName" value="{$personBaseResult.person_name}" {$personBaseResult.readonly} placeholder="请输入真实姓名" class="text" required id="useName">
+		                    <div class="error_text">2-20个字符，可以由中文和英文组成</div>
+	                	</div>
+	                	<div class="inp_box">
+		                    <label class="inp_tit">手机号：<i class="inp_tip">*</i></label>
+		                    <input type="text" name="mobile" value="{$personBaseResult.mobile}" {$personBaseResult.readonly} placeholder="请输入正确的手机号码" class="text" required id="mobile">
+		                    <div class="error_text">请输入手机号码</div>
+	                	</div>
+	                	<div class="inp_box">
+		                    <label class="inp_tit">身份证号：<i class="inp_tip">*</i></label>
+		                    <input type="text" name="cardNum" value="{$personBaseResult.card_num}" {$personBaseResult.readonly} placeholder="请输入正确的身份证号码" class="text" required id="cardNum">
+		                    <div class="error_text">请输入身份证号码</div>
+	                	</div>
+	                	<div class="inp_box select_box ctiy_box">
+		                    <label class="inp_tit">户口所在地：<i class="inp_tip">*</i></label>
+		                    <div class="city-picker-input text" <if condition="1 eq $personBaseResult['audit']">data-disabled="true"</if>>
+		                        <span class="picker-txt">请选择</span>
+		                        <input class="hidden-txt" type="hidden" name="residenceLocation" required value="{$personBaseResult.residence_location}"   id="residenceLocation">
+		                    </div>
+	                	</div>
+		                <div class="inp_box">
+		                    <label class="inp_tit">户口性质：</label>
+		                    <if condition="1 eq $personBaseResult['residence_type']">
+			                    <div class="inp_radio active">
+			                        <input type="radio" name="residenceType" value="1" checked="checked" class="residenceType" {$personBaseResult.disabled}/> 农村户口
+			                    </div>
+			                    <div class="inp_radio">
+			                        <input type="radio" name="residenceType" value="2" class="residenceType" {$personBaseResult.disabled}/> 城镇户口
+			                    </div>
+			                <elseif condition="2 eq $personBaseResult['residence_type']"/>
+			                    <div class="inp_radio">
+			                        <input type="radio" name="residenceType" value="1" class="residenceType" {$personBaseResult.disabled}/> 农村户口
+			                    </div>
+			                    <div class="inp_radio active">
+			                        <input type="radio" name="residenceType" value="2" checked="checked" class="residenceType" {$personBaseResult.disabled}/> 城镇户口
+			                    </div>
+			                <else/>
+			                    <div class="inp_radio">
+			                        <input type="radio" name="residenceType" value="1" class="residenceType" {$personBaseResult.disabled}/> 农村户口
+			                    </div>
+			                    <div class="inp_radio">
+			                        <input type="radio" name="residenceType" value="2" class="residenceType" {$personBaseResult.disabled}/> 城镇户口
+			                    </div>
+			                </if>
+		                </div>
+	                </div>
+                	<div class="update_img">
+	                    上传身份证：<span>( 请上传jpg/jpeg/gif/png格式的图片，大小控制在2M以内 )</span>
+	                    <div id="filePicker" class="upload_btn">
+	                    	<i class="icon icon-addImg"></i>
+	                    	<div class="scale icon">正</div>
+	                    </div> 
+	                    <div id="filePicker2" class="upload_btn">
+	                    	<i class="icon icon-addImg"></i>
+	                    	<div class="scale icon">反</div>
+	                    </div>
+	                </div>
+                </div>
+            </div>
+            <div class="msg_list" id="required_msg">
+                <h3>套餐选择</h3>
+                <if condition="(!in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or !in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">
+	                <div class="vip_unchange">
+	                	<div class="inp_box select_box">
+	                		<label class="inp_tit">服务套餐：</label>
+	                		<span class="inp_con">{$serviceProductOrderResult['condition']['product_name']}{:$serviceProductOrderResult['condition']['company_name']?'-'.$serviceProductOrderResult['condition']['company_name']:''}</span>
+	                	</div>
+	                	<div class="inp_box select_box">
+	                		<label class="inp_tit">参保地：</label>
+	                		<span class="inp_con">{$serviceProductOrderLocationResult['condition']['locationValue']}</span>
+	                	</div>
+	                </div>
+	            </if>
+                
+                <div <if condition="(!in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or !in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">class="hide"</if>>
+	                <div class="inp_box select_box">
+	                    <label class="inp_tit">服务套餐 ：<i class="inp_tip">*</i></label>
+	                    <select class="select select_vip" name="productId" required id="vip_select">
+	                        <option value="">请选择</option>
+	                        <if condition="$serviceProductOrderResult">
+	                        	<volist name="serviceProductOrderResult.list" id="vo">
+	                        		<option value="{$vo.product_id}" data-id="{$vo.id}" data-companyid="{$vo.service_company_id}" data-overtime="{$vo.overtime}" <if condition="$vo['product_id'] eq $serviceProductOrderResult['condition']['product_id']">selected="selected"</if>>{$vo.product_name}<if condition="$vo['company_name']">-{$vo['company_name']}</if>(套餐编号:{$vo.id})</option>
+	                        	</volist>
+	                        </if>
+	                    </select>
+	                    <p class="max_text"></p>
+	                </div>
+	                <div class="inp_box select_box">
+	                    <label class="inp_tit">参保地：<i class="inp_tip">*</i></label>
+	                    <select class="select select_location" name="location" required id="location">
+	                        <option value="">请选择</option>
+	                        <if condition="$serviceProductOrderLocationResult['list']['warranty_location']">
+	                        	<volist name="serviceProductOrderLocationResult['list']['warranty_location']" id="vo">
+	                        		<option value="{$vo.location}" data-locationid="{$vo.warrantyLocationId}" data-date="{$vo.deadline.1}" data-min="{$vo.minPaymentMonth.1}" data-max="{$vo.maxPaymentMonth.1}" data-month="{$vo.paymentMonthNum.1}" data-datepro="{$vo.deadline.2}" data-minpro="{$vo.minPaymentMonth.2}" data-maxpro="{$vo.maxPaymentMonth.2}" data-monthpro="{$vo.paymentMonthNum.2}" <if condition="$vo['location'] eq $serviceProductOrderLocationResult['condition']['location']">selected="selected"</if>>{$vo.locationValue}</option>
+	                        	</volist>
+	                        </if>
+	                    </select>
+	                    <p class="max_text"></p>
+	                </div>
+                </div>
+                
+                <div id="staff_msg" style="display:block;">
+                    <div class="gongjijin">
+                        <div class="gongjijin_tit">
+                            <span class="tit_text big_text"><if condition="3 eq $personInsuranceInfoResult[1]['state']">报减社保<else/>购买社保</if>
+                            	<if condition='0 eq $personInsuranceInfoResult[1]["operate_state"]'>
+                            		<span class="success_aduit">{$personInsuranceInfoResult[1]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}</span>
+                            	<elseif condition='in_array($personInsuranceInfoResult[1]["operate_state"],[1,-2,2,-3,3])'/>
+                            		<span class="success_aduit"><i class="icon icon-success"></i>{//$personInsuranceInfoResult[1]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}审核成功</span>
+                            	<elseif condition='0 lt $personInsuranceInfoResult[1]["operate_state"]'/>
+                            		<span class="success_aduit"><i class="icon icon-success"></i>{$personInsuranceInfoResult[1]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}</span>
+                            	<else/>
+                            		<span class="fail_aduit c-red">{$personInsuranceInfoResult[1]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}<span class="c-gray remark">备注：{$personInsuranceInfoResult[1]['remark']|default="无"}</span></span>
+                            	</if>
+                            </span>
+                            <span class="dashed_line"></span>
+                        </div>
+                    </div>
+	                
+                	<if condition="!in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">
+	                    <div class="soc_unchange">
+	                    	<if condition="$templateClassifyResult[1]['list']['result'][1]">
+		                        <volist name="templateClassifyResult[1]['list']['result'][1]" id="vo">
+		                    		<div class="inp_box select_box">
+				                        <label class="inp_tit">{$vo.name}：</label>
+		                            	<volist name="vo['_child']" id="voo">
+	                                    	<if condition="in_array($voo['id'],explode('|',$personInsuranceInfoResult[1]['templateRuleResult']['classify_mixed']))"><span class="inp_con">{$voo.name}</span></if>
+	                            		</volist>
+		                    		</div>
+			                    </volist>
+			                </if>
+	                    	<div class="inp_box select_box">
+	                    		<label class="inp_tit">缴费规则：</label>
+                				<span class="inp_con">{$personInsuranceInfoResult[1]['templateRuleResult']['name']}</span>
+	                    	</div>
+	                    	<div class="inp_box select_box">
+	                    		<label class="inp_tit">社保基数：</label>
+	                			<span class="inp_con">{$personInsuranceInfoResult[1]['amount']}</span>
+	                    	</div>
+	                    	<div class="inp_box select_box">
+	                    		<label class="inp_tit"><if condition="3 eq $personInsuranceInfoResult[1]['state'] or 3 eq $personInsuranceInfoResult[2]['state']">停缴<else/>起缴</if>时间：</label>
+	                			<span class="inp_con">{$personInsuranceInfoResult[1]['start_month']|int_to_date=###,"."}</span>
+	                    	</div>
+	                    </div>
+                    </if>
+                    
+                    <div <if condition="!in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">class="hide"</if>>
+	                    <div id="socialType">
+	                        <if condition="$templateClassifyResult[1]['list']['result'][1]">
+		                        <volist name="templateClassifyResult[1]['list']['result'][1]" id="vo">
+		                    		<div class="inp_box select_box">
+				                        <label class="inp_tit">{$vo.name}：<i class="inp_tip">*</i></label>
+				                        <select class="select select_socialType" name="socialType" required="">
+		                                    <option value="">请选择</option>
+			                            	<volist name="vo['_child']" id="voo">
+		                                    	<option value="{$voo.id}" <if condition="in_array($voo['id'],explode('|',$personInsuranceInfoResult[1]['templateRuleResult']['classify_mixed']))">selected="selected"</if>>{$voo.name}</option>
+		                            		</volist>
+		                                </select>
+		                    		</div>
+			                    </volist>
+			                </if>
+	                    </div>
+	                    <div class="inp_box select_box">
+	                        <label class="inp_tit">缴费规则 ：<i class="inp_tip">*</i></label>
+	                        <select class="select" name="project" required id="project">
+	                            <option value="">请选择</option>
+			                    <volist name="templateRuleResult.1.list" id="vo">
+	                            	<option value="{$vo.id}" data-minamount="{$vo.minAmount}" data-maxamount="{$vo.maxAmount}" <if condition="$vo['id'] eq $personInsuranceInfoResult[1]['rule_id']">selected="selected"</if>>{$vo.name}</option>
+		                        </volist>
+	                        </select>
+	                    </div>
+	                    <div class="inp_box">
+	                        <label class="inp_tit">社保基数：<i class="inp_tip">*</i></label>
+	                        <input type="text" name="socAmount" value="{$personInsuranceInfoResult[1]['amount']}" class="text " required id="socAmount"> 
+	                         <p class="max_text"></p>
+	                    </div>
+	                    <div class="inp_box">
+	                        <label class="inp_tit">起缴时间：<i class="inp_tip">*</i></label>
+	                        <input type="text" name="socPayDate" value="{$personInsuranceInfoResult[1]['start_month']|int_to_date=###,"-"}" placeholder="请选择起缴时间" class="text  timepicker" required id="socPayDate" required="true" aria-invalid="false">
+	                        <i class="icon icon-time-picker"></i>
+	                        <p class="max_text"></p>
+	                    </div>
+                    </div>
+                    
+                    <div class="gongjijin">
+                        <div class="gongjijin_tit">
+                            <input type="checkbox"  name="isBuyPro" value="1" id="isBuyPro" <if condition="$personInsuranceInfoResult[2]['id'] and 0 neq $personInsuranceInfoResult[2]['state']">checked="checked"</if> <if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">disabled="disabled"</if> >
+                            <span class="tit_text"><if condition="3 eq $personInsuranceInfoResult[2]['state']">报减公积金<else/>购买公积金</if>
+                            	<if condition='0 eq $personInsuranceInfoResult[2]["operate_state"]'>
+                            		<span class="success_aduit">{$personInsuranceInfoResult[2]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}</span>
+                            	<elseif condition='in_array($personInsuranceInfoResult[2]["operate_state"],[1,-2,2,-3,3])'/>
+                            		<span class="success_aduit"><i class="icon icon-success"></i>{//$personInsuranceInfoResult[2]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}审核成功</span>
+                            	<elseif condition='0 lt $personInsuranceInfoResult[2]["operate_state"]'/>
+                            		<span class="success_aduit"><i class="icon icon-success"></i>{$personInsuranceInfoResult[2]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}</span>
+                            	<else/>
+                            		<span class="fail_aduit c-red">{$personInsuranceInfoResult[2]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}<span class="c-gray remark">备注：{$personInsuranceInfoResult[2]['remark']|default="无"}</span></span>
+                            	</if>
+                            </span>
+                            <span class="dashed_line"></span>
+                        </div>
+                       
+                        <div class="GJJ_con" id="con_gjj">
+                        	<if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">
+	                        	<div class="pro_unchange">
+	                        		<div class="inp_box select_box">
+	                        			<label class="inp_tit">缴费规则：</label>
+	                					<span class="inp_con">{$personInsuranceInfoResult[2]['templateRuleResult']['name']}</span>
+	                        		</div>
+	                        		<div class="inp_box select_box">
+	                        			<label class="inp_tit">单位缴纳比例：</label>
+	                					<span class="inp_con">{$personInsuranceInfoResult[2]['paymentInfoValue']['companyScale']|trim='%'}%</span>
+	                        		</div>
+	                        		<div class="inp_box select_box">
+	                        			<label class="inp_tit">公积金基数：</label>
+	                					<span class="inp_con">{$personInsuranceInfoResult[2]['amount']}</span>
+	                        		</div>
+	                        		<div class="inp_box select_box">
+	                        			<label class="inp_tit">个人缴纳比例：</label>
+	                					<span class="inp_con">{$personInsuranceInfoResult[2]['paymentInfoValue']['personScale']|trim='%'}%</span>
+	                        		</div>
+	                        	</div>
+	                        </if>
+                        	
+	                        <div <if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">class="hide"</if>>
+			                    <div class="inp_box select_box">
+			                        <label class="inp_tit">缴费规则 ：<i class="inp_tip">*</i></label>
+			                        <select class="select ignore" name="proProject" required id="proProject">
+			                            <option value="">请选择</option>
+					                    <volist name="templateRuleResult.2.list" id="vo">
+			                            	<option value="{$vo.id}" data-minamount="{$vo.minAmount}" data-maxamount="{$vo.maxAmount}" data-id="{$vo.id}" data-personscale="{$vo.personScale}" data-companyscale="{$vo.companyScale}" <if condition="$vo['id'] eq $personInsuranceInfoResult[2]['rule_id']">selected="selected"</if>>{$vo.name}</option>
+				                        </volist>
+			                        </select>
+			                    </div>
+	                            <div class="inp_box">
+	                                <label class="inp_tit">公积金基数：<i class="inp_tip">*</i></label>
+	                                <input type="text" name="proAmount" value="{$personInsuranceInfoResult[2]['amount']}" class="text  ignore" required id="proAmount">
+	                                <p class="max_text"></p>
+	                            </div>
+	                            
+	                            <div class="inp_box clear">
+	                                <label class="inp_tit">单位缴纳比例：<i class="inp_tip">*</i></label>
+	                                <input type="text" name="proCompanyScale" value="{$personInsuranceInfoResult[2]['paymentInfoValue']['companyScale']|trim='%'}" class="ignore text " required id="proCompanyScale">
+	                               	<span class="percent">%</span>
+	                                <p class="max_text"></p>
+	                            </div>
+	                            <div class="inp_box ">
+	                                <label class="inp_tit ">个人缴纳比例：<i class="inp_tip">*</i></label>
+	                                <input type="text" name="proPersonScale" value="{$personInsuranceInfoResult[2]['paymentInfoValue']['personScale']|trim='%'}" class="text  ignore" required id="proPersonScale">
+	                                <span class="percent">%</span>
+	                                <p class="max_text"></p>
+	                            </div>
+	                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="msg_list msg_staff " id="msg_staff">
+                <h3 class="no_bor">缴费信息</h3>
+                <div id="msg_staff_box">
+                    <div id="staffdate">
+                    </div>
+                    <div id="table_box"></div>
+                </div>
+                <div id="page_foot">
+                    <div class="staff_box">
+                        <div class="staff_text">
+                            企业共缴纳：
+                            <span class="price" id="companyPrice">0.00</span>元
+                        </div>
+                        <div class="staff_text">
+                            个人共缴纳：
+                            <span class="price" id="personPrice">0.00</span>元
+                        </div>
+                        <div class="staff_text">
+                            服务费：
+                            <span class="price" id="servicePrice">0.00</span>元
+                        </div>
+                        <div class="staff_text" >
+                            总缴纳：
+                            <span class="total_price" id="totalPrice">0.00</span>元
+                        </div>
+                        <div class="bottom_btn">缴费详情</div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="isBuySoc" value="1">
+            <input type="hidden" name="socRuleId" id="socRuleId" value="{$personInsuranceInfoResult[1]['rule_id']}">
+            <input type="hidden" name="proRuleId" id="proRuleId" value="{$personInsuranceInfoResult[2]['rule_id']}">
+            <input type="hidden" name="templateId" id="templateId" value="{$personInsuranceInfoResult[1]['templateRuleResult']['template_id']}">
+            
+            <input type="hidden" name="baseId" id="baseId" value="{:I('get.baseId')}">
+            <input type="hidden" name="handleMonth" id="handleMonth" value="{:I('get.handleMonth')}">
+            <input type="hidden" name="socPiiId" id="socPiiId" value="{$personInsuranceInfoResult[1]['id']}">
+            <input type="hidden" name="proPiiId" id="proPiiId" value="{$personInsuranceInfoResult[2]['id']}">
+            
+            <input type="hidden" name="idCardFrontFile" id="idCardFrontFile" value="{$personBaseResult['idCardImg']['idCardFront']}">
+            <input type="hidden" name="idCardBackFile" id="idCardBackFile" value="{$personBaseResult['idCardImg']['idCardBack']}">
+            
+            <input type="hidden" id="serviceProductOrderResult" value='{//:json_encode($serviceProductOrderResult)}'>
+            <input type="hidden" id="serviceProductOrderLocationResult" value='{//:json_encode($serviceProductOrderLocationResult)}'>
+            <input type="hidden" id="templateClassifyResult" value='{//:json_encode($templateClassifyResult)}'>
+            <input type="hidden" id="templateRuleResult" value='{:json_encode($templateRuleResult)}'>
+            <if condition="$personInsuranceInfoResult[1]['whetherToOperate'] or $personInsuranceInfoResult[2]['whetherToOperate']">
+	            <if condition="(in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))) and $personBaseResult['editable'] and $personBaseResult['whetherToOperate']">
+	            	<input type="button" value="提交" id="submitBtn" class="btn btn_orange ls_btn submit_btn">
+	            </if>
+	            <!--<input type="button" value="提交" id="submitBtn" class="btn btn_orange ls_btn submit_btn" <if condition="!in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) and !in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))">disabled="disabled"</if> >-->
+	        </if>
+        </form>
+    </div>
+</block>
+<block name="script">
+    <script src="/Application/Company/Assets/v2/js/area.js"></script>
+    <script data-init="toIncrease" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Insurance.bundle.js"></script>
+</block>

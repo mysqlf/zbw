@@ -1,0 +1,53 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="pull-left">最新订单</h2> <a href="#" class="more pull-right">更多 >></a></div>
+    <div class="gutter table-responsive">
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	                <th width="10%">
+	                    企业编号
+	                </th>
+	                <th>企业名称</th>
+	                <th>订单月份</th>
+	                <th>报增(待审核/全部)</th>
+	                <th>报减(待审核/全部)</th>
+	                <th>在保</th>
+	                <th>客服</th>
+	                <th width="8%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+			<volist name="res.result" id="data">
+	            <tr>
+	                <td>
+	                    {$data.company_id}
+	                </td>
+	                <td><a class="c-gray" href="#" title="{$data.company_name}">{$data.company_name}</a></td>
+	                <td><a class="c-gray" href="/service-Order-comOrderDetail?service_order_id={$data.service_order_id}">{$data.order_date}</a></td>
+	                <td><a class="c-gray" href="/service-Order-comOrderDetail?service_order_id={$data.service_order_id}&&num=1">{$data.add_num}/{$data.audit_add_num}</a></td>
+	                <td><a class="c-gray" href="/service-Order-comOrderDetail?service_order_id={$data.service_order_id}&&num=2">{$data.del_num}/{$data.audit_del_num}</a></td>
+	                <td>
+	                    <a class="c-gray" href="#">{$data.warranty_num}</a>
+	                </td>
+	                <td>
+	                    {$data.username}
+	                </td>
+	                <td class="op-td">
+	                    <a class="c-primary" href="/service-Order-comOrderDetail?service_order_id={$data.service_order_id}" >详情 </a>
+	                </td>
+	            </tr>
+			</volist>
+	        </tbody>
+	    </table>
+		<!-- <button type="button" class="btn btn-primary">
+			    	<i class="icon icon-update no-gutter"></i>
+			    	更新为缴纳完成
+			    </button> -->
+
+	</div>
+</block>
+<block name="script">
+    <script type="text/javascript" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

@@ -1,0 +1,112 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">文章管理</h2>
+        <div class="buttons">
+            <a  href="{:U('Article/update')}" class="btn btn-border"><i class="icon icon-add-gray"></i>发布文章</a>
+        </div>
+        <div class="query-conditions">
+
+            <form class="query-form">
+                <div class="query-item fl">
+                    <label class="query-lb" for="title">标题</label>
+                    <div class="ipt-box">
+                        <input type="text" name="title" class="ipt w-normal ellipsis" value="<?php if($_GET['title']) echo $_GET['title'];?>" />
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="category_id">所属频道</label>
+                    <div class="ipt-box box-small">
+                        <select name="category_id">
+                            <option value="0">所属频道</option>
+                            <volist name="_category" id="v">
+                            <option value="{$v.id}" <?php if($_GET['category_id'] && $_GET['category_id'] == $v['id']) echo 'selected';?>>{$v.title}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="status">状态</label>
+                    <div class="ipt-box box-small">
+                        <select name="status">
+                            <option value="">全部</option>
+                            <volist name="_status" id="v">
+                            <option value="{$key}" <?php if(is_numeric($_GET['status'] ) && $_GET['status'] == $key) echo 'selected';?>>{$v}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="query-item fl">
+                    <label class="query-lb" for="bill_date">发布时间</label>
+                    <div class="ipt-box">
+	                    <span class="ipt-pos">
+                            <input type="text" name="create_time" id="create-begin"  value="<?php if($_GET['create_time']) echo $_GET['create_time'];?>" class="ipt w-normal date-day" readonly />
+                            <i class="icon icon-date"></i>
+                        </span> -
+	                    <span class="ipt-pos">
+                            <input type="text" name="create_time1" id="create-end" value="<?php if($_GET['create_time1']) echo $_GET['create_time1'];?>" class="ipt w-normal date-day" readonly />
+                            <i class="icon icon-date"></i>
+                        </span>
+	                </div>
+                </div>
+                <button type="submit" class="btn-query">查询</button>
+            </form>
+        </div>
+    </div>
+    <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+        <table >
+            <colgroup>
+                <col width="26%" />
+                <col width="18%" />
+                <col width="18%" />
+                <col width="18%" />
+                <col width="20%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>所属频道</th>
+                    <th>发布时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($result['result'] as $k=>$v){ ?>
+					<tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+						<td>
+							<?php echo $v['title'];?>
+						</td>
+						<td>
+							<?php echo $_category[$v['category_id']]['title'];?>
+						</td>
+						<td>
+							<?php echo $v['create_time'];?>
+						</td>
+						<td>
+							<?php echo $_status[$v['status']];?>
+						</td>
+						<td class="no-brdr">
+                             <a href="{:U('/ServiceArticle/articleInfo')}?cid=<?php echo $v['company_id']; ?>&id=<?php echo $v['id'];?>&category_id=<?php echo $v['category_id']; ?>" target="_black" title="查看" class="tbl-handle3">查看</a>  
+							<a href="{:U('Article/update')}?id=<?php echo $v['id'];?>" class="tbl-handle3" title="修改">修改</a>
+							<a href="javascript:;" data-act="removeArticle" data-id="<?php echo $v['id'];?>" class="tbl-handle3" title="删除">删除</a>
+						</td>
+					</tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div class="pagination">
+            {$result['page']}
+        </div>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>
+</block>
+<block name="script">
+	<script data-init="articleList" src="__ASSETS__/js/dist/content.bundle.js"></script>
+</block>
+
+

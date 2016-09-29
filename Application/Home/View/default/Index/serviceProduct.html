@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Platform/head" />
+</head>
+<body>
+    <div class="fixed-header">
+        <include file="Platform/header" />
+    </div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <volist name="banner_info" id="vo">
+                <div class="swiper-slide">
+                    <a href="{$vo.picture_url}"><img src="{$vo.path}" alt="{$vo.picture_title}"></a>
+                </div>
+            </volist>   
+        </div>
+        <div class="banner-pagination"></div>
+    </div>
+    <div class="pro-search">
+        <div class="commWidth">
+            <include file="Public/search" />
+            <!-- 交互说明
+                .serach-terms-city .terms-city-all显示所有城市
+             -->
+            <dl class="search-terms search-terms-city">
+                <dt>服务城市</dt>
+                <dd  name="location">
+                    <a href="javascript:;" data-value="0" class="search-terms-tm <?php if($_GET['location'] == 0) echo 'active';?>">不限</a>
+                    <?php foreach($location as $k=>$v){?>
+                    <a href="javascript:;" data-value="<?php echo $v['location']; ?>" class="search-terms-tm <?php if($_GET['location'] == $v['location']) echo 'active';?>"><?php echo $v['name']; ?></a>
+                    <?php } ?>
+                </dd>
+            </dl>
+            <dl class="search-terms">
+                <dt>适用对象</dt>
+                <dd name="applicable_object">
+                     <a href="javascript:;" class="search-terms-tm <?php if($_GET['applicable_object'] == 0) echo 'active';?>" data-value="0">不限</a>
+                    <?php foreach($applicable_object as $k=>$v){?>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['applicable_object'] == $k) echo 'active';?>" data-value="<?php echo $k;?>"><?php echo $v;?></a>
+                    <?php } ?>
+                </dd>
+            </dl>
+            <dl class="search-terms extra">
+                <dt>服务费区间</dt>
+                <dd  name="amount">
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 0) echo 'active';?>" data-value="0">不限</a>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 1) echo 'active';?>" data-value="1">0-50元</a>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 2) echo 'active';?>" data-value="2">50-60元</a>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 3) echo 'active';?>" data-value="3">60-70元</a>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 4) echo 'active';?>" data-value="4">70-80元</a>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 5) echo 'active';?>" data-value="5">80-100元</a>
+                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 6) echo 'active';?>" data-value="6">100元以上</a>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <?php if(!empty($service_product['result']) && count($service_product['result']) >0 ){?>
+    <div class="pro-list-wra commWidth">
+        <ul class="pro-list clearfix">
+        <?php foreach($service_product['result'] as $k=>$v){ ?>
+            <li>
+                <div class="pro-logo"><img src="<?php echo getFilePath($v['cid'],'./Uploads/Company/','info');?>service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></div>
+                <h5 class="pro-title"><?php echo $v['name']; ?></h5>
+                <p class="pro-desc"><?php echo $applicable_object[$v['applicable_object']]; ?></p>
+                <div class="pro-fee-cnt">
+                    <?php if($v['service_type'] == 2){?>
+                    <dl class="pro-fee height">
+                        <dt>服务费</dt>
+                        <?php foreach($v['service_price'] as $key=>$val){?>
+                        <dd><em><?php echo $val['service_price']; ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
+                        <?php } ?>
+                    </dl>
+                    <?php }elseif($v['service_type'] == 1){?>
+                        <dl class="pro-fee">
+                            <dt>服务费</dt>
+                        <?php foreach($v['service_price'] as $key=>$val){?>
+                        <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+                        <?php } ?>
+                        </dl>
+
+                <?php } ?>
+                <?php if($v['service_price_state'] == 1){?>
+                    <dl class="pro-fee">
+                        <dt>套餐费</dt>
+                        <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
+                    </dl>
+                <?php }else{ if($v['service_type'] == 1){?>
+
+                        <dl class="pro-fee">
+                            <dd><span class="fee-free">免套餐费</span></dd>
+                        </dl>
+                    <?php }}?>
+                </div>
+                <a href="{:U('SocialSecurity/productDetail',array('cid'=>$v['cid'],'id'=>$v['id']))}" class="btn no-mgt">立即参保</a>
+            </li>
+            <?php } ?>
+
+        </ul>
+        <div class="pagination pro-pagination">
+            <?php echo $service_product['page']; ?>
+        </div>
+    </div>
+    <?php }else{?>
+        <div class="no-data-tips">没有记录</div>
+    <?php } ?>
+
+
+    <include file="Platform/footer" />
+    <script src="/Application/Home/Assets/js/area.js"></script>
+    <script type="text/javascript" data-module="ind_platform" src="/Application/Home/Assets/js/dist/ind_platform_v1.2.bundle.js"></script>
+</body>
+</html>
+
+

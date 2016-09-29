@@ -1,0 +1,320 @@
+<extend name="Public/base" />
+
+
+
+<block name="body">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <div class="main-title cf">
+        <h2>
+            编辑企业信息
+        </h2>
+    </div>
+    <!-- 标签页导航 -->
+    <div class="tab-wrap">
+    <ul class="tab-nav nav">
+        <li data-tab="tab1" class="current"><a href="javascript:void(0);">基础</a></li>    </ul>
+    <div class="tab-content">
+    <!-- 表单 -->
+    <form id="form" action="/admin.php?s=/CompanyInfo-edit.html" method="post" class="form-horizontal">
+        <!-- 基础文档模型 -->
+        <div id="tab1" class="tab-pane in tab1">
+            <div class="form-item cf">
+                <label class="item-label">企业简称<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="company_name" value="{$rs['company_name']}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">企业全称<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="full_name" value="{$rs['full_name']}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">员工人数<span class="check-tips"></span></label>
+                <div class="controls">
+                    <div class="controls">
+                    <select name="employee_number">
+                    <?php foreach (adminState()['employee_number'] as $k=>$v){?>
+                        <option <?php if ($rs['employee_number']==$k){echo 'selected';}?> value="<?php echo $k;?>"><?php echo $v;?></option>
+                    <?php }?>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">性质<span class="check-tips"></span></label>
+                <div class="controls">
+                     <select name="property">
+                    <?php foreach (adminState()['property'] as $k=>$v){?>
+                        <option <?php if ($rs['property']==$k){echo 'selected';}?> value="<?php echo $k;?>"><?php echo $v;?></option>
+                    <?php }?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">行业<span class="check-tips"></span></label>
+                <div class="controls">
+                    <select name="industry">
+                    <?php foreach (adminState()['industry'] as $k=>$v){?>
+                        <option <?php if ($rs['industry']==$k){echo 'selected';}?> value="<?php echo $k;?>"><?php echo $v;?></option>
+                    <?php }?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">注册资金(万)<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="register_fund" value="{$rs['register_fund']}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">公司地址<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="company_address" value="{$rs['company_address']}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">公司简介<span class="check-tips"></span></label>
+                <div class="controls">
+                    <textarea name="company_introduction">{$rs['company_introduction']}</textarea>
+                    {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>$field['value']))}
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">联系人姓名<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="contact_name" value="{$rs['contact_name']}">
+                </div>
+            </div>
+            <if condition="$isServiceProvider neq 1">
+            <div class="form-item cf">
+                <label class="item-label">企业固话<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="tel_local_number" value="{$rs['tel_local_number']}">
+                </div>
+            </div>
+            
+            <div class="form-item cf">
+                <label class="item-label">纳税人识别号<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="social_credit_code" value="{$rs['social_credit_code']}">
+                </div>
+            </div>
+             <div class="form-item cf">
+                <label class="item-label">开户行名称<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="bank" value="{$rs['companyBank']['bank']}">
+                </div>
+            </div>
+            </if>
+           
+            <div class="form-item cf">
+                <label class="item-label">开户银行账户号<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="account" value="{$rs['companyBank']['account']}">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">联系人电话<span class="check-tips"></span></label>
+                <div class="controls">
+                    <input type="text" class="text input-large" name="contact_phone" value="{$rs['contact_phone']}">
+                </div>
+            </div>
+             <if condition="$isServiceProvider neq 1">
+            <div class="form-item cf">
+                <label class="item-label">联系人性别<span class="check-tips"></span></label>
+                <div class="controls">
+                    <select name="contact_sex">
+                    <?php foreach (adminState()['sex'] as $k=>$v){?>
+                        <option <?php if ($rs['contact_sex']==$k){echo 'selected';}?> value="<?php echo $k;?>"><?php echo $v;?></option>
+                    <?php }?>
+                    </select>
+                </div>
+            </div>
+            </if>
+            <!--<div class="form-item cf">
+                <label class="item-label">营业执照<span class="check-tips"></span></label>
+                <div class="controls">
+                    <div class="controls">
+                    <a href="/{$rs['filedir']}trading.jpg?time=<?php echo rand(1, 9999999)?>" target="_blank">查看营业执照</a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">授权协议<span class="check-tips"></span></label>
+                <div class="controls">
+                    <div class="controls">
+                    <a href="/{$rs['filedir']}license.jpg?time=<?php echo rand(1, 9999999)?>" target="_blank">授权协议</a>
+                    </div>
+                </div>
+            </div>-->
+            <div class="form-item cf">
+                <label class="item-label">营业执照<span class="check-tips"></span></label>
+                <div class="controls">
+                    <div class="controls">
+                    <a href="/{$rs['filedir']}business_license.jpg?v={:rand(1, 9999999)}"  target="_blank">查看营业执照</a>
+                    <!--<a href="{$rs['companyFile']['business_license']}?v={:rand(1, 9999999)}"  target="_blank">查看营业执照</a>-->
+                    </div>
+                </div>
+            </div>
+             <if condition="$isServiceProvider neq 1">
+                <div class="form-item cf">
+                    <label class="item-label">税务登记照<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <div class="controls">
+                        <a href="/{$rs['filedir']}tax_cegistration_certificate.jpg?v={:rand(1, 9999999)}"  target="_blank">查看税务登记照</a>
+                        <!--<a href="{$rs['companyFile']['tax_cegistration_certificate']}?v={:rand(1, 9999999)}"  target="_blank">查看税务登记照</a>-->
+                        </div>
+                    </div>
+                </div>
+                 <div class="form-item cf">
+                    <label class="item-label">纳税人资格证<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <div class="controls">
+                        <a href="/{$rs['filedir']}taxpayer_qualification_certificate.jpg?v={:rand(1, 9999999)}"  target="_blank">查看纳税人资格证</a>
+                        <!--<a href="{$rs['companyFile']['taxpayer_qualification_certificate']}?v={:rand(1, 9999999)}"  target="_blank">查看纳税人资格证</a>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item cf">
+                    <label class="item-label">银行开户许可证<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <div class="controls">
+                        <a href="/{$rs['filedir']}account_opening_license.jpg?v={:rand(1, 9999999)}"  target="_blank">查看银行开户许可证</a>
+                        <!--<a href="{$rs['companyFile']['account_opening_license']}?v={:rand(1, 9999999)}"  target="_blank">查看银行开户许可证</a>-->
+                        </div>
+                    </div>
+                </div>
+            </if>
+            <div class="form-item cf">
+                <label class="item-label">审核状态<span class="check-tips"></span></label>
+                <div class="controls">
+                    <select name="audit" id="audit">
+                        <option value="0" <?php if ($rs['audit']==0){echo 'selected';}?>>未审核</option>
+                        <option value="1" <?php if ($rs['audit']==1){echo 'selected';}?>>审核通过</option>
+                        <option value="-1" <?php if ($rs['audit']==-1){echo 'selected';}?>>审核失败</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-item cf" id="remark" style="<?php if($rs['audit']!=-1) echo 'display:none'; ?>">
+                <label class="item-label">备注信息<span class="check-tips"></span></label>
+                <div class=" input-large">
+                <input type="text" class="text input-large" name="remark" value="{$rs['remark']}">                
+            </div>
+            </div>
+
+
+        </div>
+        <div class="form-item cf">
+            <button class="btn submit-btn ajax-post hidden" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <a class="btn btn-return" href="/admin.php?s=/CompanyInfo-index.html">返 回</a>
+            <input type="hidden" name="id" value="{$id}">
+        </div>
+    </form>
+    </div>
+</div>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+Think.setValue("type", {$data.type|default='""'});
+Think.setValue("display", {$data.display|default=0});
+
+$('#submit').click(function(){
+    $('#form').submit();
+});
+
+
+$("#audit").change(function(){
+    var v = $(this).val();
+    if(v == -1){
+        $("#remark").show();
+    }else{
+       $("#remark").hide(); 
+    }
+})
+
+
+
+// $(function(){
+//     $('.date').datetimepicker({
+//         format: 'yyyy-mm-dd',
+//         language:"zh-CN",
+//         minView:2,
+//         autoclose:true
+//     });
+//     $('.time').datetimepicker({
+//         format: 'yyyy-mm-dd hh:ii',
+//         language:"zh-CN",
+//         minView:2,
+//         autoclose:true
+//     });
+//     showTab();
+
+
+//     <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
+//     //保存草稿
+//     var interval;
+//     $('#autoSave').click(function(){
+//         var target_form = $(this).attr('target-form');
+//         var target = $(this).attr('url')
+//         var form = $('.'+target_form);
+//         var query = form.serialize();
+//         var that = this;
+
+//         $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+//         $.post(target,query).success(function(data){
+//             if (data.status==1) {
+//                 updateAlert(data.info ,'alert-success');
+//                 $('input[name=id]').val(data.data.id);
+//             }else{
+//                 updateAlert(data.info);
+//             }
+//             setTimeout(function(){
+//                 $('#top-alert').find('button').click();
+//                 $(that).removeClass('disabled').prop('disabled',false);
+//             },1500);
+//         })
+
+//         //重新开始定时器
+//         clearInterval(interval);
+//         autoSaveDraft();
+//         return false;
+//     });
+
+//     //Ctrl+S保存草稿
+//     $('body').keydown(function(e){
+//         if(e.ctrlKey && e.which == 83){
+//             $('#autoSave').click();
+//             return false;
+//         }
+//     });
+
+//     //每隔一段时间保存草稿
+//     function autoSaveDraft(){
+//         interval = setInterval(function(){
+//             //只有基础信息填写了，才会触发
+//             var title = $('input[name=title]').val();
+//             var name = $('input[name=name]').val();
+//             var des = $('textarea[name=description]').val();
+//             if(title != '' || name != '' || des != ''){
+//                 $('#autoSave').click();
+//             }
+//         }, 1000*parseInt({:C('DRAFT_AOTOSAVE_INTERVAL')}));
+//     }
+//     autoSaveDraft();
+
+//     </if>
+
+// });
+
+
+
+</script>
+</block>

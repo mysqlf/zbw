@@ -1,0 +1,219 @@
+<!-- 代发工资管理 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">代发工资管理</h2>
+        <div class="buttons">
+            <a href="{:U('Service/Business/importSalary')}" class="btn btn-export">导入</a>
+        </div>
+        <div class="query-conditions">
+            <!-- 全部、待审核、已审核、待付款、待发放、已发放[[ -->
+            <div class="query-tags-wra">
+                <a href="{:U('Service/Business/salaryOrder')}" class="query-tags <if condition=" '' heq I( 'type') ">active</if> ">全部</a>
+                <a href="{:U('Service/Business/salaryOrder',array('type'=>0))}" class="query-tags <if condition=" '0' heq I( 'type') ">active</if> ">待审核<if condition="0 lt $count[0]"><i class="nums">{$count[0]}</i></if>
+                </a>
+                <a href="{:U('Service/Business/salaryOrder',array('type'=>1))}" class="query-tags <if condition=" '1' heq I( 'type') ">active</if> ">已审核</a>
+                <a href="{:U('Service/Business/salaryOrder',array('type'=>2))}" class="query-tags <if condition=" '2' heq I( 'type') ">active</if> ">待付款<if condition="0 lt $count[2]"><i class="nums">{$count[2]}</i></if></a>
+                <a href="{:U('Service/Business/salaryOrder',array('type'=>3))}" class="query-tags <if condition=" '3' heq I( 'type') ">active</if> ">待发放<if condition="0 lt $count[3]"><i class="nums">{$count[3]}</i></if></a>
+                <a href="{:U('Service/Business/salaryOrder',array('type'=>4))}" class="query-tags <if condition=" '4' heq I( 'type') ">active</if> ">已发放</a>
+            </div>
+            <div class="query-form">
+                <form id="listForm" action="{:U('Service/Business/salaryOrder')}">
+                    <div class="query-item fl">
+                        <label class="query-lb" for="">申报企业</label>
+                        <div class="ipt-box">
+                            <input type="text" name="companyName" value="{:I('get.companyName')}" class="ipt size1 ellipsis" />
+                        </div>
+                    </div>
+                    <div class="query-item query-date fl">
+                        <label class="query-lb" for="">申报时间</label>
+                        <div class="ipt-box box-date">
+                            <span class="ipt-pos">
+	                        <input id="declare-begin" type="text" name="startTime" value="{:I('get.startTime')}" class="ipt date-day size1" readonly />
+	                        <i class="icon icon-date"></i>
+	                    </span> -
+                            <span class="ipt-pos">
+	                        <input id="declare-end" type="text" name="endTime" value="{:I('get.endTime')}" class="ipt date-day size1" readonly />
+	                        <i class="icon icon-date"></i>
+	                    </span>
+                        </div>
+                    </div>
+                    <div class="query-item fl">
+                        <label class="query-lb" for="">姓名</label>
+                        <div class="ipt-box">
+                            <input type="text" name="personName" value="{:I('get.personName')}" class="ipt w-small ellipsis" />
+                        </div>
+                    </div>
+                    <div class="query-item fl">
+                        <label class="query-lb" for="">工资年月</label>
+                        <div class="ipt-box ipt-pos">
+                            <input type="text" name="date" value="{:I('get.date')}" class="ipt date w-small" readonly />
+                            <i class="icon icon-date"></i>
+                        </div>
+                    </div>
+                    <input id="J_type-hidden" type="hidden" name="type" value="{:I('get.type')}" />
+                    <button type="submit" class="btn-query fl">查询</button>
+                </form>
+            </div>
+            <!-- 全部、待审核、已审核、待付款、待发放、已发放]] -->
+        </div>
+    </div>
+    <if condition="0 lt count($result)">
+        <form id="J_salary-form" class="pannel-tbl">
+            <table summary="代发工资管理-全部">
+                <colgroup>
+                    <if condition="in_array(I('get.type'),array('0'))">
+                        <col width="5%" />
+                        <col width="10%" />
+                        <col width="6%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="7%" />
+                        <col width="6%" />
+                        <col width="6%" />
+                        <col width="8%" />
+                        <col width="7%" />
+                        <col width="6%" />
+                        <col width="12%" />
+                        <col width="5%" />
+                        <col width="6%" />
+                    <elseif condition="in_array(I('get.type'),array('1'))" />
+                        <col width="5%" />
+                        <col width="10%" />
+                        <col width="6%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="7%" />
+                        <col width="6%" />
+                        <col width="6%" />
+                        <col width="8%" />
+                        <col width="7%" />
+                        <col width="6%" />
+                        <col width="12%" />
+                        <col width="5%" />
+                        <col width="6%" />
+                    <elseif condition="in_array(I('get.type'),array('2'))" />
+                        <col width="10%" />
+                        <col width="6%" />
+                        <col width="10%" />
+                        <col width="8%" />
+                        <col width="9%" />
+                        <col width="8%" />
+                        <col width="6%" />
+                        <col width="8%" />
+                        <col width="7%" />
+                        <col width="6%" />
+                        <col width="12%" />
+                        <col width="10%" />
+                    <elseif condition="in_array(I('get.type'),array('3'))" />
+                        <col width="5%" />
+                        <col width="10%" />
+                        <col width="6%" />
+                        <col width="10%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="11%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="10%" />
+                    <elseif condition="in_array(I('get.type'),array('4'))" />
+                        <col width="10%" />
+                        <col width="6%" />
+                        <col width="10%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="11%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="10%" />
+                    <else/>
+                        <col width="13%" />
+                        <col width="7%" />
+                        <col width="11%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="11%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="8%" />
+                        <col width="10%" />
+                    </if>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <if condition="in_array(I('get.type'),array('0','1','3'))">
+                            <th>
+                                <input type="checkbox" name="" class="icheck icheck-all">
+                            </th>
+                        </if>
+                        <th>申报企业</th>
+                        <th>姓名</th>
+                        <th>身份证号码</th>
+                        <th>服务套餐</th>
+                        <th>银行名称</th>
+                        <th>银行卡号</th>
+                        <th>工资年月</th>
+                        <th>扣除个人所得税</th>
+                        <th>实发工资</th>
+                        <th>状态</th>
+                        <if condition="in_array(I('get.type'),array('0','1'))">
+                            <th>备注</th>
+                            <th>操作</th>
+                            <elseif condition="in_array(I('get.type'),array('2'))" />
+                            <th>付款流水号</th>
+                        </if>
+                        <th>申报时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="result" id="vo">
+                        <tr <if condition="0 eq $i%2">class="tr-bg"</if>>
+                            <if condition="in_array(I('get.type'),array('0','1','3'))">
+                                <td>
+                                    <input type="checkbox" name="id[]" class="icheck single-icheck" value="{$vo.id}">
+                                </td>
+                            </if>
+                            <td><a href="{:U('Service/Members/companyDetail',array('id'=>$vo['company_id']))}">{$vo.company_name}</a></td>
+                            <td class="cbluelg">{$vo.person_name}</td>
+                            <td>{$vo.card_num}</td>
+                            <td>{$vo.product_name}</td>
+                            <td>{$vo.bank}{$vo.branch}</td>
+                            <td>{$vo.account}</td>
+                            <td>{$vo.date|int_to_date}</td>
+                            <td>{$vo.tax}</td>
+                            <td>{$vo.actual_salary}</td>
+                            <td>{$vo.state|get_code_value="ServiceOrderSalaryState"}</td>
+                            <if condition="in_array(I('get.type'),array('0','1'))">
+                                <td>{$vo.remark}</td>
+                                <td><if condition="in_array($vo['state'],array(0,-1))"><a href="javascript:;" data-id="{$vo.id}" data-userid="{$vo.user_id}" data-act="del-salary">删除</td></a></if>
+                            <elseif condition="in_array(I('get.type'),array('2'))" />
+                                <td>{$vo.pay_order_no}{//$vo.pay_transaction_no}</td>
+                            </if>
+                            <td class="no-brdr">{$vo.create_time}</td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+
+            <if condition="'0' eq I('get.type') or '1' eq I('get.type')">
+                <button class="btn payroll-handle" data-act="batch_audit" type="button">批量审核</button>
+            <elseif condition="'3' eq I('get.type')"/>
+                <button class="btn payroll-handle" data-act="batch_grant" type="button">批量发放</button>
+            </if>
+            
+            <div class="pagination">
+                {$page}
+            </div>
+        </form>
+    <else/>
+    <span class="no-data-tip">未找到符合条件的记录</span>
+    </if>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="salary" src="__ASSETS__/js/dist/business.bundle.js"></script>
+</block>

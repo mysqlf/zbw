@@ -1,0 +1,11 @@
+.modify_template p{
+	width:200px;
+	float: left;
+}
+.play_mode div{
+	width:300px;
+	padding:20px;
+}
+.play_mode select{
+	width:100px;
+}

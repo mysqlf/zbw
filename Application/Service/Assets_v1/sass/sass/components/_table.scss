@@ -1,0 +1,108 @@
+	.table-bordered thead th {
+	    background: #efefef;
+	    border-width: 1px;
+	    font-weight: normal;
+	    text-align: center;
+	}
+	
+	.nav-tabs-default {
+	    background: #ebedee;
+	    border: 0;
+	    border-bottom: 1px solid #ddd;
+	    padding: 0 $gutter;
+	    &.nav-tabs > li > a {
+	        height: 50px;
+	        border: 0;
+	        padding: 0;
+	        margin: 0 $gutter;
+	        line-height: 50px;
+	        position: relative;
+	        font-size: $f-size-title;
+	        color: $c-gray-lighter;
+	    }
+	    &.nav-tabs > li.active > a,
+	    .nav-tabs > li.active > a:hover,
+	    .nav-tabs > li.active > a:focus {
+	        background: none;
+	        border: 0;
+	        color: $c-gray;
+	        &:before {
+	            content: '';
+	            display: block;
+	            height: 3px;
+	            width: 100%;
+	            background: $color-primary;
+	            position: absolute;
+	            bottom: 0;
+	            left: 0;
+	        }
+	    }
+	}
+	
+	.table {
+	    .op-td a {
+	        display: inline-block;
+	        margin: 0 5px;
+	        text-decoration: none;
+	    }
+	    tr >td.divider-box,
+	    tr >th.divider-box {
+	        padding: 0;
+	        vertical-align: top;
+	        .divider {
+	            display: block;
+	            border-bottom: 1px solid $border-default-color;
+	            padding: 5px;
+	            white-space: nowrap;
+	            margin-bottom: -1px;
+	        }
+	    }
+	}
+	
+	.table > thead > tr > th,
+	.table > thead > tr > td,
+	.table > tbody > tr > th,
+	.table > tbody > tr > td,
+	.table > tfoot > tr > th,
+	.table > tfoot > tr > td {
+	    vertical-align: middle;
+	}
+	
+	.table-border thead tr th {
+	    border: 1px solid #ddd;
+	}
+	
+	.table-border tr {
+	    th.divider-border,
+	    td {
+	        line-height: 34px;
+	    }
+	    td {
+	        .plus {
+	            color: $color-warm;
+	        }
+	        .minus {
+	            color: $color-primary;
+	        }
+	    }
+	}
+	
+	.divider-border {
+	    .divider-border-right {
+	        border-right: 1px solid #ddd;
+	    }
+	    .divider-border-bottom {
+	        border-bottom: 1px solid #ddd;
+	    }
+	}
+
+.table.table-inner{
+	margin-bottom: 0;
+	border: 0;
+	margin: -1px 0 0;
+
+	td{
+		border-bottom: 0;
+		border-left: 0;
+	}
+}

@@ -1,0 +1,217 @@
+<?php if($state != 1):?>
+<?php if($result['gtype'] == 1 || (empty($result['gtype']) AND ($result['stype'] != 2) ) ) :?>
+<input type="hidden" name="gzj_type" value="1">
+<?php if($result['gstate'] == 0 || $result['gstate'] == -1 || $result['gstate'] == -9 || ( ($result['gstate'] == 1 || $result['gstate'] == 2 )&&  $result['gdetail_state'] == -1)) :?>
+<div class="panel-audit clearfix2">
+    <div class="title">公积金报增审核</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" required  <?php if($result['gstate'] == 0) echo 'checked';?> value="0">
+            审核中
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="gzj_state" class="gzj_state states states-success icheck" value="1"  <?php if($result['gstate'] == 1 || $result['gstate'] == 2) echo 'checked';?>>
+            审核通过
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="gzj_state_guadan" value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck"  <?php if($result['gstate'] == -1) echo 'checked';?>  value="-1">
+            审核失败
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php elseif($result['gstate'] == 1 || $result['gstate'] == -3 || $result['gstate'] == 2) :?>
+<div class="panel-audit clearfix2">
+    <div class="title">公积金报增办理</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" required value="3">
+            报增成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="gzj_state" class="gzj_state states states-success icheck"  value="-3" <?php if($result['gstate'] == -3) echo 'checked';?> >
+            报增失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="gzj_state_guadan" value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php elseif($result['gstate'] == 3 || $result['gstate'] == -4 || $result['gstate'] == -5 || $result['gstate'] == 4) :?>
+<div class="panel-audit clearfix2">
+    <div class="title">公积金缴纳</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" required value="4" <?php if($result['gstate'] == 4) echo 'checked';?>>
+            缴纳成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="gzj_state" class="gzj_state states states-success icheck"  value="-4" <?php if($result['gstate'] == -4) echo 'checked';?>>
+            缴纳失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="gzj_state_guadan" value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+
+    <div class="form-group col-xs-12" style="margin-bottom: 10px;">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states  icheck"   value="-5" <?php if($result['gstate'] == -5) echo 'checked';?>>
+            缴纳异常
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_balance" placeholder="反馈" value="{$result.gbalance}">
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php endif;?>
+<?php endif;?>
+<?php if($result['gtype'] == 2 || (empty($result['gtype']) AND ($result['stype'] == 2) )) :?>
+<input type="hidden" name="gzj_type" value="2">
+<?php if($result['gstate'] == 0 || $result['gstate'] == -1 || ($result['gstate'] == 1 &&  $result['gdetail_state'] == -1)) :?>
+<div class="panel-audit clearfix2">
+    <div class="title">公积金报减审核</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" required value="0" <?php if($result['gdetail_state'] == 0) echo 'checked';?>>
+            审核中
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="gzj_state" class="gzj_state states states-success icheck" value="1" >
+            审核通过
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="gzj_state_guadan" value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            审核失败
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php elseif($result['gstate'] == 1 || $result['gstate'] == 2 ||  $result['gstate'] == -3 || $result['gstate'] == 3): ?>
+<div class="panel-audit clearfix2">
+    <div class="title">公积金报减办理</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" required value="3" <?php if($result['gstate'] == 3) echo 'checked';?>>
+            报减成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="gzj_state" class="gzj_state states states-success icheck" value="-3" <?php if($result['gstate'] == -3) echo 'checked';?>>
+            报减失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="gzj_state_guadan" value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php endif;?>
+<?php endif;?>
+<?php if($result['gtype'] == 3) :?>
+<input type="hidden" name="gzj_type" value="3">
+<div class="panel-audit clearfix2">
+    <div class="title">公积金缴纳</div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck" required value="4" <?php if($result['gstate'] == 4) echo 'checked';?>>
+            缴纳成功
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input  type="radio" name="gzj_state" class="gzj_state states states-success icheck" value="-4" <?php if($result['gstate'] == -4) echo 'checked';?>>
+            缴纳失败
+
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label class="guadan">
+            <input class="icheck" type="checkbox" name="gzj_state_guadan"  value="-1" <?php if($result['gdetail_state'] == -1) echo 'checked';?>>
+            挂起至下一订单
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+            <input type="radio" name="gzj_state" class="gzj_state states icheck"   value="-5" <?php if($result['gstate'] == -5) echo 'checked';?>>
+            缴纳异常
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_balance" placeholder="反馈" value="{$result.gbalance}">
+        </label>
+    </div>
+    <div class="form-group col-xs-12">
+        <label>
+
+            备注
+            <input class="input-remark gutter-left form-control" type="text" name="gzj_remark" placeholder="反馈">
+        </label>
+    </div>
+</div>
+<?php endif;?>
+<?php endif;?>

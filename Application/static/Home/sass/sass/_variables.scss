@@ -1,0 +1,79 @@
+$font-family-default: "Microsoft Yahei";
+
+//img
+$imgBaseUrl: "../images";
+
+
+// 主色
+$color-primary: #f77f3b;
+$color-danger: #f00;
+$color-warning: #f26797 ;
+$color-success: #fff3e1;
+$color-fize:#212121;
+$color-btn-font:#fff;
+$color-darker-text:#000;
+$color-orange:#f77f3b;
+$color-orange2:#ffb083;
+$color-orange3:#e45d11;
+$color-blue:#3498db;
+$color-blue2:#5dade2;
+$color-blue3:#2c81ba;
+$color-red:#f26797;
+$color-red1:#f585ac;
+$color-red2:#ce5880;
+$color-green:#2cca85;
+$color-green1:#9adec1;
+$color-green2:#06854d;
+$color-gray:#d5d5d5;
+$color-gray1:#ebedee;
+$color-gray2:#f8f8f8;
+$color-gray3:#666666;
+$color-mazarine:#355370;
+$color-mazarine1:#5d758d;
+$color-mazarine2:#2d475f;
+
+$color-money:#f77f3b;
+
+
+
+$color-primary-active: darken($color-primary, 10%);;
+$color-danger-active: darken($color-danger, 10%);
+$color-warning-active: darken($color-warning, 10%);
+$color-success-active: darken($color-success, 10%);
+$notice-color: #ff5722; //通知颜色
+
+
+
+
+//链接---------------------------色
+
+$color-link: $color-primary; //链接色有可能不同于主色
+$color-link-active: $color-primary; //链接色有可能不同于主色
+
+
+// Borders
+// --------------------------------------------------
+
+$border-default-width: 1px;
+$border-default-color: #e5e5e5;
+$border-form-color:#e5e5e5;
+$border-default: $border-default-width solid $border-default-color;
+$border-radius: 0.3rem;
+
+
+/*网格系统*/
+//网格数
+$grid-columns: 12;
+//网格间隔
+$grid-gutter-width: 0;
+
+//字体
+$font-size-big:26px;  //最大标题
+$font-size-mid:22px;  //导航、侧导航、小标、
+$font-size-direction:16px; //指示性文字
+$font-size-primary:14px;  //正文
+$font-color-gray:#414141;
+$font-color-gray1:#888;
+$font-color-gray2:#666;
+$font-color-gray3:#999;
+

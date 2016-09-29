@@ -1,0 +1,273 @@
+<extend name="Base/Insurance"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/insurance.css" rel="stylesheet">
+</block>
+<block name="right">
+    <div class="cb-content fr clearOver addIns">
+        <div class="pageTitle clearOver"><!-- 标题 -->
+            <span class="fl">新建报增</span>
+            <a href="javascript:history.go(-1);" class="back fr">返回</a>
+        </div>
+        <form id="addAudit" class="fromTable addAudit" name="addAudit" data-id="form" action="{:U('Company/Insurance/toIncrease')}" method="post">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+                <tr>
+                    <td class="name">订单月份：</td>
+                    <td>
+                        <strong class="month" id="orderDate"></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">服务商：</td>
+                    <td>
+                        <select name="productOrderId" class="zb_inpt" id="facilitator"  data-service="<?php echo $location;?>">
+                            <option value="">请选择</option>
+                            <?php foreach ($product as $v){?>
+                                <option value="<?php echo $v['id'];?>"><?php echo $v['name'];?>（<?php echo $v['company_name'];?>）</option>
+                            <?php }?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">身份证号：</td>
+                    <td>
+                        <input class="zb_inpt" type="text" id="card_num" name="card_num" placeholder="请输入身份证号" value="{$personBaseResult.card_num}" required />
+                        <span class="age">年龄<em id="age">{$personBaseResult.age}</em>岁</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name" style="vertical-align: top;">身份证<span style="color: #fff">：</span><br/>正反面：</td>
+                    <td>
+                        <div class="ICUpload fl">
+                            <div class="ic" id="obverse">
+                                <a class="upBtn" id="obverse_btn">obverse</a>
+                                <input type="hidden" class="jFile" name="idCardFrontFile" value="{$personBaseResult.idCardImg.idCardFront}" id="idCardFrontFile" required>
+                                <div class="uploaded zbhide">
+                                    <img src="/Application/static/Home/images/identity.jpg" width="82px" height="52px" >
+                                    <p>重新上传</p>
+                                    <i class="icon icon-sclosed" data-act="close"></i>
+                                </div>
+                                <div class="upload">
+                                    <i class="icon icon-add"></i>
+                                    <p>添加正面</p>
+                                </div>
+                            </div>
+                            <div class="ic" id="reverse">
+                                <a class="upBtn" id="reverse_btn">reverse</a>
+                                <input type="hidden" class="jFile" name="idCardBackFile" value="{$personBaseResult.idCardImg.idCardBack}" id="idCardBackFile" required>
+                                <div class="upload">
+                                    <i class="icon icon-add"></i>
+                                    <p>添加反面</p>
+                                </div>
+                                <div class="uploaded zbhide">
+                                    <img src="/Application/static/Home/images/identity.jpg" width="82px" height="52px" >
+                                    <p>重新上传</p>
+                                    <input type="file" name="">
+                                    <i class="icon icon-sclosed" data-act="close"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="cardinal fl">请上传jpg/jpeg/gif/png格式的图片，<br/>大小控制在2M以内</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">姓名：</td>
+                    <td>
+                        <div class="fl"><input id="user_name" class="zb_inpt" type="text" name="user_name" placeholder="请输入姓名" required value="{$personBaseResult.user_name}" style="width: 160px" /></div>
+                        <div class="fl square">
+                            <label><input id="sex1" type="radio" name="sex" value="1" required <?php if($personBaseResult['gender'] == 1) echo 'checked'; ?>>男</label>
+                            <label><input id="sex2" type="radio" name="sex" value="2" required <?php if($personBaseResult['gender'] == 2) echo 'checked'; ?>>女</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">手机号码：</td>
+                    <td>
+                        <input class="zb_inpt" type="text" required id="mobile" name="mobile" placeholder="请输入手机号码" value="{$personBaseResult.mobile}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">参保地：</td>
+                    <td>
+                        <select name="location" class="zb_inpt" id="location">
+                            <option value="">请选择</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <div class="subhead">参保信息</div>
+            <div class="buyIns" id="buyIns">
+                <div class="form-box" data-type="1">
+                    <div class="square">
+                        <label><input type="checkbox" id="security-checkbox" class="buy-server" name="sb_buy" <?php if(!empty($result['stype']) &&  $result['sstate'] != -9) echo 'checked'; ?>/>购买社保</label>
+                    </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+                        
+                        <tr>
+                            <td class="name">社保基数：</td>
+                            <td class="license">
+                                <input class="zb_inpt" type="text" required  name="pro_cost" id="sb_amount" placeholder="请输入社保基数" value="{$result.samount}"/>
+                                <span class="cardinal">基数范围{$result.srule.rule.min}到{$result.srule.rule.max}</span>
+                            </td>
+                        </tr>
+                        <tr id="sb_date">
+                            <td class="name">起缴时间：</td>
+                            <td class="start">
+                                <select name="sb_year" id="sb_year" class="zb_inpt">
+                                    <option value="">请选择</option>
+                                </select>
+                                年
+                                <select name="sb_month" id="sb_month" class="zb_inpt" style="margin-left: 20px;">
+                                    <option value="">请选择</option>
+                                </select>
+                                月
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="pageTable zbhide" id="sb_table" width="676">
+                        <tr>
+                            <td rowspan="2" class="c-1">险种 </td>
+                            <td rowspan="2" class="c-1">基数 </td>
+                            <th colspan="2">单位缴纳</th>
+                            <th colspan="2">个人缴纳</th>
+                            <td rowspan="2" class="c-6">合计金额</td>
+                        </tr>
+                        <tr>
+                            <td class="c-2">比例</td>
+                            <td class="c-3">金额</td>
+                            <td class="c-4">比例</td>
+                            <td class="c-5">金额</td>
+                        </tr>
+                        <volist name="result.srule.rule.items" id="vo">
+                            <tr>
+                                <td>
+                                    {$vo.name}
+                                </td>
+                                <td>
+                                    {$vo.amount}
+                                </td>
+                                <td class="sum-company-scale">
+                                   {$vo.rules.company}
+                                </td>
+                                <td class="sum-company">{$vo.rules.companySum}</td>
+                                <td class="sum-person-scale">
+                                    {$vo.rules.person}
+                                </td>
+                                <td class="sum-person">{$vo.rules.personSum}</td>
+                                <td class="sum orange">
+                                    {$vo.rules.total}
+                                </td>
+                            </tr>
+                        </volist>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <!--<td id="total-sum-company-scale">{$result.srule.rule.total.rules.company}</td>-->
+                            <td id="total-sum-company" colspan="2">企业共缴纳:{$result.srule.rule.total.rules.companySum}</td>
+                            <!--<td id="total-sum-person-scale">{$result.srule.rule.total.rules.person}</td>-->
+                            <td id="total-sum-person" colspan="2">个人共缴纳:{$result.srule.rule.total.rules.personSum}</td>
+                            <td class="orange" id="total">{$result.srule.rule.total.rules.total}</td>
+                        </tr>
+                    </table>
+                    <div class="circle">
+                        <label>
+                            <div class="fl"><input type="radio" class="ss-card" id="has-ss-card" value="1" name="ss_card" required  <?php if(!empty($result['scard_number'])) echo 'checked'; ?>>有社保卡</div>
+                            <div class="fl c1">卡号：<input type="text" id="ss_card_number" class="zb_inpt" name="ss_card_number" placeholder="请输入卡号" value="{$result.scard_number}"></div> 
+                        </label>
+                        <label>
+                            <div class="fl"><input type="radio" class="ss-card" id="no-ss-card" value="2" name="ss_card" required <?php if(empty($result['scard_number'])) echo 'checked'; ?>>无社保卡</div>
+                            <div class="fl c1">工本费：<span id="sb-pro_cost">{$result.srule.rule.pro_cost|default=0}</span>元<a class="material" href="javascript:;" data-material="{$result.srule.rule.material}">所需材料</a></div> 
+                        </label>
+                    </div>
+                    <div class="subtotal">小计： <strong id="sb-total"><?php echo $result['srule']['rule']['total']['rules']['total'] + $result['srule']['rule']['pro_costs']; ?>元/月</strong></div>
+                </div>
+                <div class="form-box" data-type="2">
+                    <div class="square">
+                        <label><input type="checkbox" id="gzj-checkbox" class="buy-server" name="gzj_buy" <?php if(!empty($result['gtype'])) echo 'checked'; ?>/>购买公积金</label>
+                    </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable CPF">
+                        <volist name="result.grule.template" id="vo">
+                            <?php if($vo['fid'] == 0): ?>
+
+                        <tr>
+                            <td class="name">{$vo.name}：</td>
+                            <td>
+                                <select id="" name="gzj_name[]" required class="zb_inpt gzj-change">
+                                    <option value="">请选择</option>
+                                    <volist name="result.grule.template" id="v">
+                                        <?php if($v['fid'] == $vo['id']): ?>
+                                        <option value="{$v.id}" <?php if($v['selected'] == 1) echo 'selected';  ?>  >{$v.name}</option>
+                                        <?php endif; ?>
+                                    </volist>
+                                </select>
+                            </td>
+                        </tr>
+
+                            <?php endif; ?>
+                        </volist>
+
+                        <tr>
+                            <td class="name">公积金基数：</td>
+                            <td>
+                                <input class="zb_inpt gzj-change" type="text"  required  name="gzj_pro_cost" id="gzj_amount" placeholder="请输入公积金基数" value="{$result.gamount}"/><span class="cardinal">基数范围{$result.grule.rule.min}到{$result.grule.rule.max}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">单位缴纳比例：</td>
+                            <td class="scale">
+                                <input class="zb_inpt gzj-change" type="text" required  name="gzj_pro_cost_com" id="firme" placeholder="请输入单位缴纳比例" value="{$result.company_scale}"/>%<span class="cardinal" id="comp-scale">比例为{$result.grule.rule.company}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">个人缴纳比例：</td>
+                            <td class="scale">
+                                <input class="zb_inpt gzj-change" type="text" required  name="gzj_pro_cost_per" id="member" placeholder="请输入个人缴纳比例" value="{$result.person_scale}"/>%
+                                <span class="cardinal" id="per-scale">比例为{$result.grule.rule.person}</span>
+                            </td>
+                        </tr>
+                        <tr id="gzj_date">
+                            <td class="name">起缴时间：</td>
+                            <td class="start">
+                                <select name="gzj_year" id="gzj_year" class="zb_inpt">
+                                    <option value="">请选择</option>
+                                </select>
+                                年
+                                <select name="gzj_month" id="gzj_month" class="zb_inpt" style="margin-left: 20px;">
+                                    <option value="">请选择</option>
+                                </select>
+                                月
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="circle">
+                        <label>
+                            <div class="fl"><input type="radio" class="gzj-card" id="has-gzj-card" name="gzj_card" <?php if(!empty($result['gtype']) && $result['gstate'] != -9) echo 'checked'; ?> >有公积金卡</div>
+                            <div class="fl c1">卡号：</div>
+                            <div class="fl"><input type="text" class="zb_inpt"  name="gzj_card_number" placeholder="请输入卡号" value="{$result['gcard_number']}"></div>
+                        </label>
+                        <label>
+                            <div class="fl"><input type="radio" id="no-gzj-card" class="gzj-card"  name="gzj_card" value="2" required <?php if(empty($result['gcard_number'])) echo 'checked'; ?>>无公积金卡</div>
+                            <div class="fl c1">工本费：<span id="gzj-pro_cost">{$result.grule.rule.pro_cost|default=0}</span>元</div>
+                        </label>
+                    </div>
+                    <div class="subtotal">小计：<strong id="gzj-total"><?php echo $result['grule']['rule']['personSum'] + $result['grule']['rule']['pro_costs'] + $result['grule']['rule']['companySum']; ?>元/月</strong></div>
+                </div>
+                <div class="subtotal disabled form-box" data-type="3">
+                    <div class="square">
+                        <label><input type="checkbox" id="czj-checkbox" class="buy-server" name="czj_buy" />购买残障金</label>
+                    </div>
+                    小计：<strong id="czj-total">{$result.drule.rule.price|default=0}元/月</strong>
+                </div>
+                <div class="total" id="all-total">总计：0元/月</div>
+            </div>
+                <!--<input type="hidden" name="base_id" value="{$result.base_id}">
+                <input type="hidden" name="service_order_id" value="{$result.service_order_id}">
+                <input type="hidden" name="pay_date" value="{$result.pay_date}">-->
+            <input id="template_id" type="hidden" name="template_id" value="">
+
+            <button class="orange_btn">确定</button>
+        </form>
+    </div>
+</block>
+<block name="script">
+    <script src="/Application/static/Home/js/dist/addAudit.bundle.js"></script>
+</block>

@@ -1,0 +1,142 @@
+@charset "utf-8";
+/*
+*产生样式
+*/
+@import "../variables";
+@import "../mixins";
+
+/*企业信息*/
+.infoMain {
+    position: relative;
+    font-size: 14px;
+    line-height: 36px;
+    margin-bottom: 50px;
+
+    .name {
+        padding-right: 10px;
+        text-align: right;
+        width: 80px;
+
+        em {
+            vertical-align: middle;
+            margin-right: 5px;
+            font-family: 宋体;
+        }
+    }
+
+    strong{
+        font-size: 14px;
+        color: #414141;
+    }
+
+    .email{
+        margin-right: 10px;
+    }
+
+    .download{
+        color: #999999;
+        a{
+            color: $color-blue;
+            text-decoration: underline;
+        }
+    }
+
+    .button{
+        width: 100px;
+        text-align: center;
+    }
+    .preview{
+        font-weight: bold;
+        color: #666;
+        text-decoration: underline;
+    }
+    .toloadBtn{
+        @include zb-button1(80px,36px,$color-blue);
+        margin-left: 10px;
+    }
+    .delBtn{
+        @include zb-button1(70px,36px,$color-red);
+        margin-left: 10px;
+    }
+    #areaBox select.zb_inpt{
+        margin-right: 10px;
+    }
+    .upload{
+        position: relative;
+        overflow: hidden;
+
+        .uploadBtn{
+            display: block;
+            width: 240px;
+            height: 36px;
+            position: absolute;
+            z-index: 2;
+            text-indent: -9999px;
+        }
+        [type="file"]{
+            opacity: 0;
+        }
+    }
+
+    #telLocalNumber-error{
+        left:94px;
+    }
+}
+
+.extra{
+    height: 600px;
+    .item{
+        border-bottom: 1px solid #f2f2f2;
+        height: 134px;
+        line-height: 34px;
+        padding: 50px 0px;
+
+        li{
+            float: left;
+            width: 33%;
+            text-align: center;
+            color: $font-color-gray2;
+            font-size: 16px;
+        }
+        .tit{
+            font-size: 18px;
+        }
+
+        .blue_btn{
+            @include zb-button1(86px,34px,$color-blue);
+            font-size: 14px;
+        }
+    }
+    .nob{
+        border: 0px;
+    }
+}
+.changePassword{
+    width: 480px;
+    .formTable{
+        .name{
+            width: 40%;
+            text-align: right;
+        }
+        td{
+            padding: 10px 0px;
+            position: relative;
+        }
+    }
+    .btnC{
+        width: 220px;
+        margin: 10px auto 0px auto;
+        a{
+            margin: 0px 10px;
+        }
+        .blueBtn{
+            @include zb-button(86px,34px,$color-blue);
+        }
+        .orangeBtn{
+            @include zb-button(86px,34px,$color-orange);
+        }
+    }
+    span.error.validator-error{
+        top:45px;
+    }
+}

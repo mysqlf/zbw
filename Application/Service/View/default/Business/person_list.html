@@ -1,0 +1,161 @@
+<!-- 参保人员记录 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">参保人员记录</h2>
+        <div class="query-conditions">
+            <div class="query-form">
+	            <form id="listForm" action="{:U('Service/Business/personList')}">
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="person_name">姓名</label>
+	                    <div class="ipt-box">
+	                        <input type="text" name="personName" value="{:I('get.personName')}" class="ipt size1 ellipsis" />
+	                    </div>
+	                </div>
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="card_num">身份证号码</label>
+	                    <div class="ipt-box">
+	                        <input type="text" name="cardNum" value="{:I('get.cardNum')}" class="ipt size1 ellipsis" />
+	                    </div>
+	                </div>
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="location">参保地</label>
+	                    <div class="ipt-box box-small">
+		        			<select name="location">
+				        		<option value="">全部</option>
+				        		<if condition="$warrantyLocation">
+				        			<volist name="warrantyLocation" id="vo">
+				        				<option value="{$key}" <if condition="$key eq I('get.location')">selected='selected'</if>>{$vo}</option>
+				        			</volist>
+				        		</if>
+				        	</select>
+				        </div>
+	                </div>
+	                <div class="query-item fl">
+	                    <label class="query-lb" for="states">参保状态</label>
+	                    <div class="ipt-box box-small">
+	                        <select name="type">
+	                            <option value="" selected>全部</option>
+	                            <option value="0" <if condition="'0' eq I('get.type')">selected="selected"</if> >未参保</option>
+	                            <option value="1" <if condition="'1' eq I('get.type')">selected="selected"</if> >报增</option>
+	                            <option value="2" <if condition="'2' eq I('get.type')">selected="selected"</if> >在保</option>
+	                            <option value="3" <if condition="'3' eq I('get.type')">selected="selected"</if> >报减</option>
+	                            <option value="4" <if condition="'4' eq I('get.type')">selected="selected"</if> >停保</option>
+	                        </select>
+	                    </div>
+	                </div>
+	                <button class="btn-query fl" type="submit">查询</button>
+	            </form>
+            </div>
+        </div>
+    </div>
+    <if condition="0 lt count($result)">
+	    <div class="pannel-tbl">
+	        <table summary="参保人员记录">
+	            <colgroup>
+	                <col width="8%"></col>
+	                <col width="12%"></col>
+	                <col width="10%"></col>
+	                <col width="10%"></col>
+	                <col width="7%"></col>
+
+	                <col width="6%"></col>
+	                <col width="6%"></col>
+	                <col width="7%"></col>
+	                <col width="8%"></col>
+	                <col width="7%"></col>
+	                <col width="7%"></col>
+
+	                <col width="12%"></col>
+	            </colgroup>
+	            <thead>
+	                <tr>
+	                    <th>姓名</th>
+	                    <th>身份证号码</th>
+	                    <th>服务套餐</th>
+	                    <th>户口所在地</th>
+	                    <th>户口类型</th>
+	                    <th>项目</th>
+	                    <th>参保状态</th>
+	                    <th>参保地</th>
+	                    <th>基数</th>
+	                    <th>起缴年月</th>
+	                    <th>停缴年月</th>
+	                    <th>操作</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            	<volist name="result" id="vo">
+		                <tr <if condition="0 eq $i%2">class="tr-bg"</if> >
+		                    <td>
+		                        <a href="javascript:;">
+		                            {$vo.person_name}
+		                        </a>
+		                    </td>
+		                    <td>
+		                        <p class="cgray">
+		                            {$vo.card_num}
+		                        </p>
+		                    </td>
+		                    <td>
+		                    	<if condition="$vo['soc_product_name']">
+									{$vo.soc_product_name}
+									<if condition="$vo['socci_service_company_name']"><p>[{$vo.socci_service_company_name}]</p></if>
+								<elseif condition="$vo['pro_product_name']"/>
+									{$vo.pro_product_name}
+									<if condition="$vo['proci_service_company_name']"><p>[{$vo.proci_service_company_name}]</p></if>
+								</if>
+							</td>
+		                    <td>{$vo['residence_location']|showAreaName}</td>
+		                    <td>{$vo['residence_type']|get_code_value=###,"PersonBaseResidenceType",$vo['residence_type']}</td>
+		                    <td colspan="6" class="has-tb">
+		                    	<table class="inner-tbl">
+		                    		<colgroup>
+		                    			<col width="15%" />
+		                    			<col width="14%" />
+		                    			<col width="18%" />
+		                    			<col width="18%" />
+		                    			<col width="18%" />
+		                    			<col width="17%" />
+		                    		</colgroup>
+		                    		<tr>
+		                    			<td><p class="cpurple">社保</p></td>
+		                    			<td>{$vo['socpi_state']|get_code_value=###,"PersonInsuranceState"}</td>
+		                    			<td>{$vo['socpiLocationValue']|default="/"}</td>
+		                    			<td>{:(empty($vo['socpi_amount'])?'/':$vo['socpi_amount'])}</td>
+		                    			<td>{:(empty($vo['socpi_start_month'])?'/':$vo['socpi_start_month'])}</td>
+		                    			<td class="no-brdr">{:(empty($vo['socpi_end_month'])?'/':$vo['socpi_end_month'])}</td>
+		                    		</tr>
+		                    		<tr class="no-brdb">
+		                    			<td><p class="cgreenlg">公积金</p></td>
+		                    			<td>{$vo['propi_state']|get_code_value=###,"PersonInsuranceState"}</td>
+		                    			<td>{$vo['propiLocationValue']|default="/"}</td>
+		                    			<td>{:(empty($vo['propi_amount'])?'/':$vo['propi_amount'])}</td>
+		                    			<td>{:(empty($vo['propi_start_month'])?'/':$vo['propi_start_month'])}</td>
+		                    			<td class="no-brdr">{:(empty($vo['propi_end_month'])?'/':$vo['propi_end_month'])}</td>
+		                    		</tr>
+
+		                    	</table>
+		                    </td>
+		                    <td class="no-brdr">
+		                        <a href="{:U('Business/insuranceDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id']))}" class="pd-lr">明细</a>
+		                        <if condition="in_array($vo['socpi_state'],array(2)) or in_array($vo['propi_state'],array(2))">
+		                        	<a href="{:U('Business/editInsurance',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id']))}" class="pd-lr">修改参保数据</a>
+		                        	<!--<a href="{:U('Business/insuranceInfoDetail',array('userId'=>$vo['user_id'],'baseId'=>$vo['base_id'],'handleMonth'=>$vo['handle_month']))}" class="tbl-handle">修改参保数据</a>--></if>
+		                    </td>
+		                </tr>
+	                </volist>
+	            </tbody>
+	        </table>
+	        <div class="pagination">
+	            {$page}
+	        </div>
+	    </div>
+    <else/>
+    	<span class="no-data-tip">未找到符合条件的记录</span>
+    </if>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="orderList" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

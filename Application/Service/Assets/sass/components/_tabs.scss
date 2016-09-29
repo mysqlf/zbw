@@ -1,0 +1,57 @@
+/*==================================================
+  ***** tab切换 *****
+  .pannel-tab ··············· tab最外层 结构 ul > li
+  ==================================================*/
+
+// tab切换
+.pannel-tab {
+    @include clearfix;
+    margin-bottom: 30px;
+    line-height: 50px;
+    font-size: 20px;
+    border: {
+        bottom: {
+            width: 3px;
+            style: solid;
+            color: $color-graylg;
+        }
+    }
+    li {
+        float: left;
+        margin-right: 30px;
+        a {
+            padding: {
+                left: 5px;
+                right: 8px;
+            }
+            margin-bottom: -3px;
+            display: block;
+            color: #666666;
+            border: {
+                bottom: {
+                    width: 3px;
+                    style: solid;
+                    color: transparent;
+                }
+            }
+        }
+        a:hover {
+            color: $color-bg;
+            border: {
+                bottom: {
+                    color: $color-primary;
+                }
+            }
+        }
+        &.active {
+            a {
+                color: $color-bg;
+                border: {
+                    bottom: {
+                        color: $color-primary;
+                    }
+                }
+            }
+        }
+    }
+}

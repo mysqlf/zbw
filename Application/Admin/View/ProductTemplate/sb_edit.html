@@ -1,0 +1,206 @@
+<div class="table-striped" style="width: 800px; overflow: hidden; height: auto;">
+		<table width="800" >
+		  <tr>
+		   <td width="20">&nbsp;</td>
+		    <td width="80">基数范围</td>
+		    <td width="50"><input type="text" name="sb[min]" class="text input-small" value="<?php echo $sb_rule['min']; ?>" <if condition="$sb_rule['items']">readonly="readonly"</if>  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td  width="20"  align="center">~</td>
+		    <td width="50"><input type="text" name="sb[max]" class="text input-small" value="<?php echo $sb_rule['max']; ?>" <if condition="$sb_rule['items']">readonly="readonly"</if>onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" ></td>
+		    <td >&nbsp;</td>
+		    <!-- <td width=""><div class="btn  hidden fl synch" data-type="1">同步调整基数</div></td> -->
+
+
+		  </tr>
+		 </table>  
+		<table width="800" id="baoxian" > 
+		<if condition="$sb_rule['items']">
+			<volist name="sb_rule['items']" id="v">
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">{$v.name}<input type="hidden" name="sb[items][]" value="<?php echo $v['name']?>"/></td>	   
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value="{$v.rules.company.0}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value="{$v.rules.company.1}" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>	 
+		    <td width="80"  align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value="{$v.rules.person.0}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value="{$v.rules.person.1}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数</td> 
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value="{$v.rules.amount}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		  </tr>
+		  </volist>
+	<else/>
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">养老保险<input type="hidden" name="sb[items][]" value="养老保险"/></td>	   
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value="" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>	 
+		    <td width="80"  align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数</td>
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		  </tr>
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">医疗保险<input type="hidden" name="sb[items][]" value="医疗保险"/></td>
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数</td>
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		  </tr>
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">失业保险<input type="hidden" name="sb[items][]" value="失业保险"/></td>
+		  
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+		 
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数</td>
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		  </tr>
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">生育保险<input type="hidden" name="sb[items][]" value="生育保险"/></td>
+		   
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+		  
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数</td>
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		  </tr>  
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">工伤保险<input type="hidden" name="sb[items][]" value="工伤保险"/></td>
+		  
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		     <td width="" colspan="2">元</td>
+		     <td width="80"  align="right">基数</td>
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		  </tr>
+		<tr>
+		    <td width="20"></td>
+		    <td width="100" align="center">重大疾病医疗<input type="hidden" name="sb[items][]" value="重大疾病医疗"/></td>		 
+		    <td width="80" align="right">单位比例</td>
+		    <td width="50"><input type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><iaput type="text" name="sb[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20">元</td>
+		    <td width="80" align="right">个人比例</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="20"  align="ceneter">%</td>
+		    <td width="20">+</td>
+		    <td width="50"><input type="text" name="sb[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+		    <td width="" colspan="2">元</td>
+		    <td width="80"  align="right">基数</td>
+		     <td width="50"><input type="text" name="sb[amount][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>		  
+		  </tr>
+		  </if>
+		</table>
+		<div class="h5">&nbsp;</div>
+		<!-- <div style="overflow: hidden;"><div class="btn s hidden fl" id="add_baoxian" >添加险种</div></div> -->
+		<!-- <div  style="height: 40px; line-height: 30px"><p>注：不包含的险种不设置数额即可</p></div> -->
+		<div class="form-item">
+		<label class="item-label_1" >社保卡工本费<span class="check-tips"></span></label> <input type="text" name="sb[pro_cost]" class="text input-small"  value="{$sb_rule.pro_cost}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"/>&nbsp; 元/人</div>	
+		<div class="form-item">
+			<label class="item-label_1">所需材料<span class="check-tips"></span></label>
+		</div>	
+		<div class="form_item_sub">
+				<textarea class="ke-edit-textarea" hidefocus="true" name="sb[material]"style="width: 795px; height: 238px;border: 1px solid #dedede;text-indent: 1em;">{$sb_rule.material}</textarea>
+		</div>
+		</div>
+		<div class="tab-nav main-title" style="padding: 5px;border:none;"><h2 style="font-size: 16px;">社保其他收费</h2></div>
+		<div class="form-item">	
+			<div class="table-striped" style="width: 800px; overflow: hidden; height: auto;">
+				<table width="900" id="sb_other_data" >
+				<if condition="$sb_rule['other']">
+					<volist	name="sb_rule['other']" id="vo">
+					 <tr>
+					   <td width="20">&nbsp;</td>
+					    <td width="60">费用名称</td>
+					    <td width="60"><input type="text" name="sb_other[name][]" class="text input-small" value="{$vo.name}"  ></td>
+					    <td width="60" align="right">单位金额</td>
+					    <td width="50"><input type="text" name="sb_other[company][]" class="text input-x " value="{$vo.rules.company}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+					    <td width="20">元</td>
+					    <td width="80">个人金额</td>
+					    <td width="50"><input type="text" name="sb_other[person][]" class="text input-x " value="{$vo.rules.person}" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+					    <td width="20" >元</td>
+					    <td >&nbsp;</td>
+					    <td><!--<div class="btn s hidden fl other_delete" >删除</div>--></td>		    
+					  </tr>
+					</volist>
+				<else />
+				
+				  <tr>
+				   <td width="20">&nbsp;</td>
+				    <td width="60">费用名称</td>
+				    <td width="60"><input type="text" name="sb_other[name][]" class="text input-small" value=""  ></td>
+				    <td width="60" align="right">单位金额</td>
+				    <td width="50"><input type="text" name="sb_other[company][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+				    <td width="20">元</td>
+				    <td width="80">个人金额</td>
+				    <td width="50"><input type="text" name="sb_other[person][]" class="text input-x " value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+				    <td width="20" >元</td>
+				    <td >&nbsp;</td>
+				    <td><!--<div class="btn s hidden fl other_delete" >删除</div>--></td>		    
+				  </tr>
+ 				 </if>	
+				 </table>		
+				<!-- <div class="tab-nav main-title" style=""><div class="btn s hidden fl" style=" margin-left: 20px" id="sb_other_add">添加</div></div>		  -->
+			 </div>
+		</div>	

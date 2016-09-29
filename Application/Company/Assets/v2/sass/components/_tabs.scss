@@ -1,0 +1,30 @@
+.nav-tabs-line{
+	width: 550px;
+	
+	.nav-tabs{
+		> li{
+			> a{
+				&,&:hover,&:focus{
+					border: 0;
+					background: transparent;
+				}
+			}
+
+			&.active {
+				a{
+					color: $color-primary;
+				}
+
+				> a:before{
+					content: '';
+					display: block;
+					bottom:  0;
+					background: $color-primary;
+
+					@include size(100%, 1px);
+					@include stretched-x();
+				}
+			}
+		}
+	}
+}

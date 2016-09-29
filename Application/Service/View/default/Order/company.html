@@ -1,0 +1,147 @@
+<!-- 企业付款流水管理 -->
+<extend name="Base/common" />
+<block name="body">
+<form name="form1" action="<?php echo U('PayOrder/comPayOrderList') ?>" method="get">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">企业付款流水管理</h2>
+        <div class="query-tags-wra">
+            <!--<a href="<?php echo U('PayOrder/comPayOrderList') ?>" class="query-tags active">企业</a>
+            <a href="<?php echo U('PayOrder/perPayOrderList') ?>" class="query-tags">个人</a>-->
+        </div>
+        <div class="query-form">
+            <div class="query-item fl">
+                <label class="query-lb" for="">订单号</label>
+                <div class="ipt-box">
+                    <input type="text" name="order_no" class="ipt size1 ellipsis" value="<?php if($_GET['order_no']) echo $_GET['order_no']; ?>" />
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">付款方</label>
+                <div class="ipt-box">
+                    <input type="text" name="company_name" class="ipt size1 ellipsis"  value="<?php if($_GET['company_name']) echo $_GET['company_name']; ?>"/>
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">状态</label>
+                <div class="ipt-box box-small">
+                    <select name="state">
+                        <option value="">全部</option>
+                        <option value="1"<?php if(is_numeric($_GET['state']) && ($_GET['state'] ==1)) echo 'selected'; ?>>支付成功</option>
+                        <option value="0"<?php if(is_numeric($_GET['state']) && ($_GET['state'] ==0)) echo 'selected'; ?>>待支付</option>
+                        <option value="-1" <?php if(is_numeric($_GET['state']) && ($_GET['state'] ==-1)) echo 'selected'; ?>>支付失败</option>
+                    </select>
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">类型</label>
+                <div class="ipt-box box-small">
+                    <select name="type">
+                        <option value="0" selected>全部</option>
+                        <volist name="_orderState" id="v">
+                        <option value="{$key}" <?php if(is_numeric($_GET['type']) && ($_GET['type'] ==$key)) echo 'selected'; ?> >{$v}</option></volist>
+                    </select>
+                </div>
+            </div>
+            <div class="query-item fl">
+                <label class="query-lb" for="">客服人员</label>
+                <div class="ipt-box box-small">
+                    <select name="admin_id">
+                        <option value="0" selected>全部</option>
+                            <volist name="serviceGroup" id="v">
+                            <option value="{$v.id}" <?php if($_GET['admin_id']){ if($_GET['admin_id'] == $v['id']){echo 'selected';}}; ?>>{$v.name}</option></volist>
+                    </select>
+                </div>
+            </div>
+            <div class="query-item query-date fl">
+                <label class="query-lb" for="">生成时间</label>
+                <div class="ipt-box">
+                    <span class="ipt-pos">
+                        <input id="create-begin" type="text" name="create_time" class="ipt date-day size1" readonly  value="<?php if($_GET['create_time']) echo $_GET['create_time']; ?>" />
+                        <i class="icon icon-date"></i>
+                    </span> -
+                    <span class="ipt-pos">
+                        <input id="create-end" type="text" name="create_time1" class="ipt date-day size1" readonly  value="<?php if($_GET['create_time1']) echo $_GET['create_time1']; ?>" />
+                        <i class="icon icon-date"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="query-item query-date fl">
+                <label class="query-lb" for="">付款时间</label>
+                <div class="ipt-box">
+                    <span class="ipt-pos">
+                        <input  id="pay-begin" type="text" name="pay_time" class="ipt date-day size1" readonly  value="<?php if($_GET['pay_time']) echo $_GET['pay_time']; ?>" />
+                        <i class="icon icon-date"></i>
+                    </span> -
+                    <span class="ipt-pos">
+                        <input  id="pay-end" type="text" name="pay_time1" class="ipt date-day size1" readonly  value="<?php if($_GET['pay_time1']) echo $_GET['pay_time1']; ?>" />
+                        <i class="icon icon-date"></i>
+                    </span>
+                </div>
+            </div>
+            <button class="btn-query fl" type="submit">查询</button>
+        </div>
+    </div></form>
+     <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+        <table summary="企业付款流水管理">
+            <colgroup>
+                <col width="14%" />
+                <col width="14%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="10%" />
+                <col width="11%" />
+                <col width="11%" />
+                <col width="8%" />
+                <col width="8%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>付款方</th>
+                    <th>付款类型</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>金额</th>
+                    <th>生成时间</th>
+                    <th>付款时间</th>
+                    <th>客服人员</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($result['result'] as $k=>$v){ ?>
+                <tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+                    <td><?php echo $v['order_no']; ?></td>
+                    <td class="cbluelg"><a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>"><?php echo $v['company_name']; ?></a></td>
+                    <td><?php echo $_pay_type[$v['pay_type']]; ?></td>
+                    <td><?php echo $_orderState[$v['type']]; ?></td>
+                    <td><?php echo $_state[$v['state']]; ?></td>
+                    <td><?php echo moneyNumberformat($v['amount']); ?></td>
+                    <td>
+                        <?php echo $v['create_time']; ?>
+                    </td>
+                    <td>
+                        <?php echo $v['pay_time']; ?>
+                    </td>
+                    <td>
+                        <?php echo serviceAdminName($v['admin_id']); ?>
+                    </td>
+                    <td class="no-brdr">
+                        <a href="<?php echo U('PayOrder/payOrderDetail?type='.$v['type'].'&id='.$v['id']);?>">明细</a>
+                    </td>
+                </tr>
+                 <?php } ?>
+            </tbody>
+        </table>
+        <div class="pagination"><?php echo $result['page']; ?></div>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>  
+</block>
+<block name="script">
+    <script type="text/javascript" data-module="order" data-methods="payOrderList" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

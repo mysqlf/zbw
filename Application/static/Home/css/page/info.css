@@ -1,0 +1,207 @@
+@charset "UTF-8";
+/*
+*产生样式
+*/
+/*网格系统*/
+/* 
+ * @param {array} 支持生成多个类 
+ */
+/*企业信息*/
+/* line 9, ../../sass/sass/page/info.scss */
+.infoMain {
+  position: relative;
+  font-size: 14px;
+  line-height: 36px;
+  margin-bottom: 50px;
+}
+/* line 15, ../../sass/sass/page/info.scss */
+.infoMain .name {
+  padding-right: 10px;
+  text-align: right;
+  width: 80px;
+}
+/* line 20, ../../sass/sass/page/info.scss */
+.infoMain .name em {
+  vertical-align: middle;
+  margin-right: 5px;
+  font-family: 宋体;
+}
+/* line 27, ../../sass/sass/page/info.scss */
+.infoMain strong {
+  font-size: 14px;
+  color: #414141;
+}
+/* line 32, ../../sass/sass/page/info.scss */
+.infoMain .email {
+  margin-right: 10px;
+}
+/* line 36, ../../sass/sass/page/info.scss */
+.infoMain .download {
+  color: #999999;
+}
+/* line 38, ../../sass/sass/page/info.scss */
+.infoMain .download a {
+  color: #3498db;
+  text-decoration: underline;
+}
+/* line 44, ../../sass/sass/page/info.scss */
+.infoMain .button {
+  width: 100px;
+  text-align: center;
+}
+/* line 48, ../../sass/sass/page/info.scss */
+.infoMain .preview {
+  font-weight: bold;
+  color: #666;
+  text-decoration: underline;
+}
+/* line 53, ../../sass/sass/page/info.scss */
+.infoMain .toloadBtn {
+  width: 80px;
+  height: 36px;
+  color: #3498db;
+  background: #fff;
+  border: 1px solid #3498db;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 36px;
+  margin-left: 10px;
+}
+/* line 57, ../../sass/sass/page/info.scss */
+.infoMain .delBtn {
+  width: 70px;
+  height: 36px;
+  color: #f26797;
+  background: #fff;
+  border: 1px solid #f26797;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 36px;
+  margin-left: 10px;
+}
+/* line 61, ../../sass/sass/page/info.scss */
+.infoMain #areaBox select.zb_inpt {
+  margin-right: 10px;
+}
+/* line 64, ../../sass/sass/page/info.scss */
+.infoMain .upload {
+  position: relative;
+  overflow: hidden;
+}
+/* line 68, ../../sass/sass/page/info.scss */
+.infoMain .upload .uploadBtn {
+  display: block;
+  width: 240px;
+  height: 36px;
+  position: absolute;
+  z-index: 2;
+  text-indent: -9999px;
+}
+/* line 76, ../../sass/sass/page/info.scss */
+.infoMain .upload [type="file"] {
+  opacity: 0;
+}
+/* line 81, ../../sass/sass/page/info.scss */
+.infoMain #telLocalNumber-error {
+  left: 94px;
+}
+
+/* line 86, ../../sass/sass/page/info.scss */
+.extra {
+  height: 600px;
+}
+/* line 88, ../../sass/sass/page/info.scss */
+.extra .item {
+  border-bottom: 1px solid #f2f2f2;
+  height: 134px;
+  line-height: 34px;
+  padding: 50px 0px;
+}
+/* line 94, ../../sass/sass/page/info.scss */
+.extra .item li {
+  float: left;
+  width: 33%;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+}
+/* line 101, ../../sass/sass/page/info.scss */
+.extra .item .tit {
+  font-size: 18px;
+}
+/* line 105, ../../sass/sass/page/info.scss */
+.extra .item .blue_btn {
+  width: 86px;
+  height: 34px;
+  color: #3498db;
+  background: #fff;
+  border: 1px solid #3498db;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 34px;
+  font-size: 14px;
+}
+/* line 110, ../../sass/sass/page/info.scss */
+.extra .nob {
+  border: 0px;
+}
+
+/* line 114, ../../sass/sass/page/info.scss */
+.changePassword {
+  width: 480px;
+}
+/* line 117, ../../sass/sass/page/info.scss */
+.changePassword .formTable .name {
+  width: 40%;
+  text-align: right;
+}
+/* line 121, ../../sass/sass/page/info.scss */
+.changePassword .formTable td {
+  padding: 10px 0px;
+  position: relative;
+}
+/* line 126, ../../sass/sass/page/info.scss */
+.changePassword .btnC {
+  width: 220px;
+  margin: 10px auto 0px auto;
+}
+/* line 129, ../../sass/sass/page/info.scss */
+.changePassword .btnC a {
+  margin: 0px 10px;
+}
+/* line 132, ../../sass/sass/page/info.scss */
+.changePassword .btnC .blueBtn {
+  width: 86px;
+  height: 34px;
+  color: #fff;
+  background: #3498db;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 34px;
+}
+/* line 135, ../../sass/sass/page/info.scss */
+.changePassword .btnC .orangeBtn {
+  width: 86px;
+  height: 34px;
+  color: #fff;
+  background: #f77f3b;
+  border: 0px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 34px;
+}
+/* line 139, ../../sass/sass/page/info.scss */
+.changePassword span.error.validator-error {
+  top: 45px;
+}

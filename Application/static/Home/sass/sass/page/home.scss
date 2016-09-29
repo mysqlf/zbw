@@ -1,0 +1,199 @@
+@charset "utf-8";
+/*
+*产生样式
+*/
+@import "../variables";
+
+.trackOrder{
+    width: 1000px;
+    margin: 0px auto;
+    .order{
+        border-bottom: 1px solid #d7dcde;
+        .titbar{
+            color: $font-color-gray2;
+            font-size: 18px;
+            margin-bottom: 45px;
+            margin-top: 30px;
+
+            a{
+                font-size: 14px;
+                margin-left: 20px;
+            }
+        }
+        .track{
+            height: 161px;
+            margin-bottom: 35px;
+            .undone{
+                width: 144px;
+                height: 161px;
+                display: inline-block;
+                float: left;
+                margin: 0px 15px;
+                position: relative;
+                text-align: center;
+                background: url("../../images/undone.jpg");
+
+                h3{
+                    font-size: 18px;
+                    color: $font-color-gray2;
+                    font-weight: normal;
+                    margin-top: 60px;
+                    margin-bottom: 14px;
+                }
+                p{
+                    display: none;
+                }
+            }
+            .complete{
+                background: url("../../images/complete.jpg");
+                h3{
+                    margin-top: 50px;
+                }
+                p{
+                    display: block;
+                    font-size: 12px;
+                    color: #999;
+                    line-height: 15px;
+                }
+            }
+            .icon-next{
+                margin-top: 60px;
+                float: left;
+            }
+        }
+    }
+
+    .noborder{
+        border: none;
+    }
+}
+.nothing{
+    height: 300px;
+    line-height: 300px;
+    text-align: center;
+    font-size: 24px;
+    color: $font-color-gray2;
+    a{
+        color: $color-red;
+    }
+}
+.browse{
+    width: 1100px;
+    height: 190px;
+    margin-top: 40px;
+    .item{
+        width: 130px;
+        height: 190px;
+        background-position: top;
+        background-repeat: no-repeat;
+        text-align: center;
+        float: left;
+        margin: 0px 72px;
+        h2{
+            padding-top: 45px;
+            font-size: 40px;
+            font-weight: normal;
+        }
+        h3{
+            padding-top: 70px;
+            font-size: 24px;
+        }
+    }
+
+}
+.browse{
+    .add{
+        background-image: url("../../images/add.jpg");
+        h2{
+            color: #ffb083;
+        }
+        h3{
+            color: #f77f3b;
+        }
+    }
+    .minus{
+        background-image: url("../../images/minus.jpg");
+        h2{
+            color: #5dade2;
+        }
+        h3{
+            color: #3498db;
+        }
+    }
+    .nop{
+        background-image: url("../../images/nop.jpg");
+        h2{
+            color: #f585ac;
+        }
+        h3{
+            color: #f26797;
+        }
+    }
+    .salary{
+        background-image: url("../../images/salary.jpg");
+        h2{
+            color: #81d6b1;
+        }
+        h3{
+            color: #2cca85;
+        }
+    }
+}
+.has{
+    .pageTitle{
+        span{
+            color: #aaaaaa;
+            border-bottom: 3px solid #f2f2f2;
+        }
+        strong{
+            display: none;
+        }
+    }
+
+    .browse{
+        .item{
+            background-image: url("../../images/notVIP.jpg");
+
+            h2{
+                color: #f2f2f2;
+            }
+            h3{
+                color: #aaaaaa;
+            }
+        }
+    }
+}
+.contact{
+    background: #f2f2f2;
+    width: 100%;
+    height: 76px;
+    line-height: 76px;
+    font-size: 18px;
+    text-align: center;
+    color: $font-color-gray2;
+    position: relative;
+    margin-top: 155px;
+
+    .icon-image{
+        position: absolute;
+        top:-40px;
+        left:50%;
+        margin: -39px;
+    }
+
+    span{
+        color: #f27935;
+        font-size: 24px;
+        font-family: serif;
+    }
+}
+.pageTitle{
+    strong{
+        font-size: 16px;
+        color: $font-color-gray2;
+        font-weight: normal;
+        margin-left: 25px;
+        position: relative;
+        top: 20px;
+    }
+}

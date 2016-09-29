@@ -1,0 +1,63 @@
+.form-control.form-control-small{
+	width:84px;
+	min-width: auto;
+}
+
+.form-control{
+	min-width: 210px;
+}
+
+
+.form-inline .form-control.form-control-middlem,.form-control.form-control-middle{
+	width: 300px;
+	min-width: auto;
+}
+
+.form-group{
+	padding: 10px 0;
+
+	&.pad-0{
+		padding: 0;
+	}
+}
+
+label{
+	font-weight: normal;
+}
+
+select{
+	height: 34px;
+	border: 1px solid $border-default-color;
+
+	&.base-size{
+	    width: 178px;
+	}
+}
+
+span.error{
+	display: block;
+	white-space: nowrap
+}
+.error{
+	
+	color: $color-danger;
+	border-color: $color-danger !important;
+	line-height: normal;
+    word-break: break-all;
+}
+
+select.error{
+	color: inherit;
+}
+
+.label-left{
+	line-height: 34px;
+}
+
+.form-group{
+	margin-bottom: 0;
+
+	.inline-block{
+		line-height: 34px;
+	}
+}

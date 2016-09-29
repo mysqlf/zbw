@@ -1,0 +1,132 @@
+<!-- <extend name="Base/Insurance" /> -->
+<block name="right">
+    <div class="right_box">
+
+        <div class="smry_tit">
+            <div class="smry_text">
+                <span class="smry_ls">参保一览</span>
+                <!--<span class="smry_sm c-gray">
+						<span class="smry_sm_tit">参保地：</span>
+                		<volist name="companyResult.insurance.locationValue" id="vo" ><if condition="$key neq 14020100"><span>{$vo}</span></if></volist>
+                </span>-->
+            </div>
+        </div>
+        <div class="lnk_box">
+        	<a href="{:U('Company-Insurance-insurancePersonList?type=1')}" class="lnk_tip">
+        		<div class="lnk_num">{$companyResult.insurance.add_num|default='0'}</div>
+        		<div class="lnk_tit"><i class="icon icon-add-sprite"></i><span>报增</span></div>
+        	</a>
+        	<a href="{:U('Company-Insurance-insurancePersonList?type=3')}" class="lnk_tip">
+        		<div class="lnk_num lnk_num_two">{$companyResult.insurance.del_num|default='0'}</div>
+        		<div class="lnk_tit lnk_tit_two"><i class="icon icon-lnk-tit"></i> <span>报减</span></div>
+        	</a>
+        	<a href="{:U('Company-Insurance-insurancePersonList?type=2')}" class="lnk_tip">
+        		<div class="lnk_num lnk_num_three">{$companyResult.insurance.warranty_num|default='0'}</div>
+        		<div class="lnk_tit lnk_tit_three"><i class="icon icon-lnk-tit"></i> <span>在保人员</span></div>
+        	</a>
+        	<a href="{:U('Company-Salary-index')}" class="lnk_tip">
+        		<div class="lnk_num lnk_num_four">{$companyResult.insurance.payroll_credit_num|default='0'}</div>
+        		<div class="lnk_tit lnk_tit_four"><i class="icon icon-lnk-tit"></i> <span>代发工资</span></div>
+        	</a>
+        </div>
+        <div class="order_progress">
+			<div class="order_list">
+				<span class="order_tit">最新订单</span>
+				<a href="{:U('Order/index')}" class="read_more c-gray">更多></a>
+			</div>
+			<if condition="$companyResult['order']">
+
+		        <table class="table  text-center table_white">
+				<thead>
+		    		<tr>
+		                <th >订单号</th>
+		                <th>服务商</th>
+		                <th>参保地</th>
+		                <th>缴纳月份</th>
+		               <th>订单类型</th>
+		               <th>付款方式</th>
+		               <th>状态</th>
+		               <th>金额</th>
+		               <th>已结差额</th>
+		               <th>实付金额</th>
+		               <th>截止付款</th>
+		               <th>客服人员</th>
+		               <th>操作</th>
+		            </tr>
+		            </thead>
+		            <tbody class="cal-content">
+                        <volist name="companyResult.order" id="vo">
+		         		<tr>
+                            <td>
+                                {$vo.order_no}
+                            </td>
+                            <td>
+                                {$vo.company_name|default='/'}
+                            </td>
+                            <td>
+                                {$vo.location}
+                            </td>
+                            <td>
+                                {$vo.handle_month}
+                            </td>
+                            <td>
+                                <if condition="$vo['type'] eq 1">服务订单
+                                <elseif condition="$vo['type'] eq 2"/>社保公积金订单 
+                                <elseif condition="$vo['type'] eq 3"/>代发工资订单</if>
+                            </td>
+                            <td>
+                                <if condition="$vo['pay_type'] eq 1">线上支付 
+                                <elseif condition="$vo['pay_type'] eq 2"/>线下支付
+                                <else />/</if>
+                            </td>
+                            <td>
+                                <if condition="$vo['state'] eq 0">待支付 
+                                <elseif condition="$vo['state'] eq 1"/>支付成功 
+                                <elseif condition="$vo['state'] eq -1"/>支付失败</if>
+                            </td>
+                            <td>
+                                {$vo.amount}
+                            </td>
+                            <td>
+                                {$vo.diff_amount}
+                            </td>
+                            <td>
+                                {$vo.actual_amount}
+                            </td>
+
+                            <td class="J_pay-deadline">
+                                <if condition="$vo['state'] neq 0">/<else/>{$vo.pay_deadline|default='/'|str_replace='-','/',###}</if>
+                            </td>
+                            <td>
+                                <a target=blank href="http://wpa.qq.com/msgrd?v=1&uin={$vo.qq}&site=qq&menu=yes">{$vo.name}</a>
+                            </td>
+                            <td class="opt-td">
+                                <a <if condition="$vo['type'] eq 1">
+                                    href="{:U('Company/Order/payservice',array('orderId'=>$vo['id']))}"
+                                 <elseif condition="$vo['type'] eq 2"/>
+                                    href="{:U('Company/Order/payinc',array('orderId'=>$vo['id']))}"
+                                <else/>
+                                    href="{:U('Company/Order/paysalary',array('orderId'=>$vo['id']))}"
+                                </if>
+                                 class="c-blue">明细</a>
+                                <br>
+                            </td>
+                        </tr>
+                        </volist>
+		            </tbody>
+		    </table>
+			        
+			<else/>
+
+				<div class="no-data-tip c-gray">
+					暂无订单进度
+				</div>
+			  	
+			</if>
+			
+        </div>
+    </div>
+</block>
+<block name="script">
+	 <script data-init="index" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/index.bundle.js"></script>
+</block>

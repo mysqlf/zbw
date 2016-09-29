@@ -1,0 +1,113 @@
+.login-body{
+	background: #e1e1dd url(../images/loginBg1.png) repeat-x;
+}
+
+.header{
+	height:100px;
+	overflow: hidden;
+	background:#fff;
+
+	.head{
+		width:1200px;
+		margin: 0 auto;
+		.logo{
+			span{
+				margin-top: 30px;
+				font-weight:900;
+				font-size: 30px;
+				color:#355370;
+				display: inline-block;
+			}
+			i.icon{
+				margin-top: 15px;
+				margin-right:30px;
+			}
+		}
+	}
+}
+
+.main-login{
+	width:100%;
+	height:auto;
+	background: url(../images/loginBg.png) no-repeat 180px 70px;
+
+	.login{
+		width:1120px;
+		margin:0 auto;
+		height: 550px;
+
+		.span12{
+			width:440px;
+			margin-top: 200px;
+			font-size:18px;
+			border-width: 13px 10px;
+		    border-color: #e1d9ca;
+		    border-style: solid;
+			.login-form{
+				width: 100%;
+				height: 100%;
+				padding: 10px 50px 30px 25px;
+				background:#fff;
+				overflow: hidden;
+				h2.title{
+					margin-bottom:20px;
+					margin-left: 12px;
+					font-size: 24px;
+					color: $color-primary;
+					font-weight: 900;
+					i{
+						margin-right:10px;
+					}
+				}
+				.form-group{
+					padding:15px 0;
+					margin: 0;
+					span.error{
+						font-size:12px;
+						position:absolute;
+						bottom:-20px;
+						left:0;
+					}
+				}
+				.control-label,.controls{
+					padding:0;
+				}
+				.control-label{
+					padding-top: 7px;
+				}
+				.controls{
+					position: relative;
+					.form-control{
+						padding: 0 12px;
+						padding-left: 35px;
+						width: 260px;
+						height: 40px;
+					}
+					.icon-account-img,.icon-psw-img{
+						position:absolute;
+						left: 5px;
+						top: 10px;
+						z-index: 1;
+					}
+				}
+				.verify{
+					min-width:160px;
+					width: 65%;
+				}
+				.btn-login{
+					width:100%;
+					height: 45px;
+					@include border-radius(8px);
+					font-size:20px;
+				}
+			}
+		}
+	}
+	.login-footer{
+		width: 100%;
+		text-align: center;
+		line-height:70px;
+		margin-top: 200px;
+		color: $c-gray;
+	}
+}

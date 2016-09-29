@@ -1,0 +1,542 @@
+<extend name="Public/base" />
+<block name="body">
+	<link rel="stylesheet" href="/Public/Admin/css/modify_template.css">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2>
+			修改[{$_area}]社保模板
+		</h2>
+	</div>
+	<!-- 标签页导航 -->
+<div class="tab-wrap">
+
+	<div class="tab-content">
+	<!-- 表单 -->
+	<form id="form" action="{:U('edit')}" method="post" class="form-horizontal">
+		<input type="hidden" name="location" class="text input-mid" id="location" value="{$location}">
+		<input type="hidden" name="template_id" class="text input-mid" id="template_id"  value="{$template_id}">
+		<input type="hidden" name="payment_type" class="text input-mid" id="payment_type"  value="{$info.payment_type}">
+		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>缴费标准</h2></div>
+		<div class="form-item modify_template">
+			<p style="float:none;">社保：</p>	
+		<div class="form_item_sub">	
+			<label class="item-label_1">缴纳方式:<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<!-- <select name="soc_payment_type" class="input-mid" id="soc_payment_type">
+				<option value="1" selected="" >缴当月</option>
+				<option value="2">缴次月</option>
+				</select> -->
+				<if condition="$info['soc_payment_type'] eq 1">缴当月<else />缴次月</if>
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">报增截止日:<span class="check-tips"></span></label>
+			<div class="controls_new">
+				{$info['soc_deadline']}
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">最大补缴月:<span class="check-tips"></span></label>
+			<div class="controls_new">
+				{$info['soc_payment_month']}
+			</div>				
+		</div>
+		<div style="clear:both"></div>	
+		<p style="float:none;">公积金：</p>		
+		 <div class="form_item_sub">	
+			<label class="item-label_1">缴纳方式:<span class="check-tips"></span></label>
+			<div class="controls_new">
+				<if condition="$info['pro_payment_type'] eq 1">缴当月<else />缴次月</if>
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">报增截止日:<span class="check-tips"></span></label>
+			<div class="controls_new">
+				{$info['pro_deadline']}
+			</div>				
+		</div>	
+		<div class="form_item_sub">		
+			<label class="item-label_1">最大补缴月:<span class="check-tips"></span></label>
+			<div class="controls_new">
+				{$info['pro_payment_month']}
+			</div>				
+		</div>
+		<div style="clear:both"></div>	
+			<p><span><a href="javascript:modifyTemplate({$info['id']})" class="btn">修改</a></span></p>
+		</div>	
+		
+		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>社保</h2></div>
+
+			<!--<div class="tab-nav main-title" style="padding-bottom: 5px;"><h3>社保分类</h3></div>-->
+			<div class="form-item">
+				<div class="">
+					<div class="fl " id="category_list_1">
+					<volist name="classfiy_sb" id="v">
+						<div id="category_{$v.id}" class="fl" style="overflow: hidden; width: auto">
+							<label class="item-label_1">{$v.name}</label>
+							<div class="controls_new fl">
+								<select name="sb_category_sub[]" class="input-small classify_mixed" data-type="1" index="{$key}">
+								<option value="0"  >请选择</option>
+								<volist name="v.category_sub" id="v1">
+									<option value="{$v1.id}"  >{$v1.name}</option></volist>
+								</select>				
+							</div>
+						</div>	
+					</volist>	
+					</div>
+	
+				</div>	
+				<div><a href="javascript:modifySb({$Think.get.template_id},'{$Think.get.location}')" style="margin-left:3em;" class="btn">修改</a></div>
+			</div>
+	
+		<div class="table-striped" style="width: 916px; overflow: hidden; height: auto;">		 
+			<div id="sb_content" style="min-height: 50px; ">
+				<div class="no-record" style="height: 100px;padding-top:50px;">
+					<p style="text-align: center;"><img src="/Public/Admin/images/no-record.jpg" alt=""></p>
+					<p style="text-align: center;" id="sb_notice">查看规则，请先选择分类</p>
+				</div>
+				<div id="sb_rules" style="display:none;">
+					<div class="range">
+						<p><span>基数范围</span><input type="text" name="sb[min]" class="sb_mins" value="{$sb_rule.min}"><span class="range_text">~</span><input type="text" name="sb[max]" class="sb_maxs" value="{$sb_rule.max}"><span class="range_text">元</span></p>
+					</div>
+					<table class="rule_table"  cellpadding='0' cellspacing="0" align="left">
+					<tr>
+						<th colspan='14' align="left">能否补缴</th>
+					</tr>
+					<empty name="sb_rule">
+					<tr>
+						<td><input type="checkbox" name="bujiao[]" value="0" class="bujiao"></td>
+						<td>养老保险 <input type="hidden" name="sb[items][]" value="养老保险"></td>
+						<td><input type="text"  name="sb[amount][]"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" class="number"></td>
+						<td>元&nbsp;</td>
+						<td><span>单位比例</span></td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" class="number">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" class="number">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td>
+							<span>个人比例</span>
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="bujiao[]" value="1" class="bujiao"></td>
+						<td>医疗保险<input type="hidden" name="sb[items][]" value="医疗保险"></td>
+						<td><input type="text"  name="sb[amount][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" ></td>
+						<td>元&nbsp;</td>
+						<td><span>单位比例</span></td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td>
+							<span>个人比例</span>
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="bujiao[]" value="2" class="bujiao"></td>
+						<td>失业保险<input type="hidden" name="sb[items][]" value="失业保险" ></td>
+						<td><input type="text"  name="sb[amount][]"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+						<td>元&nbsp;</td>
+						<td><span>单位比例</span></td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td>
+							<span>个人比例</span>
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="bujiao[]" value="3" class="bujiao"></td>
+						<td>生育保险<input type="hidden" name="sb[items][]" value="生育保险"></td>
+						<td><input type="text"  name="sb[amount][]"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10"></td>
+						<td>元&nbsp;</td>
+						<td><span>单位比例</span></td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td>
+							<span>个人比例</span>
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="bujiao[]" value="4" class="bujiao"></td>
+						<td>工伤保险<input type="hidden" name="sb[items][]" value="工伤保险"></td>
+						<td><input type="text"  name="sb[amount][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" ></td>
+						<td>元&nbsp;</td>
+						<td><span>单位比例</span></td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td>
+							<span>个人比例</span>
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>%</span> +
+						</td>
+						<td>
+							<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10">
+						</td>
+						<td>
+							<span>元</span>
+						</td>
+						<td></td>
+					</tr>
+					
+					<else />
+						<volist name="sb_rule.items" id="vo">
+						<tr>
+							<td><input type="checkbox" name="bujiao[]" value="{$key}" class="bujiao" <?php if($vo['rules']['replenish'] ==1) echo "checked='checked'"?>></td>
+							<td>{$vo.name}<input type="hidden" name="sb[items][]" value="{$vo.name}"></td>
+							<td><input type="text"  name="sb[amount][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" value="{$vo.rules.amount}"></td>
+							<td>元&nbsp;</td>
+							<td><span>单位比例</span></td>
+							<td>
+								<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" value="{$vo.rules.company.0}">
+							</td>
+							<td>
+								<span>%</span> +
+							</td>
+							<td>
+								<input type="text" name="sb[company][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" value="{$vo.rules.company.1}">
+							</td>
+							<td>
+								<span>元</span>
+							</td>
+							<td>
+								<span>个人比例</span>
+							</td>
+							<td>
+								<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" value="{$vo.rules.person.0}">
+							</td>
+							<td>
+								<span>%</span> +
+							</td>
+							<td>
+								<input type="text" name="sb[person][]" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" value="{$vo.rules.person.1}">
+							</td>
+							<td>
+								<span>元</span>
+							</td>
+							<td></td>
+						</tr>
+						</volist>
+					</empty>
+				</table>	
+				<!--<div class="cost_price">
+					<p  class="pro_cost"><span>社保卡工本费</span><input type="text" name="sb[pro_cost]" class="pro_costs" value="{$sb_rule.pro_cost}"><span>元/人</span></p>
+				</div>-->
+				<h3>所需材料</h3>
+				<textarea name="sb[material]" class="meterials" cols="110" rows="10" style="border:1px solid #dedede;text-indent:1em;">{$sb_rule.material}</textarea>
+				<h3>其它收费</h3>
+				<table class="other">
+					<empty name="sb_rule">
+					<tr>
+						<td>费用名称</td>
+						<td><input type="text" name="sb_other[name][]"></td>
+						<td>企业金额</td>
+						<td><input type="text" name="sb_other[company][]"><span class="unit">元</span></td>
+						<td>个人金额</td>
+						<td><input type="text" name="sb_other[person][]"><span class="unit">元</span></td>
+						<td></td>
+					</tr>
+					<else />
+					<volist	name="sb_rule.other" id="vb">
+						<tr>
+							<td>费用名称</td>
+							<td><input type="text" name="sb_other[name][]" value="{$vb.name}"></td>
+							<td>企业金额</td>
+							<td><input type="text" name="sb_other[company][]" value="{$vb.rules.company}"><span class="unit">元</span></td>
+							<td>个人金额</td>
+							<td><input type="text" name="sb_other[person][]" value="{$vb.rules.person}"><span class="unit">元</span></td>
+							<td></td>
+						</tr>
+					</volist>
+					</empty>
+				</table>
+				</div>	
+				
+			</div>
+        
+		</div>
+
+	<!--公积金-->	
+		<div class="h5">&nbsp;</div><div class="h5">&nbsp;</div>
+		<div class="tab-nav main-title" style=""><h2>公积金</h2>&nbsp;</div>
+		<div class="form-item">
+			<div class="">
+				<div class="fl " id="category_list_2">
+					<volist name="classfiy_gjj" id="v">
+						<div id="category_{$v.id}" class="fl" style="overflow: hidden; width: auto">
+							<label class="item-label_1">{$v.name}</label>
+							<div class="controls_new fl">
+								<select name="gjj_category_sub[]" class="input-small category_sub" data-type="2">
+								<option value="0"  >请选择</option>
+								<volist name="v.category_sub" id="v1">
+									<option value="{$v1.id}"  >{$v1.name}</option></volist>
+								</select>
+							</div>
+							<div class="fl"><div class="btn  hidden fl sb_rule_edit" data-type='{$v.id}' types="2">修改</div></div>
+						</div>
+					</volist>
+				</div>
+			</div>
+			<!-- <div class="btn  hidden fl create_classify"data-type="2"  style="margin-left: 50px" >创建公积金分类</div>	 -->
+	   </div>
+       <div id="gjj_content" style="min-height: 50px ; ">
+	       	<empty name="gjj_rule">
+	       		暂无公积金规则，请点击修改
+	       		<a href="javascript:modifyGjj({$Think.get.template_id})" class="btn">修改</a>
+	       	<else />
+				<include file="gjj_edit"/>
+			</empty>
+			<h3>其它收费</h3>
+			<table class="gjj_other">
+				<empty name="gjj_rule">
+					<tr>
+						暂无公积金其他收费
+					</tr>
+				<else />
+					<volist	name="gjj_rule.other" id="vb">
+						<tr>
+							<td>费用名称</td>
+							<td><input type="text" name="gjj_other[name][]" value="{$vb.name}" disabled="disabled"></td>
+							<td>企业金额</td>
+							<td><input type="text" name="gjj_other[company][]" value="{$vb.rules.company}" disabled="disabled"><span class="unit">元</span></td>
+							<td>个人金额</td>
+							<td><input type="text" name="gjj_other[person][]" value="{$vb.rules.person}" disabled="disabled"><span class="unit">元</span></td>
+							<td></td>
+						</tr>
+					</volist>
+				</empty>
+			</table>
+    	</div>
+		<div class="h5">&nbsp;</div>
+
+		<!--<div class="tab-nav main-title" style="padding-bottom: 5px"><h2>残障金</h2></div>
+		<div class="form-item">
+			<div class="form_item_sub">
+				<div class="controls_new">
+					<input type="text" class="text input-mid" name="czj"  value="{$czj_rule['disabled']}"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" disabled="disabled" />元/人/月
+				</div>
+			</div>
+			<div class="form_item_sub">
+				<div class="controls_new">
+					<label>缴纳方式</label>
+					<select id="czj_follow" disabled="disabled">
+						<option>-请选择-</option>
+						<option <if condition="$czj_rule['follow'] eq 1">selected="selected"</if> value="1">跟随社保</option>
+						<option <if condition="$czj_rule['follow'] eq 2">selected="selected"</if> value="2">跟随公积金</option>
+					</select>
+					<a  href="javascript:modifyDisabled({$Think.get.template_id})" class="btn">修改</a>
+				</div>
+			</div>
+		</div>-->
+		<div class="h5">&nbsp;</div>
+		
+		<div class="form-item cf">
+			<!-- <button class="btn submit-btn ajax-post hidden" type="submit" target-form="form-horizontal">确 定</button> -->
+			<a class="btn btn-return" href="/admin.php?s=/ProductTemplate-index.html">返 回</a>
+		</div>
+	</form>
+	</div>
+</div>
+<style>
+	.modify_sb{
+		font-family: 'Calibri';
+		font-size:14px;
+		width:900px;
+		margin:25px;
+	}	
+	.sb_classify{
+		float:left;
+		margin-left:1em;
+		height: 50px;
+		margin-top: 10px;
+	}
+	.sb_classify select{
+		border:1px solid #dedede;
+	}
+	.clear_me{clear: both;}
+	.range input{
+		border:1px solid #dedede;
+		height: 30px;
+		text-indent: 1em;
+	}
+	.range span{
+		margin-right: 10px;
+	}
+	.range_text{
+		margin-left:10px;
+	}
+	.rule_table{
+		width: 100%;
+		font-family: "Calibri";
+		font-size:12px;
+		text-align: left;
+	}
+	.rule_table input{
+		width:100px;
+		height: 25px;
+		border:1px solid #888;
+	}
+	.rule_table input[type=checkbox]{height: auto;}
+	.modify_sb h3{border-bottom: 3px double #aeaeae;width: 100px;margin-bottom: 20px;}
+	.modify_sb textarea{border:1px solid #dedede;border-radius: 4px;text-indent: 1em;}
+	.rule_table tr{height: 30px}
+	.add_kind{height: 30px;border:1px solid #dedede;background-color:rgb(75,189,0);clear: both;text-align: center;cursor: pointer;line-height: 30px;color:white;letter-spacing: 2px;border-radius: 4px;}
+	.cost_price .notice{letter-spacing: 2px;font-size: 12px;}
+	.cost_price .pro_cost input{ border:1px solid #dedede;width:100px;text-indent: 1em;border-radius: 4px; margin:0 10px;height: 25px;}
+	.change{display: inline-block;width:30px;height: 30px;background-color:rgb(75,189,0);color:white;line-height: 30px;text-align: center;margin:10px;font-weight: bold;}
+	table.other input,table.gjj_other input{
+		border:1px solid #dedede;
+		height: 30px;
+	}
+	table.other td,table.gjj_other td{padding-right: 10px;}
+	table.other,table.gjj_other{
+		font-size: 14px;
+		font-family: "Calibri";
+	}
+	.unit{display: inline-block;margin-right: 10px;}
+	#modify_czj_form{width: 300px;height: 200px;padding:1em;}
+	#modify_czj_form .form_item_sub label{width:66px;display: inline-block;}
+	#modify_czj_form .form_item_sub{height: 50px;line-height: 50px;}
+	#modify_czj_form .form_item_sub input,#modify_czj_form .form_item_sub select{height: 30px; border:1px solid #aeaeae;}
+</style>
+</block>
+
+<block name="script">
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+<php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+<link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+
+$('#submit').click(function(){
+	$('#form').submit();
+});
+
+$(function(){
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    showTab();
+
+	
+
+});
+</script>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__JS__/template_base.js"></script>
+<script type="text/javascript" src="__JS__/template_edit.js"></script>
+<script type="text/javascript" src="__JS__/modify_template.js"></script>
+
+</block>
+

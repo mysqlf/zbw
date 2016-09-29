@@ -1,0 +1,73 @@
+@charset "utf-8";
+@import "compass";
+$supported-browsers: chrome,firefox,ie;
+
+$img-src: '../img/platform';
+//颜色
+$fontColor:#2c3e50;
+$fontBody:#78848f;
+$c-error: #ff4400;
+// 主色调
+$c-primary: #f98a19;
+
+$orange:#f98a19;
+$orangeHover:#ffa64a;
+$orangeActive:#ffe1bf;
+
+$ash:#999;
+$ashHover:#999;
+$ashActive:#999;
+
+$blue:#43b5fb;
+$blueHover:#88d1fa;
+$blueActive:#d6f0ff;
+
+$green:#2cca85; 
+$greenHover:#9adec1;
+$greenActive:#06854d;
+
+$warning:#f26797;
+$warningHover:#f585ac;
+$warningActive:#ce5880;
+
+//字体
+$font26:26px;
+$font22:22px;
+$font16:16px;
+
+$c-border: #d5d5d5;
+// 表格
+$table-border-color: #cdd2d5;
+
+@import "compass";
+@import "compass/layout.scss";
+$supported-browsers: chrome,firefox,ie;
+
+@import "mixins/base";
+@import "mixins/size";
+@import "mixins/horizontal";
+@import "mixins/grid";//网格
+@import "mixins/size";//宽高简写
+@import "mixins/clearfix";//清除浮动
+@import "mixins/button";//button
+@import "mixins/stretched";
+
+@import "base/layout";/* 布局样式 */
+@import "base/calculator";/* 计算器样式 */
+@import "base/city-picker";/* 地区选择 */
+@import "base/select";/* 地区选择 */
+@import "base/table";/* table样式 */
+@import "module";/* 按钮、侧边栏 */
+
+@import "platform/base/global";
+@import "platform/base/icon";
+@import "platform/base/search";
+@import "platform/base/idangerous.swiper";
+@import "platform/base/pagination";
+@import "platform/page/index";
+@import "platform/page/service";
+
+@import "platform/page/information";// 资讯
+
+@import "platform/page/social_security";
+@import "platform/page/product_detail";

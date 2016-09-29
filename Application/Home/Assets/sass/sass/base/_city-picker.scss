@@ -1,0 +1,111 @@
+.city-picker.tab{
+	background: #fff;
+
+	.area-toggle{
+		padding: 5px 7px;
+		color: $fontColor;
+		display: inline-block;
+		@include border-radius(3px);
+		margin: 2px 0;
+
+		&.active{
+			color: #fff;
+			background: $orange;
+		}
+	}
+	.tab-toggle {
+		border-bottom: 1px solid #d1d1d1;
+
+		li{
+			padding: 0;
+		}
+
+		a {
+			color: $fontColor;
+			position: relative;
+			padding: 10px 30px;
+			display: inline-block;
+
+			&:after{
+				content: '>';
+				font-family: '宋体';
+				position: absolute;
+				right: 0;
+				top:0;
+				bottom: 0;
+				height: 12px;
+				margin: auto;
+				line-height: normal;
+
+			}
+
+			&.last:after{
+				display: none;
+			}
+
+			&.active{
+				color: $orange;
+			}
+		}
+	}
+	
+	.tab-content {
+		.horizontal {
+			@include horizontal(35px);
+
+			dt{
+				padding-top: 8px;
+				clear: left;
+			}
+
+			dd{
+				margin-bottom: 5px;
+			}
+		}
+		.district-content{
+			.right{
+				margin-left: 0
+			}
+			.left{
+				display: none;
+			}
+		}
+	}
+	
+}
+
+.city-picker-input{
+	border: 1px solid $c-border;
+	padding: 5px 10px 6px;
+	position: relative;
+	cursor: pointer;
+	width: 220px;
+	background: #F7F8FA;
+
+	&.disabled {
+		cursor: not-allowed;
+	}
+	@include triangle();
+
+	.city-picker{
+		position: absolute;
+		display: none;
+		left: 0;
+		right: 0;
+		top: 100%;
+	}
+
+	&.open {
+		z-index: 100;
+		.city-picker {
+			display: block;
+			z-index: 100;
+			width: 320px;
+		}
+
+		&:before{
+			border-top: 0;
+			border-bottom: 6px solid #bbb;
+		}
+	}
+}

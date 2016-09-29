@@ -1,0 +1,83 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="accountInfo-title"><h2 class="">团队管理</h2></div>
+    <div class="gutter table-responsive">
+	<a href="javascript:;" class="btn-add pull-right" data-act="addTeam"><span>+</span>新增账号</a>
+        <?php if(!empty($result['result'])):?>
+    <form id="teamManage">
+	    <table class="table table-bordered text-center" summary="团队管理">
+	        <thead>
+	            <tr>
+	                <th>编号</th>
+	                <th>账号</th>
+	                <th>角色</th>
+	                <th>姓名</th>
+	                <th>电话</th>
+	                <th>QQ</th>
+	                <th>账号状态</th>
+	                <th width="">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody id="icheck-box">
+
+                <volist name="result.result" id="vo">
+	            <tr class="payroll-item">
+	                <td>{$vo.id}</td>
+	                <td>{$vo.username}</td>
+	                <td><?php echo adminState()['group'][$vo['group']] ;?></td>
+	                <td>
+	                    {$vo.name}
+	                </td>
+	                <td>
+	                    {$vo.telphone}
+	                </td>
+	                <td>
+	                	656848349
+	                </td>
+	                <td>
+                        <?php if($vo['state'] == 1) :?>
+	                    <span class="status text-primary"><?php echo adminState()['adminstate'][$vo['state']] ;?></span>
+                        <?php else :?>
+                        <span class="status text-warning"><?php echo adminState()['adminstate'][$vo['state']] ;?></span>
+                        <?php endif;?>
+	                </td>
+	                <td class="op-td">
+	                    <a class="c-warm" href="javascript:;" data-id="{$vo.id}" data-act="removeTeam">删除 </a>
+	                    <a class="c-primary" href="javascript:;" data-id="{$vo.id}" data-act="editTeam">编辑 </a>
+	                </td>
+	            </tr>
+                </volist>
+
+
+
+
+
+	        </tbody>
+	    </table>
+	    <div class="pagination">
+            {$result.page}
+		</div>
+	   <!--  <button type="button" class="btn btn-wram" data-act="exportPayroll">
+	   	<i class="icon icon-export no-gutter"></i>
+	   	导出工资单
+	   </button> -->
+	    <!-- <button type="button" class="btn btn-primary" data-act="updatePayrollStatus">
+	    	<i class="icon icon-update no-gutter"></i>
+	    	更新为发放成功
+	    </button> -->
+	    
+	    </form>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+		<!-- <button type="button" class="btn btn-primary">
+			    	<i class="icon icon-update no-gutter"></i>
+			    	更新为缴纳完成
+			    </button> -->
+		
+	</div>
+</block>
+<block name="script">
+    <script data-init="teamManage" type="text/javascript" src="/Application/Service/Assets/js/dist/set.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

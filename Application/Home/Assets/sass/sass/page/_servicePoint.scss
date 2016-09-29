@@ -1,0 +1,89 @@
+/* 全国服务 */
+.state-banner{
+	height:550px;
+	background: url('#{$img-src}/state-banner.jpg') center;
+	text-align: center;
+}
+.state-title{
+	text-align: center;
+	padding:36px 0 20px 0; 
+	margin: 0 auto;
+	font-size: 30px;
+	color: $orange;
+	/* padding-left:39px; 
+	background: url('#{$img-src}/state_icon.gif') left 36px no-repeat; */
+}
+.search-icon{
+	background: url('#{$img-src}/state_icon01.gif') left 36px no-repeat;
+}
+.city{
+	width: 1100px;
+	margin: 0 auto;
+	margin-bottom: 28px;
+	text-align: center;
+	ul{
+		display: inline-block;
+	}
+	li{
+		float: left;
+		padding: 8px 10px ;
+		text-align: center;
+		margin-bottom: 4px;
+		margin-right: 3px;
+		cursor: pointer;
+		border: 1px solid transparent;
+
+		&.now{
+			color: $orange;
+			border-radius: 2px;
+		}
+	}
+	
+}
+.city-box{
+		height: 240px;
+		margin: 0 auto;
+		margin-bottom: 70px;
+		dl{
+			padding-top: 88px;
+			width: 258px;
+			height: 240px;
+			border:1px solid #ddd;
+			/* background: url('#{$img-src}/add_server_icon1.jpg') center 30px no-repeat; */
+			text-align: center;
+			font-size: 16px;
+			color: #414141;
+			line-height: 28px;
+			margin-bottom: 28px;
+			float: left;
+			margin-right: 20px;
+		}
+		dt{
+			height: 76px;
+		}
+		dd{
+			a{
+				background: $orange;
+				display: inline-block;
+				margin: 0 auto;
+				color: #ffe1bd;
+				border-radius: 4px;
+				padding: 6px 25px;
+				&:hover{
+					background: $orangeHover;
+				}
+			}
+		}
+		.marign0{
+			margin: 0;
+		}
+/* 		.icon01{
+			background: url('#{$img-src}/add_server_icon2.png') center 30px no-repeat;
+		}
+		.icon02{
+			background: url('#{$img-src}/add_server_icon3.png') center 30px no-repeat;
+		}
+		.icon03{
+			background: url('#{$img-src}/add_server_icon4.png') center 30px no-repeat;
+		} */
+	}

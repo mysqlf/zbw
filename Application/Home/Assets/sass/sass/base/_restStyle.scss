@@ -1,0 +1,60 @@
+/** 
+ * 描述：重置页面元素并基础样式
+ * 作用范围： 全局
+ */
+
+html,body {
+	font: 14px/1 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
+	color:#2c3e50;
+	min-width: 1200px;
+}
+body,p,pre,blockquote,
+h1,h2,h3,h4,h5,h6,			
+dl,dt,dd,ul,ol,li,			
+form,select,input,textarea,button,		
+table,caption,tr,th,td {
+	margin:0;
+	padding:0;
+}
+h1,h2,h3,h4,h5{ 
+	font-weight: normal;
+}
+ol,ul {
+	list-style:none;
+}
+
+img {
+	max-width: 100%;
+	border:0 none;
+	vertical-align: top;
+}
+a,ins{
+	text-decoration:none;
+}
+a:focus{outline:none; -moz-outline:none}
+i,em{
+	font-style: normal;
+}
+
+input,button,textarea,select,option {
+	font-family:inherit;
+	font-size:100%;	
+	outline: 0;
+}
+textarea {
+	overflow: auto;
+	resize: none;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+input::-webkit-input-placeholder {color: #b5bbc1;}
+textarea::-webkit-input-placeholder {color: #b5bbc1;}
+input:-moz-placeholder{color: #b5bbc1;}
+input::-moz-placeholder{color: #b5bbc1;}
+textarea:-moz-placeholder{color: #b5bbc1;}
+textarea::-moz-placeholder{color: #b5bbc1;}
+input:-ms-input-placeholder {color: #b5bbc1 !important;}
+textarea:-ms-input-placeholder {color: #b5bbc1 !important;}

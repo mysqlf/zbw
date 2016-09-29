@@ -1,0 +1,85 @@
+$font-family-default: "Microsoft Yahei";
+
+//img
+$imgBaseUrl: "../images";
+
+$min-width: 1280px;
+
+
+// 主色
+$color-primary: #F98A19;
+$color-secondary: #2E93EE;
+$color-orange: #FF4400;
+$color-bg: #2C3E50;
+$color-bg-gray: #EAEDF1;
+
+$color-danger: #ff4400;
+
+// 配色
+$color-purple: #9A55E8;
+$color-purplelg: #9EA9DE;
+$color-green: #79B618;
+$color-greenlg: #0DAEBC;
+$color-gray: #B5B5B5;
+$color-graylg: #CDD2D5;
+$color-white: #FFFFFF;
+$color-orangelg: #FFA64A;
+$color-bluedk: #42B6FA;
+$color-blue: #029dff;
+$color-ipt: #78848F;
+$color-ipt-focus: #2E3C50;
+
+// table字体颜色
+$color-tbf: $color-ipt;
+$table-border-color:#cdd2d5;
+
+
+
+$c-search:#5dade2;  //搜索按钮背景色
+$c-required: #ff0000;//必填的颜色
+$color-danger: $c-required;
+$color-warning: $c-required;
+$color-success: #76C622;
+
+$color-primary-active: darken($color-primary, 10%);
+$color-danger-active: darken($color-danger, 10%);
+$color-warning-active: darken($color-warning, 10%);
+$color-success-active: darken($color-success, 10%);
+$color-secondary-active: darken($color-secondary,10%);
+$notice-color: #ff5722; //通知颜色
+
+
+// 字体大小
+$f-size-xlarge: 22px;
+$f-size-large: 18px;
+$f-size-medium: 16px;
+$f-size-normal: 14px;
+$f-size-small: 12px;
+
+// 间距
+
+$gutter: 15px;
+
+//链接---------------------------色
+
+$color-link: $color-primary; //链接色有可能不同于主色
+$color-link-active: $color-primary; //链接色有可能不同于主色
+
+
+// Borders
+// --------------------------------------------------
+
+$border-default-width: 1px;
+$border-default-color: $color-graylg;
+$border-form-color:#e5e5e5;
+$border-default: $border-default-width solid $border-default-color;
+$border-radius: 3px;
+
+
+/*网格系统*/
+//网格数
+$grid-columns: 12;
+//网格间隔
+$grid-gutter-width: 0;
+
+

@@ -1,0 +1,36 @@
+<include file="Public/head" />
+<include file="Public/permitHead" />
+<div class="firm-content">
+	<div class="wrapper clearfix ">
+	<!-- 注册 -->
+		<div class="progress">
+			<div class="progress-content">
+				<div class="firm-step">
+					<i class="icon">1</i>
+					<p>创建账户</p>
+				</div>
+				<div class="firm-step-line"></div>
+				<div class="firm-step">
+					<i class="icon">2</i>
+					<p>完善资料</p>
+				</div>
+				<div class="firm-step-line"></div>
+				<div class="firm-step step-now">
+					<i class="icon">3</i>
+					<p>注册完成</p>
+				</div>
+			</div>
+		</div>
+		<div class="reg-form reg-over">
+			<h4 class="title">感谢您注册智保易账号！</h4>
+			<p class="go-verification">验证邮件已发送 {:hideCard(I('get.email'),6)}，<a href="{$email_login_url}">马上去验证>></a></p>
+			<img src="/Application/Home/Assets/img/firm-ewm.png" alt="">
+			<p>扫一扫，随手掌握参保动态</p>
+			<a class="button buttonOrange cb-btn" style="width: auto" href="{:U('Company/Account/companyInfo')}">马上完善资料&gt;&gt;</a>
+		</div>
+	</div>
+</div>
+<include file="Public/permitFoot"/>
+
+</body>
+</html>

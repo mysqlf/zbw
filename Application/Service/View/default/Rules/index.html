@@ -1,0 +1,55 @@
+<extend name="Base/common" />
+<block name="body">
+	<h2 class="cnt-title">我的缴费规则</h2>
+
+    <div class="pannel-tbl pannel-tbl-rules">
+
+        <ul class="rules-list-box clearfix">
+            <?php foreach($result['result'] as $k=>$v){ ?>
+            <li class="list-item <if condition="$v['state'] != 1">disabled</if>">
+                <h3 class="list-title">
+                    <?php echo $v['name']; ?>
+
+                </h3>
+                <div class="inner-list">
+                    参  保  地：<?php echo showAreaName1($v['location'], 2); ?>
+                </div>
+
+                <div class="inner-list">
+                    规则类型：<?php echo $_Type[$v['type']]; ?>
+                </div>
+
+                <div class="inner-list">
+                    当前状态：<span class="J_state"><?php echo $_State[$v['state']]; ?></span>
+                </div>
+
+                <div class="opt-list">
+                    <a class="edit-btn" href="{:U('Service/Rules/edit',array('id'=>$v['id']))}" title="修改"><i class="icon icon-edit"></i></a>
+                    <button class="btn btn-primary btn-fill center-block" type="button" data-act="toggleRulesStauts" data-id="{$v['id']}" data-state="{$v['state']}"> 
+                        <if condition="$v['state'] != 1">
+                            恢复启动
+                        <else/>
+                            禁止启动
+                        </if>
+                    </button>
+                </div>
+            </li>
+            <?php } ?>
+
+            <li class="list-item">
+               <a href="{:U('Rules/add')}" class="add-link">
+                   <i class="icon icon-big-add"></i>
+                   创建缴纳规则
+               </a>
+            </li>
+        </ul>
+        <div class="pagination">{$result['page']}</div>
+    </div>
+
+</block>
+
+<block name="script">
+   
+    <script type="text/javascript" data-module="rulesList" src="/Application/Service/Assets/js/dist/rules.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

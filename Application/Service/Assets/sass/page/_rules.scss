@@ -1,0 +1,294 @@
+
+.rules-panel {
+	padding: 20px;
+	margin-top: 20px;
+	&.no-mt{
+		margin-top: 0;
+	}
+
+	&.rules-panel-small {
+		padding-top: 5px;
+   		padding-bottom: 5px
+	}
+
+	&.white {
+		background: #fff; 
+	}
+
+
+}
+
+#J_sb-rules-tpl {
+	position: relative;
+
+	.sb-amount-box {
+		position: absolute;
+	    top: -55px;
+	    left: 367px;
+
+	}
+
+	#J_rules-sb-list {
+		.size0 {
+	    	width: 80px;
+	    }
+	}
+
+	#addSbRules {
+		margin-left: 35px;
+	}
+
+	tfoot {
+		.tip {
+			padding-left: 30px;
+		}
+		td {
+			border: 0;
+		}
+	}
+
+}
+
+#J_rules-sb-list .J_rules-item td {
+	border-right: 0;
+}
+
+.panel-list {
+	
+	.pay-title {
+		font-size: 16px;
+		color: #2c3e50;
+	}
+
+	li {
+		padding: 8px;
+		border-bottom: 1px solid $table-border-color;
+		line-height: 35px;
+	}
+}
+
+.rules-panel-first {
+	.horizontal-ipt {
+		margin-right: 70px;
+	}
+}
+
+.horizontal-ipt {
+
+	.sod_select {
+		width: 100%;
+	}
+
+	.ipt {
+		width: 100%;
+	}
+
+	&.no-mr{
+		margin-right: 0;
+	}
+
+	.line {
+		padding: 0 8px;
+	}
+
+}
+
+
+.rules-form {
+	table {
+		margin-bottom: 0;
+	}
+	.icheck-label {
+		margin: 0 15px;
+	}
+	.inline-block {
+		vertical-align: top;
+	}
+	.btn-submit {
+		margin-top: 30px;
+	}
+
+	.btn-add {
+		color: #029dff;
+		line-height: 35px;
+	}
+
+	.pro-cost-list {
+		line-height: 35px;
+		margin: 10px 0;
+		display: inline-block;
+    	width: 100%;
+
+		.left {
+			font-size: 15px;
+		    font-weight: bold;
+		    color: #2c3e50;
+		}
+	}
+
+	.pay-title {
+		font-size: 16px;
+		color: #2c3e50;
+		margin-bottom: 20px;
+		font-weight: bold;
+	}
+
+	.line {
+		color: #2c3e50;
+		line-height: 35px;
+	}
+
+	.icheckbox, .iradio {
+		margin-right: 5px;
+	}
+}
+
+.add-rules.layui-layer{
+	.icheckbox {
+		margin-right: 7px;
+	}
+
+	.icheck-label {
+		margin-right: 15px;
+		cursor: pointer;
+	}
+}
+
+#J_other-tpl {
+	.item {
+		float: left;
+		width: 180px;
+		margin-right: 20px;
+	}
+
+	.item-name {
+		width: 150px;
+	}
+}
+
+.J_scale-scope {
+	line-height: 35px;
+}
+
+.gjj-rules-panel {
+	& >.horizontal{
+
+	}
+
+	.panel-list .horizontal{
+		margin-right: 20px;
+	}
+
+	.intval-label {
+		margin-left: 25px;
+	}
+}
+
+.pannel-tbl-rules .pagination {
+	text-align: center;
+}
+
+
+// 规则列表
+
+.rules-list-box {
+	margin: 0 -10px 20px;
+	text-align: center;
+	color: #2c3e50;
+
+	.list-title {
+		font-size: 16px;
+		margin-bottom: 20px;
+		margin-top: 15px;
+		font-weight: bold;
+	}
+
+	.list-item {
+		float: left;
+		width: 280px;
+		height: 280px;
+		margin: 10px;
+		padding: 20px 50px;
+		background: #fff;
+
+		@include transition(.2s);
+
+	    &:hover {
+	    	    @include box-shadow(0 1px 30px rgba(0, 0, 0, 0.1)) ;
+    			@include translateY(-8px);
+	    }
+
+		.inner-list {
+			border-bottom: 1px dashed #cdd2d5;
+			padding: 8px 0;
+		}
+
+		.opt-list {
+			position: relative;
+			margin-top: 20px;
+
+			.edit-btn {
+				position: absolute;
+			    bottom: 5px;
+			    right: -30px;
+			}
+
+			button[type="button"] {
+				width: 100px;
+				height: 35px;
+				font-size: 14px;
+				border: 1px solid ;
+			}
+		}
+
+		&.disabled {
+			color: #78848f;
+
+			.opt-list button[type="button"] {
+				background: #fff;
+				border-color: #cdd2d5;
+				color: inherit;
+
+				&:hover {
+					@include opacity(.6);
+				}
+			}
+		}
+	}
+
+	.add-link {
+		display: block;
+		height: 100%;
+    	overflow: hidden;
+    	color: inherit;
+
+		.icon {
+			display: block;
+    		margin: 80px auto 20px;
+		}
+
+		&:hover {
+			color: #029dff;
+
+			.icon {
+				@extend .big-add-hover;
+			}
+		}
+	}
+}
+
+.rules-save-layer {
+	.icheck-label {
+		padding: 10px 0;
+	    display: inline-block;
+	}
+
+	.align-top {
+		line-height: 35px;
+	}
+
+	span.validator-error {
+		position: absolute;
+	}
+}
+

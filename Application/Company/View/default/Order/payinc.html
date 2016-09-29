@@ -1,0 +1,114 @@
+<!-- <extend name="Base/Insurance" /> -->
+<block name="right">
+    <div class="right_box overflow">
+        <div class="right_head">
+            <h3 class="add_tit">付款明细</h3>
+        </div>
+        <div class="tab_title">
+           <if condition="$payorder['state']==1">
+             <span class="status_box c-green"><i class="icon icon-success"></i>已付款</span>
+           <else/>
+            <span class="status_box c-red"><i class="icon icon-error"></i>未付款</span>
+            </if>
+            <if condition="$payorder['state']==1">
+                <div class="tab_list">
+                    <label><if condition="$payorder['pay_type'] == 1 ">线上支付<elseif condition="$payorder['pay_type'] == 2"/>线下支付</if></label>
+                    <span>{$payorder.pay_time|default='/'}</span>
+                </div>
+            </if>
+            
+            <div class="tab_list">
+                <label>订单编号：</label>
+                <span>{$payorder.order_no|default="/"}</span>
+            </div> 
+            <div class="tab_list">
+                <label>收款方：</label>
+                <span>{$payorder.company_name}</span>
+            </div>
+        </div>
+        <div class="table_con">
+            <table class="table text-center table_white">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th class="idcard">身份证号码</th>
+                        <th>参保地</th>
+                      <!--   <th>申报类型</th> -->
+                        <th>缴纳年月</th>
+                        <th>对象</th>
+                        <th>社保</th>
+                        <th>公积金</th>
+                        <th>总缴费</th>
+                        <th>服务费</th>
+                        <th>合计</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <if condition="$list">
+                   <volist name="list" id="vo">
+                        <tr <if condition="$key%2 eq 1 "> class="even_bg"</if>>
+                            <td rowspan="2">{$vo.person_name}</td>
+                            <td rowspan="2">{$vo.card_num}</td>
+                            <td rowspan="2">{$vo.location}</td>
+                         <!--    <td rowspan="2">{$vo.type}<if condition="$vo['type'] eq 1 ">报增<elseif condition="$vo['type'] eq 2"/>在保<elseif condition="$vo['type'] eq 3"/> 报减</if></td> -->
+                            <td rowspan="2">{$vo.pay_date}</td>
+                            <td>单位</td>
+                            <td class="c-pink">{$vo.soc_company}</td>
+                            <td class="c-green">{$vo.pro_company}</td>
+                            <td>{$vo.company}</td>
+                            <td rowspan="2">{$vo.service_price}</td>
+                            <td rowspan="2">{$vo.price}</td>
+                            <td rowspan="2"><a href="{:U('Company/Insurance/insuranceInfoDetail',array('baseId'=>$vo['base_id'],'handleMonth'=>$payorder['handle_month']))}" class="c-text-dark">明细</a></td>
+                        </tr>
+                        <tr <if condition="$key%2 eq 1 "> class="even_bg"</if>>
+                            <td>个人</td>
+                            <td class="c-pink">{$vo.soc_person}</td>
+                            <td class="c-green">{$vo.pro_person}</td>
+                            <td>{$vo.person}</td>
+                        </tr>
+                    </volist>
+                    <else/>
+                    <tr><td colspan="12" height="60px">没有符合条件的记录</td></tr>
+                    </if>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+        <div class="staff_box">
+            <div class="staff_text">
+                应付金额：
+                <span class="price" id="companyPrice"><i>￥</i>{$payorder.amount}</span>元
+            </div>
+            <if condition='$payorder.type eq 2'>
+            <div class="staff_text">
+                <if condition="$payorder['state'] eq 1 || $payorderdiff eq 0">已结<else />未结</if>差额：
+                <span class="price" id="personPrice"><i>￥</i>{$payorder.diff_amount}</span>元
+                <!--<a href="{:U('Company/Diffamount/index')}" class="c-gray">差额明细</a>-->
+            <else/>
+               未结差额：
+                <span class="price" id="personPrice"><i>￥</i>{$payorder.diff_amount}</span>元
+                <a href="{:U('Company/Diffamount/index')}" class="c-gray">差额明细</a>
+            </if>    
+            </div>
+            </if>
+            <div class="staff_text">
+                实付金额：
+                <span class="total_price" id="totalPrice"><i>￥</i>{$payorder.actual_amount}</span>元
+            </div>
+        </div>
+        <if condition="$payorder['state'] eq 0">
+        <div class="fr" style="margin-top:20px">
+            <input type="hidden" name="diffinorder" value="{$payorderdiff}" id="orderdiff">
+            <input type="hidden" name="orderid" value="{$payorder.id}" id="orderId">
+            <input type="hidden" name="ordertype" value="2" id="orderType">
+            <if condition="$canpay eq 1">
+            <input type="button" value="立即支付" data-type="payinc" id="submitBtn" class="btn btn_orange ls_btn ">
+            </if>
+        </div>
+        </if>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="paysalary" src="/Application/Company/Assets/v2/js/dist/Order.bundle.js"></script>
+</block>

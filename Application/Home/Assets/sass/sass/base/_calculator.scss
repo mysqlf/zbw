@@ -1,0 +1,189 @@
+.clac-wrap {
+    margin: {
+        top: -105px !important;
+    }
+    background: #FFFFFF;
+}
+
+.calculator-box {
+    padding: 48px 30px 102px;
+    margin: {
+    	bottom: 50px;
+    }
+    border: 1px solid #EAEDF1;
+    h3 {
+        margin-bottom: 20px;
+        color: #2C3E50;
+        font: {
+            size: 26px;
+        }
+        text-align: center;
+        line-height: 1;
+    }
+}
+
+.calculator {
+    padding: {
+        left: 20px;
+    }
+}
+
+$calculator-colors: #9ea9de #94c464 #58acdf;
+@mixin calculator-bgs($colorArr) {
+    @for $i from 1 through length($colorArr) {
+        .calculator-bg#{$i} {
+            background: nth($colorArr, $i);
+            color: #fff;
+            border-bottom-color: #fff !important;
+        }
+    }
+}
+
+@include calculator-bgs($calculator-colors);
+.calculator {
+    .calculator-bg:last-child {
+        border-bottom-color: #cdd2d5 !important;
+    }
+    &.horizontal {
+        @include horizontal(277px);
+    }
+    .total-money {
+        font-size: 18px;
+        text-align: right;
+        padding: 20px 150px 20px 0;
+        .c-money {
+            font-size: 24px;
+        }
+    }
+    .c-money {
+        font-weight: bold;
+    }
+    .subtotal td {
+        padding: {
+            top: 15px;
+            bottom: 15px;
+        }
+        ;
+    }
+    label {
+        cursor: pointer;
+    }
+    .icheckbox {
+        top: -1px;
+    }
+    .btn-box {
+        padding: 18px 0;
+        margin: 0 -2%;
+        .button {
+            width: 45%;
+            margin: 0 2%;
+            padding: 12px 5px;
+            font-size: 16px;
+            line-height: 1;
+        }
+        .buttonOrange {
+            color: lighten($orange, 25%)
+        }
+    }
+    .text-input[readonly] {
+        cursor: not-allowed;
+        background: #f2f2f2;
+    }
+    .scale-input {
+        width: 45%;
+        display: inline-block;
+        margin: 0 2%;
+        position: relative;
+        border: 1px solid #ddd;
+        height: 36px;
+        margin-bottom: 20px;
+        vertical-align: top;
+        .text-input {
+            margin: {
+                left: 2em;
+                right: 2em;
+            }
+            width: 50%;
+            border-color: transparent;
+        }
+        &:before,
+        &:after {
+            position: absolute;
+            z-index: 10;
+            top: 7px;
+        }
+        &:before {
+            left: 10px;
+        }
+        &:after {
+            content: '%';
+            right: 10px;
+        }
+    }
+    .scale-input-per {
+        &:before {
+            content: '个人';
+        }
+    }
+    .scale-input-comp {
+        &:before {
+            content: '企业';
+        }
+    }
+    .scale-input-box {
+        margin: 0 -2%;
+    }
+    .is-gjj {
+        padding: 13px 0 12px;
+    }
+    >.left {
+        padding-top: 14px;
+        .input-tip {
+            padding: 0 0 5px;
+            color: #78848f;
+            line-height: 1.5em;
+            &.tip-error {
+                color: $c-error;
+                word-break: break-all;
+            }
+        }
+        .form-input {
+            margin-right: 60px;
+            color: #2c3e50;
+            dt {
+                padding: 7px 0 12px;
+                &.small-gutter {
+                    padding-bottom: 7px;
+                }
+            }
+        }
+    }
+    .text-input,
+    .sod_select {
+        margin-bottom: 5px;
+    }
+    .city-picker-input {
+        margin-bottom: 6px;
+    }
+    .sod_select,
+    .text-input {
+        width: 100%;
+    }
+    >.right {
+        .tips {
+            padding: {
+                left: 38px;
+                bottom: 6px;
+            }
+            font-size: 16px;
+            color: #2c3e50;
+            .f-small {
+                font-size: 12px;
+                margin-left: 35px;
+            }
+        }
+    }
+    .no-data-td {
+        padding: 74px 0 74px;
+    }
+}

@@ -1,0 +1,269 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="pannel-hd">
+		<h2 class="cnt-title">差额明细<a href="javascript:history.go(-1);" class="btn btn-back">返回</a></h2>
+		<?php //dump($result);?>
+		<div class="pannel-details dif-amount-details">
+			<?php if($item == 1 && (in_array($type, array(1,2,3))) ) {?>
+			<div class="details-item"><label>差额类型：</label><span><?php echo $_item[$item],$_type[$type]; ?></span></div>
+			<!--社保缴费规则调整/社保办理失败/社保办理异常-->
+			<div class="details-item"><label>付款流水号：</label><span><?php echo $result['order_no']; ?></span></div>
+			<div class="details-item"><label>姓名：</label><span><?php echo $result['person_name']; ?></span></div>
+			<div class="details-item"><label>申报企业：</label><span><?php echo $result['company_name']; ?></span></div>
+			<div class="details-item"><label>缴纳年月：</label><span><?php echo $result['pay_date']; ?></span></div>
+			<div class="details-item"><label>付款时间：</label><span><?php echo $result['pay_time']; ?></span></div>
+			<div class="details-item"><label>社保基数：</label><span><?php echo $result['soc_amount']; ?>元</span></div>
+			<?php }elseif($item == 2 && (in_array($type, array(1,2,3)))){?>
+			<div class="details-item"><label>差额类型：</label><span><?php echo $_item[$item],$_type[$type]; ?></span></div>
+			<!--公积金缴费规则调整-->
+			<div class="details-item"><label>付款流水号：</label><span><?php echo $result['order_no']; ?></span></div>
+			<div class="details-item"><label>姓名：</label><span><?php echo $result['person_name']; ?></span></div>
+			<div class="details-item"><label>申报企业：</label><span><?php echo $result['company_name']; ?></span></div>
+			<div class="details-item"><label>缴纳年月：</label><span><?php echo $result['pay_date']; ?></span></div>
+			<div class="details-item"><label>付款时间：</label><span><?php echo $result['pay_time']; ?></span></div>
+			<div class="details-item"><label>公积金基数：</label><span><?php echo $result['soc_amount']; ?>元</span></div>
+			<?php }elseif($type ==4 ){?>
+			<div class="details-item"><label>差额类型：</label><span><?php echo $_item[$item],$_type[$type]; ?></span></div>
+			<!--工本费-->
+			<div class="details-item"><label>付款流水号：</label><span><?php echo $result['order_no']; ?></span></div>
+			<div class="details-item"><label>姓名：</label><span><?php echo $result['person_name']; ?></span></div>
+			<div class="details-item"><label>申报企业：</label><span><?php echo $result['company_name']; ?></span></div>
+			<div class="details-item"><label>缴纳年月：</label><span><?php echo $result['pay_date']; ?></span></div>
+			<div class="details-item"><label>付款时间：</label><span><?php echo $result['pay_time']; ?></span></div>
+			<?php } ?>
+			<!---<div class="details-item">差额类型：<span>代码工资</span></div>
+			<div class="details-item">付款流水号：<span>000000000000</span></div>
+			<div class="details-item">姓名：<span>张三</span></div>
+			<div class="details-item">申报人：<span>广东智通人才连锁股份有限公司</span></div>
+			<div class="details-item">申报年月：<span>2016/08</span></div>
+			<div class="details-item">付款时间：<span>2016-06-12 12:00:00</span></div>
+			-->
+		</div>
+	</div>
+
+	<div class="pnnel-tbl">
+	<?php if($item == 1 && (in_array($type, array(1,2,3))) ) {?>
+		<table class="table" summary="<?php echo $_item[$item],$_type[$type]; ?>">
+			<colgroup>
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="15%" />
+				<col width="10%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>险种</th>
+					<th>基数</th>
+					<th>单位缴纳<br />（比例）</th>
+					<th>单位缴纳<br />（金额）</th>
+					<th>个人缴纳<br />（比例）</th>
+					<th>个人缴纳<br />（金额）</th>
+					<th>差额小计（元）</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php $total = 0; foreach($result['current'] as $k=>$v){?>
+				<?php if($v['name'] == '服务费'){?>
+				<tr>
+					<td><?php echo $v['name']; ?></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><?php echo $v['total']; ?></td>
+				</tr>
+				<?php }else{ ?>
+				<tr>
+					<td><?php echo $v['name']; ?></td>
+					<td><?php echo $v['amount']; ?></td>
+					<td><?php echo $v['company']['scale']; ?> <?php if(!empty($v['company']['fixedSum'])) echo '+',$v['company']['fixedSum']; ?> </td>
+					<td class="<?php echo  is_numeric(strpos($v['company']['sum'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['company']['sum']; ?></td>
+					<td><?php echo $v['person']['scale']; ?> <?php if(!empty($v['person']['fixedSum'])) echo '+',$v['person']['fixedSum']; ?></td>
+					<td class="<?php echo  is_numeric(strpos($v['person']['sum'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['person']['sum']; ?></td>
+					<td class="no-brdr "><?php $line_total = $v['company']['sum'] + $v['person']['sum'];  echo $line_total; $total = $total + $line_total;  ?></td>
+				</tr>
+				
+			<?php  }} ?>	
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7" class="text-r no-brdr"><span class="em-amount">差额总计：¥<em ><?php echo $result['amount']; ?></em>元</span></td>
+				</tr>
+			</tfoot>
+		</table>
+		<?php }elseif($item == 2 &&(in_array($type, array(1,2,3)))){?>
+			
+			<table class="table" summary="公积金缴费规则调整">
+				<colgroup>
+					<col width="16%" />
+					<col width="16%" />
+					<col width="16%" />
+					<col width="16%" />
+					<col width="16%" />
+					<col width="20%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>基数</th>
+						<th>单位缴纳<br />（比例）</th>
+						<th>单位缴纳<br />（金额）</th>
+						<th>个人缴纳<br />（比例）</th>
+						<th>个人缴纳<br />（金额）</th>
+						<th>差额小计（元）</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php $total = 0; foreach($result['current'] as $k=>$v){?>
+					<?php if($v['name'] == '服务费'){?>
+					<tr>
+						<td><?php echo $v['name']; ?></td>
+						<td></td>
+						<td></td>
+						<td></td>						
+						<td></td>
+						<td><?php echo $v['total']; ?></td>
+					</tr>
+					<?php }else{ ?>				
+					<tr>
+						<td><?php echo $v['amount']; ?></td>
+						<td><?php echo $v['company']['scale']; ?> <?php if(!empty($v['company']['fixedSum'])) echo '+',$v['company']['fixedSum']; ?> </td>
+						<td class="<?php echo  is_numeric(strpos($v['company']['sum'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['company']['sum']; ?></td>
+						<td><?php echo $v['person']['scale']; ?> <?php if(!empty($v['person']['fixedSum'])) echo '+',$v['person']['scale']; ?></td>
+						<td class="<?php echo  is_numeric(strpos($v['person']['sum'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['person']['sum']; ?></td>
+						<td class="no-brdr"><?php $line_total = $v['company']['sum'] + $v['person']['sum'];  echo $line_total; $total = $total + $line_total;  ?></td>
+					</tr><?php }} ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="6" class="text-r no-brdr"><span class="em-amount">差额总计：¥<em><?php echo $result['amount']; ?></em>元</span></td>
+					</tr>
+				</tfoot>
+			</table>		
+				
+
+		<?php }elseif($type ==4 ){?>
+		<table summary="工本费">
+			<colgroup>			
+				<col width="33%" />
+				<col width="34%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th><?php echo $_item[$item];?>工本费</th>
+					<th>差额总计</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php $total = 0; ?>
+
+				<tr>
+					<td><?php echo $result['current'][0]['name']; ?></td>
+					<td><?php echo $result['current'][0]['total']; ?></td>
+					
+				</tr>
+		
+			</tbody>
+		</table>
+		<?php } ?>
+<!--
+
+		<table class="table" summary="社保办理失败">
+			<thead>
+				<tr>
+					<th rowspan="2">险种</th>
+					<th rowspan="2">基数</th>
+					<th colspan="2">单位缴纳</th>
+					<th colspan="2">个人缴纳</th>
+					<th rowspan="2">合计金额</th>
+				</tr>
+				<tr>
+					<th>比例</th>
+					<th>金额</th>
+					<th>比例</th>
+					<th>金额</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>重大医疗保险</td>
+					<td>2030</td>
+					<td>0.5</td>
+					<td>500</td>
+					<td>1</td>
+					<td>500</td>
+					<td class="no-brdr">10000</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7" class="text-r">
+						<span>服务费：<em>-500.00</em></span>
+						<span>差额总计：<em>+30000.00</em></span>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<table class="table" summary="社保办理异常">
+			<thead>
+				<tr>
+					<th rowspan="2">险种</th>
+					<th rowspan="2">基数</th>
+					<th colspan="2">单位缴纳</th>
+					<th colspan="2">个人缴纳</th>
+					<th rowspan="2">合计金额</th>
+				</tr>
+				<tr>
+					<th>比例</th>
+					<th>金额</th>
+					<th>比例</th>
+					<th>金额</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>养老保险</td>
+					<td>2030</td>
+					<td>20</td>
+					<td>500 + 20</td>
+					<td>20</td>
+					<td>500</td>
+					<td class="no-brdr">1020</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7" class="text-r">
+						<span>服务费：<em>-50.00</em></span>
+						<span>差额总计：<em>-200000.00</em></span>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<table summary="公积金缴费规则调整">
+			<thead>
+				<tr>
+					<th>工资年月</th>
+					<th>应发工资</th>
+					<th>个人所得税</th>
+					<th>服务费</th>
+					<th>差额</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>201512</td>
+					<td>4820</td>
+					<td>50</td>
+					<td>30</td>
+					<td class="no-brdr">4900</td>
+				</tr>
+			</tbody>
+		</table>-->
+	</div>
+</block>

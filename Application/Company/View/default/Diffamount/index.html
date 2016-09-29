@@ -1,0 +1,143 @@
+<extend name="Base/Insurance" />
+<block name="right">
+	<div class="right_box overflow">
+	    <div class="right_head">
+	        <h3 class="add_tit">差额管理</h3>
+	    </div>
+<!-- 	    <ul class="page-inner-nav clearfix">
+	    	<li><a href="" class="active">个人</a></li>
+	    	<li><a href="">企业</a></li>
+	    </ul> -->
+	    <div class="search_box">
+	    	<form id="listForm" action="{:U('Company/Diffamount/searchDiff')}" method="get">
+	    		<dl class="horizontal horizontal-4em">
+	        		<dt class="left">订单号</dt>
+	        		<dd class="right search-size3">
+	        			<input type="text" class="text x_text" value="{:I('get.orderno')}" name="orderno" placeholder="订单号">
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">姓名</dt>
+	        		<dd class="right search-size3">
+	        			<input type="text" class="text x_text" value="{:I('get.name')}" name="name" placeholder="姓名">
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">服务商</dt>
+	        		<dd class="right search-size3">
+	        			<select class="select" name="companyId">
+							<option value="">全部</option>
+							<volist name="scom" id='vo' >
+							<option value="{$vo.company_id}" <if condition="$vo['company_id'] eq I('get.companyId')">selected</if>>{$vo.company_name}</option>
+							</volist>
+						</select>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">缴纳年月</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size3">
+							<input type="text" class="text timepicker" value="{:I('get.paydate')}" name="paydate" placeholder="缴纳年月" readonly>
+			        		<i class="icon icon-time-picker"></i>
+						</div>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">付款时间</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size2">
+							<input id="pay-begin" type="text" class="text timepicker" value="{:I('get.paystart')}" name="paystart" placeholder="付款开始时间" readonly>
+			        		<i class="icon icon-time-picker"></i>
+						</div>
+			        	<span class="line">-</span>
+			        	<div class="time-picker-box search-size2">
+				        	<input id="pay-end" type="text" class="text timepicker" value="{:I('get.payend')}" name="payend" placeholder="付款结束时间" readonly>
+				        	<i class="icon icon-time-picker"></i>
+				        </div>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">差额类型</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size3">
+							<select class="select" name="type">
+								<option value="5">全部</option>
+								<volist name="types" id="vo" key="key">
+								<option value="{$key-1}" <if condition="I('get.type') eq $key-1">selected</if>>{$vo}</option>
+								</volist>
+							</select>
+						</div>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">服务类型</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size2">
+							<select class="select" name="item">
+								<option value="4">全部</option>
+								<option value="1" <if condition="I('get.item') eq 1">selected</if>>社保</option>
+								<option value="2" <if condition="I('get.item') eq 2">selected</if>>公积金</option>
+								<!-- <option value="3" <if condition="I('get.item') eq 3">selected</if>>代发工资</option> -->
+							</select>
+						</div>
+	        		</dd>
+	        	</dl>
+	        	<input type="button" class="btn ms_btn btn_orange pull-left" value="查询" id="submitBtn">
+	    	</form>
+	    </div>
+	    <div class="table_con">
+	    	<table class="table text-center table_white c-text-dark">
+				<thead>
+		    		<tr>
+		    			<th>订单号</th>
+		    			<th>服务商</th>
+		    			<th>姓名</th>
+		    			<th>缴纳年月</th>
+		    			<th>服务类型</th>
+		    			<th>差额类型</th>
+		    			<th>付款时间</th>
+		    			<th>差额</th>
+		    			<th>生成时间</th>
+		    			<th>操作</th>
+		   			</tr>
+		   		</thead>
+		   		<tbody>
+		   		<if condition="$list">
+		   			<volist name="list" id="vo">
+		   			<tr <if condition="$key%2==1"> class="even_bg"</if>>
+		   				<td><a <if condition="$vo['item'] eq 1">
+		            				href="{:U('Company/Order/searchPayOrder',array('orderId'=>$vo['poid']))}"
+		            			 <elseif condition="$vo['item'] eq 2"/>
+									href="{:U('Company/Order/searchPayOrder',array('orderId'=>$vo['poid']))}"
+								<else/>
+									href="{:U('Company/Order/searchPayOrder',array('orderId'=>$vo['id']))}"
+		            			</if> class="c-blue">{$vo.order_no}</a></td>
+		   				<td>{$vo.company_name}</td>
+		   				<td><a href="{:U('Company/Insurance/insuranceDetail',array('baseId'=>$vo['base_id'],'handleMonth'=>$vo['handle_month']))}" class="c-blue"</a>{$vo.person_name}</td>
+		   				<td>{$vo.pay_date}</td>
+		   				<td><if condition="$vo['item'] eq 1">社保<else/>公积金</if></td>
+		   				<td>{$types[$vo['type']]}</td>
+		   				<td>{$vo.pay_time}</td>
+		   				<if condition="$vo['amount'] lt 0"><td class="c-red">{$vo.amount}<else/><td class="c-green"> +{$vo.amount}</if></td>
+		   				<td>{$vo.modify_time}</td>
+		   				<td><a href="{:U('Company/Diffamount/diffInfo',array('diffid'=>$vo['id']))}" class="c-blue">明细</a></td>
+		   			</tr>
+		   			</volist>
+		   		<else/>
+                    <tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+                </if>
+		   		</tbody>
+		   		<tfoot>
+		   		</tfoot>
+		   	</table>
+		   	<if condition="$list">
+				<div class="page_box">
+			    	{$page}
+			    </div>
+			</if>
+	    </div>
+	</div>
+</block>
+<block name="script">
+    <script data-init="index" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Diffamount.bundle.js"></script>
+</block>

@@ -1,0 +1,119 @@
+<!-- 导航条
+================================================== -->
+<nav id="page-nav">
+    <div class="logo-box">
+        <a href="/">智保易
+          <i class="icon icon-logo"></i>
+       </a>
+    </div>
+    <div class="collapse-item">
+        <a href="Service-Service-index" class="collapsed btn btn-block">
+          <i class="icon icon-index"></i>
+          首页
+        </a>
+    </div>
+    <div class="collapse-item panel">
+        <a class="btn collapsed" role="button" data-toggle="collapse" href="#order-nav" aria-expanded="false" aria-controls="#order-nav" data-parent="#page-nav">
+          <i class="icon icon-order"></i>
+          订单管理
+          <i class="icon icon-arrow-down"></i>
+        </a>
+    
+        <ul id="order-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item active">
+              <a href="Service-Order-comOrderList" title="企业订单">企业订单</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse-item panel">
+        <a class="collapsed btn" role="button" data-toggle="collapse" href="#bill-nav" aria-expanded="false" aria-controls="#bill-nav" data-parent="#page-nav">
+          <i class="icon icon-bill"></i>
+          账单管理
+          <i class="icon icon-arrow-down"></i>
+        </a>
+    
+        <ul id="bill-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item">
+              <a href="Service-Bill-comBillList" title="企业账单">企业账单</a>
+            </li>
+        </ul>
+    </div> 
+    <div class="collapse-item panel">
+        <a class="collapsed btn" role="button" data-toggle="collapse" href="#user-nav" aria-expanded="false" aria-controls="#user-nav" data-parent="#page-nav">
+          <i class="icon icon-user"></i>
+          客户管理
+          <i class="icon icon-arrow-down"></i>
+        </a>
+
+        <ul id="user-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item">                
+               <a href="Service-Members-clientList" title="企业账单">企业客户</a>
+               <a href="Service-Members-comMembersOrderList" title="企业账单">服务订单</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse-item panel">
+        <a class="collapsed btn" role="button" data-toggle="collapse" href="#user-nav" aria-expanded="false" aria-controls="#user-nav" data-parent="#page-nav">
+          <i class="icon icon-user"></i>
+          发票管理
+          <i class="icon icon-arrow-down"></i>
+        </a>
+
+        <ul id="user-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item">                
+               <a href="{:U('Service/Invoice/invoiceList?type=1')}" title="企业账单">发票资质审核</a>
+               <a href="{:U('Service/Invoice/invoiceList?type=2')}" title="企业账单">企业发票</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse-item panel">
+        <a class="collapsed btn" role="button" data-toggle="collapse" href="#user-nav" aria-expanded="false" aria-controls="#user-nav" data-parent="#page-nav">
+          <i class="icon icon-user"></i>
+          文章管理
+          <i class="icon icon-arrow-down"></i>
+        </a>
+
+        <ul id="user-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item">                
+               <a href="{:U('Service/Article/index')}" title="企业账单">文章列表</a>
+              <!-- <a href="{:U('Service/Category/index')}" title="企业账单">文章分类</a>-->
+            </li>
+        </ul>
+    </div>
+    <div class="collapse-item panel">
+        <a class="collapsed btn" role="button" data-toggle="collapse" href="#product-nav" aria-expanded="false" aria-controls="#product-nav" data-parent="#page-nav">
+          <i class="icon icon-product"></i>
+          产品管理
+          <i class="icon icon-arrow-down"></i>
+        </a>
+
+        <ul id="product-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item">
+              <a href="Service-Product-productList" title="企业产品">企业产品</a>
+            </li>
+            <li class="list-group-item">
+               <a href="Service-Product-serviceList" title="增值服务">增值服务</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse-item panel">
+        <a class="collapsed btn" role="button" data-toggle="collapse" href="#setting-nav" aria-expanded="false" aria-controls="#setting-nav" data-parent="#page-nav">
+          <i class="icon icon-setting"></i>
+          设置
+          <i class="icon icon-arrow-down"></i>
+        </a>
+
+        <ul id="setting-nav" class="list-group panel-collapse collapse in" aria-labelledby="aside-nav">
+            <li class="list-group-item">
+              <a href="Service-User-accountInfo" title="账号信息">账号信息</a>
+            </li>
+            <li class="list-group-item">
+               <a href="Service-Manage-adminList" title="团队管理">团队管理</a>
+            </li>
+           <li class="list-group-item">
+              <a href="Service-Manage-bankInfo" title="银行信息">银行信息</a>
+           </li>
+        </ul>
+    </div>
+
+</nav>

@@ -1,0 +1,55 @@
+<extend name="Base/common" />
+<block name="body">
+    <h2 class="cnt-title">
+        <if condition="I('get.id')">编辑缴费规则<else/>创建缴费规则</if><a class="btn btn-back" <?php  if($_GET['n'] && $_GET['n'] == 1){?> style="display:none" <?php  }?> href="/Service-Rules-index">返回</a>
+    </h2>
+    <form id="J_add-form" class="clearfix rules-form">
+        <!-- 修改页面为 1 创建模板 其他 -->
+        <input id="J_pageType" type="hidden" value="<if condition="I('get.id')">1<else/>0</if>">
+        <input id="J_templateId" name="templateId" type="hidden" value="{$result['template_id']}">
+        <div class="clearfix rules-panel rules-panel-first white">
+            <dl class="horizontal horizontal-ipt horizontal-5em fl">
+                <dt class="left text-right">参保地：</dt>
+                <dd class="right size2">
+                    <p class="ipt-selected city-picker-input">
+                        <span class="picker-txt">请选择</span>
+                        <input id="J_location" class="hidden-txt" type="hidden" name="location" required value="{$result['template']['location']}" />
+                    </p>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-ipt horizontal-5em fl">
+                <dt class="left">规则类型：</dt>
+                <dd class="right size1">
+                    <div class="ipt-box">
+                        <select id="J_paymentType" name="type" required>
+                            <option value="">请选择</option>
+                            <option value="1" <if condition="1 eq $result['type']">selected="selected"</if> >社保</option>
+                            <option value="2" <if condition="2 eq $result['type']">selected="selected"</if> >公积金</option>
+                        </select>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-ipt horizontal-5em fl no-mr">
+                <dt class="left">规则名称：</dt>
+                <dd class="right size1">
+                    <input class="ipt" type="text" name="rule_name" value="{$result.name}" required>
+                </dd>
+            </dl>
+        </div>
+        <div id="J_sb-type-box" class="clearfix rules-panel no-mt" style="display: none">
+            
+        </div>
+        <div id="J_sb-rules-tpl"></div>
+        <div class="btn-box text-center">
+            <input type="hidden" value="{$result.id}" name="id" id="id">
+            <input type="hidden" value="{$result.classify_mixed}" id="classify_mixed">
+            <input type="button" value="保存" id="J_submit-btn" class="btn btn-submit center-block">
+		</div>
+	</form>
+
+</block>
+<block name="script">
+	<script type="text/javascript" src="__ASSETS__/js/modules/area.js"></script>
+    <script type="text/javascript" data-module="rulesAdd" src="__ASSETS__/js/dist/rules.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

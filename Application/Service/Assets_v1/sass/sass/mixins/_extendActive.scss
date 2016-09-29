@@ -1,0 +1,13 @@
+//用于继承:active类 如icon 继承icon:active
+/* 
+ * @param {array} 支持生成多个类 
+ */
+@mixin extendActive($classArr){
+    
+    @each $class in $classArr{
+    	#{$class}{
+			@extend #{$class}:active;
+		}
+    }
+
+}

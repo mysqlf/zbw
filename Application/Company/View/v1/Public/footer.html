@@ -1,0 +1,22 @@
+<footer class="footer">
+    <p>Copyright©1999-2015 job5156.com广东智通人才连锁股份有限公司 版权所有 粤B2-20040400  粤B2-20040400-2</p>
+    <p><img src="/Application/static/Home/images/footer-icon.jpg"/></p>
+</footer>
+<div class="hoverList">
+    <a href="javascript:;" class="wx"><i class="icon icon-wx"></i><div class="wxImg"><img src="/Application/static/Home/images/wx.png" alt=""></div></a>
+    <a href="tencent://message/?uin=229233594&Site=121ask.com&Menu=yes" class="qq"><i class="icon icon-qq"></i><div class="qqImg"><span>杨小姐</span> 2456545474</div></a>
+    <a href="javascript:;" class="top" id="backTop">返回<br>顶部</a>
+</div>
+<include file="Public/var"/>
+<!--[if lt IE 9]> 
+	//ie8 不兼容 style-loader
+     <script type="text/javascript" src="/Public/static/ie/es5-shim.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="/Application/static/Home/js/dist/common.js"></script>
+<script src="/Application/static/Home/js/dist/header.bundle.js"></script>
+<block name="script"></block> <!-- 用于加载js代码 -->
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+	<block name="hidden"></block>
+</div>

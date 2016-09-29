@@ -1,0 +1,63 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">服务列表</h2></div>
+    <div class="gutter table-responsive">
+        <?php if(!empty($result['result'])):?>
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	            	<th>服务编号</th>
+	                <th>产品名称</th>
+	                <th>企业名称</th>
+	                <th>客服</th>
+	                <th>会员费</th>
+	                <th>订单状态</th>
+	                <th>服务状态</th>
+	                <th>有效期</th>
+	                <th>代发工资？</th>
+	                <th>参保的数量</th>
+	                <th width="10%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+            <volist name="result.result" id="vo">
+                <tr>
+                    <td>{$vo.order_no}</td>
+                    <td>{$vo.product_name}</td>
+                    <td>{$vo.company_name}</td>
+                    <td>{$vo.admin_name}</td>
+                    <td><?php if(!empty($vo['modify_price'])) {echo $vo['modify_price'];}else{echo $vo['price'];} ?></td>
+                    <td><?php echo adminState()['product_order_state'][$vo['state']];?></td>
+                    <td><?php echo adminState()['service_state'][$vo['service_state']];?></td>
+                    <td>{$vo.overtime}</td>
+                    <td><?php if($vo['is_salary'] == 0) echo '否';if($vo['is_salary'] == 1) echo '是';?></td>
+                    <td><?php echo $vo['sum']?$vo['sum']:0;?></td>
+                    <td class="op-td">
+                        <?php if($vo['service_state']==3 || $vo['service_state']==-1 ||  $vo['state']==-2) :?>
+                        <a class="c-warm" href="Service-Members-comMemBersDetail-id-{$vo.id}" data-id="{$vo.id}">查看 </a>
+                        <?php else:?>
+                        <?php if($vo['state']==0 || $vo['state']==-1):?>
+                        <a class="c-warm" href="javascript:;" data-act="changePrice" data-id="{$vo.id}" data-time="{$vo.create_time}" data-product_name="{$vo.product_name}" data-company_name="{$vo.company_name}" data-price="<?php if(!empty($vo['modify_price'])) {echo $vo['modify_price'];}else{echo $vo['price'];} ?>">修改价格 </a>
+                        <?php endif;?>
+                        <a class="c-warm" href="Service-Members-comMemBersDetail-id-{$vo.id}" >服务设定 </a>
+                        <?php if($auth['type']==1):?>
+                        <a class="c-primary" href="javascript:;" data-act="assign" data-id="{$vo.id}" data-admin_id="{$vo.admin_id}">分配 </a>
+                        <?php endif;?>
+                        <?php endif;?>
+                    </td>
+                </tr>
+                </volist>
+	        </tbody>
+	    </table>
+        <div class="pagination">
+            {$result.page}
+        </div>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+	</div>
+</block>
+<block name="script">
+    <script data-init="comBuyService" type="text/javascript" src="/Application/Service/Assets/js/dist/CM.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

@@ -1,0 +1,12 @@
+<include file="Public/_head" />
+  <!--   <div class="about-us-banner"></div> -->
+    <div class="wrapper">
+        <h2 class="about-us-title">公司介绍<br/><i>COMPANY PROFILE</i></h2>
+        <div class="Profile clearOver">
+            {$info.content|htmlspecialchars_decode=###}
+        </div>
+        <a name="contect"></a>
+
+    </div>
+<include file="Public/_footer"/>
+<script data-module="help" data-methods="getList | {$Think.server.PHP_SELF} 2 {$count}" src="/Application/Home/Assets/js/dist/helpCenter.bundle.js"></script>

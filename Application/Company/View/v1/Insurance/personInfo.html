@@ -1,0 +1,242 @@
+<extend name="Base/Insurance"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/insurance.css" rel="stylesheet">
+</block>
+<block name="right">
+    <div class="cb-content fr clearOver addIns details">
+        <div class="pageTitle clearOver"><!-- 标题 -->
+            <span class="fl">查看报增信息</span>
+            <a href="javascript:history.go(-1);" class="back fr">返回</a>
+            <!--<a href="" class="back fr" style="margin-right: 10px;">编辑</a>-->
+        </div>
+        <form id="addAudit" class="fromTable addAudit" name="addAudit" data-id="form" action="/com/info/save.json" method="post">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+                <tr>
+                    <td class="name">订单月份：</td>
+                    <td>
+                        <strong class="month">{$result['order_date']|int_to_date}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">服务商：</td>
+                    <td>
+                        {$result['product_name']}({$result['company_info']['company_name']})
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">姓名：</td>
+                    <td>
+                        <div class="fl">{$result.user_name}</div>
+                        <div class="fl square">
+                            <label><input type="radio" name="sex" value="1" disabled required <?php if($result['gender'] == 1) echo 'checked'; ?>>男</label>
+                            <label><input type="radio" name="sex" value="2" disabled required <?php if($result['gender'] == 2) echo 'checked'; ?>>女</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">身份证号：</td>
+                    <td>
+                        <span>{$result.card_num}</span>
+                        <span class="age">年龄<em id="age">{$result.age}</em>岁</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name" style="vertical-align: top;">身份证<span style="color: #fff">：</span><br/>正反面：</td>
+                    <td>
+                        <div class="ICUpload fl">
+                            <div class="ic" id="obverse">
+                                <div class="uploaded">
+                                    <img src="{$result.idCardImg.idCardFront}" width="82px" height="52px" >
+                                </div>
+                            </div>
+                            <div class="ic" id="reverse">
+                                <div class="uploaded ">
+                                    <img src="{$result.idCardImg.idCardBack}" width="82px" height="52px" >
+                                </div>
+                            </div>
+                        </div>
+                        <!--<span class="cardinal fl">请上传jpg/jpeg/gif/png格式的图片，<br/>大小控制在2M以内</span>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">手机号码：</td>
+                    <td>
+                        {$result.mobile}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">参保地：</td>
+                    <td>
+                        {$result['location']|showAreaName}
+                    </td>
+                </tr>
+            </table>
+            <div class="subhead">参保信息</div>
+            <div class="buyIns" id="buyIns">
+                <div class="form-box" data-type="1">
+                    <div class="square">
+                        <label><input type="checkbox" id="security-checkbox" class="buy-server" disabled name="sb_buy" <?php if(!empty($result['stype']) && -9 != $result['sstate']) echo 'checked'; ?>/><if condition=" 1 eq I('get.type') ">购买社保<else/>报减社保</if><if condition="!empty($result['sstate']) || (0 == $result['sstate'] && null != $result['sstate'])">({$result.sstate|get_status_value="ServiceOrderDetailState",$result['sdetail_state']})</if></label>
+                    </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+                        <volist name="result.srule.template" id="vo">
+                            <?php if($vo['fid'] == 0): ?>
+                                <tr>
+                                    <td class="name">{$vo.name}：</td>
+                                    <td>
+	                                    <volist name="result.srule.template" id="v">
+	                                        <if condition=" $v['fid'] == $vo['id'] && 1 == $v['selected'] ">{$v.name}</if>
+	                                    </volist>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </volist>
+                        <tr>
+                            <td class="name">社保基数：</td>
+                            <td class="license">
+                                {$result.samount}
+                                <!--<span class="cardinal">基数范围{$result.srule.rule.min}到{$result.srule.rule.max}</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">缴纳时间：</td>
+                            <td class="start">
+                                {:intval(substr($result['pay_date'],0,4))}
+                                年
+                                {:str_pad(intval(substr($result['pay_date'],4,2)),2,'0',STR_PAD_LEFT )}
+                                月
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="pageTable" width="676">
+                        <tr>
+                            <td rowspan="2" class="c-1">险种 </td>
+                            <td rowspan="2" class="c-1">基数 </td>
+                            <th colspan="2">单位缴纳</th>
+                            <th colspan="2">个人缴纳</th>
+                            <td rowspan="2" class="c-6">合计金额</td>
+                        </tr>
+                        <tr>
+                            <td class="c-2">比例</td>
+                            <td class="c-3">金额</td>
+                            <td class="c-4">比例</td>
+                            <td class="c-5">金额</td>
+                        </tr>
+                        <volist name="result.srule.rule.items" id="vo">
+                            <tr>
+                                <td>
+                                    {$vo.name}
+                                </td>
+                                <td>
+                                    {$vo.rules.amount}
+                                </td>
+                                <td>
+                                   {$vo.rules.company}
+                                </td>
+                                <td class="sum-company">{$vo.rules.companySum}</td>
+                                <td>
+                                    {$vo.rules.person}
+                                </td>
+                                <td class="sum-person">{$vo.rules.personSum}</td>
+                                <td class="sum orange">
+                                    {$vo.rules.total}
+                                </td>
+                            </tr>
+                        </volist>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <!--<td>{//$result.srule.rule.total.rules.company}</td>-->
+                            <td class="total-sum-company" colspan="2">企业共缴纳:{$result.srule.rule.total.rules.companySum}</td>
+                            <!--<td>{//$result.srule.rule.total.rules.person}</td>-->
+                            <td class="total-sum-person" colspan="2">个人共缴纳:{$result.srule.rule.total.rules.personSum}</td>
+                            <td class="orange" id="total">{$result.srule.rule.total.rules.total}</td>
+                        </tr>
+                    </table>
+                    <div class="circle">
+                        <label>
+                            <div class="fl"><input type="radio" class="ss-card" id="has-ss-card" value="1" required disabled  <?php if(!empty($result['scard_number'])) echo 'checked'; ?>>有社保卡</div>
+                            <div class="fl c1">卡号：{$result.scard_number}</div>
+                        </label>
+                        <label>
+                            <div class="fl"><input type="radio" class="ss-card" id="no-ss-card" value="2" required disabled <?php if(empty($result['scard_number'])) echo 'checked'; ?>>无社保卡</div>
+                            <div class="fl c1">工本费：<span id="sb-pro_cost">{$result.srule.rule.pro_cost|default=0}</span>元<a class="material" href="javascript:;" data-material="{$result.srule.rule.material}">所需材料</a></div> 
+                        </label>
+                    </div>
+                    <div class="subtotal">小计： <strong id="sb-total"><?php echo $result['srule']['rule']['total']['rules']['total']+ (!empty($result['scard_number'])?0:$result['srule']['rule']['pro_cost']); ?>元/月</strong></div>
+                </div>
+                <div class="form-box" data-type="2">
+                    <div class="square">
+                        <label><input type="checkbox" id="fund-checkbox" class="buy-server" disabled name="gzj_buy" <?php if(!empty($result['gtype']) && -9 != $result['gstate']) echo 'checked'; ?>/><if condition=" 1 eq I('get.type') ">购买公积金<else/>报减公积金</if><if condition="!empty($result['gstate']) || (0 == $result['gstate'] && null != $result['gstate'])">({$result.gstate|get_status_value="ServiceOrderDetailState",$result['gdetail_state']})</if></label>
+                    </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable CPF">
+                        <volist name="result.grule.template" id="vo">
+                            <?php if($vo['fid'] == 0): ?>
+                        <tr>
+                            <td class="name">{$vo.name}：</td>
+                            <td>
+                                <volist name="result.grule.template" id="v">
+                                    <if condition=" $v['fid'] == $vo['id'] && 1 == $v['selected'] ">{$v.name}</if>
+                                </volist>
+                            </td>
+                        </tr>
+                            <?php endif; ?>
+                        </volist>
+
+                        <tr>
+                            <td class="name">公积金基数：</td>
+                            <td>
+                                <span >{$result.gamount}</span><!--<span class="cardinal">基数范围{$result.grule.rule.min}到{$result.grule.rule.max}</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">单位缴纳比例：</td>
+                            <td class="scale">
+                                {$result.company_scale}%<!--<span class="cardinal">比例为{$result.grule.rule.company}</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">个人缴纳比例：</td>
+                            <td class="scale">
+                                {$result.person_scale}%<!--<span class="cardinal">比例为{$result.grule.rule.person}</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="name">缴纳时间：</td>
+                            <td class="start">
+                                {:intval(substr($result['pay_date'],0,4))}
+                                年
+                                {:str_pad(intval(substr($result['pay_date'],4,2)),2,'0',STR_PAD_LEFT )}
+                                月
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="circle">
+                        <label>
+                            <div class="fl"><input type="radio" name="" disabled <?php if(!empty($result['gcard_number'])) echo 'checked'; ?>>有公积金卡</div>
+                            <div class="fl c1">卡号：{$result['gcard_number']}</div>
+                        </label>
+                        <label>
+                            <div class="fl"><input type="radio" id="no-gzj-card"  name="gzj_card" disabled value="2" required <?php if(empty($result['gcard_number'])) echo 'checked'; ?>>无公积金卡</div>
+                            <div class="fl c1">工本费：<span id="gzj-pro_cost">{$result.grule.rule.pro_cost|default=0}</span>元</div>
+                        </label>
+                    </div>
+                    <div class="subtotal">小计：<strong id="gzj-total"><?php echo $result['grule']['rule']['personSum'] + $result['grule']['rule']['companySum'] + (!empty($result['gcard_number'])?0:$result['grule']['rule']['pro_cost']); ?> 元/月</strong></div>
+                </div>
+                <div class="square">
+                    <label><input type="checkbox" id="czj-checkbox" class="buy-server" disabled name="czj_buy" <?php if(!empty($result['dtype']) && -9 != $result['dstate']) echo 'checked'; ?>/><if condition=" 1 eq I('get.type') ">购买残障金<else/>报减残障金</if><if condition="!empty($result['dstate']) || (0 == $result['dstate'] && null != $result['dstate'])">({$result.dstate|get_status_value="ServiceOrderDetailState",$result['ddetail_state']})</if></label>
+                </div>
+                <div class="subtotal disabled">残障金：<strong id="czj-total">{$result.drule.rule.price|default=0}元/月</strong></div>
+                <div class="total" id="all-total">总计：
+	                <?php 
+	                if((!empty($result['stype']) &&  $result['sstate'] != -9) && (!empty($result['gtype']) &&  $result['gstate'] != -9)){
+	                	echo ($result['srule']['rule']['total']['rules']['total'] + (!empty($result['scard_number'])?0:$result['srule']['rule']['pro_cost'])) + ($result['grule']['rule']['personSum'] + $result['grule']['rule']['companySum'] + (!empty($result['gcard_number'])?0:$result['grule']['rule']['pro_cost'])) + ((!empty($result['dtype']) &&  $result['dstate'] != -9)?$result['drule']['rule']['price']:0) + $result['orule']['rule']['price'];
+	                }elseif(!empty($result['stype']) &&  $result['sstate'] != -9){
+	                	echo ($result['srule']['rule']['total']['rules']['total'] + (!empty($result['scard_number'])?0:$result['srule']['rule']['pro_cost'])) + ((!empty($result['dtype']) &&  $result['dstate'] != -9)?$result['drule']['rule']['price']:0) + $result['orule']['rule']['price'];
+	                }elseif(!empty($result['gtype']) &&  $result['gstate'] != -9){
+	                	echo ($result['grule']['rule']['personSum'] + $result['grule']['rule']['companySum'] + (!empty($result['gcard_number'])?0:$result['grule']['rule']['pro_cost'])) + ((!empty($result['dtype']) &&  $result['dstate'] != -9)?$result['drule']['rule']['price']:0) + $result['orule']['rule']['price'];}else{echo '0';
+	                } ?>
+                元/月</div>
+            </div>
+        </form>
+    </div>
+</block>

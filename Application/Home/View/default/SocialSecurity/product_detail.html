@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Platform/head" />
+</head>
+<body class="bg-gray">
+    <include file="Platform/header_tool" />
+    <div class="detail-content">
+        <div class="commWidth">
+            <div class="detail-info clearfix">
+                <div class="fl">
+                    <img src="/Application/Home/Assets/img/platform/pro_detail_img.jpg" width="420" alt="" />
+                    <div class="detail-info-desc">
+                        <h3>{$result.serviceProductResult.name}-认证会员专享</h3>
+                        <?php  if($result['serviceProductResult']['service_type'] == 2){?>
+                        <dl class="info-desc-list">
+                            <dt>服务费</dt>
+                            <?php foreach($result['serviceProductResult']['servicePriceValue'] as $key=>$val){?>
+                            <dd><em><?php echo $val['service_price']; ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
+                            <?php } ?>                            
+                        </dl>                        
+                        <?php }else if($result['serviceProductResult']['service_type'] == 1){?>
+                        <dl class="info-desc-list">
+                            <dt>服务费</dt>                           
+                            <?php foreach($result['serviceProductResult']['servicePriceValue'] as $key=>$val){?>  
+                            <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+                            <?php } ?>
+                            </dl>
+                        <?php }?>
+
+                    <?php if($result['serviceProductResult']['service_price_state'] == 1){?>
+                        <dl class="pro-fee">
+                            <dt>套餐费</dt>
+                            <dd><em><?php echo $result['serviceProductResult']['member_price']; ?></em>元/年</dd>
+                        </dl>
+                    <?php }else{ if($result['serviceProductResult']['service_type'] == 1){?>
+                        <dl class="pro-fee">
+                            <dd><span class="fee-free">免套餐费</span></dd>
+                        </dl>
+                    <?php }}?>                        
+                    </div>
+                </div>
+                <div class="detail-info-relate fr">
+                	<div class="relate-list">
+                		<span><i class="icon header-users"></i>服务人数<em>{$result.serviceProductResult.service_num}</em>人</span>
+                	</div>
+                	<div class="relate-list">
+	                	<span><i class="icon header-citys"></i>服务城市</span>
+	                	<p class="relate-list-city">
+                        <?php $other_location = json_decode($result['serviceProductResult']['other_location'], true);?>
+                        <?php foreach($other_location as $key=>$val){?>
+	                		<a href="javascript:;"><?php echo showAreaName($val); ?></a>
+	                   <?php } ?>
+	                	</p>
+	                </div>
+                        <if condition="in_array($result['serviceProductResult']['service_type'],[1,3])">
+                            <a class="btn-buy" data-id="{:I('get.id')}" id="buy_now">立即购买</a>
+                        <else/>
+                            <a class="btn-buy" data-id="{:I('get.id')}" href="javascript:;" style="cursor:default">个人产品暂不支持购买</a>
+                        </if>
+	                    </div>
+            </div>
+            <div class="detail-wra clearfix">
+            	<div class="fl detail-intro">
+            		<h3>产品简介</h3>
+            		<div class="detail-intro-cnt">
+            			<p>{$result.serviceProductResult.product_detail|htmlspecialchars_decode}</p>
+            		</div>
+            	</div>
+            	<div class="fr">
+            		<div class="detail-about">
+            			<h4>公司简介</h4>
+            			<div class="detail-company">
+            				<div class="com-logo"><img src="{$result.companyInfoResult.service_logo}" width="120" align=""></div>
+            				<p class="com-name">{$result.companyInfoResult.company_name}</p>
+            				<p class="com-desc">{$result.companyInfoResult.company_introduction}...</p>
+            			</div>
+            		</div>
+            		<div class="detail-about">
+            			<h4 class="detail-recommend">最新资讯</h4>
+            			<ul class="detail-recommend-list">
+                        <volist name="result.serviceArticleResult" id="vo">
+            				<li><a href="{:U('ServiceArticle/articleInfo',['id'=>$vo['id'],'category_id'=>$vo['category_id'], 'cid'=> $Cid])}">【{$vo.category_id|get_category_title}】{$vo.title}</a></li>
+            				</volist>
+            			</ul>
+            		</div>
+            	</div>
+            </div>
+        </div>
+    </div>
+    <include file="Platform/footer_copyright" />
+    <script data-module="socialSecurity" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>
+</body>
+
+</html>

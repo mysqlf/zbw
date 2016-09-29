@@ -1,0 +1,160 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box overflow">
+        <div class="right_head">
+        	<h3 class="add_tit">参保人员记录</h3>
+        </div>
+        <div class="search_box clearfix">
+	        <form id="listForm" action="{:U('Company/Insurance/insurancePersonList')}">
+
+	        	<dl class="horizontal horizontal-2em">
+	        		<dt class="left">姓名</dt>
+	        		<dd class="right search-size2">
+	        			<input type="text" class="text x_text" value="{:I('get.personName')}" name="personName" placeholder="姓名">
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">身份证号</dt>
+	        		<dd class="right search-size4">
+	        			<input type="text" class="text x_text" value="{:I('get.cardNum')}" name="cardNum" placeholder="身份证号">
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">参保状态</dt>
+	        		<dd class="right search-size2">
+	        			<select class="select" name="type">
+			        		<option value="">全部</option>
+			        		<option value="0" <if condition="'0' eq I('get.type')">selected='selected'</if>>未参保</option>
+			        		<option value="1" <if condition="'1' eq I('get.type')">selected='selected'</if>>报增</option>
+			        		<option value="2" <if condition="'2' eq I('get.type')">selected='selected'</if>>在保</option>
+			        		<option value="3" <if condition="'3' eq I('get.type')">selected='selected'</if>>报减</option>
+			        		<option value="4" <if condition="'4' eq I('get.type')">selected='selected'</if>>停保</option>
+			        	</select>
+	        		</dd>
+	        	</dl>
+
+	        	<dl class="horizontal horizontal-3em">
+	        		<dt class="left">参保地</dt>
+	        		<dd class="right search-size2">
+	        			<select class="select" name="location">
+			        		<option value="">全部</option>
+			        		<if condition="$warrantyLocation">
+			        			<volist name="warrantyLocation" id="vo">
+			        				<option value="{$key}" <if condition="$key eq I('get.location')">selected='selected'</if>>{$vo}</option>
+			        			</volist>
+			        		</if>
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<input type="button" class="btn ms_btn btn_orange pull-left" value="查询" id="submitBtn">
+	        </form>
+
+        </div>
+        <div class="table_con">
+        	<table class="table text-center table_white">
+				<thead>
+		    		<tr>
+		                <th >姓名</th>
+		                <th class="idcard">身份证号码</th>
+		                <th>服务套餐</th>
+		                <th>参保地</th>
+		                <th>户口类型</th>
+		                <th>户口所在地</th>
+		                <th>项目</th>
+		                <th>基数</th>
+		                <th>起缴年月</th>
+		                <th>停缴年月</th>
+		                <th>类型</th>
+		                <th>操作</th>
+		            </tr>
+	            </thead>
+	            <tbody class="cal-content">
+	            	<if condition="!empty($result)">
+	            		<volist name="result" id="vo">
+	            			<tr <if condition="$i%2 eq 0">class="even_bg"</if> >
+								<td class="" rowspan="2">
+									<a href="{:U('Company/Insurance/insuranceDetail',array('baseId'=>$vo['base_id']))}" class="c-blue">{$vo.person_name}</a>
+								</td>
+								<td rowspan="2"> 
+									{$vo.card_num}
+								</td>
+								<td class="c-gray" rowspan="2">
+									<if condition="$vo['soc_product_name']">
+										{$vo.soc_product_name}
+										<if condition="$vo['socci_service_company_name']"><p>[{$vo.socci_service_company_name}]</p></if>
+									<elseif condition="$vo['pro_product_name']"/>
+										{$vo.pro_product_name}
+										<if condition="$vo['proci_service_company_name']"><p>[{$vo.proci_service_company_name}]</p></if>
+									</if>
+								</td>
+								<td class="c-gray" rowspan="2">
+									{$vo['socpiLocationValue']|default=$vo['propiLocationValue']}
+								</td>
+								<td class="c-gray" rowspan="2">
+									{//:get_residence_type($vo['residence_location'],$vo['socpi_location']?:$vo['propi_location'])}{$vo['residence_type']|get_code_value=###,"PersonBaseResidenceType",$vo['residence_type']}
+								</td>
+								<td class="c-gray" rowspan="2">
+									{$vo['residence_location']|showAreaName}
+								</td>
+								<td class="c-pink">
+									社保
+								</td>
+								<td class="c-gray">
+									{:(empty($vo['socpi_amount'])?'':$vo['socpi_amount'])}
+								</td>
+								<td class="c-gray">
+									{:(empty($vo['socpi_start_month'])?'':$vo['socpi_start_month'])}
+								</td>
+								<td class="c-gray" >
+									{:(empty($vo['socpi_end_month'])?'':$vo['socpi_end_month'])}
+								</td>
+								<td class="c-gray">
+									{$vo['socpi_state']|get_code_value=###,"PersonInsuranceState"}
+								</td>
+								<td class="c-gray" rowspan="2">
+									<a href="{:U('Company/Insurance/insuranceDetail',array('baseId'=>$vo['base_id']))}" class="c-blue">明细</a>
+									<if condition="2 eq $vo['socpi_state'] or 2 eq $vo['propi_state']">
+										<a class="c-gray sub_btn" data-baseid="{$vo['base_id']}">报减</a>
+									</if>
+									<if condition="(0 eq $vo['socpi_state'] || 4 eq $vo['socpi_state']) and (0 eq $vo['propi_state'] || 4 eq $vo['propi_state'])">
+										<a href="{:U('Company/Insurance/toIncrease',array('baseId'=>$vo['base_id']))}" class="c-gray">重新参保</a>
+									</if>
+								</td>
+							</tr>
+							<tr <if condition="$i%2 eq 0">class="even_bg"</if> >
+								<td class="c-green">
+									公积金
+								</td>
+								<td class="c-gray">
+									{:(empty($vo['propi_amount'])?'':$vo['propi_amount'])}
+								</td>
+								<td class="c-gray">
+									{:(empty($vo['propi_start_month'])?'':$vo['propi_start_month'])}
+								</td>
+								<td class="c-gray">
+									{:(empty($vo['propi_end_month'])?'':$vo['propi_end_month'])}
+								</td>
+								<td class="c-gray">
+									{$vo['propi_state']|get_code_value=###,"PersonInsuranceState"}
+								</td>
+							</tr>
+	            		</volist>
+	            	<else/>
+	            		<tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+	            	</if>
+	            </tbody>
+	            <tfoot>
+	            </tfoot>
+		    </table>
+		    <if condition="$page">
+			    <div class="page_box">
+			    	{$page}
+			    </div>
+		    </if>
+	        
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="insuranceList" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Insurance.bundle.js"></script>
+</block>

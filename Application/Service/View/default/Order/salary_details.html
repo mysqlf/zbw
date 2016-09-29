@@ -1,0 +1,125 @@
+<!-- 代发工资订单明细 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">付款明细<a href="javascript:history.go(-1);" class="btn btn-back">返回</a></h2>
+        <div class="pannel-details pannel-details-white clearfix">
+            <dl class="horizontal horizontal-8em col-4">
+                <dt class="left " style="width: auto">
+                    <span class="cred"><?php echo $_pay_type[$orderInfo['pay_type']]; ?></span>
+                    <span class="<?php if($orderInfo['state'] == 1) echo 'cgreen'; else echo 'cred'; ?> bold">
+                    <i class="icon <?php if($orderInfo['state'] == 1) echo 'icon-done'; else echo 'icon-fail'; ?>"></i><?php echo $_state[$orderInfo['state']]; ?>
+                    </span>
+                </dt>
+            </dl>
+
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    订单号：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['order_no']; ?>
+                </dd>
+            </dl>
+
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    付款方：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['company_name']; ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4 clear-l">
+                <dt class="left text-right c-gray">
+                    生成时间：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['create_time']; ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    付款时间：
+                </dt>
+                <dd class="right">
+                    <?php echo substr($orderInfo['pay_time'],0, 16); ?>
+                </dd>
+            </dl>
+            <dl class="horizontal horizontal-6em col-4">
+                <dt class="left text-right c-gray">
+                    银行流水号：
+                </dt>
+                <dd class="right">
+                    <?php echo $orderInfo['transaction_no']; ?>
+                </dd>
+            </dl>
+        </div>
+    </div>
+<?php if($result){ ?>
+    <div class="pannel-tbl">
+        <table class="table" summary="代发工资订单明细">
+            <colgroup>
+                <col width="8%" />
+                <col width="13%" />
+                <col width="8%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="8%" />
+                <col width="10%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="12%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>身份证号码</th>
+                    <th>服务套餐</th>
+                    <th>银行</th>
+                    <th>卡号</th>
+                    <th>工资年月</th>
+                    <th>实发工资</th>
+                    <th>个人所得税</th>
+                    <th>服务费</th>
+                    <th>合计</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $total = 0; foreach($result as $k=>$v){ ?>
+                <tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+                    <td><?php echo $v['person_name'];?></td>
+                    <td><?php echo $v['card_num'];?></td>
+                    <td><?php echo $v['product_name'];//showAreaName($v['location']);?></td>
+                    <td><?php echo $v['bank'];?></td>
+                    <td><?php echo $v['account'];?></td>
+                    <td><?php echo $v['date'];?></td>
+                    <td class="cbluelg"><?php echo moneyNumberformat($v['actual_salary']);?></td>
+                    <td class="cbluelg"><?php echo moneyNumberformat($v['tax']);?></td>
+                    <td class="cbluelg"><?php echo moneyNumberformat($v['service_price']);?></td>
+                    <td class="cgray"><?php $line_total = $v['actual_salary'] + $v['service_price'] + $v['tax']; echo moneyNumberformat($line_total); $total = $total+$line_total;?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <div class="bill-check">
+            <div class="check-amount">
+                <p class="amount-due">应付金额：<span>¥&nbsp;<em><?php echo $orderInfo['amount']; ?></em>&nbsp;</span>元<?php //echo $total;?></p>
+
+                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo $orderInfo['actual_amount'] == 0.00 ? $orderInfo['amount'] : $orderInfo['actual_amount']; ?></em>&nbsp;</span>元</p>
+            </div>
+            <!--1线上支付 2线下支付 -->
+         <?php if($orderInfo['pay_type'] != 1 && $orderInfo['state'] != 1){?>
+            <button type="button" class="btn-bill" data-act="confirm_money" data-id="<?php echo $orderInfo['id']; ?>" data-type="<?php echo $orderInfo['type']; ?>"  data-paytype="2" <?php if($orderInfo['state'] == 1) echo 'disabled'; ?>>确认到款</button>
+            <?php } ?>
+        </div>
+         <div class="pagination"><?php echo $result['page']; ?></div>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录---</span>
+    <?php } ?>   
+</block>
+<!-- 用于加载js代码 -->
+<block name="script">
+    <script type="text/javascript" data-init="order" src="/Application/Service/Assets/js/dist/order.bundle.js"></script>
+</block>

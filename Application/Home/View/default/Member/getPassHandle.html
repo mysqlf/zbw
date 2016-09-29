@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{:C('WEB_SITE_TITLE')}-找回密码</title>
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/stylesheets/base.css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/css/stylesheets/main.css">
+</head>
+<body>
+	<div class="reg-process">
+		<a href="/index-index.html">
+			<h2>
+				<p>企业找回密码</p>
+			</h2>
+		</a>
+		<div class="reg-process-content">
+			<div class="post-mail clearOver">账号的关联邮箱为： <i>{$firm_email|hideCard=###,6}</i><br/><!-- 09绑定微信-02邮箱找回 -->
+				<!-- <a class="kong-button" href='{:U("Member/sendEmailPassword")}?email={$firm_email}&id={$firm_id}'>发送找回邮件</a> -->
+				<a class="kong-button" href='javascript:sendEmail("{$firm_email}",{$firm_id})'>发送找回邮件</a>
+			</div>
+		</div>
+	</div>
+<include file="Public/footer" />
+<script src="__PUBLIC__/Home/js/layer.js"></script>
+<script src="/Public/Home/js/getpasshandle.js"></script>

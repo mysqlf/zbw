@@ -1,0 +1,212 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">企业产品详情</h2></div>
+    <form class="form-inline comProductDetail clearfix2" id="comProductDetail">
+    <a href="javascript:history.go(-1);" class="btn btn-border pull-right" style="margin-bottom: 30px;">返回</a>
+	  <div class="form-group col-xs-12">
+	  	<div class="col-md-6 col-lg-5">
+	  		<label class="label-left vertical-top">产品名称：</label>
+		    <div class="inline-block"><input type="text" class="form-control" placeholder="" name="name" value="{$result.name}"></div>
+	  	</div>
+		<div class="col-md-6 col-lg-7">
+			<label class="w-5em vertical-top">产品对象：</label>
+		    <div class="inline-block">
+                <?php if(empty($result)):?>
+
+                <select id="J_service-type" class="form-control w-select"  name="service_type">
+	                <option value="">请选择</option>
+	                <option  value="1" <?php if($result['service_type'] == 1) echo 'selected';?>  >企业</option>
+	                <option value="2" <?php if($result['service_type'] == 2) echo 'selected';?> >个人</option>
+	                <option value="3" <?php if($result['service_type'] == 3) echo 'selected';?> >企业体验</option>
+                </select>
+                <?php else:?>
+                <?php  if($result['service_type'] == 1) echo '企业'; if($result['service_type'] == 2) echo '个人'; if($result['service_type'] == 3) echo '企业体验';?>
+                <input type="hidden" name="service_type" value="{$result.service_type}">
+                <?php endif;?>
+            </div>
+		</div>
+	  </div>
+
+	  <div id="J-product-type">
+          <?php if($result['service_type'] == 1):?>
+          <div class="form-group  col-xs-12">
+              <div class="col-md-6 col-lg-5">
+                  <label class="label-left vertical-top" for="">会员费：</label>
+                  <div class="inline-block">
+                      <input name="member_price" class="form-control w-select" type="text" value="{$result.member_price}"> 元
+                      <label class="gutter-left">
+                          <input class="icheck" name="no_member_price" type="radio" value="0" <?php if($result['member_price'] == 0) echo 'checked';?> >
+                          免会员费
+                      </label>
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-7">
+                  <label for="" class="w-5em vertical-top">期限：</label>
+                  <div class="inline-block">
+                      <select class="form-control" name="validity[]">
+                          <option value="">请选择</option>
+                          <?php for($i = 1;$i<=12;$i++){ ?>
+                          <option value="{$i}" <?php if($result['service_price'][0]['validity'] == $i) echo 'selected';?> > {$i}</option>
+                          <?php }?>
+                      </select> 个月
+                  </div>
+              </div>
+
+          </div>
+          <div class="form-group  col-xs-12">
+              <div class="col-md-6 col-lg-5">
+                  <label class="label-left vertical-top">服务费：</label>
+                  <input name="service_price[]" class="form-control w-select" type="text" value="{$result.service_price.0.service_price}">
+                  元/月.人
+              </div>
+          </div>
+          <?php elseif($result['service_type'] == 2):?>
+          <div class="J_server-box">
+              <div class="form-group  col-xs-12">
+                  <div class="serviceFee">
+                      <?php if(!empty($result['service_price'])):?>
+                        <volist name="result.service_price" id="v">
+                      <div class="col-md-6 col-lg-5">
+                          <label class="label-left vertical-top" for="">服务费：</label>
+                          <div class="inline-block">
+                              <input name="service_price[]" class="form-control w-select" type="text" value="{$v.service_price}"> 元
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-lg-7">
+                          <label for="" class="w-5em vertical-top">期限：</label>
+                          <div class="inline-block">
+                              <select class="form-control" name="validity[]">
+                                  <option value="">请选择</option>
+                                  <?php for($i = 1;$i<=12;$i++){ ?>
+                                  <option value="{$i}" <?php if($v['validity'] == $i) echo 'selected';?> > {$i}</option>
+                                  <?php }?>
+                              </select> 个月
+                          </div>
+                          <a class="remove-icon" href="javascript:;" data-act="removeFee">删除</a>
+                          <a class="btn btn-primary gutter-left" href="javascript:;" data-act="addServiceFee">添加</a>
+                      </div>
+                        </volist>
+                      <?php else:?>
+                      <div class="col-md-6 col-lg-5">
+                          <label class="label-left vertical-top" for="">服务费：</label>
+                          <div class="inline-block">
+                              <input name="service_price[]" class="form-control w-select" type="text" value=""> 元
+                          </div>
+                      </div>
+                      <div class="col-md-6 col-lg-7">
+                          <label for="" class="w-5em vertical-top">期限：</label>
+                          <div class="inline-block">
+                              <select class="form-control" name="validity[]">
+                                  <option value="">请选择</option>
+                                  <?php for($i = 1;$i<=12;$i++){ ?>
+                                  <option value="{$i}" > {$i}</option>
+                                  <?php }?>
+                              </select> 个月
+                          </div>
+                          <a class="remove-icon" href="javascript:;" data-act="removeFee">删除</a>
+                          <a class="btn btn-primary gutter-left" href="javascript:;" data-act="addServiceFee">添加</a>
+                      </div>
+                      <?php endif;?>
+                  </div>
+              </div>
+          </div>
+          <?php elseif($result['service_type'] == 3):?>
+          <div class="form-group  col-xs-12">
+              <div class="col-md-6 col-lg-5">
+                  <label class="label-left vertical-top" for="">会员费：</label>
+                  <div class="inline-block">
+                      免服务费
+                  </div>
+              </div>
+              <div class="col-md-6 col-lg-7">
+                  <label for="" class="w-5em vertical-top">期限：</label>
+                  <div class="inline-block">
+                      <select class="form-control" name="validity[]">
+                          <option value="">请选择</option>
+                          <?php for($i = 1;$i<=12;$i++){ ?>
+                          <option value="{$i}" <?php if($result['service_price'][0]['validity'] == $i) echo 'selected';?> > {$i}</option>
+                          <?php }?>
+                      </select> 个月
+                  </div>
+              </div>
+          </div>
+            <?php endif;?>
+
+	  </div>
+	  <div class="form-group  col-xs-12">
+		<div class="col-xs-12">
+			<label for="" class="label-left vertical-top">主服务城市：</label>
+  			<div class="inline-block cityList">
+	    		<input id="city" type="text" class="form-control J_city-txt" name="city" value="<?php echo showAreaName($result['location']);?>">
+	    		<input class="J_location" type="hidden" name="location" value="{$result.location}">
+  			</div>
+		</div>
+	</div>
+	<div class="form-group  col-xs-12">
+		<div class="col-xs-12">
+			<label class="label-left vertical-top pull-left">覆盖服务城市：</label>
+	  		<div class="J_other-city" style="margin-left: 7em;">
+                <?php if(!empty($result['other_location'])):?>
+                <volist name="result.other_location" id="v">
+	  			<div class="cityList">
+	  				<input type="text" class="form-control J_city-txt" name="other_city[]" value="<?php echo showAreaName($v);?>" >
+					<input class="J_location" type="hidden" name="other_location[]" value="{$v}">
+					<a class="remove-icon" href="javascript:;" data-act="removeCity">删除</a>
+	  			</div>
+                </volist>
+                <?php else:?>
+                <div class="cityList">
+                    <input type="text" class="form-control J_city-txt" name="other_city[]" value="" required>
+                    <input class="J_location" type="hidden" name="other_location[]" value="">
+                    <a class="remove-icon" href="javascript:;" data-act="removeCity">删除</a>
+                 </div>
+                <?php endif;?>
+	  			<a class="btn btn-primary gutter-left pull-left" href="javascript:;" data-act="addCity">添加</a>
+	  		</div>
+		</div>
+	</div>
+	  <div class="form-group col-xs-12">
+	  	<div class="col-xs-12">
+	  		<label for="" class="label-left vertical-top">产品详情：</label>
+	  		<div class="inline-block">
+	  			<script id="editor" type="text/plain" style="width:850px;height:400px;" name="product_detail">
+	  				<?php echo stripcslashes(htmlspecialchars_decode($result['product_detail']));?>
+	  			</script>
+	  		</div>
+	  	</div>
+	  </div>
+	  <div class="form-group col-xs-12">
+	  	<div class="col-xs-12">
+	  		<label for="" class="label-left vertical-top">付款说明：</label>
+	  		<div class="inline-block"><script id="editor2" type="text/plain" style="width:850px;height:400px;" name="payment_detail"><?php echo stripcslashes(htmlspecialchars_decode($result['payment_detail']));?></script></div>
+	  	</div>
+	  </div>
+	  <div class="form-group col-xs-12">
+	  	<div class="col-xs-12">
+	  		<label for="" class="label-left vertical-top"></label>
+	  		<div class="inline-block status">
+	  			<label>
+	  				<input class="icheck" type="radio" name="state" value="1" <?php if( ($result['state'] == 1 && isset($result['state'])) || !isset($result['state'])) echo 'checked';?>> 发布中
+	  			</label>
+	  			<label>
+	  				<input class="icheck" type="radio" name="state" value="0" <?php if($result['state'] == 0 && isset($result['state'])) echo 'checked';?>> 下架
+	  			</label>
+	  		</div>
+	  	</div>
+	  </div>
+        <input type="hidden" name="product_id" value="{$result.id}">
+	  <div class="form-group col-xs-12">
+	  	<div class="col-xs-12">
+	  		<label for="" class="label-left vertical-top"></label>
+	  		<div class="inline-block"><input type="submit" value="确 定" class="btn sure"></div>
+	  	</div>
+	  </div>
+	</form>
+</block>
+<block name="script">
+	
+	<script type="text/javascript" src="/Application/Service/Assets/js/src/plug/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" src="/Application/Service/Assets/js/src/plug/ueditor/ueditor.all.min.js"></script>
+    <script data-init="comProductDetail" type="text/javascript" src="/Application/Service/Assets/js/dist/product.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

@@ -1,0 +1,57 @@
+<include file="Public/_headPlatform" />
+	<div class="help-banner"></div>
+	<div class="wrapper clearfix">
+		<div class="help-side fl">
+			<div class="hot-line helper-hot_ol"></div>
+			<h4>欢迎咨询</h4>
+			<volist name="serviceAdminResult" id="vo">
+				<a class="help-qq" href="tencent://message/?uin={$vo.qq}&Site=www.bao5156.com&Menu=yes"  title="{$vo.name}">
+					<i class="icon helper-qq"></i>
+					<span class="txt" >
+						{$vo.name|msubstr=###,0,10}
+					</span>
+				</a>
+			</volist>
+
+			<div class="help-ewm helper-help_ewm">
+				<img src="/Application/Home/Assets/img/help_ewm.png" alt="">
+				<span class="txt">关注智保易微信号</span>
+			</div>
+		</div>
+		<div class="help-content fr">
+			<h3 class="title no-border"><i class="fl icon helper-server"></i>自助服务</h3>
+			<div class="clearfix auto-server-box">
+				<div class="item col-4">
+					<a href="/Member-getBackPass" title="找回登录密码">
+						<i class="icon helper-getBackPsw"></i>
+						<span class="txt">找回登录密码</span>
+					</a>
+				</div>
+				<div class="item col-4">
+					<a href="{:U('Company/Account/companyUserInfo')}" title="修改登录密码">
+						<i class="icon helper-modifyPsw"></i>
+						<span class="txt">修改登录密码</span>
+					</a>
+				</div>
+				<div class="item col-4">
+					<a href="{:U('Company/Account/companyInfo')}" title="修改登录密码">
+						<i class="icon helper-completeInfo"></i>
+						<span class="txt">完善企业资料</span>
+					</a>
+					
+				</div>
+			</div>
+			<h3 class="title"><i class="fl icon helper-qt"></i>常见问题</h3>
+			<ul class="collapse-box">
+				<volist name="list" id="vo" key="i">
+					<li class="collapse-item <if condition='$i eq 1'>active</if>">
+						<h3 class="article-title collapse-title"><span class="dot">▪</span> {$vo.title}</h3>
+						<div class="help-text collapse-content" >{$vo.content|htmlspecialchars_decode=###}
+						</div>
+					</li>
+				</volist>
+			</ul>
+		</div>
+	</div>
+<include file="Public/_footer"/>
+<script data-module="help" data-methods="collapse" src="/Application/Home/Assets/js/dist/helpCenter.bundle.js"></script>

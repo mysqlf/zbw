@@ -1,0 +1,34 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/salary.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">信息通知</span>
+    </div>
+    <div class="salaryList">
+        <ul class="msg-list clearOver">
+            <if condition="empty($list)">
+                未找到符合条件的记录
+            <else/>
+	            <volist name="list" id="msg">
+	                <li class="jcheck" data-id="{$msg.id}">
+	                    <a href="javascript:;"
+	                       <if condition = "$msg.state eq 0">
+	                           class="orgColor
+	                       </if>
+	                       ">* {$msg.title}</a>
+	                    <span class="fr">{$msg.create_time}</span>
+	                    <div class="fl detail zbhide"></div>
+	                </li>
+	            </volist>
+            </if>
+        </ul>
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="message" src="/Application/static/Home/js/dist/service.bundle.js"></script>
+</block>

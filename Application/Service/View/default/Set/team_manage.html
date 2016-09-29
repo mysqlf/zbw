@@ -1,0 +1,81 @@
+<!-- 团队管理 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title">团队管理</h2>
+        <div class="buttons">
+            <button type="button" class="btn btn-addTeam" data-act="add_team"><i class="icon icon-add-white"></i>新增账号</button>
+        </div>
+    </div>
+    <div class="pannel-tbl">
+        <?php if(!empty($result['result'])):?>
+        <form id="teamManage">
+            <table summary="团队管理">
+            	<colgroup>
+            		<col width="12%" />
+            		<col width="14%" />
+            		<col width="12%" />
+            		<col width="12%" />
+            		<col width="12%" />
+            		<col width="12%" />
+            		<col width="12%" />
+            		<col width="14%" />
+            	</colgroup>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>账号</th>
+                        <th>角色</th>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>QQ</th>
+                        <th>账号状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="result.result" id="vo">
+                        <tr class="payroll-item <?php if(($key+1)%2==0) echo 'tr-bg'; ?>">
+                            <td class="cgray">{$vo.id}</td>
+                            <td>{$vo.username}</td>
+                            <td class="cgray">
+                                <?php echo adminState()['group'][$vo['group']] ;?>
+                            </td>
+                            <td class="cgray">
+                                {$vo.name}
+                            </td>
+                            <td class="cgray">
+                                {$vo.telphone}
+                            </td>
+                            <td>
+                                656848349
+                            </td>
+                            <td>
+                                <?php if($vo['state'] == 1) :?>
+                                <span class="status text-primary"><?php echo adminState()['adminstate'][$vo['state']] ;?></span>
+                                <?php else :?>
+                                <span class="status text-warning"><?php echo adminState()['adminstate'][$vo['state']] ;?></span>
+                                <?php endif;?>
+                            </td>
+                            <td>
+                                <a href="javascript:;" class="tbl-handle" data-id="{$vo.id}" data-act="editTeam">编辑 </a>
+                                <a href="javascript:;" class="tbl-handle" data-id="{$vo.id}" data-act="remove_team">删除 </a>
+                            </td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+            <div class="pagination">
+                {$result.page}
+            </div>
+        </form>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="interact" src="/Application/Service/Assets/js/dist/interact.bundle.js"></script>
+    <script type="text/javascript" data-init="team_manage" src="/Application/Service/Assets/js/dist/set.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

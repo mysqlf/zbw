@@ -1,0 +1,85 @@
+<!-- 个人客户列表 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <div class="accountInfo-title">
+            <h2 class="cnt-title inline-block">个人客户列表</h2>
+        </div>
+        <div class="query-form">
+            <form accept="" method="GET">
+                <div class="query-item fl">
+                    <label class="query-lb" for="">姓名</label>
+                    <div class="ipt-box">
+                        <input type="text" name="person_name" class="ipt w-small ellipsis" value="<?php if($_GET['person_name']) echo $_GET['person_name']; ?>" />
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="">身份证号</label>
+                    <div class="ipt-box">
+                        <input type="text" name="card_num" class="ipt w-normal ellipsis" value="<?php if($_GET['card_num']) echo $_GET['card_num']; ?>" />
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="">参保地</label>
+                    <div class="ipt-box">
+                        <input type="text" name="location" class="ipt w-normal ellipsis" value="<?php if($_GET['location']) echo $_GET['location']; ?>" />
+                    </div>
+                </div>
+                <button type="submit" class="btn-query fl">查询</button>
+            </form>
+            <a  href="javascript:;" class="btn btn-export fr">导出</a>
+        </div>
+    </div>
+     <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+        <table summary="个人客户列表">
+            <colgroup>
+                <col width="9%" />
+                <col width="14%" />
+                <col width="12%" />
+                <col width="10%" />
+                <col width="11%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="10%" />
+                <col width="10%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>身份证号</th>
+                    <th>所在地</th>
+                    <th>户口性质</th>
+                    <th>手机号码</th>
+                    <th>消费金额</th>
+                    <th>差额总计</th>
+                    <th>客服</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {$result.name}
+                        <input type="hidden" value="{$result.id}" />
+                    </td>
+                    <td>{$result.card_num}</td>
+                    <td>{$result.residence_location|ShowAreaName}</td>
+                    <td><?php $residenceType[$result['residence_type']]; ?></td>
+                    <td>{$result.mobile}</td>
+                    <td>{$result.price}</td>
+                    <td>{$result.diff_amount}</td>
+                    <td>{$result.admin_id|serviceAdminName}</td>
+                    <td><a href="javascript:;" data-act="set_service">设定客服</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+        <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>   
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="customer" src="__ASSETS__/js/dist/customer.bundle.js"></script>
+</block>

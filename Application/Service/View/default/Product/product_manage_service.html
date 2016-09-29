@@ -1,0 +1,77 @@
+<!-- 增值服务 -->
+<extend name="Base/common" />
+<block name="body">
+	<div class="pannel-hd">
+		<h2 class="cnt-title">增值服务</h2>
+		<div class="buttons">
+			<a href="javascript:;"  class="btn btn-border" data-act="add_product"><i class="icon icon-add-gray"></i>添加产品</a>
+		</div>
+	</div>
+    <div class="pannel-tbl">
+        <?php if(!empty($result['result'])):?>
+	    <table summary="增值服务">
+			<colgroup>
+				<col width="8%" />
+				<col width="12%" />
+				<col width="14%" />
+				<col width="18%" />
+				<col width="12%" />
+				<col width="12%" />
+				<col width="12%" />
+				<col width="12%" />
+			</colgroup>
+	        <thead>
+	            <tr>
+	                <th width="10%">
+	                    编号
+	                </th>
+	                <th>服务商</th>
+	                <th>产品名称</th>
+	                <th>产品内容</th>
+	                <th>联系QQ</th>
+	                <th>添加时间</th>
+	                <th>是否显示</th>
+	                <th class="opt-td" width="12%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+                <volist name="result.result" id="vo">
+	            <tr class="<?php if(($key+1)%2==0) echo 'tr-bg'; ?>">
+	                <td>
+	                    {$vo.id}
+	                </td>
+	                <td class="cgray">
+	                    {$vo.company_name}
+	                </td>
+	                <td class="cgray">{$vo.product_name}</td>
+	                <td class="cgray">
+	                    {$vo.content}
+	                </td>
+	                <td>{$vo.qq}</td>
+	                <td>{$vo.create_date}</td>
+	                <td>
+	                   <?php echo adminState()['add_service_state'][$vo['state']]?>
+	                </td>
+	                <td>
+	                    <a href="javascript:;" class="tbl-handle" data-act="edit" data-service_id="{$vo.id}">编辑 </a>
+	                    <a href="javascript:;" class="tbl-handle" data-act="del" data-service_id="{$vo.id}">删除 </a>
+	                </td>
+	            </tr>
+                </volist>
+	        </tbody>
+	    </table>
+        <div class="pagination">
+            {$result.page}
+        </div>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript" src="__ASSETS__/js/modules/area.js"></script>
+	<script type="text/javascript" data-module="productManageService" src="__ASSETS__/js/dist/package.bundle.js"></script>
+
+</block>
+<!-- 用于加载js代码 -->

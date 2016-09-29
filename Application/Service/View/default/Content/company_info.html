@@ -1,0 +1,46 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title inline-block">企业介绍</h2>
+    </div>
+
+    <form action="{:U('Article/update')}" method="post">
+        <input type="hidden" name="id" value="<?php if($result['id']) echo $result['id']; ?>">
+        <input type="hidden" name="category_id" value="0">
+        <input type="hidden" name="company_info" value="1">
+
+        <div class="pannel-detail clearfix z-index1000">
+            <dl class="horizontal horizontal-5em fl">
+              <dt class="left text-right">关键字：</dt>
+              <dd class="right size2">
+                    <input class="ipt" type="text" name="keyword" required value="<?php if($result['keyword']) echo $result['keyword']; ?>">
+              </dd>
+            </dl>
+        </div>
+        <h3 class="pannel-detail-title">内容：</h3>
+        <div class="clear-l" style="padding-bottom: 20px;">
+            <script id="editor" type="text/plain" style="height:400px;" name="content" required>
+            <?php if($result['content']) echo htmlspecialchars_decode($result['content']); ?>
+            </script>
+        </div>
+
+        <h3 class="pannel-detail-title">描述：</h3>
+        <div class="clearfix">
+             <textarea class="textarea" name="description" required maxlength="500"><?php if($result['description']) echo $result['description']; ?></textarea>
+        </div>
+
+        <div class="clear-l text-center">
+            <input id="J_submit-btn" class="btn btn-submit detail-btn-mt" type="button" value="发布">
+        </div>
+
+    </form>
+</block>
+<block name="script">
+    <script src="__ASSETS__/js/plug/ueditor/ueditor.config.js"></script>
+    <script src="__ASSETS__/js/plug/ueditor/ueditor.all.min.js"></script>
+    <script src="__ASSETS__/js/plug/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">var UEeditor = UE.getEditor('editor');</script>
+    <script data-init="updateArticle" src="__ASSETS__/js/dist/content.bundle.js"></script>
+
+</block>
+<!-- 用于加载js代码 -->

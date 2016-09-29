@@ -1,0 +1,98 @@
+<div class="form-item">
+	<div class="table-striped " style="width: 800px; overflow: hidden; height: auto;">
+		<table width="800" >
+			<tr>
+				<td width="20">&nbsp;</td>
+				<td width="100" align="center">基数范围</td>
+				<td width="50"><input type="text" name="gjj[min]" class="text input-small" value="{$gjj_rule.min}" disabled="disabled"></td>
+				<td width="20"  align="center">~</td>
+				<td width="50"><input type="text" name="gjj[max]" class="text input-mid" value="{$gjj_rule.max}" disabled="disabled"></td>
+				<td >&nbsp;</td>
+				<td width=""><a href="javascript:modifyGjj({$Think.get.template_id})" class="btn">修改</a><!-- <div class="btn  hidden fl synch" data-type="2" >同步调整基数</div> --></td>
+			</tr>
+		</table> 
+		<table width="800">
+			<tr style="background-color: #ffffff;">
+				<td width="20"></td>
+				<td width="100" align="center">单位比例</td>
+				<td width="80" align="right">
+					<select name="gjj_com_scale" class="input-small scale_gjj" id="gjj_com_scale" disabled="disabled">
+						<option value="1">固定比例</option>
+						<option value="5" <if condition="is_array($gjj_rule['company'])">selected="selected"</if> >比例范围</option>
+					</select>
+				</td>
+				<td class="gjj_com">
+					<table>
+						<if condition="is_array($gjj_rule['company'])">
+							<tr>
+								<td width="10"></td>
+							    <td width="50"><input type="text" name="gjj[company][]" class="text input-mid" value="<?php echo $gjj_rule['company'][0]; ?>"  onKeyUp="value=value.replace(/[^\\d\\.]/g,'')" onafterpaste="value=value.replace(/[^\\d\\.]/g,'')"  maxlength="10" disabled="disabled"></td>
+							    <td width="20" align="center">~</td>
+							    <td width="50"><input type="text" name="gjj[company][]" class="text input-mid" value="<?php echo $gjj_rule['company'][1]; ?>"  onKeyUp="value=value.replace(/[^\\d\\.]/g,'')" onafterpaste="value=value.replace(/[^\\d\\.]/g,'')"  maxlength="10" disabled="disabled"></td>
+							    <td>%</td>
+							</tr>
+						<else/>
+					    	<tr>
+					    		<td width="10"></td>
+							    <td width="150" ><input type="text" name="gjj[company]" class="text input-mid" value="<?php echo $gjj_rule['company']; ?>"  onKeyUp="value=value.replace(/[^\d\,]/g,'')" onafterpaste="value=value.replace(/[^\d\,]/g,'')"  maxlength="20" disabled="disabled"></td>
+							    <td></td>
+							    <td width="20" align="center">%</td>
+							    <td width="">如是多个固定值，请用英文逗号隔开</td>
+					    	</tr>
+						</if>
+					</table>
+				</td>
+			</tr>
+			<tr style="background-color: #ffffff;">
+			    <td width="20"></td>
+			    <td width="100" align="center">个人比例</td>
+			    <td width="80" align="right">
+					<select name="gjj_per_scale" class="input-small" id="gjj_person_scale" disabled="disabled">
+						<option value="1">固定比例</option>
+						<option value="5" <if condition="is_array($gjj_rule['person'])">selected="selected"</if> >比例范围</option>
+		    		</select>
+			    </td>
+			    <td class="gjj_person">
+				    <table width="127%" style="background-color: transparent;">
+						<if condition="is_array($gjj_rule['person'])">
+							<tr>
+								<td width="10"></td>
+							    <td width="50"><input type="text" name="gjj[person][]" class="text input-mid" value="<?php echo $gjj_rule['person'][0]; ?>"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" disabled="disabled"></td>
+							    <td width="20" align="center">~</td>
+							    <td width="50"><input type="text" name="gjj[person][]" class="text input-mid" value="<?php echo $gjj_rule['person'][1] ;?>"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" disabled="disabled"></td>
+							    <td>%</td>
+							</tr>
+						<else/>
+					    	<tr>
+					    		<td width="10"></td>
+							    <td width="150" ><input type="text" name="gjj[person]" class="text input-mid" value="<?php echo $gjj_rule['person']; ?>"  onKeyUp="value=value.replace(/[^\d\,]/g,'')" onafterpaste="value=value.replace(/[^\d\,]/g,'')"  maxlength="20" disabled="disabled"></td>
+							    <td></td>
+							    <td width="20"  align="center">%</td>
+							    <td width="">如是多个固定值，请用英文逗号隔开</td>
+					    	</tr>
+						</if>
+				    </table>
+			    </td>
+			</tr>
+			<tr style="background-color: #ffffff;">
+				<td width="20">&nbsp;</td>
+			    <td width="100" align="center">公积金卡工本费</td>
+			    <td width="50"><input type="text" class="text input-small" name="gjj[pro_cost]" value="<?php echo $gjj_rule['pro_cost'] ?>"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" disabled="disabled"/></td>
+			    <td  width="20"  align="left">元/人</td>
+			    <!--<td width="50"></td>
+			    <td >&nbsp;</td>
+			    <td width=""></td>-->
+			</tr>
+			<tr style="background-color: #ffffff;">
+				<td width="20">&nbsp;</td>
+			    <td width="100" align="center">是否取整</td>
+			    <td width="50"><input type="checkbox"   disabled="disabled" <if condition="$gjj_rule['intval'] eq 1"> checked="checked"</if>/></td>
+			    <td  width="20"  align="left">	</td>
+			    <!--<td width="50"></td>
+			    <td >&nbsp;</td>
+			    <td width=""></td>-->
+			</tr>
+		</table>
+	</div>
+</div>
+	 

@@ -1,0 +1,20 @@
+.comInfo{
+	padding:20px;
+	padding-left: 100px;
+	h2{
+		margin-bottom: 50px;
+		font-size: 20px;
+		font-weight: 900;
+		span{
+			margin-left: 20px;
+			font-size: 14px;
+			font-weight: 100;
+		}
+	}
+	ul li{
+		a.btn-primary{
+			margin-left: 60px;
+		}
+		line-height: 38px;
+	}
+}

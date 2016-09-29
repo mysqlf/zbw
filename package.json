@@ -1,0 +1,66 @@
+{
+  "name": "zhitong",
+  "description": "前端文件结构",
+  "version": "0.5.3",
+  "keywords": [
+    "css",
+    "fonts",
+    "ios",
+    "android",
+    "mobile",
+    "prototype"
+  ],
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^0.9.1",
+    "file-loader": "^0.8.5",
+    "html-webpack-plugin": "^2.8.1",
+    "style-loader": "^0.13.0",
+    "tpl-html-loader": "^1.2.3",
+    "tpl-loader-ie8": "^8.5.4",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-imagemin": "^0.9.4",
+    "grunt-contrib-uglify": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-qunit": "^0.7.0"
+  },
+  "engines": {
+    "node": ">=3.3.9"
+  },
+  "dependencies": {
+    "art-template": "^3.0.3",
+    "babel-core": "^6.7.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-runtime": "^6.6.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "bootstrap-select": "^1.10.0",
+    "css-loader": "^0.23.1",
+    "es5-shim": "^4.5.8",
+    "file-loader": "^0.8.5",
+    "grunt": "^0.4.5",
+    "icheck": "^1.0.2",
+    "jquery": "^1.11.1",
+    "jquery-datetimepicker": "^2.5.1",
+    "jquery-validation": "^1.15.0",
+    "mockjs": "^1.0.1-beta2",
+    "select2": "^4.0.3",
+    "url-loader": "^0.5.7",
+    "vue-hot-reload-api": "^1.3.2",
+    "webpack-dev-server": "^1.14.1",
+    "webuploader": "^0.1.8"
+  }
+}

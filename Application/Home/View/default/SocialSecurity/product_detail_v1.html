@@ -1,0 +1,77 @@
+<!-- 产品详情 -->
+<include file="Public/_head" />
+<div class="detail_con">
+	<div class="detail_box clearfix wrapper">
+		<div class="detail_text">
+			<div class="head_line">
+				{$result.serviceProductResult.name}
+			</div>
+			<div class="text_con">
+				<div class="price_box clearfix">
+					<div class="left_con">
+						<div class="left_txt">
+							<span>服务费</span>
+							<div class="price_txt clearfix">
+								<if condition="$result['serviceProductResult']['servicePriceValue']">
+									<volist name="result.serviceProductResult.servicePriceValue" id="vo">
+										<span class="sigle_txt"><i>￥</i><em>{$vo.service_price}</em>/月<span>.</span>人</span>
+									</volist>
+								</if>
+							</div>
+							<p class="c-green">
+								<if condition="0 lt $result['serviceProductResult']['member_price'] && 0 neq $result['serviceProductResult']['service_price_state']">
+									{$result['serviceProductResult']['member_price']|number_format=2,'.',','}
+								<else/>
+									免套餐费
+								</if>
+							</p>
+							<div class="location_box">
+								<label>服务城市：</label>
+								<volist name="result.serviceProductResult.serviceLocationValue" id="vo">
+									<span>{$vo}</span>
+								</volist>
+							</div>
+						</div>
+						
+					</div>
+					<div class="right_con">
+						<if condition="in_array($result['serviceProductResult']['service_type'],[1,3])">
+							<a class="button buttonOrange btn-submit" data-id="{:I('get.id')}" id="buy_now">立即购买</a>
+						<else/>
+							<a class="button buttonOrange btn-submit" data-id="{:I('get.id')}" href="javascript:;" style="cursor:default">个人产品暂不支持购买</a>
+						</if>
+					</div>
+				</div>
+				<div class="detail_intro">
+				
+					{$result.serviceProductResult.product_detail|html_entity_decode}
+				</div>
+			</div>
+		</div>
+		<div class="detail_list">
+			<div class="list_con">
+				<img src="{$result.companyInfoResult.service_logo}" class="list_logo">
+				<div class="list_txt">{$result.companyInfoResult.company_name}</div>
+				<p>
+					{$result.companyInfoResult.company_introduction}
+				</p>
+			</div>
+			<div class="list_con">
+				<div class="list_tit">
+					 最新资讯
+				</div>
+				<ul>
+					<if condition="$result['serviceArticleResult']">
+						<volist name="result.serviceArticleResult" id="vo">
+							<li class="text-overflow"><a  href="{:U('ServiceArticle/articleInfo',['id'=>$vo['id'],'category_id'=>$vo['category_id'], 'cid'=> $Cid])}"><i>.</i>{$vo.title}</a></li>
+						</volist>
+					</if>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<include file="Platform/footer" />
+<script data-module="socialSecurity" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>

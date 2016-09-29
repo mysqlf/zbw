@@ -1,0 +1,109 @@
+/* 布局样式 */
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.bg-white {
+    background: white
+}
+
+.bg-gray {
+    background: #e9eeef;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 1180px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.c-gray {
+    color: #78848f;
+}
+
+.c-money {
+    color: #f77f3b;
+}
+
+.J_select2 {
+    display: none;
+}
+
+.f-small {
+    font-size: 12px;
+}
+
+.f-bold {
+    font-weight: bold;
+}
+
+.block {
+    display: block;
+}
+
+.validator-error {
+    color: $c-error;
+}
+
+.clearfix,
+.clearOver {
+    @include clearfix();
+}
+
+.swiper-slide {
+    img {
+        width: 100%;
+    }
+}
+
+@include makeFloatGrid();
+
+/*公共*/
+
+.wrap1100 {
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.margin-center {
+    margin: 0 auto;
+}
+
+html * {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box
+}
+
+.horizontal {
+    .left {
+        float: left;
+        width: 80px;
+    }
+    .right {
+        margin-left: 90px;
+    }
+}

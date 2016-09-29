@@ -1,0 +1,129 @@
+<extend name="Base/Insurance" />
+<block name="right">
+	 <div class="right_box overflow">
+	 	<div class="right_head">
+        	<h3 class="add_tit">对账单列表</h3>
+        </div>
+        <div class="search_box">
+	        <form id="listForm" action="{:U('Company/Bill/searchBill')}" method="get">
+	        	<dl class="horizontal  horizontal-4em">
+	        		<dt class="left">服务商</dt>
+	        		<dd class="right search-size4">
+	        			<select class="select" name="com">
+                        <option value="">全部</option>
+                        <volist name="com" id="vo">
+			        		<option value="{$vo.company_id}" <if condition="I('get.com') eq $vo['company_id']">selected</if>>{$vo.company_name}</option>
+                        </volist>
+			        	</select>
+	        		</dd>
+	        	</dl>
+
+	        	<!-- <dl class="horizontal  horizontal-4em">
+                    <dt class="left">服务套餐</dt>
+                    <dd class="right search-size3">
+                        <select class="select" name="pro">
+                                            <option value="">请选择</option>
+                                        <volist name="pro" id="vo">
+                                            <option value="{$vo.product_id}"<if condition="I('get.pro') eq $vo['product_id']">selected</if> >{$vo.name}</option>
+                                        </volist>
+                                        </select>
+                    </dd>
+                </dl> -->
+	        	<dl class="horizontal horizontal-2em">
+	        		<dt class="left">单号</dt>
+	        		<dd class="right search-size3">
+	        			<input type="text" class="text x_text" value="{:I('get.billno')}" name="billno" placeholder="对账单号">
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal horizontal-4em">
+	        		<dt class="left">账单年月</dt>
+	        		<dd class="right">
+	        			<div class="time-picker-box search-size3">
+							<input type="text" class="text timepicker" value="{:I('get.orderdate')}" name="orderdate" placeholder="对账单年月" readonly>
+			        		<i class="icon icon-time-picker"></i>
+						</div>
+	        		</dd>
+	        	</dl>
+	        	<dl class="horizontal  horizontal-4em clear-left">
+	        		<dt class="left">是否邮寄</dt>
+	        		<dd class="right search-size4">
+	        			<select class="select" name="mailtype">
+			        		<option value="">全部</option>
+                            <option value="1" <if condition="I('get.mailtype') eq 1">selected</if>>是</option>
+                            <option value="-1" <if condition="I('get.mailtype') eq -1">selected</if>>否</option>		        
+			        	</select>
+	        		</dd>
+	        	</dl>
+	        	<input type="hidden" value="" name="type">
+	        	<input type="button" class="btn ms_btn btn_orange pull-left" value="查询" id="submitBtn">
+	        </form>
+        </div>
+        <div class="table_con">
+        	<table class="table text-center table_white c-text-dark">
+        		<thead>
+        			<th>
+     					对账单号
+        			</th>
+        			<th>
+     					服务商
+        			</th>
+        			<!-- <th>
+                        服务套餐
+                    </th> -->
+        			<th>
+     					对账单年月
+        			</th>
+        			<th>
+     					名称
+        			</th>
+        			<th>
+     					金额
+        			</th>
+        			<th>
+     					是否邮寄
+        			</th>
+        			<th>
+     					邮寄信息
+        			</th>
+        			<th>
+     					收件人
+        			</th>
+        			<th>
+     					操作
+        			</th>
+        		</thead>
+        		<tbody>
+                <if condition="!empty($list)">
+                    <volist name="list" id="vo">
+                    <tr <if condition="$key%2==1"> class="even_bg"</if>>
+                        <td>{$vo.bill_no}</td>
+                        <td><span class="c-blue">{$vo.company_name}</span></td>
+                		<!--<td>{$vo.name}</td>-->
+                        <td>{$vo.bill_date}</td>
+                        <td>{$vo.bill_name}</td>
+                        <td>{$vo.price}</td>
+                        <td><if condition="$vo['invoice_express_company'] eq ''">否<else/>是</if></td>
+                        <td>{$vo.invoice_express_no|default="/"}<if condition="$vo['invoice_express_company']"><p>({$vo.invoice_express_company|default="/"})</p></if></td>
+                        <td>{$vo.invoice_consignee|default="/"}<if condition="$vo['invoice_consignee_phone']"><p>({$vo.invoice_consignee_phone|default="/"})</p></if></td>
+                        <td><a href="{:U('Company/Bill/billInfo',array('bill'=>$vo['id']))}" class="c-blue">明细</a></td>
+                    </tr>
+                    </volist>
+                <else/>
+                    <tr><td class="empty_box"><div class="empty_list">未找到符合条件的记录</div></td></tr>
+                </if>
+        		</tbody>
+        		<tfoot>
+	            </tfoot>
+        	</table>
+            <if condition="!empty($list)">
+                <div class="page_box">
+                    {$page}
+                </div>
+            </if>
+        	
+        </div>
+	 </div>
+</block>
+<block name="script">
+    <script data-init="index" type="text/javascript" src="/Application/Company/Assets/v2/js/dist/Bill.bundle.js"></script>
+</block>

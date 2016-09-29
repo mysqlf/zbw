@@ -1,0 +1,14 @@
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-bd">
+        <div id="bankCardInfo_tpl" class="bank-info">
+            银行信息
+        </div>
+        <input type="hidden" id="data_info" value='<?php if(is_array($result)) echo json_encode($result, JSON_UNESCAPED_UNICODE);?>'>
+        <input type="hidden" name="id" value='{$result.id}' />
+    </div>
+</block>
+<block name="script">
+    <script data-init="bank_info" type="text/javascript" src="/Application/Service/Assets/js/dist/set.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

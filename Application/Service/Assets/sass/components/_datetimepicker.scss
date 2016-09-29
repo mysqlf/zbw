@@ -1,0 +1,56 @@
+/*==================================================
+  ***** 日期 *****
+  .datetimepicker ··············· 日期插件最外层div
+  ==================================================*/
+
+html .datetimepicker {
+    .table-condensed {
+        th {
+            padding: {
+                top: 8px;
+                bottom: 8px;
+            }
+            border-radius: 0;
+            &.prev {
+                &:hover {
+                    i {
+                        @extend .icon-arrow-left:hover;
+                    }
+                }
+            }
+            &.next {
+                &:hover {
+                    i {
+                        @extend .icon-arrow-right:hover;
+                    }
+                }
+            }
+        }
+        tbody {
+            tr {
+                border-bottom: 0;
+                td {
+                    padding: 0;
+                }
+            }
+        }
+    }
+    table {
+        tr {
+            td {
+                span {
+                    line-height: 40px;
+                    height: 40px;
+                }
+            }
+        }
+    }
+    @at-root .icon-arrow-left {
+        display: block;
+        margin-left: 3px;
+    }
+    @at-root .icon-arrow-right {
+        display: block;
+        margin-left: 5px;
+    }
+}

@@ -1,0 +1,63 @@
+<extend name="Base/common" />
+<block name="body">
+	
+
+	<div class="accountInfo-title"><h2 class="">产品管理</h2></div>
+    <div class="gutter table-responsive">
+    	<div class="tab-list">
+    		<div class="tab-btn pull-left">
+    			<a href="Service-Product-productList">社保产品</a>
+    			<a href="Service-Product-serviceList" class="on">增值服务</a>
+    		</div>
+    		<a href="javascript:;" class="btn-add pull-right" data-act="add_product"><span>+</span> 添加产品</a>
+    	</div>
+        <?php if(!empty($result['result'])):?>
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	                <th width="10%">
+	                    编号
+	                </th>
+	                <th>产品名称</th>
+	                <th>联系QQ</th>
+	                <th>添加时间</th>
+	                <th>状态</th>
+	                <th width="12%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+                <volist name="result.result" id="vo">
+	            <tr>
+	                <td>
+	                    {$vo.id}
+	                </td>
+	                <td>{$vo.product_name}</td>
+	                <td>{$vo.qq}</td>
+	                <td>{$vo.create_date}</td>
+	                <td>
+	                   <?php echo adminState()['add_service_state'][$vo['state']]?>
+	                </td>
+	                <td class="op-td">
+	                    <a class="c-warm" href="#" data-act="edit" data-service_id="{$vo.id}">编辑 </a>
+	                    <a class="c-primary" href="#" data-act="del" data-service_id="{$vo.id}">删除 </a>
+	                </td>
+	            </tr>
+                </volist>
+	        </tbody>
+	    </table>
+        <div class="pagination">
+            {$result.page}
+        </div>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+	</div>
+
+
+</block>
+<block name="script">
+	<!-- <script type="text/javascript" src="/Application/Service/Assets/js/src/plug/webuploader/webuploader.min.js"></script> -->
+
+    <script data-init="productManageService" type="text/javascript" src="/Application/Service/Assets/js/dist/product.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

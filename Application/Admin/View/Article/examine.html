@@ -1,0 +1,71 @@
+<extend name="Public/base" />
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="sidemenu" />
+</block>
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>全部({:count($list)})</h2>
+	</div>
+
+    <div class="tools auth-botton">
+        <button class="btn ajax-post confirm" target-form="ids" url="{:U('Article/setSerStatus',array('status'=>'x'))}">审核失败</button>
+        <button url="{:U('article/setSerStatus?status=1')}" class="btn ajax-post" target-form="ids">审核通过</button>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;筛选:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <a href="{:U('article/examine?status=1')}" class="<if condition="I('get.status') eq 1" >btn</if>" >审核通过</a>
+        <a href="{:U('article/examine?status=0')}" class="<if condition="''!=I('get.status')&&I('get.status') == '0' " >btn</if>" >未审核</a>
+        <a href="{:U('article/examine?status=x')}" class="<if condition=" I('get.status') eq 'x'" >btn</if>" >审核失败</a>
+
+        <div class="search-form fr cf">
+            <div class="sleft">
+            <form action="/Admin-Article-searcharticle" method="get">
+                <input type="text" name="companyname" class="search-input" value="{:I('companyname')}" placeholder="请输入关键词">
+                <input type="submit" class="btn" value="确认">
+            </form>    
+            </div>
+
+        </div>
+    </div>
+
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+			<table class="">
+    <thead>
+        <tr>
+		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+		<th class="">编号</th>
+		<th class="">标题</th>
+		<th class="">创建者</th>
+		 <th class="">状态</th>
+		<th class="">分类</th>
+		<th class="">发布时间</th>
+		<th class="">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<volist name="list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td><a target="_black" href="index.php?s=/Home-ServiceArticle-articleInfo-id-{$vo.id}-category_id-{$vo.category_id}-cid-{$vo.company_id}.html">{$vo.title}</a></td>
+			<td>{$vo.comname} </td>
+		    <td><span><if condition="$vo['status'] eq 1">审核通过<elseif condition="$vo['status'] eq -1"/>审核失败<else/>未审核</if></span></td>
+			<td><span>{:get_ser_cate($vo['category_id'])}</span></td>
+			<td><span>{$vo.create_time}</span></td>
+			<td><!-- <a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a> -->
+				<a href="{:U('Article/setSerStatus?ids='.$vo['id'].'&status=1')}" class="ajax-get"><if condition="$vo['status'] eq -1">重新审核<elseif condition="$vo['status'] eq 0"/>审核成功</if></a>
+				<if condition="$vo['status'] neq -1"><a href="{:U('Article/setSerStatus?ids='.$vo['id'].'&status=x')}" class="confirm ajax-get">审核失败</a></if>
+                </td>
+		</tr>
+		</volist>
+	</tbody>
+    </table> 
+        
+	</div>
+    <div class="page">
+        {$_page}
+    </div>
+</block>

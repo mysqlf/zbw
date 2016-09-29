@@ -1,0 +1,381 @@
+/*==================================================
+  ***** 表单 *****
+  .ipt-box ··············· 输入框的父级（包括select）
+  .ipt-pos ··············· 输入框的父级相对定位
+  .ipt ··············· input类名
+  .query-form ··············· 列表查询表单
+  .query-item ··············· 列表查询表单项
+  .query-lb ··············· 列表查询表单label
+  .ipt-box ··············· 列表查询表单input父级
+  .form-items ··············· 详情列表项
+  ==================================================*/
+
+.sod_select {
+    height: 35px;
+}
+
+.ipt-box {
+
+    .icon-date {
+        pointer-events: none;
+    }
+    @at-root .pos-rel {
+        position: relative;
+    }
+    @at-root .ipt-pos {
+        position: relative;
+        background: $color-white;
+        border-radius: $border-radius;
+        display: inline-block;
+        .ipt {
+            cursor: pointer;
+        }
+        .icon {
+            position: absolute;
+            right: 8px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+        }
+    }
+    // 输入框
+    @at-root .ipt {
+        padding: {
+            top: 5px;
+            right: 10px;
+            bottom: 4px;
+            left: 10px;
+        }
+        height: 35px;
+        line-height: 24px;
+        font: {
+            size: $f-size-normal;
+            family: inherit;
+        }
+        border: {
+            radius: $border-radius;
+        }
+        box-sizing: border-box;
+        @include button-variant($color-ipt, $color-white, $border-default-width solid $color-gray);
+        -webkit-transition: all 0.12s linear;
+        transition: all 0.12s linear;
+        &:hover {
+            border: {
+                color: $color-ipt;
+            }
+        }
+        &:focus {
+            background: $color-white;
+            border: {
+                color: $color-primary;
+            }
+            color: $color-ipt-focus;
+        }
+        &.date {
+            &:focus {
+                background: transparent url(0) repeat;
+            }
+        }
+    }
+    @at-root .city-picker-input{
+        display: inline-block;
+        @include size(200px, 35px);
+        border: {
+            radius: $border-radius;
+        }
+        &.open {
+            border: {
+                left: {
+                    color: $color-primary;
+                }
+                top: {
+                    color: $color-primary;
+                }
+                right: {
+                    color: $color-primary;
+                }
+                bottom: {
+                    right: {
+                        radius: 0;
+                    }
+                    left: {
+                        radius: 0;
+                    }
+                }
+            }
+            .city-picker {
+                margin: {
+                    left: -1px;
+                }
+                border: {
+                    color: $color-primary;
+                }
+            }
+        }
+    }
+    // 下拉
+    .sod_select {
+        @extend .ipt;
+        background: #F7F8FA;
+        height: initial;
+        display: block;
+        &.open {
+            border: {
+                color: $color-primary;
+            }
+        }
+        .sod_list_wrapper {
+            margin: {
+                top: -1px;
+            }
+            border: {
+                radius: 0 0 3px 3px;
+                color: $color-primary;
+                top: $border-default-width solid #d0d1d3;
+            }
+            z-index: 9999;
+        }
+        .sod_list {
+            padding: {
+                bottom: 5px;
+            }
+        }
+        .sod_option {
+            padding: {
+                top: 5px;
+                bottom: 6px;
+            }
+            color: $color-ipt;
+            &:hover {
+                background: transparent;
+                color: $color-primary !important;
+            }
+            &.selected,
+            &.active {
+                background: transparent;
+                font: {
+                    weight: 400;
+                }
+            }
+            &.selected {
+                color: $color-primary !important;
+                &:before {
+                    display: none;
+                }
+            }
+            &.active {
+                color: $color-ipt;
+            }
+        }
+        &.open {
+            &:before {
+                border: {
+                    bottom: {
+                        color: $color-primary;
+                    }
+                }
+            }
+        }
+    }
+}
+
+html .sod_select.above .sod_list_wrapper {
+    border-top: 1px solid #b5b5b5
+}
+
+// 复选框
+.icheckbox {
+    border: {
+        width: $border-default-width;
+        style: solid;
+        color: $color-gray;
+        radius: 3px;
+    }
+    background: {
+        color: $color-white;
+    }
+    cursor: pointer;
+    &.checked {
+        border: {
+            color: #FFA64A;
+        }
+        background: {
+            image: url(../images/ck_checked.png);
+            repeat: no-repeat;
+            position: center center;
+        }
+    }
+}
+
+.iradio,
+.icheckbox {
+    display: inline-block;
+    text-align: center;
+    @include square(16px);
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: -2px;
+    &.disabled {
+        @include opacity(.5);
+        cursor: not-allowed;
+    }
+}
+
+.iradio {
+    background: {
+        image: url(../images/iradio.png);
+        repeat: no-repeat;
+        position: top left;
+    }
+    &.checked {
+        background-position: -16px top;
+    }
+}
+
+// 查询表单
+.query-conditions {
+    @at-root .query-form {
+        @include clearfix;
+        margin-bottom: 10px;
+        // 查询项
+        @at-root .query-item {
+            margin: {
+                bottom: 10px;
+                right: 32px;
+            }
+            .query-lb {
+                display: block;
+                float: left;
+                line-height: 35px;
+                margin: {
+                    right: 10px;
+                }
+                text-align: right;
+                color: $color-bg;
+            }
+            .ipt-box {
+                float: left;
+                @at-root .ipt-box.box-small {
+                    .sod_select {
+                        width: 100px;
+                    }
+                }
+                @at-root .ipt-box.box-large {
+                    .sod_select {
+                        width: 300px;
+                    }
+                }
+            }
+        }
+        .btn-query {
+            margin: {
+                bottom: 10px;
+            }
+        }
+        @at-root .w-small {
+            width: 100px;
+        }
+        @at-root .w-normal {
+            width: 200px;
+        }
+        @at-root .w-large {
+            width: 300px;
+        }
+    }
+    .btn-export {
+        position: absolute;
+        right: $gutter;
+        top: 62px;
+    }
+}
+
+// 详情列表项
+.form-items {
+    margin-bottom: 10px;
+    line-height: 1;
+    > label {
+        float: left;
+    }
+}
+
+.text {
+    width: 238px;
+    @extend .ipt;
+    &:focus {
+        border: 1px solid $color-primary;
+    }
+    &.x_text {
+        width: 120px;
+    }
+}
+
+span.validator-error {
+    font-size: 12px;
+    color: $color-danger;
+    text-align: left;
+    line-height: normal;
+    display: block;
+}
+
+input.validator-error {
+    border-color: $color-danger;
+}
+
+.horizontal-ipt {
+    >.left {
+        line-height: 35px;
+    }
+}
+
+.icheck-label {
+    cursor: pointer;
+    .icheckbox,
+    .iradio {
+       // top: 3px;
+    }
+}
+
+.textarea {
+    @extend .ipt;
+    width: 100%;
+    height: 12em;
+    overflow-y: auto;
+}
+
+//上传按钮
+.upload-box {
+    .J_picker {
+        display: inline-block;
+        border: 1px solid #ddd;
+        height: 37px;
+        width: 160px;
+        line-height: 37px;
+        text-align: left;
+        padding: 0 5px;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        .webuploader-pick {
+            width: 100%;
+            height: 35px;
+            padding: 0;
+            text-align: left;
+            background: #fff;
+            color: #999;
+        }
+    }
+    .J_picker-btn {
+        height: 37px;
+        vertical-align: top;
+        padding: 0 10px;
+        background: $color-primary;
+        color: #fff;
+        margin-left: -6px;
+        z-index: 100;
+        position: relative;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+    }
+    label{
+        background: url(0) repeat-x !important;
+    }
+}

@@ -1,0 +1,61 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/bill.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">账单</span>
+    </div>
+    <div class="billList">
+        <form class="pageSearch fr" action="{:U('Company-Bill-index')}"><!-- 搜索 -->
+            <input class="button fr" type="submit" value="查询">
+            <select name="state" id="state" class="zb_inpt fr t3">
+                <option value="">账单状态</option>
+                <option value="0" <if condition=" '0' eq I('get.state')">selected="selected"</if>>未支付</option>
+                <option value="1" <if condition=" '1' eq I('get.state')">selected="selected"</if>>已支付</option>
+                <option value="2" <if condition=" '2' eq I('get.state')">selected="selected"</if>>确认支付</option>
+            </select>
+            <input class="zb_inpt fr t2" type="text" placeholder="账单年月" readonly style="width: 220px;" name="orderDate" value="{:I('orderDate')}">
+            <input class="zb_inpt fr t1" type="text" placeholder="公司名称" style="width: 110px;" name="companyName" value="{:I('companyName')}">
+        </form>
+        <div style="clear:both;"></div>
+        <table class="pageTable"><!-- 表格 -->
+            <tr>
+                <th class="c-1">账单年月</th>
+                <th class="c-7">服务商</th>
+                <th class="c-2">账单总额</th>
+                <th class="c-3">付款截止时间</th>
+                <th class="c-4">账单状态</th>
+                <th class="c-5">付款时间</th>
+                <th class="c-6">付款总额</th>
+                <th class="c-7">操作</th>
+            </tr>
+            <volist name="serviceBillResult" id="vo">
+                <tr>
+                    <td>{$vo.order_date|int_to_date}</td>
+                    <td>{$vo.company_name}</td>
+                    <td>{$vo.price|default="暂无账单总额"}</td>
+                    <td>{$vo.abortPaymentDateValue|strtotime|date='Y-m-d H:i',###}</td>
+                    <td class="<if condition=" 0 eq $vo['state'] ">red</if>">{$vo.state|get_status_value="ServiceBillState"}</td>
+                    <td><if condition=" '0000-00-00 00:00:00' != $vo['pay_time']">{$vo.pay_time|strtotime|date='Y-m-d H:i',###}</if></td>
+                    <td>{$vo.actual_price|default="暂无付款总额"}</td>
+                    <td>
+                        <if condition=" 0 eq $vo['state'] ">
+                            <a class="blue" href="{:U('Company/bill/detail',array('billNo'=>$vo['bill_no'],'id'=>$vo['id']))}">明细</a>
+                            <a class="orange" href="javascript:;" data-act="pay" data-id="{$vo['id']}" data-no="{$vo['bill_no']}">付款</a>
+                        <else/>
+                            <a class="blue" href="{:U('Company/bill/detail',array('billNo'=>$vo['bill_no'],'id'=>$vo['id']))}">明细</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+        <!--<p class="bj-tips">您的账单日为8日，付款截止日为12日</p>-->
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="index" src="/Application/static/Home/js/dist/bill.bundle.js"></script>
+</block>

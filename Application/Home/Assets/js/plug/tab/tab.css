@@ -1,0 +1,31 @@
+.clearfix:after {
+    content: '.';
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+    clear: both;
+
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.tab {
+    border: 1px solid #d1d1d1;
+}
+
+.tab .tab-toggle li {
+    float: left;
+    padding: 10px;
+}
+
+.tab-content>div {
+    display: none;
+    padding: 10px;
+}
+
+.tab-content>div.active {
+    display: block;
+}

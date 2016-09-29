@@ -1,0 +1,213 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/info.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">企业信息</span>
+    </div>
+    <div class="w930 infoMain fromTable">
+        <form id="comInfo" name="comInfo" method="post">
+            <div class="subhead">基本信息</div>
+            <input type="hidden" name="id" value="" />
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+                <tr>
+                    <td class="name"><em>*</em>企业名称：</td>
+                    <td>
+                        <strong>{$companyInfo.company_name}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">企业证件：</td>
+                    <td class="certificate" id="uploadID">
+                        <div class="uploading fl" style="display: none;">
+                            <div class="loading"><span></span></div>
+                        </div>
+                        <div class="uploaded fl" style="display: none;">
+                            <a href="javascript:;" class="preview jSrc" data-act="preview" data-src="{$companyFile.certificateFile}">营业执照(点击预览).jpg</a>
+                        </div>
+                        <div class="upload fl">
+                            <a href="javascript:;" class="uploadBtn" data-act="uploadID">uploadBtn</a>
+                            <div class="jUpload">
+                                <div class="upload_inpt fl">
+                                    <input class="zb_inpt" type="text" name="certificate" data-act="upload" readonly value="{$companyFile.certificateFile}" />
+                                    <span>浏览</span>
+                                </div>
+                                <div class="cardinal fl" style="margin-left: 10px;">请上传营业执照</div>
+                            </div>
+                            <a href="#" class="toloadBtn" style="display: none;">重新上传</a>
+                        </div>
+                        <div class="del fl zbhide">
+                            <a href="javascript:;" class="delBtn">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">企业性质：</td>
+                    <td>
+                        <div style="width: 375px;">
+                            <select id="property" name="property" class="zb_inpt" data-value="{$companyInfo.property}">
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">所属行业：</td>
+                    <td>
+                        <div style="width: 375px;">
+                            <select id="industry" name="industry" class="zb_inpt" data-value="{$companyInfo.industry}">
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">所在地区：</td>
+                    <td>
+                        <div class="zp_selectBtn">
+                            <input id="id_location" name="location" type="hidden" autocomplete="off" value="{$companyInfo.location}" tabindex="-1">
+                            <a id="btn_location" class="btnSelect" href="javascript:;"><span>请选择</span></a>
+                            <input name="name_location" type="text" id="name_location" tabindex="-1">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">员工人数：</td>
+                    <td>
+                        <div class="btn_iCheck fl ffVender" id="employeeNumberSel">
+                            <input type="hidden" autocomplete="off" name="employeeNumber" id="employeeNumber" value="{$companyInfo.employee_number}" />
+                            <ul class="radio_list">
+                                <li data-val="1" <if condition=" 1 eq $companyInfo['employee_number'] ">class="selected"</if>><a title="1-100">1-100</a></li>
+                                <li data-val="2" <if condition=" 2 eq $companyInfo['employee_number'] ">class="selected"</if>><a title="100-200">100-200</a></li>
+                                <li data-val="3" <if condition=" 3 eq $companyInfo['employee_number'] ">class="selected"</if>><a title="100-200">200-500</a></li>
+                                <li data-val="4" <if condition=" 4 eq $companyInfo['employee_number'] ">class="selected"</if>><a title="500-1000">500-1000</a></li>
+                                <li data-val="5" <if condition=" 5 eq $companyInfo['employee_number'] ">class="selected"</if>><a title="1000-2000">1000-2000</a></li>
+                                <li data-val="6" <if condition=" 6 eq $companyInfo['employee_number'] ">class="selected"</if>><a title="2000以上">2000以上</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">企业固话：</td>
+                    <td>
+                        <input class="zb_inpt" type="text" name="telCityCode" value="{$companyInfo['tel_city_code']}" placeholder="请输入区号" style="width: 90px;" />
+                        <input class="zb_inpt" type="text" name="telLocalNumber" value="{$companyInfo['tel_local_number']}" placeholder="请输入企业固话" />
+                    </td>
+                </tr>
+            </table>
+            <div class="subhead">联系人信息</div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+                <tr>
+                    <td class="name"><em>*</em>联系人：</td>
+                    <td>
+                        <div class="hold">{$companyInfo.contact_name}<a class="change" href="#">修改</a></div>
+                        <div class="holdFrom zbhide">
+                            <div class="fl"><input class="zb_inpt" type="text" name="contactName" value="" placeholder="请输入联系人姓名" /></div>
+                            <div class="fl square">
+                                <label><input type="radio" name="gender" value="1" <if condition="1 == $companyInfo['contact_sex']">checked</if> >男</label>
+                                <label><input type="radio" name="gender" value="2" <if condition="2 == $companyInfo['contact_sex']">checked</if> >女</label>
+                            </div>
+                            <a class="cancel" href="#">取消</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name"><em>*</em>联系电话：</td>
+                    <td class="license">
+                        <div class="hold">{$companyInfo.contact_phone} <a class="change" href="#">修改</a></div>
+                        <div class="holdFrom zbhide">
+                            <input class="zb_inpt" type="text" name="contactPhone" value="" placeholder="请输入联系电话" />
+                            <a class="cancel" href="#">取消</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name"><em>*</em>邮箱：</td>
+                    <td>
+                        <div class="hold">
+                            {$companyInfo.email}
+                            <if condition="1 eq $companyInfo['email_activation']">
+                            	<i class="icon icon-pass" title="通过验证"></i>
+                            <else/>
+                            	<i class="icon icon-fail" title="未通过验证"></i>
+                            </if>
+                            <a class="change" href="#">修改</a>
+                        </div>
+                        <div class="holdFrom zbhide">
+                            <input class="zb_inpt" type="text" name="email" id="email" value="" placeholder="请输入邮箱" />
+                            <a class="cancel" href="#">取消</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">QQ：</td>
+                    <td>
+                        <input class="zb_inpt" type="text" name="qq" id="QQ" value="{$companyInfo['qq']}" placeholder="请输入QQ" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">授权协议：</td>
+                    <td id="treaty">
+                        <div class="uploading fl" style="display: none;">
+                            <div class="loading"><span></span></div>
+                        </div>
+                        <div class="uploaded fl" style="display: none;">
+                            <a href="javascript:;" class="preview jSrc jProtocol" data-act="preview" data-src="{$companyFile.lisenceFile}">授权协议(点击预览).jpg</a>
+                        </div>
+                        <div class="upload fl">
+                            <a href="javascript:;" class="uploadBtn" data-act="protocol">uploadBtn</a>
+                            <div class="jUpload">
+                                <div class="upload_inpt fl">
+                                    <input class="zb_inpt" type="text" name="lisence" data-act="upload" readonly value="{$companyFile.lisenceFile}" />
+                                    <span>浏览</span>
+                                </div>
+                                <div class="cardinal fl" style="margin-left: 10px;">请上传授权协议</div>
+                            </div>
+                            <a href="javascript:;" class="toloadBtn" style="display: none;">重新上传</a>
+                        </div>
+                        <div class="del fl zbhide">
+                            <a href="javascript:;" class="delBtn">删除</a>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="name">通讯地址：</td>
+                    <td>
+                        <div class="fl" id="areaBox" data-location="{$companyInfo['company_location']?$companyInfo['company_location']:$companyInfo['location']}">
+                            <div class="fl">
+                                <select name="addressVo.prov" style="width:120px;" id="provA1" class="zb_inpt prov"></select>
+                            </div>
+                            <div class="fl">
+                                <select name="addressVo.city" style="width:120px;display: none;" id="cityA1" class="zb_inpt city"></select>
+                            </div>
+                            <div class="fl">
+                                <select name="addressVo.dist" style="width:120px;display: none;" id="distA1" class="zb_inpt dist"></select>
+                            </div>
+                            <input type="hidden" id="address">
+                        </div>
+                        <div class="fl" style="position:relative;">
+                            <input name="addressVo.addr" type="text" class=" zb_inpt" id="addressA1" value="{$companyInfo.company_address}" placeholder="请填写详细的通讯地址" style="width:200px;" />
+                            <input name="lng" id="lng" type="hidden" value="">
+                            <input name="lat" id="lat" type="hidden" value="">
+                        </div>
+                        <div class="clearer"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="download">
+                        注：参保前先上传协议扫描件。<a href="{:U('Company/Account/download')}">模板下载>></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input class="button" type="submit" id="submit" value="保存">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</block>
+<block name="script">
+    <script data-init="basic" src="/Application/static/Home/js/dist/info.bundle.js"></script>
+</block>

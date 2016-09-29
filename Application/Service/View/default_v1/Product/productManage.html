@@ -1,0 +1,77 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">产品管理</h2></div>
+    <div class="gutter table-responsive">
+    	<div class="tab-list">
+    		<div class="tab-btn pull-left">
+    			<a href="Service-Product-productList" class="on">社保产品</a>
+    			<a href="Service-Product-serviceList">增值服务</a>
+    		</div>
+    		<!--<a href="javascript:;" class="btn-add pull-right" data-act="add_perProduct"><span>+</span> 添加个人产品</a>-->
+    		<a href="Service-Product-productDetail" class="btn-add pull-right" data-act="add_comProduct"><span>+</span> 添加企业产品</a>
+    	</div>
+        <?php if(!empty($result['result'])):?>
+	    <table class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	                <th width="10%">
+	                    产品编号
+	                </th>
+	                <th>产品名称</th>
+	                <th>产品属性</th>
+	                <th>会员费</th>
+	                <th>服务费(元)/有效期(月)</th>
+	                <!--<th>参保地数量</th>-->
+	                <th>最后编辑时间</th>
+	                <th>状态</th>
+	                <th width="12%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+                <volist name="result.result" id="vo">
+	            <tr>
+	                <td>
+	                    {$vo.id}
+	                </td>
+	                <td><span class="c-gray">{$vo.name}</span></td>
+	                <td><?php echo adminState()['product_type'][$vo['service_type']]?></td>
+	                <td>{$vo.member_price}</td>
+	                <td>
+	                	<?php
+	                		$validity = json_decode($vo['service_price'],true);
+	                		foreach($validity as $key=>$value)
+	                		{
+	                			$str .= $value['service_price'].'/'.$value['validity'].'&nbsp;&nbsp;';
+	                		}
+	                		echo rtrim($str,',');
+	                		$str = '';
+	                	?>
+	                </td>
+	                <!--<td>-->
+	                    <!--1-->
+	                <!--</td>-->
+	                <td>
+	                    {$vo.update_time}
+	                </td>
+					<td><?php echo adminState()['product_state'][$vo['state']]?></td>
+	                <td class="op-td">
+	                    <a class="c-warm" href="Service-Product-productDetail-id-{$vo.id}" data-id="{$vo.id}">编辑 </a>
+	                    <a class="c-primary" data-product_id="{$vo.id}" data-act="del" href="#" >删除 </a>
+	                </td>
+	            </tr>
+                </volist>
+	        </tbody>
+	    </table>
+
+        <div class="pagination">
+            {$result.page}
+        </div>
+        <?php else:?>
+        <span class="no-data-tip"> 未找到符合条件的记录</span>
+        <?php endif;?>
+	</div>
+</block>
+<block name="script">
+    <script data-init="productManage" type="text/javascript" src="/Application/Service/Assets/js/dist/product.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

@@ -1,0 +1,125 @@
+<!-- 企业套餐管理 -->
+<extend name="Base/common" />
+<block name="body">
+    <div class="pannel-hd">
+        <h2 class="cnt-title inline-block">企业套餐管理</h2>
+        <div class="buttons">
+            <a  href="<?php echo U('Customer/addContractChange') ?>" class="btn btn-border fr"><i class="icon icon-add-gray"></i>添加切换套餐</a>
+        </div>
+        <div class="query-form">
+            <form accept="" method="post">
+            <!--
+                <div class="query-item fl">
+                    <label class="query-lb" for="">合同号</label>
+                    <div class="ipt-box">
+                        <input type="text" name="product_id" class="ipt size1 ellipsis" value="<?php if($_POST['product_id']) echo $_POST['product_id'] ; ?>" />
+                    </div>
+                </div>-->
+                <div class="query-item fl">
+                    <label class="query-lb" for="">企业名称</label>
+                    <div class="ipt-box">
+                    <input type="text" name="company_name" class="ipt size1" value="<?php if($_POST['company_name']) echo $_POST['company_name'] ; ?>"/>
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="">支付状态</label>
+                    <div class="ipt-box box-small">
+                        <select name="state">
+                            <option value="state" value="">订单状态</option>
+                            <option value="0" <?php if(is_numeric($_POST['state']) && ($_POST['state'] ==0)) echo 'selected'; ?>>未支付</option>
+                            <option value="1" <?php if($_POST['state'] && ($_POST['state'] ==1)) echo 'selected'; ?>>支付成功</option>
+                            <option value="-1" <?php if($_POST['state'] && ($_POST['state'] ==-1)) echo 'selected'; ?>>支付失败</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="query-item fl">
+                    <label class="query-lb" for="">服务状态</label>
+                    <div class="ipt-box box-small">
+                        <select name="service_state">
+                            <option value="" selected>服务状态</option>
+                            <option value="0"  <?php if(is_numeric($_POST['service_state'])  && ($_POST['service_state'] ==0)) echo 'selected'; ?>>未签约</option>
+                            <option value="2"  <?php if($_POST['service_state'] && ($_POST['service_state'] ==2)) echo 'selected'; ?>>服务中</option>
+                            <option value="3"  <?php if($_POST['service_state'] && ($_POST['service_state'] ==3)) echo 'selected'; ?>>服务完成</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-query fl">查询</button>
+            </form>
+            
+        </div>
+    </div>    
+ <?php if($result['result']){ ?>
+    <div class="pannel-tbl">
+    	<table summary="企业套餐管理">
+            <colgroup>
+                 <col width="8%" />
+                <col width="10%" />
+                <col width="8%" />
+                <col width="7%" />
+                <col width="7%" />
+                <col width="6%" />
+                <col width="7%" />
+                <col width="6%" />
+             
+                <col width="8%" />
+                <col width="8%" />
+                <col width="5%" />
+                <col width="4%" />
+                <col width="6%" />
+                <col width="6%" />
+                <col width="4%" />
+            </colgroup>
+    		<thead>
+    			<tr>
+                    <th>合同编号</th>
+                    <th>企业名称</th>
+                    <th>服务套餐</th>
+                    <th>到期时间</th>
+                    <th>套餐费（元）</th>
+                    <th>支付状态</th>
+                    <th>服务状态</th>
+                    <th>支付方式</th>
+                    <th>消费总额</th>
+                    <th>差额总计</th>
+                    <th>有效期</th>
+                    <th>代发工资</th>
+                    <th>切换套餐</th>
+                    <th>客服</th>
+    				<th>操作</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+                <!-- 交互说明
+                    差额总计 负数 td.cred
+                             整数 td.cgreen
+                 -->
+                <?php $adminState = adminState(); foreach($result['result'] as $k=>$v){ ?>
+    			<tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
+                    <td><?php echo $v['id']; ?></td>
+    				<td><a href="<?php echo U('Members/companyDetail?id='.$v['company_id']); ?>"><?php echo $v['company_name']; ?></a></td>
+    				<td><?php echo $v['product_name']; ?></td>
+    				<td><?php echo $v['overtime']; ?></td>
+    				<td><?php echo $v['member_price']; //$v['modify_price'] == '0.00' ? $v['price'] : $v['modify_price']; ?></td>
+    				<td><?php echo $_state[$v['state']]; ?></td>
+    				<td><?php echo $service_state[$v['service_state']]; ?></td>
+    				<td><?php echo $_PayType[$v['pay_type']]; ?></td>
+    				<!--<td><?php echo $v['transaction_no']; ?></td>-->
+                    <td class="cbluelg"><?php echo $v['total_price']; ?></td>
+                    <td class="<?php echo  is_numeric(strpos($v['diff_amount'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['diff_amount']; ?></td>
+                    <td><?php echo $v['validity']; ?>天</td>
+                    <td><?php echo $v['is_salary'] ==1 ? '是' : '否';?></td>
+                    <td><?php echo $v['is_turn'] ==1 ? '是' : '否';?></td>
+                    <td><?php echo serviceAdminName($v['admin_id']); ?></td>
+    				<td class="no-brdr">
+    					<a href="{:U('Customer/productOrderDetail?id='.$v['id'])}">查看</a>
+    				</td>
+    			</tr>
+            <?php } ?>
+    		</tbody>
+    	</table>
+        <div class="pagination"><?php echo $result['page']; ?></div>
+    </div>
+    <?php }else{ ?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php } ?>        
+</block>

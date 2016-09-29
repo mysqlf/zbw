@@ -1,0 +1,77 @@
+<div class="sidebar">
+    <div class="menu_bg"></div>
+    <div class="menu_list">
+        <div class="menu_head menu_big <if condition='"Index" eq CONTROLLER_NAME and "index" eq ACTION_NAME'>active</if>">
+        	<a href="{:U('Company/Index/index')}" class="lnk_btn">
+        		<i class="icon icon-icon-home"></i>企业首页
+        	</a>
+        </div>
+        <div class="menu_head <if condition='"Insurance" eq CONTROLLER_NAME and "toIncrease" eq ACTION_NAME'>active</if>">
+            <a href="{:U('Company/Insurance/toIncrease')}" class="lnk_btn">
+                <i class="icon icon-add-per"></i> 新建报增
+            </a>
+        </div>
+        <!--<div class="down_tree">-->
+            <div class="menu_head <if condition='"Insurance" eq CONTROLLER_NAME and in_array(ACTION_NAME,array("insuranceList","insuranceOrderList","insuranceInfoDetail"))'>active</if>">
+                <a class="lnk_btn" href="{:U('Company/Insurance/insuranceOrderList')}">
+                    <i class="icon icon-gjj"></i> 社保公积金
+                </a>
+               <!--  <i class="icon icon-list-sprite"></i> -->
+            </div>
+            <!-- <div class="menu_body">
+               <ul>
+                       <li><a href="{:U('Company/Insurance/insuranceList',array('type'=>1))}" <if condition='"Insurance" eq CONTROLLER_NAME and "insuranceList" eq ACTION_NAME and "1" eq I("get.type")'>class="active"</if> >报增中</a></li>
+                                <li><a href="{:U('Company/Insurance/insuranceList',array('type'=>3))}" <if condition='"Insurance" eq CONTROLLER_NAME and "insuranceList" eq ACTION_NAME and "3" eq I("get.type")'>class="active"</if> >报减中</a></li>
+                                <li><a href="{:U('Company/Insurance/insuranceList',array('type'=>2))}" <if condition='"Insurance" eq CONTROLLER_NAME and "insuranceList" eq ACTION_NAME and "2" eq I("get.type")'>class="active"</if> >在保中</a></li>
+                                <li><a href="{:U('Company/Insurance/insuranceList',array('type'=>4))}" <if condition='"Insurance" eq CONTROLLER_NAME and "insuranceList" eq ACTION_NAME and "4" eq I("get.type")'>class="active"</if> >已停保</a></li>
+                                <li><a href="{:U('Company/Insurance/insuranceList',array('type'=>0))}" <if condition='"Insurance" eq CONTROLLER_NAME and "insuranceList" eq ACTION_NAME and "0" eq I("get.type")'>class="active"</if> >未参保</a></li>
+               </ul>
+            </div> -->
+        <!--</div>-->
+        <div class="menu_head <if condition='"Salary" eq CONTROLLER_NAME'>active</if>">
+            <a href="{:U('Company/Salary/index')}" class="lnk_btn">
+                <i class="icon icon-price-sprite"></i>
+                代发工资
+            </a>
+        </div>
+        <div class="down_tree">
+            <div class="menu_head <if condition='"Order" eq CONTROLLER_NAME and ("index" eq ACTION_NAME or "salalist" eq ACTION_NAME)'>active</if>">
+                <a href="{:U('Company/Order/index')}" class="lnk_btn">
+                    <i class="icon icon-search"></i>
+                    我的订单
+                </a>
+<!--                 <i class="icon icon-list-sprite"></i> -->
+            </div>
+<!--             <div class="menu_body">
+    <ul>
+        <li>
+            <a href="{:U('Company/Order/index')}" <if condition='"Order" eq CONTROLLER_NAME and "index" eq ACTION_NAME'>class="active"</if> >社保公积金</a>
+        </li>
+        <li>
+            <a href="{:U('Company/Order/salalist')}" class="text_pd <if condition='"Order" eq CONTROLLER_NAME and "salalist" eq ACTION_NAME'>active</if> ">代发工资</a>
+        </li>
+    </ul>
+</div> -->
+        </div>
+        <div class="menu_head <if condition='"Insurance" eq CONTROLLER_NAME and in_array(ACTION_NAME,array("insurancePersonList","insuranceDetail"))'>active</if>">
+            <a href="{:U('Company/Insurance/insurancePersonList')}" class="lnk_btn">
+                <i class="icon icon-per"></i>
+                我的参保人
+            </a>
+        </div>
+        <div class="menu_head <if condition='"Bill" eq CONTROLLER_NAME'>active</if>">
+            <a href="{:U('Company/Bill/index')}" class="lnk_btn">
+                <i class="icon icon-eye-sprite"></i>
+                我的发票
+            </a>
+        </div>
+        <div class="menu_head <if condition='"Diffamount" eq CONTROLLER_NAME'>active</if>">
+            <a href="{:U('Company/Diffamount/index')}" class="lnk_btn">
+                <i class="icon icon-balance"></i>
+                我的差额
+            </a>
+        </div>
+         
+    </div>
+</div>
+

@@ -1,0 +1,68 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="/Application/static/Home/css/page/salary.css" rel="stylesheet">
+</block>
+<block name="body">
+    <div class="pageTitle clearOver"><!-- 标题 -->
+        <span class="fl">购买服务记录</span>
+    </div>
+    <div class="salaryList">
+        <table class="pageTable"><!-- 表格 -->
+            <tr>
+                <th class="nameWidth">编号</th>
+                <th>服务商</th>
+                <th>产品名称</th>
+                <th>订单金额</th>
+                <th>状态</th>
+                <th>服务状态</th>
+                <th>服务有效期</th>
+                <th>代发工资</th>
+                <th>参保地</th>
+                <th>操作</th>
+            </tr>
+            <volist name="productOrderResult" id="vo">
+                <tr>
+                    <td><a href="{:U('Company/Information/serviceListDetail')}?orderId={$vo.id}" >{$vo.order_no}</a></td>
+                    <td>{$vo.company_name}</td>
+                    <td><strong>{$vo.product_name}</strong></td>
+                    <td>{:$vo['modify_price']?$vo['modify_price']:$vo['price']}</td>
+                    <td <if condition = "$vo.state eq '0'">class="orange"</if><if condition = "$vo.state eq '-2'">class="ash"</if> >
+                    	{$vo.state|get_status_value="ProductOrderState"}
+                    </td>
+                    <td
+                        <if condition = "$vo.service_state eq '0'">class="orange"</if>
+                        <if condition = "$vo.service_state eq '2'">class="blue"</if>
+                        <if condition = "$vo.service_state eq '3'">class="ash"</if>
+                    >{$vo.service_state|get_status_value="ProductOrderServiceState"}</td>
+                    <td>{$vo.overtime|strtotime|date="Y年m月d日",###}</td>
+                    <td>{:$vo['is_salary']?'是':'否'}</td>
+                    <td class="fssbColor">
+                        <!--具体的参保地信息为-->
+                        {:isset($vo['defaultLocationValue'])?$vo['defaultLocationValue'].(1 < $vo['locationCount']?'('.$vo['locationCount'].')':''):'暂无参保地'}
+                    </td>
+                    <td>
+                        <if condition = "$vo.state eq '-2'">
+                            <!--<span class="blue">重新购买</span>-->
+                            <a href="javascript:;"  data-btn="again" data-id="{$vo.id}" class="blue">重新购买</a>
+                        </if>
+                        <if condition = "$vo.state eq '0'">
+                            <a href="javascript:;" data-btn="pay" data-id="{$vo.id}" class="orange">付款</a>
+                            <a href="javascript:;" data-btn="revoke" data-id="{$vo.id}" class="blue">撤销</a>
+                        </if>
+                        <if condition = "$vo.state gt '0' AND $vo.service_state gt '0'">
+                            <!--<span class="orange">服务详情</span>-->
+                            <a href="{:U('Company/Information/serviceListDetail')}?orderId={$vo.id}" class="orange">服务详情</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+
+        </table>
+        <div class="pageBox clearOver">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name="script">
+    <script data-init="list" src="/Application/static/Home/js/dist/service.bundle.js"></script>
+</block>

@@ -1,0 +1,5 @@
+@mixin button-variant($color, $background, $border) {
+    color:$color;
+    background: $background;
+    border: $border;
+}

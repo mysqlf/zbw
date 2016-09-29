@@ -1,0 +1,411 @@
+@charset "utf-8";
+
+@import "../variables";
+@import "../mixins";
+
+.wrapper{
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+.addList{
+    .pageSearch{
+        line-height: 36px;
+        input,select{
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+        .t1{
+            width: 110px;
+        }
+        .t2{
+            width: 220px;
+        }
+        .t3{
+            width: 150px;
+        }
+    }
+    .toIncrease{
+        @include zb-button1(80px,34px,$color-orange);
+    }
+    .pageTable{
+        table-layout:fixed;
+        td{
+            Word-break: break-all;
+            min-height: 38px;
+            height: auto;
+            padding:0 5px;
+        }
+        .c-1{width: 60px;}
+        .c-2{width: 157px;}
+        .c-3{width: 138px;}
+        .c-4{width: 68px;}
+        .c-5{width: 68px;}
+        .c-6{width: 76px;}
+        .c-7{width: 78px;}
+        .c-8{width: 78px;}
+        .c-9{width: 100px;}
+        .c-10{width: 75px;}
+        .c-11{width: 110px;}
+        .c-12{
+            padding: 0px;
+            table{
+                width: 512px;
+                margin: -1px;
+                td{
+                    height: 38px;
+                }
+            }
+
+        }
+    }
+}
+
+.addIns{
+    padding-left: 60px;
+    .pageTitle{
+        padding-top:0px;
+        span{
+            font-size: 22px;
+            color: $font-color-gray2;
+            line-height: 30px;
+            padding: 0px 10px 10px 10px;
+        }
+
+        .back{
+            @include zb-button1(86px,36px,$color-orange);
+            margin: 0px;
+        }
+    }
+
+    .fromTable{
+        .name{
+            padding-right: 10px;
+            text-align: right;
+            width: 80px;
+        }
+        .month{
+            font-size: 18px;
+        }
+    }
+
+    .addAudit{
+        .zb_inpt{
+            width: 304px;
+        }
+
+        .age{
+            margin-left: 10px;
+
+            em{
+                font-style: normal;
+                margin-left: 10px;
+            }
+        }
+
+        .ICUpload{
+            .ic{
+                position: relative;
+                width: 140px;
+                height: 100px;
+                display: inline-block;
+                margin-right: 20px;
+                border: 1px dashed #dedede;
+
+                .upBtn{
+                    position: absolute;
+                    top:0px;
+                    left: 0px;
+                    width: 140px;
+                    height: 100px;
+                    z-index: 2;
+                    text-indent: -1000px;
+                    overflow: hidden;
+
+                    .webuploader-pick{
+                        height: 100px;
+                        display: block;
+                    }
+                }
+
+                .icon-add{
+                    position: absolute;
+                    top:25px;
+                    left: 53px;
+                }
+                p{
+                    position: absolute;
+                    top:70px;
+                    text-align: center;
+                    color: $color-blue;
+                    width: 100%;
+                }
+                [type="file"] {
+                    background: transparent;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 0px;
+                    left: 0px;
+                    z-index: 2;
+                    opacity: 0;
+                }
+
+                img{
+                    position: absolute;
+                    top:10px;
+                    left: 28px;
+                }
+
+                .icon-sclosed{
+                    position: absolute;
+                    top:-6px;
+                    right:-12px;
+                    z-index: 3;
+                }
+            }
+            .front{
+                background: #f8f8f8;
+            }
+        }
+    }
+
+    .cardinal{
+        color: #888;
+    }
+
+    .subhead{
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+
+    .buyIns{
+        .zb_inpt{
+            width: 194px;
+            margin-right: 10px;
+        }
+        .square{
+            margin-left: 0px;
+            label{
+                margin-left: 0px;
+                input[type=checkbox]{
+                    margin-right: 20px;
+                }
+            }
+        }
+        .start{
+            .zb_inpt{
+                width: 126px;
+            }
+        }
+
+        .pageTable{
+            margin-top: 15px;
+            width: 676px;
+            td{
+                height: 45px;
+            }
+            .c-1{width: 120px;}
+            .c-2{width: 110px;}
+            .c-3{width: 115px;}
+            .c-4{width: 105px;}
+            .c-5{width: 110px;}
+            .c-6{width: 105px;}
+            .orange{font-weight: bold;}
+        }
+
+        .circle{
+            width: 100%;
+            margin: 0px;
+            margin-top: 20px;
+            label{
+                margin-left: 0px;
+                width: 100%;
+
+                .c1{
+                    margin-left: 15px;
+                    input{
+                        margin-left: 10px;
+                    }
+                    a{
+                        color:$color-blue;
+                        margin-left: 10px;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+
+        .subtotal{
+            padding: 10px 0px;
+            text-align: right;
+            font-size: 18px;
+            color: $color-orange;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 5px;
+
+            .square{
+                float: left;
+                color: #333;
+                font-size: 14px;
+                line-height: 45px;
+                margin-top: -10px;
+            }
+        }
+
+        .CPF{
+            .name{
+                width: 110px;
+            }
+            .scale{
+                .zb_inpt{
+                    width: 160px;
+                }
+                .cardinal{
+                    margin-left: 10px;
+                }
+            }
+
+        }
+        .disabled{
+            border-bottom: none;
+
+        }
+
+        .total{
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            font-size: 18px;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            background: $color-orange;
+        }
+    }
+    .orange_btn{
+            @include zb-button1(180px,50px,$color-orange);
+            font-size: 18px;
+            border-width: 2px;
+            display: block;
+            margin: 30px auto 0 auto;
+        }
+}
+.details{
+    .fromTable{
+        td{
+            height: 36px;
+            line-height: 36px;
+        }
+    }
+    .addAudit .ICUpload .ic img{
+        top:20px;
+    }
+}
+.reduceTip{
+    width: 440px;
+    margin: 0px auto;
+    .checkbox{
+        font-size: 16px;
+        color: #666;
+        font-weight: bold;
+        margin-left: 125px;
+    }
+    .name{
+        text-align: right;
+        width: 135px;
+    }
+    .btnCont{
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 250px;
+
+        a{
+            margin: 0px 10px;
+        }
+        .btnB{
+            @include zb-button(100px,40px,$color-blue);
+        }
+        .btnO{
+            @include zb-button(100px,40px,$color-orange);
+        }
+    }
+}
+.detailsWarranty{
+    width: 680px;
+    margin: 0px auto 70px auto;
+    .username{
+        padding-top: 15px;
+        font-size: 26px;
+        color:$color-blue;
+        text-align: center;
+        font-weight: bold;
+    }
+    .information{
+        margin-top: 35px;
+        color: $color-gray3;
+        font-size: 16px;
+        text-align: center;
+        line-height: 30px;
+        span{
+            padding: 0px 25px;
+        }
+    }
+    .tit1{
+        margin-top: 50px;
+        text-align: left;
+        color: $color-blue;
+        font-size: 22px;
+    }
+    .squareB{
+        padding: 4px;
+        background: $color-blue;
+        display: inline-block;
+        margin-right:15px;
+        position: relative;
+        top: -4px;
+    }
+    ul{
+        width: 430px;
+        margin-top: 10px;
+        li{
+            width: 210px;
+            display: inline-block;
+            height: 36px;
+            line-height: 36px;
+            color: #666666;
+        }
+    }
+    .pageTable{
+        margin-top: 20px;
+        td{height: 40px;}
+        .c-1{font-weight: bold}
+    }
+    .orange{color: $color-orange;}
+    .subtotal{
+        text-align: right;
+        margin-top: 20px;
+        padding: 10px 0px;
+        border-bottom: 1px solid #dddddd;
+        font-size: 16px;
+    }
+    .nb{
+        margin-top: 0px;
+        border: none;
+    }
+    .total{
+        text-align: center;
+        margin-top: 60px;
+        height: 48px;
+        line-height: 48px;
+        color: #fff;
+        background: $color-orange;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .back{
+        @include zb-button1(86px,34px,$color-orange);
+        margin-left: 300px;
+        margin-top:30px;
+    }
+}

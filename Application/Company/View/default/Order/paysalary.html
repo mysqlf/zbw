@@ -1,0 +1,118 @@
+<extend name="Base/Insurance" />
+<block name="right">
+    <div class="right_box overflow">
+        <div class="right_head">
+            <h3 class="add_tit">付款明细</h3>
+        </div>
+        <div class="tab_title">
+            <if condition="$payorder['state']==1">
+             <span class="status_box c-green"><i class="icon icon-success"></i>已付款</span>
+           <else/>
+            <span class="status_box c-red"><i class="icon icon-error"></i>未付款</span>
+            </if>
+          
+            <if condition="$payorder['state']==1">
+                <div class="tab_list rel_box">
+                    <label><if condition="$payorder['pay_type'] == 1 ">线上支付<elseif condition="$payorder['pay_type'] == 2"/>线下支付</if></label>
+                    <span>{$payorder.pay_time|default='/'}</span>
+                </div>
+            </if>
+            <div class="tab_list rel_box">
+                <label>订单编号：</label>
+                <span>{$payorder.order_no|default="/"}</span>
+            </div>
+            <div class="tab_list rel_box">
+                <label>收款方：</label>
+                <span>{$payorder.company_name}</span>
+            </div>
+        </div>
+        <div class="table_con">
+           <table class="table text-center table_white c-text-dark">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>身份证号码</th>
+                    <th>城市</th>
+                    <th>服务套餐</th>
+                    <th>银行名称</th>
+                    <th>银行卡号</th>
+                    <th>工资年月</th>
+                    <th>个人所得税</th>
+                    <th>实发工资</th>
+                    <th>服务费</th>
+                    <th>合计</th>
+                </tr>
+            </thead>
+            <tbody class="cal-content">
+            <if condition="$list">
+                <volist name="list" id="vo">
+                    <tr <if condition="$key%2 eq 1 "> class="even_bg"</if>>
+                        <td>
+                            <a class="c-text-dark" href="">{$vo.person_name}</a>
+                        </td>
+                        <td>
+                            {$vo.card_num}
+                        </td>
+                        <td>
+                            {$vo.location|showAreaName}
+                        </td>
+                        <td>
+                            {$vo.name|default='/'}
+                        </td>
+                        <td>
+                            {$vo.bank}{$vo.branch}
+                        </td>
+                        <td>
+                            {$vo.account}
+                        </td>
+                        <td>
+                            {$vo.date|int_to_date}
+                        </td>
+                        <td>
+                            {$vo.tax}
+                        </td>
+                        <td>
+                            {$vo.actual_salary}
+                        </td>
+                        <td>
+                          {$vo.af_service_price|default="/"}
+                        </td>
+                        <td>
+                            {$vo.price|default="/"}
+                        </td>
+                    </tr>
+                </volist>
+            <else />
+            <tr>
+                <td colspan="11" height="60px">
+                    没有符合条件的记录
+                </td>
+            </tr>
+            </if>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+        </div>
+        <div class="staff_box">
+            <div class="staff_text">
+                应付金额：
+                <span class="price" id="companyPrice"><i>￥</i>{$payorder.amount}</span>元
+            </div>
+            <div class="staff_text">
+                实付金额：
+                <span class="total_price" id="totalPrice"><i>￥</i>{$payorder.actual_amount}</span>元
+            </div>
+        </div>
+        <if condition="$payorder['state'] neq 1">
+        <div class="fr" style="margin-top:20px">
+            <input type="hidden" name="orderid" value="{$payorder.id}" id="orderId">
+            <input type="hidden" name="ordertype" value="3" id="orderType">
+            <input type="button" value="立即支付" id="submitBtn" data-type="paysalary" class="btn btn_orange ls_btn ">
+        </div>
+        </if>
+    </div>
+</block>
+<block name="script">
+    <script type="text/javascript" data-init="paysalary" src="/Application/Company/Assets/v2/js/dist/Order.bundle.js"></script>
+</block>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<include file="Platform/head" />
+</head>
+<body>
+	<include file="Platform/header" />
+	<div class="commWidth information-wrap">
+		<div class="horizontal information-header">
+			<div class="left">
+				资讯查询
+			</div>
+			<div class="right information-search ">
+				<form id="J_infor-search-form" class="search-box">
+                    <input type="text" name="keyword" class="search-txt" value="<?php if($_GET['keyword']) echo $_GET['keyword']; ?>" placeholder="请输入关键字">
+                    <input type="image" src="/Application/Home/Assets/img/platform/search_small.png" class="submit-search" alt="查询">
+					<input type="hidden" name="category" value="{:I('get.category')}">
+                    <input id="J_location" type="hidden" name="location">
+                </form>
+
+                <div class="horizontal info-city">
+                	<div class="left">
+                		选择城市：
+                	</div>
+                	<div id="J_location-list" class="right">
+                		<a class="active" href="javascript:;" data-location="">全国</a>
+                		<volist name="location" id="vo">
+                			<a href="javascript:;" data-location="{$vo.location}">{$vo.location|showAreaName}</a>
+                		</volist>
+                	</div>
+                </div>
+			</div>
+		</div>
+		<div class="horizontal"> 
+			<ul class="left information-nav">
+				<li class="aside-mask"></li>
+				<li><a href="/Article-lists" <php>if(!$_GET['category']){ echo 'class="active"';$name=$vo['title'];}</php>>全部</a></li>
+				<volist name="category" id="vo">
+					<li>
+						<a href="/Article-lists-category-{$vo.name}" <php>if($_GET['category']==$vo['name']){ echo 'class="active"';$name=$vo['title'];}</php>>{$vo.title}</a>
+					</li>
+				</volist>
+			</ul>
+			<div class="right">
+				<ul id="J_info-list" class="info-list">
+					<volist name="list" id="art">
+						<li class="info-item horizontal">
+							<div class="left info-time">
+								<span class="month">{$art.create_time|date="m",###}<span class="line">/</span>{$art.create_time|date="d",###}</span>
+								<span class="year">{$art.create_time|date="Y",###}</span>
+							</div>
+							<div class="right info-content">
+								<h3 class="info-title text-overflow">
+									<a href="/Article-detail-id-{$art.id}" title="{$art.title}">{$art.title}</a>
+								</h3>
+								<p class="clearfix">
+									{$art.description}
+									<a href="/Article-detail-id-{$art.id}" class="more fr">MORE</a>
+								</p>
+							</div>
+						</li>
+					</volist>
+				</ul>
+				<!-- 
+					 没有更多数据
+				-->
+
+				<a class="loading-more <if condition="$pagecount eq 1">no-more disabled</if>" href="javascript:;" data-pn="2" id="J_loading-more">
+					<i class="icon icon-loading-more"></i>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+
+
+
+<include file="Platform/footer_copyright" />
+<script data-module="information" src="/Application/Home/Assets/js/dist/helpCenter.bundle.js"></script>
+</body>

@@ -1,0 +1,109 @@
+<form id="modify_gjj">
+	<input type="hidden" name="template_id" value="{$Think.get.template_id}">
+	<h3>公积金</h3>
+	<div class="form-controll">
+		<label>基数范围</label>
+		<input type="text" name="gjj[min]" value="{$gjj_rule['min']}">
+		~
+		<input type="text"  name="gjj[max]" value="{$gjj_rule['max']}">
+	</div>
+	<div class="form-controll">
+		<label>单位比例</label>
+		<select  id="gjj-com-scale">
+			<option value="0">固定比例</option>		
+			<php>$compan_ratio = is_array($gjj_rule['company']);</php>
+			<option value="1" <?php if($company_ratio){?> selected="selected" <?php } ?>>比例范围</option>
+		</select>
+		<div class="com_input-type">
+			<if condition="$compan_ratio">
+				<input type="text" name="gjj[company][]"  value="{$gjj_rule['company'][0]}" >~<input type="text" name="gjj[company][]" value="{$gjj_rule['company'][1]}">
+			<else />
+				<input type="text" name="gjj[company][]" value="{$gjj_rule['company']}" ><span >% 	如果是多个固定值，请用英文逗号隔开</span>
+			</if>
+		</div>
+	</div>
+	<div class="form-controll">
+		<label>个人比例</label>
+		<select id="gjj-per-scale" >
+			<option value="0">固定比例</option>		
+			<php>$person_ratio = is_array($gjj_rule['person']);</php>				
+			<option value="1" <?php if($person_ratio){?> selected="selected" <?php } ?>>比例范围</option>
+		</select>
+		<div class="per_input-type">
+			<if condition="$person_ratio">
+				<input type="text" name="gjj[person][]" value="{$gjj_rule['person'][0]}" calss="person_range">~<input type="text" name="gjj[person][]" value="{$gjj_rule['person'][1]}" calss="person_range">
+			<else />
+				<input type="text" name="gjj[person][]" value="{$gjj_rule['person']}" calss="person_range"><span calss="person_range">% 	如果是多个固定值，请用英文逗号隔开</span>
+			</if>
+		</div>
+	</div>
+	<div class="form-controll">
+		<label>公积金卡工本费</label>
+		<input type="text" name="gjj[pro_cost]" value="{$gjj_rule.pro_cost}"><span>元/每人</span>
+	</div>
+	<div class="form-controll">
+		<label>是否取整</label>
+		<input type="checkbox" name="gjj[intval]" value="1" <if condition="$gjj_rule['intval'] eq 1">checked="checked"</if>>
+	</div>
+	<h3>其它收费</h3>
+	<table class="other gjj_other_item">
+		<empty name="gjj_rule.other">
+			<tr id="gjj_item">
+				<td>费用名称</td>
+				<td><input type="text" name="gjj_other[name][]" value=""></td>
+				<td>企业金额</td>
+				<td><input type="text" name="gjj_other[company][]" value="" ><span class="unit">元</span></td>
+				<td>个人金额</td>
+				<td><input type="text" name="gjj_other[person][]" value=""><span class="unit">元</span></td>
+				<td><a class="btn remove_other">删除</a></td>
+			</tr>
+		<else />
+			<volist	name="gjj_rule.other" id="vb">
+				<tr id="gjj_item">
+					<td>费用名称</td>
+					<td><input type="text" name="gjj_other[name][]" value="{$vb.name}"></td>
+					<td>企业金额</td>
+					<td><input type="text" name="gjj_other[company][]" value="{$vb.rules.company}" ><span class="unit">元</span></td>
+					<td>个人金额</td>
+					<td><input type="text" name="gjj_other[person][]" value="{$vb.rules.person}"><span class="unit">元</span></td>
+					<td><a class="btn remove_other">删除</a></td>
+				</tr>
+			</volist>
+		</empty>
+	</table>
+	<a class="btn" href="javascript:addOther();">添加</a>
+</form>
+<style type="text/css">
+	input[type="text"],.form-controll select{border:1px solid #dedede;height:30px;border-radius: 4px;}
+	.form-controll,h3,.other,.other tr{height: 40px;line-height: 40px;padding:.5em 0;}
+	#modify_gjj{padding-left: 1em;}
+	#modify_gjj h3{border-bottom:3px double #aeaeae; width:100px;}
+	.per_input-type,.com_input-type{display: inline-block;}
+</style>
+<script type="text/javascript">
+	$('.remove_other').click(function(){
+		$(this).parent().parent().remove();
+	});
+	
+	function addOther()
+	{
+		var other_html = $('#gjj_item').clone(true);
+		other_html.find('input').val('');
+		//var other_html = '<tr id="gjj_item"><td>费用名称</td><td><input type="text" name="gjj_other[name][]" value=""></td><td>企业金额</td><td><input type="text" name="gjj_other[company][]" value="" ><span class="unit">元</span></td><td>个人金额</td>	<td><input type="text" name="gjj_other[person][]" value=""><span class="unit">元</span></td><td><a class="btn remove_other">删除</a></td></tr>'
+		$('.gjj_other_item').append(other_html);
+	}
+	$('#gjj-com-scale').change(function(){
+		var input_html = new Array(2);
+		input_html[0] = '<input type="text" name="gjj[company][]"  calss="person_range"><span calss="person_range">% 	如果是多个固定值，请用英文逗号隔开</span>';
+		input_html[1] = '<input type="text" name="gjj[company][]"  calss="person_range">~<input type="text" name="gjj[company][]" calss="person_range">';
+		var input_type = parseInt($(this).val());
+		$('.com_input-type').html(input_html[input_type]);
+	});
+	$('#gjj-per-scale').change(function(){
+		var input_html = new Array(2);
+		input_html[0] = '<input type="text" name="gjj[person][]"  calss="person_range"><span calss="person_range">% 	如果是多个固定值，请用英文逗号隔开</span>';
+		input_html[1] = '<input type="text" name="gjj[person][]"  calss="person_range">~<input type="text" name="gjj[person][]" calss="person_range">';
+		var input_type = parseInt($(this).val());
+		$('.per_input-type').html(input_html[input_type]);
+	});
+</script>

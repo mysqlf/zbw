@@ -1,0 +1,64 @@
+<extend name="Base/common" />
+<block name="body">
+	<div class="accountInfo-title"><h2 class="">企业账单</h2></div>
+    <?php if(!empty($result['result'])):?>
+    <div class="gutter table-responsive">
+	    <table id="bill-list-form" class="table table-bordered text-center">
+	        <thead>
+	            <tr>
+	            	<!--<th class="text-left"><label><input class="icheck icheck-all" type="checkbox"> 全选</label></th>-->
+	                <th>账单年月</th>
+	                <th>企业名称</th>
+	                <th>账单总额</th>
+	                <th>付款截止时间</th>
+	                <th>账单状态</th>
+	                <th>付款时间</th>
+	                <th>实付总额</th>
+	                <th>差额</th>
+	                <th width="10%">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+
+	        	<?php foreach ($result['result'] as $v){?>
+		            <tr>
+		                <!--<td><input class="icheck single-icheck" type="checkbox" data-bill_no="<?php echo $v['bill_no'];?>" data-bill_id="<?php echo $v['id'];?>"></td>-->
+		                <td><?php echo $v['time']?></td>
+		                <td><a href="/Service-Order-comInfo?company_id=<?php echo $v['company_id']?>"><?php echo $v['company_name']?></a></td>
+		                <td><?php echo $v['price']?></td>
+		                <td><?php echo $v['abort_payment_time'];?></td>
+		                <td class="state"><?php echo adminState()['bill'][$v['state']];?></td>
+		                <td><?php echo strtotime($v['pay_time']) ? $v['pay_time'] : '';?></td>
+		                <td><?php echo $v['actual_price'];?></td>
+		                <td><?php echo $v['difference'];?></td>
+		                <td class="op-td">
+		                	<a class="c-warm" href="<?php echo U('Bill/comBillDetail/',array('id'=>$v['id'],'bno'=>$v['bill_no']));?>">明细 </a>
+                            <?php if($v['state'] != 2):?>
+                            <?php if($auth['group'] == 1 || $auth['group'] == 2 ):?>
+		                    <a class="c-primary" href="javascript:;" data-act="comBillpayment" data-id="<?php echo $v['id'];?>" data-bill_no="<?php echo $v['bill_no'];?>" data-pay="<?php echo $v['price'];?>">确认付款 </a>
+                            <?php endif;?>
+                            <?php endif;?>
+                        </td>
+		            </tr>
+	            <?php }?>
+
+	        </tbody>
+	    </table>
+
+
+		<!--<button data-act="export-bill" type="button" class="btn btn-warm">-->
+	    	<!--<i class="icon icon-export no-gutter"></i>-->
+	    	<!--导出账单-->
+	    <!--</button>-->
+	    <div class="pagination">
+            {$result.page}
+        </div>
+	</div>
+    <?php else:?>
+    <span class="no-data-tip"> 未找到符合条件的记录</span>
+    <?php endif;?>
+</block>
+<block name="script">
+    <script data-init="comBillList" type="text/javascript" src="/Application/Service/Assets/js/dist/bill.bundle.js"></script>
+</block>
+<!-- 用于加载js代码 -->

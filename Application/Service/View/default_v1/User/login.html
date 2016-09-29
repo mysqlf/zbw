@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <include file="Public/head" />
+</head>
+
+
+<body class="login-body">
+
+<!-- <header class="jumbotron subhead" id="overview">
+  <div class="container">
+    <h2>用户登录</h2>
+    <p><span><span class="pull-left"><span>还没有账号? <a href="{:U('User/register')}">立即注册</a></span> </span></p>
+  </div>
+</header> -->
+<header class="header">
+  <div class="head">
+    <div class="logo pull-left">
+      <a href="/"><i class="icon icon-login-logo pull-left"></i></a>
+      <span>智保易服务商后台</span>
+    </div>
+  </div>
+</header>
+<div class="main-login">
+    <section class="login clearfix">
+      <div class="span12 pull-right">
+            <form id="login-form" class="login-form form-horizontal" action="" method="post">
+              <h2 class="title"><i class="icon icon-logo-sm"></i>服务商登录</h2>
+              <div class="control-group form-group">
+                <label class="col-xs-3 control-label" for="inputEmail">账 号：</label>
+                <div class="controls col-xs-9">
+                  <i class="icon icon-account-img"></i>
+                  <input style="line-height: 40px;" type="text" id="inputEmail" class="span3 form-control" placeholder="请输入用户名"  ajaxurl="/member/checkUserNameUnique.html"  datatype="*1-16" value="" name="username" required>
+                </div>
+              </div>
+              <div class="control-group form-group">
+                <label class="col-xs-3 control-label" for="inputPassword">密 码：</label>
+                <div class="controls col-xs-9">
+                  <i class="icon icon-psw-img"></i>
+                  <input style="line-height: 40px;" type="password" id="inputPassword" required class="span3 form-control" placeholder="请输入密码"  name="password">
+                </div>
+              </div>
+              <!-- <div class="control-group form-group">
+                <label class="control-label col-xs-3" for="verify">验证码：</label>
+                <div class="controls col-xs-9">
+                  <i class="icon icon-psw-img"></i>
+                  <input type="text" id="verify" class="span3 verify form-control pull-left" placeholder="请输入验证码" datatype="*5-5" name="verify">
+                  <img class="verifyimg reloadverify pull-right" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
+                </div>
+              </div> -->
+              <div class="control-group form-group">
+                <div class="controls col-xs-9  col-xs-offset-3">
+                  <button type="submit" class="btn btn-primary btn-login">登 录</button>
+                </div>
+              </div>
+            </form>
+      </div>
+    </section>
+    <div class="login-footer">
+        Copyright©1999-2015 job5156.com广东智通人才连锁股份有限公司 版权所有 粤B2-20040400  粤B2-20040400-2
+    </div>
+</div>
+
+
+</body>
+
+<include file="Public/footer" />
+<block name="script">
+    <script data-init="login" type="text/javascript" src="/Application/Service/Assets/js/dist/user.bundle.js"></script>
+</block>

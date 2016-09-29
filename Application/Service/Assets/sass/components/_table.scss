@@ -1,0 +1,267 @@
+/*==================================================
+  ***** 表格 *****
+         ———— thead ———— tr ———— th
+         |
+         |
+  table -|——— tbody ———— tr ———— td.has-tb —— table.inner-tbl —— tr.no-brdb —— td
+         |
+         |                       ———— th
+         ———— tfoot ———— tr ———— |
+                                 |
+                                 ———— td
+    .text-c ··············· 文字居中对齐
+    .text-l ··············· 文字左对齐
+    .text-r ··············· 文字右对齐
+
+    ~~~~ 全局 ~~~~
+    .fail ··············· 失败
+    .cgray ··············· 灰
+    .cblue ··············· 蓝
+    .cpurple ··············· 紫
+    .cgreen ··············· 绿
+
+  ==================================================*/
+
+table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    word-break: break-all;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    text-align: center;
+    background: $color-white;
+    margin: {
+        bottom: 30px;
+    }
+    caption {
+        font: {
+            size: $f-size-medium;
+            weight: bold;
+        }
+        color: $color-bg;
+        text-align: left;
+        margin: {
+            bottom: 12px;
+        }
+    }
+    thead {
+        border-bottom: 2px solid #FFA64A;
+        th {
+            @at-root table th {
+                padding: {
+                    top: 19px;
+                    bottom: 19px;
+                }
+                font: {
+                    size: 14px;
+                    weight: 400;
+                    family: inherit;
+                }
+                color: $color-bg;
+                white-space: nowrap;
+                text-align: center;
+            }
+        }
+    }
+    tbody,
+    tfoot {
+        font-size: 14px;
+        color: $color-tbf;
+        tr {
+            height: 100%;
+            border-bottom: $border-default;
+            &.tr-bg {
+                background: #F7F8FA;
+            }
+            td {
+                height: 100%;
+                padding: {
+                    top: 9px;
+                    bottom: 8px;
+                    left: 5px;
+                    right: 5px;
+                }
+                border-right: $border-default;
+                &.has-tb {
+                    padding: {
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                    }
+                }
+                @at-root .tbl-handle {
+                    display: inline-block;
+                    width: 48%;
+                    text-align: center;
+                }
+                @at-root .pd-lr{
+                    padding: {
+                        left: 3px;
+                        right: 3px;
+                    }
+                    display: inline-block;
+                }
+                @at-root .tbl-handle3{
+                    @extend .tbl-handle;
+                    width: 30%;
+                }
+                @at-root .cmain {
+                    color: $color-bg;
+                }
+                @at-root .fail {
+                    color: $color-orange;
+                }
+                @at-root .suc {
+                    color: $color-green;
+                }
+                @at-root .cgray {
+                    color: $color-bg;
+                }
+                @at-root .cgraylg {
+                    color: $color-ipt;
+                }
+                @at-root .cblue {
+                    color: $color-secondary;
+                }
+                @at-root .cbluelg {
+                    color: $color-blue;
+                }
+                @at-root .cpurple {
+                    color: $color-purple;
+                }
+                @at-root .cgreen {
+                    color: $color-green;
+                }
+                @at-root .cgreenlg {
+                    color: $color-greenlg;
+                }
+                @at-root .cred {
+                    color: $color-orange;
+                }
+            }
+        }
+    }
+    a {
+        color: $color-blue;
+    }
+    &.table {
+        th {
+            padding: {
+                top: 8px;
+                bottom: 8px;
+            }
+        }
+    }
+    &.inner-tbl {
+        height: 100%;
+        min-width: initial;
+        background: transparent;
+        margin: {
+            bottom: 0;
+        }
+        tr {
+            height: 50%;
+            &.no-brdb {
+                border-bottom: 0;
+            }
+        }
+        td {
+            box-sizing: border-box;
+            padding: {
+                top: 7px;
+                bottom: 7px;
+            }
+            &.no-brdr {
+                border-right: 0;
+            }
+        }
+    }
+    input {
+        display: inline-block;
+    }
+    .text-c {
+        text-align: center;
+    }
+    .text-l {
+        text-align: left;
+    }
+    .text-r {
+        text-align: right;
+    }
+    &.inner-tb {
+        min-width: initial;
+        background: transparent;
+        tr {
+            .no-brdb {
+                border-bottom: 0;
+            }
+            td {
+                @at-root table {
+                    &.inner-tb & {
+                        border-right: 0;
+                    }
+                }
+            }
+        }
+    }
+    a {
+        &:hover {
+            color: $color-primary;
+        }
+    }
+    p {
+        margin: 0;
+    }
+    .no-brdr {
+        border-right: 0;
+    }
+    @at-root .em-amount{
+        margin-right: 30px;
+        color: $color-bg;
+        em{
+            padding: {
+                left: 5px;
+                right: 5px;
+            }
+            font: {
+                size: $f-size-xlarge;
+                weight: bold;
+            }
+            color: $color-primary;
+
+        }
+    }
+}
+
+.table-bordered {
+    border: 1px solid $table-border-color;
+    thead {
+        background: #f7f8fa;
+        border-bottom: 1px solid $table-border-color;
+        th {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+    > thead,
+    > tbody,
+    > tfoot {
+        > tr {
+            > th,
+            > td {
+                border: 1px solid $table-border-color;
+            }
+        }
+    }
+    tfoot {
+        td {
+            @include font(14px);
+            .price {
+                color: $color-primary;
+                font-weight: bold;
+            }
+        }
+    }
+}

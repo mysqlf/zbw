@@ -1,0 +1,196 @@
+.text-input {
+    color: #414141;
+    width: 224px;
+    height: 34px;
+    line-height: 33px;
+    border: 1px solid #d5d5d5;
+    padding: 0 8px;
+    margin-bottom: 17px;
+    position: relative;
+    &:focus {
+        border: 1px solid $blue;
+    }
+}
+
+
+/*按钮*/
+
+.button {
+    border: none;
+    color: #fff;
+    padding: 8px 19px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.buttonOrange {
+    background: $orange;
+    cursor: pointer;
+    &:hover {
+        background: $orangeHover;
+    }
+    /* &:active{background:$orangeActive;} */
+}
+
+.buttonBlue {
+    background: $blue;
+    &:hover {
+        background: $blueHover;
+    }
+    &:active {
+        background: $blueActive;
+    }
+}
+
+.btn-border {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #2c3e50;
+    &:hover {
+        border-color: $orangeHover;
+        color: $orangeHover;
+    }
+}
+
+pre {
+    font-family: inherit;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word
+}
+
+//侧边悬浮
+.side-float {
+    // position: fixed;
+    // left: 50%;
+    // margin-left: 660px;
+    // top: 40%;
+    
+    .sidebar-item {
+        position: relative;
+        margin-bottom: 15px;
+        cursor: pointer;
+        >a,
+        & {
+            @include size(50px);
+            display: block;
+        }
+        .inner {
+            background: #fff;
+            position: absolute;
+            right: 100%;
+            top: 0;
+            width: 220px;
+            min-height: 204px;
+            margin-top: -75px;
+            display: none;
+            @include triangle(6px, #fff, left);
+            .no-tip {
+                font-size: 16px;
+                padding-top: 90px;
+                display: inline-block;
+                color: #999;
+            }
+            &:before {
+                right: -6px;
+                top: 96px;
+                bottom: auto;
+            }
+            .aside-qq {
+                border-bottom: 1px solid #e9eeef;
+                padding: 8px 5px 8px 35px;
+                display: block;
+                color: #2c3e50;
+                overflow: hidden;
+                &:hover {
+                    background: #f5f5f5;
+                }
+            }
+            .txt {
+                text-align: left;
+                display: block;
+                margin-left: 45px;
+                margin-top: 10px;
+            }
+        }
+        &:hover {
+            >.icon {
+                @include opacity(.5);
+            }
+            #J_aside-calculator {
+                display: block;
+            }
+            .inner {
+                display: block;
+            }
+        }
+    }
+    #J_aside-calculator {
+        width: 1000px;
+        padding: 20px 0;
+        position: absolute;
+        right: 110%;
+        bottom: -90px;
+        background: #fff;
+        border: 1px solid #ddd;
+        text-align: left;
+        cursor: default;
+        display: none;
+        @include box-shadow(0 0 10px rgba(0, 0, 0, 0.27));
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            top: 0;
+            right: -20px;
+            background: transparent;
+        }
+        .state-title {
+            padding-top: 0;
+            text-align: center;
+            padding: 36px 0 20px 0;
+            margin: 0 auto;
+            font-size: 30px;
+            color: #f98a19;
+        }
+        .calculator {
+            max-height: 550px;
+            min-height: 430px;
+            overflow: auto;
+            padding: 0 55px;
+            .btn-box {
+                margin: 0;
+                overflow: hidden;
+                .button {
+                    width: 80px;
+                    float: right;
+                }
+                .btn-border {
+                    float: left;
+                }
+            }
+            .city-picker {
+                width: 300px;
+            }
+            &.horizontal {
+                >.left {
+                    width: 240px;
+                }
+                > .right {
+                    margin-left: 240px
+                }
+            }
+            .scale-input .text-input {
+                margin-left: 2.3em;
+            }
+        }
+        .city-picker-input {
+            width: 180px;
+        }
+    }
+}

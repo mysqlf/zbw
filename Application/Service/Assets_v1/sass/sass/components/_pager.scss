@@ -1,0 +1,34 @@
+//分页
+.divider-page{
+	ul.pagination{
+		li{
+			float:left;
+			a,span{					
+				font-size:14px;
+				border-radius:0;
+				color:$c-gray;
+			}
+			a{
+				padding:7px 11px;
+				margin-left:10px;
+				background:#fff;
+				&:hover,&:hover span,&.active{
+					background:$color-warm;
+					color:#fff;
+				}
+			}
+			&.page-text{
+				padding:7px 11px;
+				em{
+					color:$color-warm;
+					font-style: normal;
+				}
+			}
+		}
+	}
+	&:after{
+		content:' ';
+		display:block;
+		clear:both;
+	}
+}

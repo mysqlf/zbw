@@ -1,0 +1,40 @@
+<div class="ind-bar">
+    <ul class="side-float ind-bar-list">
+        <!-- 侧边服务 -->
+        <li class="sidebar-Qcode">
+            <a href="javascript:;" class="bar bar-Qcode"></a>
+            <div class="Qcode">
+                    <img src="/Application/Home/Assets/img/platform/Qcode.jpg" alt="智保易">
+                </div>
+        </li>
+        <if condition="in_array(CONTROLLER_NAME,['SocialSecurity','ServiceArticle']) or (I('get.cid'))">
+            <li class="sidebar-item">
+                <a class="bar bar-QQ" title="联系客服" href="javascript:;" rel="nofollow"></a>
+                <div class="inner">
+                    <if condition="$serviceAdminResult">
+                        <volist name="serviceAdminResult" id="vo" offset="0" length="5">
+                            <a class="aside-qq" href="tencent://message/?uin={$vo.qq}&amp;Site=www.bao5156.com&amp;Menu=yes" title="{$vo.name}" rel="nofollow">
+                                <i class="icon helper-qq fl"></i>
+                                <span class="txt">
+									{$vo.name}
+								</span>
+                            </a>
+                        </volist>
+                        <else/>
+                        <span class="no-tip">
+							暂无客服
+						</span>
+                    </if>
+                </div>
+            </li>
+        </if>
+        <li class="sidebar-item">
+            <a class="bar bar-calculate" title="社保计算器" href="javascript:;"></a>
+            <div id="J_aside-calculator"></div>
+        </li>
+        <li class="sidebar-back_top" title="返回顶部">
+            <a href="javascript:;" class="bar bar-top"></a>
+        </li>
+    </ul>
+</div>
+<script src="/Application/Home/Assets/js/area.js"></script>
