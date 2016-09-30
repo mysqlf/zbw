@@ -25,23 +25,23 @@
 				'service_type'=>array('in',array(1,3)),
 				'company_id'=>$cid,
 			);
-			$Product = D('ServiceProduct');
-			//服务商针对于企业产品列表
-			$company_product = $Product->serviceProduct(2,$condition,'id DESC');
-			foreach ($company_product as $key => $value) {
-				$company_product[$key]['product_detail']=htmlspecialchars_decode($value['product_detail']);
-				$tmp=json_decode($value['service_price'],true);
-				$company_product[$key]['service_price']=$tmp[0];
-			}
-			//获取服务商产品对象为个人的产品
-			$condition['service_type']=array('in',array(2,4));
-			//服务商针对于个人产品列表
-			$person_product = $Product->serviceProduct(1,$condition,'id DESC');
-			foreach ($person_product as $key => $value) {
-				$person_product[$key]['product_detail']=htmlspecialchars_decode($value['product_detail']);
-				$tmp=json_decode($value['service_price'],true);
-				$person_product[$key]['service_price']=$tmp;
-			}
+			//$Product = D('ServiceProduct');
+			// //服务商针对于企业产品列表
+			// $company_product = $Product->serviceProduct(2,$condition,'id DESC');
+			// foreach ($company_product as $key => $value) {
+			// 	$company_product[$key]['product_detail']=htmlspecialchars_decode($value['product_detail']);
+			// 	$tmp=json_decode($value['service_price'],true);
+			// 	$company_product[$key]['service_price']=$tmp[0];
+			// }
+			// //获取服务商产品对象为个人的产品
+			// $condition['service_type']=array('in',array(2,4));
+			// //服务商针对于个人产品列表
+			// $person_product = $Product->serviceProduct(1,$condition,'id DESC');
+			// foreach ($person_product as $key => $value) {
+			// 	$person_product[$key]['product_detail']=htmlspecialchars_decode($value['product_detail']);
+			// 	$tmp=json_decode($value['service_price'],true);
+			// 	$person_product[$key]['service_price']=$tmp;
+			// }
 			//增值服务列表
 			$add_ser_list = D('ValueAddedService')->getAddedList(array('state'=>1,'company_id'=>$cid,'state'=>1),'create_date DESC');
 			//增值服务列表外层循环次数 配合前端轮播特效
@@ -53,9 +53,10 @@
 			$this->channel_list =channel_list($this->_Cid);
 			//公司资讯
 			$this->company_advisory = getCateList('xz_help');
+			$service_product = D('ServiceProduct')->productList($data);
 			$this->assign('city',$map['name']);
-			$this->assign('company_product',$company_product);
-			$this->assign('person_product',$person_product);
+			$this->assign('service_product',$service_product);
+			//$this->assign('person_product',$person_product);
 			$this->assign('add_ser_list',$add_ser_list);
 			$this->assign('Cid', $this->_Cid)->display();
 		}

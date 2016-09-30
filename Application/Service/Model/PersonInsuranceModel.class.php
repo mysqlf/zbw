@@ -206,6 +206,35 @@ class PersonInsuranceModel extends Model{
 	}
 	
 	/**
+	 * getPersonInsuranceInfoByHandleMonth function
+	 * 根据办理年月条件获取服务订单详情
+	 * param array $data 条件数组
+	 * @return mixed
+	 * @author rohochan <rohochan@gmail.com>
+	 **/
+	public function getPersonInsurance($data){
+		if (is_array($data)) {
+			$result = array();
+			$result[1] = $this->alias('pi')->field(true)->where(array('pi.user_id'=>$data['user_id'],'pi.base_id'=>$data['base_id'],'pi.payment_type'=>1))->order('pi.create_time desc, pi.id desc')->find();
+			$result[2] = $this->alias('pi')->field(true)->where(array('pi.user_id'=>$data['user_id'],'pi.base_id'=>$data['base_id'],'pi.payment_type'=>2))->order('pi.create_time desc, pi.id desc')->find();
+			
+			if ($result || null === $result) {
+				return $result;
+			}else if (false === $result) {
+				wlog($this->getDbError());
+				$this->error = '系统内部错误！';
+				return false;
+			}else {
+				$this->error = '未知错误！';
+				return false;
+			}
+		}else {
+			$this->error = '非法参数！';
+			return false;
+		}
+	}
+	
+	/**
 	 * getInsuranceStatus function
 	 * 获取参保人参保状态
 	 * param int $userId 用户id

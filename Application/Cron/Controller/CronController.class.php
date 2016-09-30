@@ -164,6 +164,7 @@ class CronController extends Controller
                         $detail['type'] = $v['state'];
                         $detail['amount'] = $v['amount'];
                         $detail['pay_date'] = $v['pay_date'];
+                        $detail['handle_month'] = $v['handle_month'];
                         $detail['rule_id'] = $v['rule_id'];
                         $detail['state'] = $v['operate_state'];
                         $detail['payment_type'] = $v['payment_type'];
@@ -231,6 +232,7 @@ class CronController extends Controller
                         $detail['type'] = $v['state'];
                         $detail['amount'] = $v['amount'];
                         $detail['pay_date'] = $v['pay_date'];
+                        $detail['handle_month'] = $v['handle_month'];
                         $detail['rule_id'] = $v['rule_id'];
                         $detail['state'] = $v['operate_state'];
                         $detail['payment_type'] = $v['payment_type'];
@@ -515,6 +517,7 @@ class CronController extends Controller
         $month = date('m');
         $day   = date('d');
         $date  = date('Ym');
+        $remark = '到达报增减截止日,自动处理在保数据';
         $calculate = new Calculate;
         $m = M('template_rule' , 'zbw_');
         //查找报增减截止日是当天的规则
@@ -528,98 +531,119 @@ class CronController extends Controller
             $current = 0;
             //应用规则的记录
             $m = M('person_insurance' , 'zbw_');
-            $cnt = $m->where("rule_id={$val['id']} AND `state` IN (1,2)")->count();
+            //$cnt = $m->where("rule_id={$val['id']} AND `state` IN (1,2)")->count();
+            $cnt = $m->where("rule_id={$val['id']}")->count();
             $ceil = ceil($cnt/$limit);
             while ($page <= $ceil)
             {
                 $current = ($page-1)*$limit;
+                $tail = $page*$limit;
                 $page++;
                 //应用规则的在保记录
                 $m = M('person_insurance' , 'zbw_');
-                //$list = $m->where("rule_id={$val['id']} AND state IN (1,2)")->order('id DESC')->select();
-                $list = $m->where("rule_id={$val['id']} AND state = 2")->order('id DESC')->select();
+                //$list = $m->where("rule_id={$val['id']} AND state IN (1,2)")->order('id DESC')->limit($current,$tail)->select();
+                $list = $m->where("rule_id={$val['id']}")->order('id DESC')->limit($current,$tail)->select();
 
                 $info = M('person_insurance_info' , 'zbw_');
                 $order = M('pay_order' , 'zbw_');
                 $product = M('service_product' , 'zbw_');
                 $detailModel = M('service_insurance_detail','zbw_');
+                $insertInfo = array();
                 foreach ($list as $k=>$v)
                 {
-                    $insertInfo = array();
-                    $insertInfo = $v;
-                    unset($insertInfo['id']);
-                    $payDeadline = date('Y-m-d H:i:s',mktime(0,0,0,substr($this->_monthcal($date,1), 4 , 2),date('d'),substr($this->_monthcal($date,1), 0 , 4)));
-                    $payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime($payDeadline)));
-                    $productOrder = $product->alias('p')->field('p.company_id,po.id')->join('LEFT JOIN zbw_service_product_order po ON po.product_id=p.id')->where("p.id={$v['product_id']}")->find();
-                    $oid = $order->where("user_id={$v['user_id']} AND company_id={$productOrder['company_id']} AND location={$v['location']} AND handle_month={$this->_monthcal ($date , 1)} AND `type`=2 AND `state`=0")->getField('id');
-                    //订单入库
-                    if (!$oid)
-                    {
-                        $oid = $order->add(
-                            array(
-                                'order_no' => $orderModel->orderNo(),
-                                'user_id'  => $v['user_id'],
-                                'company_id' => $productOrder['company_id'],
-                                'location' => $v['location'],
-                                'handle_month' => $this->_monthcal ($date , 1),
-                                'amount' => 0.00,
-                                'diff_amount' => 0.00,
-                                'actual_amount' => 0.00,
-                                'state' => 0,
-                                'type'  => 2,
-                                'pay_deadline' => date('Y-m-d H:i:s',mktime(0,0,0,substr($this->_monthcal($date,1), 4 , 2),date('d'),substr($this->_monthcal($date,1), 0 , 4))),
-                                'create_time' => date('Y-m-d H:i:s')
-                            )
-                        );
-                    }
-                    
-                    //$insertInfo['pay_order_id'] = $oid;
-                    $insertInfo['insurance_id'] = $v['id'];
-                    $insertInfo['handle_month'] = $this->_monthcal ($date , 1);
-                    $insertInfo['pay_date']     = (1 == $val['soc_payment_type'] ? $insertInfo['handle_month'] : $this->_monthcal($insertInfo['handle_month'] , 1));
-                    $insertInfo['remark'] = '';
-                    $insertInfo['state'] = 2;
-                    $insertInfo['operate_state'] = 1;
-                    $insertInfo['create_time'] = $insertInfo['modify_time'] = date('Y-m-d H:i:s' , time());
-                    $insertDetail = array();
-                    $insertDetail['insurance_info_id'] = $info->add($insertInfo , '' ,true);
-                    $insertDetail['pay_order_id'] = $oid;
-                    $insertDetail['type'] = $insertInfo['state'];
-                    $insertDetail['amount'] = $insertInfo['amount'];
-                    $insertDetail['pay_date'] = $insertInfo['pay_date'];
-                    $insertDetail['rule_id'] = $insertInfo['rule_id'];
-                    $insertDetail['payment_type'] = $insertInfo['payment_type'];
+                	if ($v['state'] = 1 || $v['state'] = 2) {
+	                    $insertInfo = $v;
+	                    unset($insertInfo['id']);
+	                    //unset($insertInfo['start_month']);
+	                    unset($insertInfo['end_month']);
+	                    $payDeadline = date('Y-m-d H:i:s',mktime(0,0,0,substr($this->_monthcal($date,1), 4 , 2),date('d'),substr($this->_monthcal($date,1), 0 , 4)));
+	                    $payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime($payDeadline)));
+	                    $productOrder = $product->alias('p')->field('p.company_id,po.id')->join('LEFT JOIN zbw_service_product_order po ON po.product_id=p.id')->where("p.id={$v['product_id']}")->find();
+	                    $oid = $order->where("user_id={$v['user_id']} AND company_id={$productOrder['company_id']} AND location={$v['location']} AND handle_month={$this->_monthcal ($date , 1)} AND `type`=2 AND `state`=0")->getField('id');
+	                    //订单入库
+	                    if (!$oid)
+	                    {
+	                        $oid = $order->add(
+	                            array(
+	                                'order_no' => $orderModel->orderNo(),
+	                                'user_id'  => $v['user_id'],
+	                                'company_id' => $productOrder['company_id'],
+	                                'location' => $v['location'],
+	                                'handle_month' => $this->_monthcal ($date , 1),
+	                                'amount' => 0.00,
+	                                'diff_amount' => 0.00,
+	                                'actual_amount' => 0.00,
+	                                'state' => 0,
+	                                'type'  => 2,
+	                                'pay_deadline' => date('Y-m-d H:i:s',mktime(0,0,0,substr($this->_monthcal($date,1), 4 , 2),date('d'),substr($this->_monthcal($date,1), 0 , 4))),
+	                                'create_time' => date('Y-m-d H:i:s')
+	                            )
+	                        );
+	                    }
+	                    
+	                    //$insertInfo['pay_order_id'] = $oid;
+	                    $insertInfo['insurance_id'] = $v['id'];
+	                    $insertInfo['handle_month'] = $this->_monthcal ($date , 1);
+	                    $insertInfo['pay_date']     = (1 == $val['soc_payment_type'] ? $insertInfo['handle_month'] : $this->_monthcal($insertInfo['handle_month'] , 1));
+	                    $insertInfo['remark'] = $remark;
+	                    $insertInfo['state'] = $v['state'];
+	                    $insertInfo['operate_state'] = 1;
+	                    $insertInfo['create_time'] = $insertInfo['modify_time'] = date('Y-m-d H:i:s' , time());
+	                    $insertDetail = array();
+	                    $insertDetail['insurance_info_id'] = $info->add($insertInfo , '' ,true);
+	                    $insertDetail['pay_order_id'] = $oid;
+	                    $insertDetail['type'] = $insertInfo['state'];
+	                    $insertDetail['amount'] = $insertInfo['amount'];
+	                    $insertDetail['pay_date'] = $insertInfo['pay_date'];
+	                    $insertDetail['rule_id'] = $insertInfo['rule_id'];
+	                    $insertDetail['payment_type'] = $insertInfo['payment_type'];
+	                    $insertDetail['handle_month'] = $insertInfo['handle_month'];
 
-                    if ($insertDetail['payment_type'] == 1)
-                    {
-                        $insertDetail['service_price'] = M('warranty_location' , 'zbw_')->where("service_product_order_id={$productOrder['id']}")->getField('soc_service_price');
+	                    if ($insertDetail['payment_type'] == 1)
+	                    {
+	                        $insertDetail['service_price'] = M('warranty_location' , 'zbw_')->where("service_product_order_id={$productOrder['id']}")->getField('soc_service_price');
+	                    }
+	                    else if ($insertDetail['payment_type'] == 2)
+	                    {
+	                        $insertDetail['service_price'] = M('warranty_location' , 'zbw_')->where("service_product_order_id={$productOrder['id']}")->getField('pro_service_price');
+	                    }
+	                    
+	                    $insertDetail['replenish'] = 0;
+	                    
+	                    $insertDetail['payment_info'] = $insertInfo['payment_info'];
+	                    $person = array();
+	                    $person['amount'] = $insertInfo['amount'];
+	                    $person['month']  = 1;
+	                    $insertDetail['payment_type'] = $insertInfo['payment_type'];
+	                    if ($insertDetail['payment_type'] == 2)
+	                    {
+	                        $person['personScale']  = json_decode($insertInfo['payment_info'] , true)['personScale'];
+	                        $person['companyScale'] = json_decode($insertInfo['payment_info'], true)['companyScale'];
+	                    }
+	                    $cue = $calculate->detail($val['rule'] , $person , $insertDetail['payment_type'] , $val['disabled'] , $insertDetail['replenish']);
+	                    $cue = json_decode($cue , true)['data'];
+	                    //var_dump($val['rule'] , $person , $insertDetail['payment_type'] , $val['disabled'] , $insertDetail['replenish'] , $cue);
+	                    $insertDetail['insurance_detail'] = $insertDetail['current_detail'] = json_encode($cue , JSON_UNESCAPED_UNICODE);
+	                    $insertDetail['price'] = $cue['company']+$cue['person'];
+	                    $insertDetail['state'] = 1;
+	                    
+	                    $insertDetail['create_time']  = $insertDetail['modify_time'] = date('Y-m-d H:i:s' , time());
+	                    $detailModel->add($insertDetail);
+                    }else {
+                    	//person_insurance_info写入空白数据
+	                    $insertInfo = $v;
+	                    $insertInfo['state'] = 0;
+	                    unset($insertInfo['id']);
+	                    //unset($insertInfo['start_month']);
+	                    unset($insertInfo['end_month']);
+	                    
+	                    $insertInfo['insurance_id'] = $v['id'];
+	                    $insertInfo['handle_month'] = $this->_monthcal ($date , 1);
+	                    $insertInfo['remark'] = $remark;
+	                    $insertInfo['operate_state'] = 0;
+	                    $insertInfo['create_time'] = $insertInfo['modify_time'] = date('Y-m-d H:i:s' , time());
+	                    $insertDetail['insurance_info_id'] = $info->add($insertInfo , '' ,true);
                     }
-                    else if ($insertDetail['payment_type'] == 2)
-                    {
-                        $insertDetail['service_price'] = M('warranty_location' , 'zbw_')->where("service_product_order_id={$productOrder['id']}")->getField('pro_service_price');
-                    }
-                    
-                    $insertDetail['replenish'] = 0;
-                    
-                    $insertDetail['payment_info'] = $insertInfo['payment_info'];
-                    $person = array();
-                    $person['amount'] = $insertInfo['amount'];
-                    $person['month']  = 1;
-                    $insertDetail['payment_type'] = $insertInfo['payment_type'];
-                    if ($insertDetail['payment_type'] == 2)
-                    {
-                        $person['personScale']  = json_decode($insertInfo['payment_info'] , true)['personScale'];
-                        $person['companyScale'] = json_decode($insertInfo['payment_info'], true)['companyScale'];
-                    }
-                    $cue = $calculate->detail($val['rule'] , $person , $insertDetail['payment_type'] , $val['disabled'] , $insertDetail['replenish']);
-                    $cue = json_decode($cue , true)['data'];
-                    //var_dump($val['rule'] , $person , $insertDetail['payment_type'] , $val['disabled'] , $insertDetail['replenish'] , $cue);
-                    $insertDetail['insurance_detail'] = $insertDetail['current_detail'] = json_encode($cue , JSON_UNESCAPED_UNICODE);
-                    $insertDetail['price'] = $cue['company']+$cue['person'];
-                    $insertDetail['state'] = 1;
-                    
-                    $insertDetail['create_time']  = $insertDetail['modify_time'] = date('Y-m-d H:i:s' , time());
-                    $detailModel->add($insertDetail);
                 }
             }
         }

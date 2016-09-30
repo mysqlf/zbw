@@ -1,4 +1,4 @@
-webpackJsonp([4],{0:/*!*********************************!*\
+webpackJsonp([3],{0:/*!*********************************!*\
   !*** ../js/entry/helpCenter.js ***!
   \*********************************/
 function(t,n,i){"use strict";var o=i(/*! modules/util */3),e=o.combinePageModule;i(/*! modules/globalEffect */27).init(),e({help:i(/*! page/help */78),information:i(/*! page/information */80)})},72:/*!*******************************!*\

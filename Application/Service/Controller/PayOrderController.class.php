@@ -124,7 +124,8 @@ class PayOrderController extends ServiceBaseController
      */
     protected function productDetail($data){
          $result = $this->_payOrder->productDetail($data, $this->_AccountInfo);
-        $this->assign('orderInfo', $result)->assign('_state', $this->_state)->assign('_pay_type', $this->_pay_type)->display('Order/product_details');
+          $orderInfo = $this->_payOrder->payOrderInfo($data, $this->_AccountInfo);
+        $this->assign('result', $result)->assign('_state', $this->_state)->assign('orderInfo', $orderInfo)->assign('_pay_type', $this->_pay_type)->display('Order/product_details');
     }  
 
     /**

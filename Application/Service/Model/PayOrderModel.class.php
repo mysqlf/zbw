@@ -130,10 +130,10 @@ class PayOrderModel extends ServiceAdminModel{
 	 * 套餐
 	 */
 	public function productDetail($data, $admin){
-       $result = M('service_product_order')->alias('spo')->field('spo.id,pay_order_id, price,modify_price,sp.name product_name,sp.member_price,spo.overtime,po.*,ci.company_name,sp.product_detail')
+       $result = M('service_product_order')->alias('spo')->field('spo.id,pay_order_id, price,modify_price,sp.name product_name,sp.member_price,spo.overtime,po.*,sp.product_detail')
                     ->join('left join zbw_service_product sp ON sp.id = spo.product_id')
                     ->join('left join zbw_pay_order po ON po.id = spo.pay_order_id')
-                    ->join('zbw_company_info ci ON ci.id = po.company_id')  
+                   // ->join('zbw_company_info ci ON ci.id = po.company_id')  
                     ->where("spo.pay_order_id ={$data['id']}  AND po.company_id = {$admin['company_id']}")->find();	
       
         if($result['state'] == 0){

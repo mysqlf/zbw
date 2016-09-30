@@ -821,7 +821,7 @@ class BusinessController extends ServiceBaseController{
      * @return void
      * @author rohochan
      **/
-    public function editInsurance(){
+    public function editInsuranceOld(){
     	if (IS_POST) {
 			//构造测试数据start
 			$data = array();
@@ -902,7 +902,6 @@ class BusinessController extends ServiceBaseController{
 							$personInsuranceInfoOriginArray[1] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['socPiiId']);
 							//if (in_array($personInsuranceInfoResult['operate_state'],array(0,-1,-9))) {
 							if ($personInsuranceInfoResult) {
-								//dump($personInsuranceInfoResult);
 								$personInsuranceInfoArray[1] = $personInsuranceInfoData;
 								$personInsuranceInfoArray[1]['id'] = $data['socPiiId'];
 								$personInsuranceInfoArray[1]['rule_id'] = $data['socRuleId'];
@@ -921,7 +920,6 @@ class BusinessController extends ServiceBaseController{
 							$personInsuranceInfoOriginArray[2] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['proPiiId']);
 							//if (in_array($personInsuranceInfoResult['operate_state'],array(0,-1,-9))) {
 							if ($personInsuranceInfoResult) {
-								//dump($personInsuranceInfoResult);
 								$personInsuranceInfoArray[2] = $personInsuranceInfoData;
 								$personInsuranceInfoArray[2]['id'] = $data['proPiiId'];
 								$personInsuranceInfoArray[2]['rule_id'] = $data['proRuleId'];
@@ -946,7 +944,6 @@ class BusinessController extends ServiceBaseController{
 							/*foreach ($personInsuranceInfoArray as $key => $value) {
 								$personInsuranceInfoSaveResult = $personInsuranceInfo->where(array('id'=>$value['id']))->save($value);
 							}*/
-							//dump($personInsuranceInfoArray);
 							$personInsuranceInfoResult = array();
 							$templateRule = D('TemplateRule');
 							$personInsuranceInfoLog = D('PersonInsuranceInfoLog');
@@ -1012,6 +1009,327 @@ class BusinessController extends ServiceBaseController{
 				$personInsuranceInfo = D('personInsuranceInfo');
 				//$personInsuranceInfoResult = $personInsuranceInfo->getServiceOrderDetailByCondition(array('user_id'=>$userId,'base_id'=>$baseId),array('in','0,1'),false);
 				$personInsuranceInfoResult = $personInsuranceInfo->getPersonInsuranceInfoByHandleMonth(array('user_id'=>$userId,'base_id'=>$baseId,'handle_month'=>$handleMonth));
+				
+				if ($personInsuranceInfoResult) {
+					$productId = $personInsuranceInfoResult[1]['product_id']?:$personInsuranceInfoResult[2]['product_id'];
+					$location = $personInsuranceInfoResult[1]['location']?:$personInsuranceInfoResult[2]['location'];
+					$templateLocation = $personInsuranceInfoResult[1]['template_location']?:$personInsuranceInfoResult[2]['template_location'];
+					
+					$serviceProductOrder = D('ServiceProductOrder');
+					$serviceProduct = D('ServiceProduct');
+					$templateRule = D('TemplateRule');
+					$template = D('Template');
+					
+					//获取购买的产品信息
+					$serviceProductResult = $serviceProduct->alias('sp')->field('sp.company_id,sp.name,ci.company_name')->join('left join '.C('DB_PREFIX').'company_info as ci on ci.id = sp.company_id')->where(['sp.id'=>$productId])->find();
+					
+					//获取购买的产品订单信息
+					$serviceProductOrderResult['list'] = $serviceProductOrder->getEffectiveServiceProductOrder($userId);
+					$serviceProductOrderResult['condition'] = array('product_id'=>$productId,'product_name'=>$serviceProductResult['name'],'company_name'=>$serviceProductResult['company_name']);
+					
+					$serviceProductOrderLocationResult['list'] = $serviceProductOrder->getEffectiveServiceProductOrderLocationByProductId($userId,$productId);
+					$serviceProductOrderLocationResult['condition'] = array('location'=>$templateLocation);
+					
+					foreach ($personInsuranceInfoResult as $key => $value) {
+						//$personInsuranceInfoResult[$key]['serviceProductOrderResult'] = $serviceProductOrder->getEffectiveServiceProductOrderLocationByProductId($userId,$value['product_id']);
+						$personInsuranceInfoResult[$key]['paymentInfoValue'] = json_decode($value['payment_info'],true);
+						$personInsuranceInfoResult[$key]['templateRuleResult'] = $templateRule->getTemplateRuleByCondition(array('id'=>$value['rule_id']));
+						//$personInsuranceInfoResult[$key]['templateResult'] = $template->getTemplateByCondition(array('id'=>$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']));
+						
+						$templateClassifyResult[$key]['list'] = $this->_getTemplateClassify($templateLocation);
+						$templateClassifyResult[$key]['condition'] = array('classify_mixed'=>array_filter(explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed'])));
+						
+						$templateRuleResult[$key]['list'] = $this->_getTemplateRule($value['rule_id'],$key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']?:$personInsuranceInfoResult[3-$key]['templateRuleResult']['template_id'],$serviceProductResult['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
+						
+						$templateRuleResult[$key]['condition'] = array('rule_id'=>$value['rule_id'],'amount'=>$value['amount'],'start_month'=>int_to_date($value['start_month'],'-'),'companyScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['companyScale'],'personScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['personScale']);
+						
+					}
+					//dump($serviceProductOrderResult);
+					//dump($serviceProductOrderLocationResult);
+					//dump($templateClassifyResult);
+					//dump($templateRuleResult);
+					//dump($personInsuranceInfoResult);
+				}else {
+					//$this->ajaxReturn(array('status'=>-1,'msg'=>'参保状态错误！'));
+					$this->error('参保状态错误！');
+				}
+				$this->assign('personBaseResult',$personBaseResult);
+				$this->assign('personInsuranceInfoResult',$personInsuranceInfoResult);
+				$this->assign('serviceProductOrderResult',$serviceProductOrderResult);
+				$this->assign('serviceProductOrderLocationResult',$serviceProductOrderLocationResult);
+				$this->assign('templateClassifyResult',$templateClassifyResult);
+				$this->assign('templateRuleResult',$templateRuleResult);
+				$this->display('edit_insurance');
+			}else {
+				$this->error('非法参数！');
+			}
+    	}
+    }
+	
+    
+    /**
+     * editInsurance function
+     * 编辑参保
+     * @return void
+     * @author rohochan
+     **/
+    public function editInsurance(){
+    	if (IS_POST) {
+			$data = I('param.');
+			$data['proPayDate'] = empty($data['proPayDate'])?$data['socPayDate']:$data['proPayDate'];
+			$data['templateLocation'] = $data['location'];
+			$data['location'] = ($data['location']/1000<<0)*1000;
+			
+			$personBaseData = array();
+			$personBaseData['id'] = $data['baseId'];
+			$personBaseData['user_id'] = $data['userId'];
+			$personBaseData['person_name'] = $data['personName'];
+			$personBaseData['card_num'] = $data['cardNum'];
+			$personBaseData['mobile'] = $data['mobile'];
+			$personBaseData['residence_location'] = $data['residenceLocation'];
+			$personBaseData['residence_type'] = $data['residenceType'];
+			$personBaseData['audit'] = 1;
+			$personBase = D('PersonBase');
+			$personBase->startTrans();
+			$personBaseResult = $personBase->savePersonBase($personBaseData);
+			if ($personBaseResult) {
+				$personBaseId = $personBaseResult;
+				$personInsurance = D('PersonInsurance');
+				$personInsuranceInfo = D('PersonInsuranceInfo');
+				$personInsuranceResult = $personInsurance->getInsuranceStatus($data['userId'],$personBaseId);
+				if ($personInsuranceResult) {
+					if ($personInsuranceResult['editIncrease'] || $personInsuranceResult['editInsurance']) {
+						//保存参保信息
+						$personInsuranceData = array();
+						$personInsuranceData['user_id'] = $data['userId'];
+						$personInsuranceData['base_id'] = $personBaseId;
+						$personInsuranceData['product_id'] = $data['productId'];
+						$personInsuranceData['location'] = $data['location'];
+						$personInsuranceData['template_location'] = $data['templateLocation'];
+						$personInsuranceData['modify_time'] = date('Y-m-d H:i:s');
+						
+						$personInsuranceArray = array();
+						if (1 == $data['isBuySoc']) {
+							//$personInsuranceInfoOriginArray[1] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['socPiiId']);
+							//if ($personInsuranceInfoResult) {
+								//$personInsuranceOriginArray[1] = $personInsuranceResult = $personInsurance->field(true)->getById($personInsuranceInfoResult['insurance_id']);
+								$personInsuranceOriginArray[1] = $personInsuranceResult = $personInsurance->field(true)->getById($data['socPiId']);
+								if (2 == $personInsuranceResult['state']) {
+									$personInsuranceArray[1] = $personInsuranceData;
+									$personInsuranceArray[1]['id'] = $personInsuranceResult['id'];
+									$personInsuranceArray[1]['rule_id'] = $data['socRuleId'];
+									$personInsuranceArray[1]['amount'] = $data['socAmount'];
+									$personInsuranceArray[1]['payment_info'] = json_encode(array('cardno'=>$data['socCardNum']));
+								}
+							//}
+						}
+						
+						if (1 == $data['isBuyPro']) {
+							//$personInsuranceInfoOriginArray[2] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['proPiiId']);
+							//if ($personInsuranceInfoResult) {
+								//$personInsuranceOriginArray[2] = $personInsuranceResult = $personInsurance->field(true)->getById($personInsuranceInfoResult['insurance_id']);
+								$personInsuranceOriginArray[2] = $personInsuranceResult = $personInsurance->field(true)->getById($data['proPiId']);
+								if (2 == $personInsuranceResult['state']) {
+									$personInsuranceArray[2] = $personInsuranceData;
+									$personInsuranceArray[2]['id'] = $personInsuranceResult['id'];
+									$personInsuranceArray[2]['rule_id'] = $data['proRuleId'];
+									$personInsuranceArray[2]['amount'] = $data['proAmount'];
+									$personInsuranceArray[2]['payment_info'] = json_encode(array('companyScale'=>trim($data['proCompanyScale'],'%').'%','personScale'=>trim($data['proPersonScale'],'%').'%','cardno'=>$data['proCardNum']));
+								}else {
+									$personInsuranceArray[2] = $personInsuranceData;
+									$personInsuranceArray[2]['id'] = $personInsuranceResult['id'];
+									$personInsuranceArray[2]['state'] = 1;//报增
+									$personInsuranceArray[2]['start_month'] = ($personInsuranceResult['start_month']?$personInsuranceResult['start_month']:($personInsuranceOriginArray[1]['start_month']?$personInsuranceOriginArray[1]['start_month']:string_to_number($data['proPayDate'])));
+									$personInsuranceArray[2]['rule_id'] = $data['proRuleId'];
+									$personInsuranceArray[2]['amount'] = $data['proAmount'];
+									$personInsuranceArray[2]['payment_info'] = json_encode(array('companyScale'=>trim($data['proCompanyScale'],'%').'%','personScale'=>trim($data['proPersonScale'],'%').'%','cardno'=>$data['proCardNum']));
+								}
+							//}
+						}else {
+							//$personInsuranceInfoOriginArray[2] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['proPiiId']);
+							//if ($personInsuranceInfoResult) {
+								//$personInsuranceOriginArray[2] = $personInsuranceResult = $personInsurance->field(true)->getById($personInsuranceInfoResult['insurance_id']);
+								$personInsuranceOriginArray[2] = $personInsuranceResult = $personInsurance->field(true)->getById($data['proPiId']);
+								if (1 == $personInsuranceResult['state']) {
+									$personInsuranceArray[2] = $personInsuranceData;
+									$personInsuranceArray[2]['id'] = $personInsuranceResult['id'];
+									$personInsuranceArray[2]['state'] = 0;//未参保
+									//$personInsuranceArray[2]['start_month'] = 0;
+									//$personInsuranceArray[2]['rule_id'] = $data['proRuleId'];
+									//$personInsuranceArray[2]['amount'] = $data['proAmount'];
+									//$personInsuranceArray[2]['payment_info'] = json_encode(array('companyScale'=>trim($data['proCompanyScale'],'%').'%','personScale'=>trim($data['proPersonScale'],'%').'%','cardno'=>$data['proCardNum']));
+								}
+							//}
+						}
+						
+						if ($personInsuranceArray) {
+							$personInsuranceResult = array();
+							$templateRule = D('TemplateRule');
+							$personInsuranceInfoLog = D('PersonInsuranceInfoLog');
+							foreach ($personInsuranceArray as $key => $value) {
+								if (1 == $value['state'] || 2 == $value['state']) {
+									//报增或在保状态
+									//$personInsuranceResult[$key] = $personInsuranceInfo->savePersonInsurance($value);
+									$personInsuranceResult['rule'][$key] = $templateRule->getById($value['rule_id']);
+									if ($personInsuranceResult['rule'][$key]) {
+										$personInsuranceResult['id'][$key] = $value['id'];
+										$personInsuranceSaveResult = $personInsurance->where(array('id'=>$value['id']))->save($value);
+										//if (2 != $personInsuranceInfoOriginArray[2]['state']) {
+											//写入person_insurance_info和service_insurance_detail数据
+										//}
+										$personInsuranceResult['successCount'] += false !== $personInsuranceSaveResult?1:0;
+									}else {
+										$personBase->rollback();
+										$this->ajaxReturn(array('status'=>-1,'msg'=>'规则参数错误！'));
+									}
+								}else {
+									$personInsuranceResult['id'][$key] = $value['id'];
+									$personInsuranceSaveResult = $personInsurance->where(array('id'=>$value['id']))->save($value);
+									//if (1 == $personInsuranceInfoOriginArray[2]['state']) {
+										//删除person_insurance_info和service_insurance_detail数据
+									//}
+									$personInsuranceResult['successCount'] += false !== $personInsuranceSaveResult?1:0;
+								}
+								//$personInsuranceInfoLog->add(['insurance_id'=>$personInsuranceInfoOriginArray[$key]['insurance_id'],'user_id'=>$personInsuranceInfoOriginArray[$key]['user_id'],'data'=>json_encode(['origin'=>$personInsuranceInfoOriginArray[$key],'current'=>$value]),'create_time'=>date('Y-m-d H:i:s')]);
+								$personInsuranceInfoLog->add(['insurance_id'=>$personInsuranceOriginArray[$key]['insurance_id'],'user_id'=>$personInsuranceOriginArray[$key]['user_id'],'data'=>json_encode(['origin'=>$personInsuranceOriginArray[$key],'current'=>$value]),'create_time'=>date('Y-m-d H:i:s')]);
+							}
+							if ($personInsuranceResult['successCount'] == count($personInsuranceArray)) {
+								$personBase->commit();
+								$this->ajaxReturn(array('status'=>0,'msg'=>'操作成功！'));
+							}else {
+								$personBase->rollback();
+								$this->ajaxReturn(array('status'=>-1,'msg'=>'操作失败！'));
+							}
+						}else {
+							$personBase->rollback();
+							$this->ajaxReturn(array('status'=>-1,'msg'=>'系统内部错误！'));
+						}
+						
+						/*
+						$personInsuranceInfo = D('PersonInsuranceInfo');
+						$personInsuranceInfoData = array();
+						$personInsuranceInfoData['user_id'] = $data['userId'];
+						$personInsuranceInfoData['base_id'] = $personBaseId;
+						$personInsuranceInfoData['product_id'] = $data['productId'];
+						$personInsuranceInfoData['location'] = $data['location'];
+						$personInsuranceInfoData['template_location'] = $data['templateLocation'];
+						$personInsuranceInfoData['modify_time'] = date('Y-m-d H:i:s');
+						
+						$personInsuranceInfoArray = array();
+						$personInsuranceInfoOriginArray = array();
+						if (1 == $data['isBuySoc']) {
+							//$personInsuranceInfoResult = $personInsuranceInfo->field('id,state,operate_state')->getById($data['socPiiId']);
+							$personInsuranceInfoOriginArray[1] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['socPiiId']);
+							//if (in_array($personInsuranceInfoResult['operate_state'],array(0,-1,-9))) {
+							if ($personInsuranceInfoResult) {
+								$personInsuranceInfoArray[1] = $personInsuranceInfoData;
+								$personInsuranceInfoArray[1]['id'] = $data['socPiiId'];
+								$personInsuranceInfoArray[1]['rule_id'] = $data['socRuleId'];
+								//$personInsuranceInfoArray[1]['start_month'] = string_to_number($data['socPayDate']);
+								//$personInsuranceInfoArray[1]['handle_month'] = $data['handleMonth'];
+								$personInsuranceInfoArray[1]['amount'] = $data['socAmount'];
+								$personInsuranceInfoArray[1]['payment_type'] = 1;
+								$personInsuranceInfoArray[1]['payment_info'] = json_encode(array('cardno'=>$data['socCardNum']));
+								$personInsuranceInfoArray[1]['state'] = (0 == $personInsuranceInfoResult['state']?1:$personInsuranceInfoResult['state']);
+								//$personInsuranceInfoArray[1]['operate_state'] = 0;//未审核
+								$personInsuranceInfoArray[1]['operate_state'] = 1;//审核通过
+							}
+						}
+						if (1 == $data['isBuyPro']) {
+							//$personInsuranceInfoResult = $personInsuranceInfo->field('id,state,operate_state')->getById($data['proPiiId']);
+							$personInsuranceInfoOriginArray[2] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['proPiiId']);
+							//if (in_array($personInsuranceInfoResult['operate_state'],array(0,-1,-9))) {
+							if ($personInsuranceInfoResult) {
+								$personInsuranceInfoArray[2] = $personInsuranceInfoData;
+								$personInsuranceInfoArray[2]['id'] = $data['proPiiId'];
+								$personInsuranceInfoArray[2]['rule_id'] = $data['proRuleId'];
+								//$personInsuranceInfoArray[2]['start_month'] = string_to_number($data['proPayDate']);
+								//$personInsuranceInfoArray[2]['handle_month'] = $data['handleMonth'];
+								$personInsuranceInfoArray[2]['amount'] = $data['proAmount'];
+								$personInsuranceInfoArray[2]['payment_type'] = 2;
+								$personInsuranceInfoArray[2]['payment_info'] = json_encode(array('companyScale'=>trim($data['proCompanyScale'],'%').'%','personScale'=>trim($data['proPersonScale'],'%').'%','cardno'=>$data['proCardNum']));
+								$personInsuranceInfoArray[2]['state'] = (0 == $personInsuranceInfoResult['state']?1:$personInsuranceInfoResult['state']);
+								//$personInsuranceInfoArray[2]['operate_state'] = 0;//未审核
+								$personInsuranceInfoArray[1]['operate_state'] = 1;//审核通过
+							}
+						}else {
+							$personInsuranceInfoOriginArray[2] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['proPiiId']);
+							//$personInsuranceInfoArray[2] = $personInsuranceInfoData;
+							$personInsuranceInfoArray[2]['id'] = $data['proPiiId'];
+							$personInsuranceInfoArray[2]['state'] = 3;//报减
+							//$personInsuranceInfoArray[2]['operate_state'] = 0;//未审核
+							$personInsuranceInfoArray[1]['operate_state'] = 1;//审核通过
+						}
+						if ($personInsuranceInfoArray) {
+							//foreach ($personInsuranceInfoArray as $key => $value) {
+							//	$personInsuranceInfoSaveResult = $personInsuranceInfo->where(array('id'=>$value['id']))->save($value);
+							//}
+							$personInsuranceInfoResult = array();
+							$templateRule = D('TemplateRule');
+							$personInsuranceInfoLog = D('PersonInsuranceInfoLog');
+							foreach ($personInsuranceInfoArray as $key => $value) {
+								if (1 == $value['state']) {
+									//报增状态
+									//$personInsuranceInfoResult[$key] = $personInsuranceInfo->savePersonInsurance($value);
+									$personInsuranceInfoResult['rule'][$key] = $templateRule->getById($value['rule_id']);
+									if ($personInsuranceInfoResult['rule'][$key]) {
+										$personInsuranceInfoResult['id'][$key] = $value['id'];
+										$personInsuranceInfoSaveResult = $personInsuranceInfo->where(array('id'=>$value['id']))->save($value);
+										$personInsuranceInfoResult['successCount'] += false !== $personInsuranceInfoSaveResult?1:0;
+									}else {
+										$personBase->rollback();
+										$this->ajaxReturn(array('status'=>-1,'msg'=>'规则参数错误！'));
+									}
+								}else {
+									$personInsuranceInfoResult['id'][$key] = $value['id'];
+									$personInsuranceInfoSaveResult = $personInsuranceInfo->save($value);
+									$personInsuranceInfoResult['successCount'] += false !== $personInsuranceInfoSaveResult?1:0;
+								}
+								$personInsuranceInfoLog->add(['insurance_id'=>$personInsuranceInfoOriginArray[$key]['insurance_id'],'user_id'=>$personInsuranceInfoOriginArray[$key]['user_id'],'data'=>json_encode(['origin'=>$personInsuranceInfoOriginArray[$key],'current'=>$value]),'create_time'=>date('Y-m-d H:i:s')]);
+							}
+							if ($personInsuranceInfoResult['successCount'] == count($personInsuranceInfoArray)) {
+								$personBase->commit();
+								$this->ajaxReturn(array('status'=>0,'msg'=>'操作成功！'));
+							}else {
+								$personBase->rollback();
+								$this->ajaxReturn(array('status'=>-1,'msg'=>'操作失败！'));
+							}
+						}else {
+							$personBase->rollback();
+							$this->ajaxReturn(array('status'=>-1,'msg'=>'系统内部错误！'));
+						}*/
+					}else {
+						$personBase->rollback();
+						$this->ajaxReturn(array('status'=>0,'msg'=>'参保状态错误！'));
+					}
+				}else {
+					$personBase->rollback();
+					$this->ajaxReturn(array('status'=>0,'msg'=>'系统内部错误！'));
+				}
+			}else {
+				$personBase->rollback();
+				$this->ajaxReturn(array('status'=>0,'msg'=>$personBase->getError()));
+				//$this->error($personBase->getError());
+			}
+    	}else {
+			$userId = I('get.userId/d');
+			$baseId = I('get.baseId/d');
+			$handleMonth = I('get.handleMonth/d');
+			if ($baseId >0) {
+				//获取个人信息
+				$personBase = D('PersonBase');
+				$personBaseResult = $personBase->field(true)->getById($baseId);
+				//$personBaseResult['readonly'] = 1 == $personBaseResult['audit']?' readonly="readonly" ':'';
+				//$personBaseResult['disabled'] = 1 == $personBaseResult['audit']?' disabled="disabled" ':'';
+				$personBaseResult['readonly'] = '';
+				$personBaseResult['disabled'] = '';
+				//获取身份证图片
+				$personBaseResult['idCardImg'] = get_idCardImg_by_baseId($baseId);
+				//获取参保信息
+				//$personInsuranceInfo = D('personInsuranceInfo');
+				//$personInsuranceInfoResult = $personInsuranceInfo->getPersonInsuranceInfoByHandleMonth(array('user_id'=>$userId,'base_id'=>$baseId,'handle_month'=>$handleMonth));
+				$personInsurance = D('personInsurance');
+				$personInsuranceInfoResult = $personInsurance->getPersonInsurance(array('user_id'=>$userId,'base_id'=>$baseId));
 				
 				if ($personInsuranceInfoResult) {
 					$productId = $personInsuranceInfoResult[1]['product_id']?:$personInsuranceInfoResult[2]['product_id'];
@@ -1282,6 +1600,7 @@ class BusinessController extends ServiceBaseController{
 																	$serviceInsuranceDetailData['service_price'] = $servicePrice[$key];
 																	$serviceInsuranceDetailData['amount'] = $personInsuranceInfoArray[$key]['amount'];
 																	$serviceInsuranceDetailData['pay_date'] = $payDate;
+																	$serviceInsuranceDetailData['handle_month'] = $personInsuranceInfoArray[$key]['handle_month'];
 																	$serviceInsuranceDetailData['replenish'] = $replenish;
 																	$serviceInsuranceDetailData['rule_id'] = $personInsuranceInfoArray[$key]['rule_id'];
 																	//$serviceInsuranceDetailData['rule_detail'] = $productTemplateRuleResult['rule'];

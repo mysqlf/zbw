@@ -532,6 +532,7 @@ class InsuranceController extends HomeController {
 																	$serviceInsuranceDetailData['service_price'] = $servicePrice[$key];
 																	$serviceInsuranceDetailData['amount'] = $personInsuranceInfoArray[$key]['amount'];
 																	$serviceInsuranceDetailData['pay_date'] = $payDate;
+																	$serviceInsuranceDetailData['handle_month'] = $personInsuranceInfoArray[$key]['handle_month'];
 																	$serviceInsuranceDetailData['replenish'] = $replenish;
 																	$serviceInsuranceDetailData['rule_id'] = $personInsuranceInfoArray[$key]['rule_id'];
 																	//$serviceInsuranceDetailData['rule_detail'] = $productTemplateRuleResult['rule'];
@@ -960,6 +961,7 @@ class InsuranceController extends HomeController {
 																$serviceInsuranceDetailData['service_price'] = $servicePrice[$key];
 																$serviceInsuranceDetailData['amount'] = $personInsuranceInfoArray[$key]['amount'];
 																$serviceInsuranceDetailData['pay_date'] = $payDate;
+																$serviceInsuranceDetailData['handle_month'] = $personInsuranceInfoArray[$key]['handle_month'];
 																$serviceInsuranceDetailData['replenish'] = $replenish;
 																$serviceInsuranceDetailData['rule_id'] = $personInsuranceInfoArray[$key]['rule_id'];
 																//$serviceInsuranceDetailData['rule_detail'] = $productTemplateRuleResult['rule'];
@@ -1737,6 +1739,7 @@ class InsuranceController extends HomeController {
 																	$serviceInsuranceDetailData['service_price'] = $servicePrice[$key];
 																	$serviceInsuranceDetailData['amount'] = $personInsuranceInfoArray[$key]['amount'];
 																	$serviceInsuranceDetailData['pay_date'] = $payDate;
+																	$serviceInsuranceDetailData['handle_month'] = $personInsuranceInfoArray[$key]['handle_month'];
 																	$serviceInsuranceDetailData['replenish'] = $replenish;
 																	$serviceInsuranceDetailData['rule_id'] = $personInsuranceInfoArray[$key]['rule_id'];
 																	//$serviceInsuranceDetailData['rule_detail'] = $productTemplateRuleResult['rule'];
@@ -2304,6 +2307,7 @@ class InsuranceController extends HomeController {
 																						$serviceInsuranceDetailData['service_price'] = $servicePrice[$key];
 																						$serviceInsuranceDetailData['amount'] = $personInsuranceInfoArray[$key]['amount'];
 																						$serviceInsuranceDetailData['pay_date'] = $payDate;
+																						$serviceInsuranceDetailData['handle_month'] = $personInsuranceInfoArray[$key]['handle_month'];
 																						$serviceInsuranceDetailData['replenish'] = $replenish;
 																						$serviceInsuranceDetailData['rule_id'] = $personInsuranceInfoArray[$key]['rule_id'];
 																						//$serviceInsuranceDetailData['rule_detail'] = $productTemplateRuleResult['rule'];
@@ -2692,6 +2696,7 @@ class InsuranceController extends HomeController {
 													$serviceInsuranceDetailData['type'] = 3;//报减
 													$serviceInsuranceDetailData['amount'] = $personInsuranceInfoResult[$key]['amount'];
 													$serviceInsuranceDetailData['pay_date'] = $paymentMonth;
+													$serviceInsuranceDetailData['handle_month'] = $handleMonth;
 													$serviceInsuranceDetailData['note'] = $value['remark'];
 													$serviceInsuranceDetailData['state'] = 2;//已付款,待办理
 													$serviceInsuranceDetailData['create_time'] = $nowTime;

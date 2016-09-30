@@ -334,7 +334,7 @@ class DocumentModel extends Model{
 	 */
 	public function getLocation()
 	{
-		$map = 'location <> 0 and location is not null';
+		$map = 'location <> 0 and location is not null and status =1';
 		return $this->distinct(true)->where($map)->field('location')->select();
 	}
 

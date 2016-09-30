@@ -156,16 +156,18 @@ module.exports = {
                 }
 
                 let data = {
+                    product_name: $('[name="product_name"]').val(),
                     location: getVal('[name="location"]'),
                     applicable_object: getVal('[name="applicable_object"]'),
                     amount: getVal('[name="amount"]')
                 }
 
-                let location = data.location ? '-location-' + data.location : '',
+                let product_name = data.product_name ? '-product_name-' + data.product_name : '',
+                    location = data.location ? '-location-' + data.location : '',
                     applicable_object = data.applicable_object ? '-applicable_object-' + data.applicable_object : '',
                     amount = data.amount ? '-amount-' + data.amount : '';
 
-                let $url = '/Index-serviceProduct' + location + applicable_object + amount;
+                let $url = '/Index-serviceProduct' + product_name + location + applicable_object + amount;
                 window.location.assign($url);
 
             });

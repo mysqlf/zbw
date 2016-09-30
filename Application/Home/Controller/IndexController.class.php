@@ -148,7 +148,7 @@ class IndexController extends HomeController
 				}		
 		
 			}
-		if($this->_Product['sp.product_name']) $where['sp.name'] = array('like', $this->_Product['sp.product_name']);
+		if($this->_Product['sp.product_name']) $where['sp.name'] = array('like', '%'.$this->_Product['sp.product_name'].'%');
 		$where['sp.state'] = 1;
 //dump($where);
 		//获取服务商及其产品

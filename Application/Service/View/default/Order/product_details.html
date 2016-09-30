@@ -60,7 +60,7 @@
                     套餐名称：
                 </dt>
                 <dd class="right">
-                    <?php echo $orderInfo['product_name']; ?>
+                    <?php echo $result['product_name']; ?>
                 </dd>
             </dl>
             <dl class="horizontal horizontal-6em col-4">
@@ -68,7 +68,7 @@
                     套餐金额：
                 </dt>
                 <dd class="right">
-                    <?php echo $orderInfo['member_price']; ?>元
+                    <?php echo $result['member_price']; ?>元
                 </dd>
             </dl>
 
@@ -77,7 +77,7 @@
                     到期时间：
                 </dt>
                 <dd class="right">
-                    <?php echo $orderInfo['overtime']; ?>
+                    <?php echo $result['overtime']; ?>
                 </dd>
             </dl>
             
@@ -91,7 +91,7 @@
                 </dt>
                 <dd class="right">
                     <pre>
-                        <?php echo htmlspecialchars_decode($orderInfo['product_detail']); ?>
+                        <?php echo htmlspecialchars_decode($result['product_detail']); ?>
                     </pre>
                 </dd>
             </dl>
