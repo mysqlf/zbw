@@ -20,20 +20,23 @@
 		                </dl>
 		                <?php }elseif($v['service_type'] == 1){?>
 		                    <dl class="pro-fee">
+		                   <?php if(empty($val['service_price'])){ ?> 
+		                   		<dd><span class="fee-free">免服务费</span></dd>
+		                   <?php }else{?>			                    
 		                        <dt>服务费</dt>
 		                    <?php foreach($v['service_price'] as $key=>$val){?>
-		                    <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
-		                    <?php } ?>
+		                   	<dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+		                    <?php }} ?>
 		                    </dl>
 
 		                <?php } ?>
+
 		                <?php if($v['service_price_state'] == 1){?>
 		                    <dl class="pro-fee">
 		                        <dt>套餐费</dt>
-		                        <dd><em>2888</em>元/年</dd>
+		                        <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
 		                    </dl>
-		                <?php }else{ if($v['service_type'] == 1){?>
-
+		                <?php }else{ if($v['service_price_state'] == 0){?>
 		                    <dl class="pro-fee">
 		                        <dd><span class="fee-free">免套餐费</span></dd>
 		                    </dl>
@@ -74,7 +77,7 @@
 	<div class="foot">
 		<img src="/Application/Home/Assets/img/foot_ewm.jpg" alt="">
 		<p class="sol">关注智保易微信号</p>
-		<div class="foot-info-box">
+		<!-- <div class="foot-info-box">
 			<dl class="foot-info">
 				<dt>公司信息</dt>
 				<dd><a href="/Article-aboutUs">公司介绍</a></dd>
@@ -91,7 +94,7 @@
 				<dd><a href="/Article-lists-category-new">新闻动态</a></dd>
 				<dd><a href="/Article-lists-category-notice">公示公告</a></dd>
 			</dl>
-		</div>
+		</div> -->
 	</div>
 <include file="Public/_footer" />
 <script data-module="socialSecurity" src="/Application/Home/Assets/js/dist/basePages.bundle.js"></script>

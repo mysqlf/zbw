@@ -145,6 +145,11 @@ module.exports = {
 	},
 	transformDate(date){
 
+		if( date - 0 === date - 0 ) {
+			// php 时间戳要补三位
+			date*=1000
+		}
+
 		let dateObj = new Date(date),
 			m = dateObj.getMonth() + 1,
 			y = dateObj.getFullYear(),

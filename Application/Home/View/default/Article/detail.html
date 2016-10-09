@@ -10,7 +10,7 @@
 		<div class="horizontal"> 
 			<ul class="left information-nav">
 				<li class="aside-mask"></li>
-				<li><a href="/Article-lists" <php>if(!$_GET['category']){ echo 'class="active"';$name=$vo['title'];}</php>>全部</a></li>
+				<li><a href="/Article-lists" <php>if(!$_GET['category'] && !$category){ echo 'class="active"';$name=$vo['title'];}</php>>全部</a></li>
 				<volist name="category" id="vo">
 				<li><a href="/Article-lists-category-{$vo.name}" <php>if($info['category_id']==$vo['id']){ echo 'class="active"';$name=$vo['title'];$img_name = $vo['name'];$url="/Article-lists-category-".$vo['name'];}</php>>{$vo.title}</a></li>
 			</volist>
@@ -28,5 +28,6 @@
 
 
 <include file="Platform/footer_copyright" />
+<script src="/Application/Home/Assets/js/dist/helpCenter.bundle.js"></script>
 
 </body>

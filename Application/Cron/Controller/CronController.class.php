@@ -355,27 +355,60 @@ class CronController extends Controller
      **/
     private function changePersonInsuranceState($operateState){
     	$nowTime = date('Y-m-d H:i:s');
-    	$handleTime = (-3 == $operateState?time():strtotime('+ '.C('INSURANCE_HANDLE_DAYS').' day'));
-    	$yearMonth = date('Ym',$handleTime);
-    	$day = date('d',$handleTime);
     	$personInsuranceInfo = M('PersonInsuranceInfo','zbw_');
-    	$personInsuranceInfoResult = $personInsuranceInfo->field('pii.id,pii.insurance_id')->alias('pii')->join('left join zbw_template_rule as tr on tr.id = pii.rule_id')->join('left join zbw_template as t on t.id = tr.template_id')->where(['pii.state'=>1,'pii.operate_state'=>$operateState,'pii.handle_month'=>$yearMonth,'t.soc_deadline'=>$day])->select();
-    	if ($personInsuranceInfoResult) {
-    		$piIdArray = array();
-    		foreach ($personInsuranceInfoResult as $key => $value) {
-    			$piIdArray[$value['insurance_id']] = $value['insurance_id'];
-    		}
-    		$piIds = implode(',',$piIdArray);
-    		if ($piIds) {
-    			$personInsurance = M('PersonInsurance','zbw_');
-    			$personInsurance->startTrans();
-		    	$personInsuranceSaveResult = $personInsurance->where(['id'=>['in',$piIds]])->save(['state'=>0,'modify_time'=>$nowTime]);
-		    	if (false !== $personInsuranceSaveResult) {
-		    		$personInsurance->commit();
-		    	}else {
-		    		$personInsurance->rollback();
-		    	}
-    		}
+    	
+    	if (-3 == $operateState) {
+	    	$handleTime = time();
+	    	$yearMonth = date('Ym',$handleTime);
+	    	$day = date('d',$handleTime);
+    		$personInsuranceInfoResult = $personInsuranceInfo->field('pii.id,pii.state,pii.payment_type,pii.operate_state,sid.id as sid_id, sid.type as sid_type, sid.payment_type as sid_payment_type')->alias('pii')->join('left join zbw_template_rule as tr on tr.id = pii.rule_id')->join('left join zbw_template as t on t.id = tr.template_id')->join('left join zbw_service_insurance_detail as sid on sid.insurance_info_id = pii.id')->where(['pii.operate_state'=>['in',[2,3]],'pii.handle_month'=>$yearMonth,'t.soc_deadline'=>$day,'sid.state'=>-3,'sid.replenish'=>0])->select();
+	    	if ($personInsuranceInfoResult) {
+	    		$piIdArray = array();
+	    		foreach ($personInsuranceInfoResult as $key => $value) {
+	    			$piIdArray['all'][$value['insurance_id']] = $value['insurance_id'];
+	    			if (1 == $value['state'] || 2 == $value['state']) {
+	    				$piIdArray['increase'][$value['insurance_id']] = $value['insurance_id'];
+	    			}else if (3 == $value['state']) {
+	    				$piIdArray['reduce'][$value['insurance_id']] = $value['insurance_id'];
+	    			}
+	    		}
+	    		$piIds['all'] = implode(',',$piIdArray['all']);
+	    		$piIds['increase'] = implode(',',$piIdArray['increase']);
+	    		$piIds['reduce'] = implode(',',$piIdArray['reduce']);
+	    		if ($piIds['all']) {
+	    			$personInsurance = M('PersonInsurance','zbw_');
+	    			$personInsurance->startTrans();
+			    	$personInsuranceSaveResult['increase'] = $personInsurance->where(['id'=>['in',$piIds['increase']]])->save(['state'=>0,'modify_time'=>$nowTime]);
+			    	$personInsuranceSaveResult['reduce'] = $personInsurance->where(['id'=>['in',$piIds['reduce']]])->save(['state'=>2,'modify_time'=>$nowTime]);
+			    	if (false !== $personInsuranceSaveResult['increase'] && false !== $personInsuranceSaveResult['reduce']) {
+			    		$personInsurance->commit();
+			    	}else {
+			    		$personInsurance->rollback();
+			    	}
+	    		}
+	    	}
+    	}else {
+	    	$handleTime = strtotime('+ '.C('INSURANCE_HANDLE_DAYS').' day');
+	    	$yearMonth = date('Ym',$handleTime);
+	    	$day = date('d',$handleTime);
+    		$personInsuranceInfoResult = $personInsuranceInfo->field('pii.id,pii.insurance_id')->alias('pii')->join('left join zbw_template_rule as tr on tr.id = pii.rule_id')->join('left join zbw_template as t on t.id = tr.template_id')->where(['pii.state'=>1,'pii.operate_state'=>$operateState,'pii.handle_month'=>$yearMonth,'t.soc_deadline'=>$day])->select();
+	    	if ($personInsuranceInfoResult) {
+	    		$piIdArray = array();
+	    		foreach ($personInsuranceInfoResult as $key => $value) {
+	    			$piIdArray[$value['insurance_id']] = $value['insurance_id'];
+	    		}
+	    		$piIds = implode(',',$piIdArray);
+	    		if ($piIds) {
+	    			$personInsurance = M('PersonInsurance','zbw_');
+	    			$personInsurance->startTrans();
+			    	$personInsuranceSaveResult = $personInsurance->where(['id'=>['in',$piIds]])->save(['state'=>0,'modify_time'=>$nowTime]);
+			    	if (false !== $personInsuranceSaveResult) {
+			    		$personInsurance->commit();
+			    	}else {
+			    		$personInsurance->rollback();
+			    	}
+	    		}
+	    	}
     	}
     }
     
@@ -447,18 +480,18 @@ class CronController extends Controller
     	//处理报增支付失败数据
     	$this->changePersonInsuranceState(-2);
     }
+    
     //办理过期
-	public function handleOverDay(){
+	public function handleOverDayOld(){
     	$nowTime = date('Y-m-d H:i:s');
     	$personInsuranceInfo = M('PersonInsuranceInfo','zbw_');
     	$personInsuranceInfoResult = $personInsuranceInfo->field('pii.id,pii.state,pii.payment_type')->alias('pii')->join('left join zbw_template_rule as tr on tr.id = pii.rule_id')->join('left join zbw_template as t on t.id = tr.template_id')->where(['pii.operate_state'=>2,'pii.handle_month'=>date('Ym'),'t.soc_deadline'=>date('d')])->select();
-    	//$personInsuranceInfoResult = $personInsuranceInfo->field('pii.id,pii.state,pii.payment_type')->alias('pii')->join('left join zbw_template_rule as tr on tr.id = pii.rule_id')->join('left join zbw_template as t on t.id = tr.template_id')->where(['pii.operate_state'=>2,'pii.handle_month'=>date('Ym'),'t.soc_deadline'=>'04'])->select();
     	//dump($personInsuranceInfoResult);
     	if ($personInsuranceInfoResult) {
     		$piiIdArray = array();
     		foreach ($personInsuranceInfoResult as $key => $value) {
     			$piiIdArray['all'][$value['id']] = $value['id'];
-    			if (1 == $value['state']) {
+    			if (1 == $value['state'] || 2 == $value['state']) {
     				$piiIdArray['increase'][0][$value['id']] = $value['id'];
     				$piiIdArray['increase'][$value['payment_type']][$value['id']] = $value['id'];
     			}elseif (3 == $value['state']) {
@@ -494,6 +527,89 @@ class CronController extends Controller
 			        	}
 			        	if ($piiIdArray['reduce'][$i]) {
 					    	$diffCron->_unsign = array('insurance_info_id'=>implode(',',$piiIdArray['reduce'][$i]));
+			        	}
+			        	$diffCron->diffCron();
+					}
+		    		$personInsuranceInfo->commit();
+		    	}else {
+		    		$personInsuranceInfo->rollback();
+		    	}
+    		}
+    	}
+    	
+    	//处理报增办理失败数据
+    	$this->changePersonInsuranceState(-3);
+	}
+	
+    //办理过期
+	public function handleOverDay(){
+    	$nowTime = date('Y-m-d H:i:s');
+    	$personInsuranceInfo = M('PersonInsuranceInfo','zbw_');
+    	
+    	//处理没有全部办理完成的数据
+    	$personInsuranceInfoResult = $personInsuranceInfo->field('pii.id,pii.state,pii.payment_type,pii.operate_state,sid.id as sid_id, sid.type as sid_type, sid.payment_type as sid_payment_type')->alias('pii')->join('left join zbw_template_rule as tr on tr.id = pii.rule_id')->join('left join zbw_template as t on t.id = tr.template_id')->join('left join zbw_service_insurance_detail as sid on sid.insurance_info_id = pii.id')->where(['pii.operate_state'=>['in',[2,3]],'pii.handle_month'=>date('Ym'),'t.soc_deadline'=>date('d'),'sid.state'=>2])->select();
+    	
+    	if ($personInsuranceInfoResult) {
+    		$piiIdArray = array();
+    		$sidIdArray = array();
+    		foreach ($personInsuranceInfoResult as $key => $value) {
+    			$piiIdArray['all'][$value['id']] = $value['id'];
+    			
+    			//if (2 == $value['operate_state']) {
+    			//	$piiIdArray['handle_over_day'][$value['id']] = $value['id'];
+    			//}
+    			//if (1 == $value['state']) {
+    			//	$piiIdArray['increase'][0][$value['id']] = $value['id'];
+    			//	$piiIdArray['increase'][$value['payment_type']][$value['id']] = $value['id'];
+    			//}elseif (3 == $value['state']) {
+    			//	$piiIdArray['reduce'][0][$value['id']] = $value['id'];
+    			//	$piiIdArray['reduce'][$value['payment_type']][$value['id']] = $value['id'];
+    			//}
+    			
+    			$sidIdArray['all'][$value['sid_id']] = $value['sid_id'];
+    			if (1 == $value['sid_type'] || 2 == $value['sid_type']) {
+    				$piiIdArray['increase'][0][$value['sid_id']] = $value['sid_id'];
+    				$piiIdArray['increase'][$value['sid_payment_type']][$value['sid_id']] = $value['sid_id'];
+    			}elseif (3 == $value['sid_type']) {
+    				$piiIdArray['reduce'][0][$value['sid_id']] = $value['sid_id'];
+    				$piiIdArray['reduce'][$value['sid_payment_type']][$value['sid_id']] = $value['sid_id'];
+    			}
+    		}
+    		$piiIds = array();
+    		$piiIds['all'] = implode(',',$piiIdArray['all']);
+    		//$piiIds['handle_over_day'] = implode(',',$piiIdArray['handle_over_day']);
+    		$piiIds['increase'] = implode(',',$piiIdArray['increase'][0]);
+    		$piiIds['reduce'] = implode(',',$piiIdArray['reduce'][0]);
+    		
+    		$sidIds = array();
+    		$sidIds['all'] = implode(',',$sidIdArray['all']);
+    		$sidIds['increase'] = implode(',',$sidIdArray['increase'][0]);
+    		$sidIds['reduce'] = implode(',',$sidIdArray['reduce'][0]);
+    		if ($piiIds['all']) {
+    			$personInsuranceInfo->startTrans();
+    			$remark = '到达报增减截止日,自动处理办理过期数据';
+		    	$personInsuranceInfoSaveResult = $personInsuranceInfo->where(['id'=>['in',$piiIds['all']]])->save(['operate_state'=>3,'remark'=>$remark,'modify_time'=>$nowTime]);
+		    	$serviceInsuranceDetail = M('ServiceInsuranceDetail','zbw_');
+		    	$serviceInsuranceDetailSaveResult = [1=>true,2=>true];
+		    	if ($sidIds['increase']) {
+		    		$serviceInsuranceDetailSaveResult[1] = $serviceInsuranceDetail->where(['id'=>['in',$sidIds['increase']]])->save(array('state'=>-3,'note'=>$remark,'modify_time'=>date('Y-m-d H:i:s')));
+		    	}
+		    	
+		    	if ($sidIds['reduce']) {
+		    		$serviceInsuranceDetailSaveResult[2] = $serviceInsuranceDetail->where(['id'=>['in',$sidIds['reduce']]])->save(array('state'=>3,'note'=>$remark,'modify_time'=>date('Y-m-d H:i:s')));
+		    	}
+		    	if (false !== $personInsuranceInfoSaveResult && false !== $serviceInsuranceDetailSaveResult[1] && false !== $serviceInsuranceDetailSaveResult[2]) {
+					$diffCron = D('DiffCron');
+					$diffCron->_type = 1;
+					for ($i=1; $i <= 2; $i++) {
+						$diffCron->_item = $i;
+			        	if ($piiIdArray['increase'][$i]) {
+			        		//$diffCron->_sign = array('insurance_info_id'=>implode(',',$piiIdArray['increase'][$i]));
+			        		$diffCron->_sign = array('detail_id'=>implode(',',$sidIdArray['increase'][$i]));
+			        	}
+			        	if ($piiIdArray['reduce'][$i]) {
+					    	//$diffCron->_unsign = array('insurance_info_id'=>implode(',',$piiIdArray['reduce'][$i]));
+					    	$diffCron->_unsign = array('detail_id'=>implode(',',$sidIdArray['reduce'][$i]));
 			        	}
 			        	$diffCron->diffCron();
 					}
@@ -697,10 +813,10 @@ class CronController extends Controller
     public function diffAmount()
     {
         $day = date('d');
-        if (28 == $day)
+        if (30 == $day)
         {
             $prevMonth = date('Ym' , strtotime('-1 month'));
-
+            $prevMonth = '201609';
             $appended = date('Y-m-d' , strtotime('-1 month'));
             $nowDate = date('Y-m-d' , time());
             $start = substr($appended ,0 ,7) . '-01 00:00:00';
@@ -708,8 +824,8 @@ class CronController extends Controller
            // $start = '2016-09-01 00:00:00';
            // $end = '2016-10-01 00:00:00';
             $m = M('diff_cron' , 'zbw_');
-            //$cnt = $m->where("modify_time >= '{$start}' AND modify_time < '{$end}'")->count();
-            $cnt = $m->where("detail_id IN (SELECT id FROM zbw_service_insurance_detail WHERE handle_month={$prevMonth})")->count();
+            $cnt = $m->where("modify_time >= '{$start}' AND modify_time < '{$end}'")->count();
+            //$cnt = $m->where("detail_id IN (SELECT id FROM zbw_service_insurance_detail WHERE handle_month={$prevMonth})")->count();
             $page = 1;
             $limit = 1000;
             $current = 0;
@@ -720,7 +836,8 @@ class CronController extends Controller
                 $page++;
                 $m = M('diff_cron' , 'zbw_');
                 $diff = $m
-                ->where("detail_id IN (SELECT id FROM zbw_service_insurance_detail WHERE handle_month={$prevMonth})")
+                ->where("modify_time >= '{$start}' AND modify_time < '{$end}'")
+                //->where("detail_id IN (SELECT id FROM zbw_service_insurance_detail WHERE handle_month={$prevMonth})")
                 ->order('id ASC')
                 ->limit($current , $limit)
                 ->select();
@@ -743,7 +860,7 @@ class CronController extends Controller
 	                        break;
 	                        //工本费
 	                        case 4:
-	                            $this->_papersCost($v);
+	                           $this->_papersCost($v);
 	                        break;
 	                        default:;
 	                    }

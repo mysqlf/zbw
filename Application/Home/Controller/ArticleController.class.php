@@ -61,13 +61,16 @@ class ArticleController extends HomeController {
 		if (!empty($category)) {
 			$where['name']=$category;
 			$map['category_id']=D('category')->getIDByName($where);
+		}else{
+			$map['category_id'] = array('in', '2,5,6,11');
 		}
 		/* 分类信息 */
 		#$category = $this->category();
 		/* 获取当前分类列表 */
 		/*$map['category_id'] = $category['id'];*/
-		$map['status'] = array('neq','-1');
+		$map['status'] = 1;
 		$map['display'] = '1';
+
 		if(!empty($location)){
 			$map['location']=$location;
 		}
@@ -84,9 +87,9 @@ class ArticleController extends HomeController {
 		$list = $Document->getListByMap($map,$p);//page($p, $category['list_row'])->lists($category['id']);
 		if(IS_AJAX){
 			if($list){
-				foreach ($list as $key => $value) {
+				/*foreach ($list as $key => $value) {
 					$list[$key]['create_time']=date('Y-m-d H:i:s',$value['create_time']);
-				}
+				}*/
 				$this->ajaxReturn(array('status'=>0,'data'=>$list,'pagecount'=>$pagecount));
 			}else {
 				$this->ajaxReturn(array('status'=>0,'data'=>array(),'pagecount'=>$pagecount));
@@ -98,7 +101,7 @@ class ArticleController extends HomeController {
 			$this->error('获取列表数据失败！');
 		}
 		#文章地区
-		$location=$Document->getArticleLocation();
+		$location=$Document->getLocation();//getArticleLocation();
 		$category = $this->getLists(5);
 		#var_dump($category);
 		/* 模板赋值并渲染模板 */

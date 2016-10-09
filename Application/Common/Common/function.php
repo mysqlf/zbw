@@ -147,6 +147,36 @@ function get_code_value($code = null,$type = null,$extra = 0){
 	}
 	return $value;
 }
+
+/**
+ * 验证手机号是否正确
+ * @param int $mobile
+ * @return boolean
+ * @date 2016-09-30
+ * @author RohoChan<[email]rohochan@gmail.com[/email]>
+ */
+function validateMobile($mobile) {
+    if (is_numeric($mobile)) {
+    	return preg_match('#^13[\d]{9}$|^14[5,7]{1}\d{8}$|^15[^4]{1}\d{8}$|^17[0,6,7,8]{1}\d{8}$|^18[\d]{9}$#', $mobile) ? true : false;
+    }else {
+        return false;
+    }
+}
+
+/**
+ * 验证人名是否正确
+ * @param string $str
+ * @return boolean
+ * @date 2016-09-30
+ * @author RohoChan<[email]rohochan@gmail.com[/email]>
+ */
+function validatePersonName($str) {
+    if (is_string($str)) {
+    	return preg_match('/^([a-zA-Z\x{4e00}-\x{9fa5}]{2,20})$/u', $str) ? true : false;
+    }else {
+        return false;
+    }
+}
 /**
  * 根据报增减截止日计算办理年月
  * @param string $deadline 报增减截止日
@@ -1869,6 +1899,7 @@ function get_model_attribute($model_id, $group = true,$fields=true){
 			$attr[$value['id']] = $value;
 		}
 		$model     = M("Model")->field("field_sort,attribute_list,attribute_alias")->find($model_id);
+
 		$attribute = explode(",", $model['attribute_list']);
 		if (empty($model['field_sort'])) { //未排序
 			$group = array(1 => array_merge($attr));
@@ -2191,7 +2222,7 @@ function adminState()
 		'pay_order_type'=> array(1=>'服务订单', 2=> '社保公积金订单', 3=> '代发工资订单'),
 		'pay_order_state'=> array(0=>'待支付', 1=> '支付成功 ', 2=> '支付失败'),
 		'pay_order_pay_type'=> array(1=>'线上支付', 2=> '线下支付'),
-		'applicable_object'=>array(1=>'个体工商户/个人', '20人以下的企业用户','100人的企业用户','100-500人的企业用户','500人以上的企业用户'),
+		'applicable_object'=>array(1=>'个体工商户/个人', '20人以下的企业用户','20-100人的企业用户','100-500人的企业用户','500人以上的企业用户'),
 		);
 
 

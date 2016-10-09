@@ -66,6 +66,8 @@ $supported-browsers: chrome,firefox,ie;
 @import "platform/base/pagination";
 @import "platform/page/index";
 @import "platform/page/service";
+@import "page/question";
+@import "./base/footer";/* 脚部 */
 
 @import "platform/page/information";// 资讯
 

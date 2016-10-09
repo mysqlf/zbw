@@ -307,7 +307,7 @@ class RulesController extends ServiceBaseController {
                     //exit;
                 }
                 $detail = M('service_insurance_detail' , 'zbw_');
-                $res = $detail->alias('pid')->field('pid.id did,pii.payment_type payment_type,pii.payment_info payment_info,pii.amount amount,pid.replenish replenish')->join("LEFT JOIN zbw_person_insurance_info pii ON pii.id=pid.insurance_info_id")->where("pid.rule_id={$id} AND pid.state IN (0,1,-1)")->order('pid.id DESC')->select();
+                $res = $detail->alias('pid')->field('pid.id did,pii.payment_type payment_type,pii.payment_info payment_info,pii.amount amount,pid.replenish replenish,pid.pay_order_id pay_order_id')->join("LEFT JOIN zbw_person_insurance_info pii ON pii.id=pid.insurance_info_id")->where("pid.rule_id={$id} AND pid.state IN (0,1,-1)")->order('pid.id DESC')->select();
                 $Calculate = new Calculate;
                 foreach ($res as $val)
                 {
@@ -317,12 +317,15 @@ class RulesController extends ServiceBaseController {
                     //$payment_info['amount'] = $this->_detail['amount'];
                     $payment_info['month']  = 1;
                     $newDetail = $Calculate->detail($rule , $payment_info , $val['payment_type'] , null , $val['replenish']);
-                    $newDetail = json_decode($newDetail , true)['data'];
+                    $newDetail = json_decode($newDetail , true)['data']; 
                     $newCue = array();
                     $newCue['insurance_detail'] = json_encode($newDetail);
                     $newCue['current_detail']   = json_encode($newDetail);
-                    $newCue['price']            = $newDetail['total'];   
-                    M('service_insurance_detail' , 'zbw_')->where("id={$val['id']}")->save($newDetail);
+                    $newCue['price']            = $newDetail['total'];
+                    //更新明细
+                    M('service_insurance_detail' , 'zbw_')->where("id={$val['id']}")->save(array('amount'=>$val['amount'] , 'payment_info'=>$newDetail));
+                    //更新订单应付金额
+                    M('pay_order' , 'zbw_')->execute("UPDATE zbw_pay_order SET amount=amount+{$newCue['price']}+{$val['service_price']} WHERE id={$val['pay_order_id']}");
                 }
                 if (1 == intval(I('post.synchro')))
                 {

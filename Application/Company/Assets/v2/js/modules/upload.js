@@ -37,14 +37,18 @@ let upload = {
 			}
 		}
 		let setting = $.extend(true, defaults, opts);
+	
 		return uploader.create(setting);
 	},
 	//错误验证
 	uploadError(uploader){
+
 		uploader.on('error', function(error) {
             switch (error) {
                 case 'F_EXCEED_SIZE':
-                    layer.alert("图片大小不能超过2M", {
+                	let type = /^image\//.test(uploader.options.accept[0].mimeTypes) ? '图片' : '文件';
+
+                    layer.alert(type + "大小不能超过2M", {
                         title: false
                     })
                     break;

@@ -19,7 +19,7 @@ class ArticleController extends ServiceBaseController{
 		 if(IS_GET){
 			 $this->_ArticleData['title'] = I('title', '');
 			 $this->_ArticleData['category_id'] = I('category_id', '0');
-			 $this->_ArticleData['status'] = I('status', '0');
+			 $this->_ArticleData['status'] = I('status', '');
 			 $this->_ArticleData['create_time'] = I('create_time', '');
 			 $this->_ArticleData['create_time1'] = I('create_time1', '');
 		}
@@ -65,7 +65,7 @@ class ArticleController extends ServiceBaseController{
     	if($this->_ArticleData['create_time1']){
     		$where .=  " AND date_format(create_time, '%Y/%m/%d')  <= '{$this->_ArticleData['create_time1']}'";
     	}	    	    	    	
-		//echo $where;
+	//	echo $where;
     	$result = $this->_Article->articleList($where, $this->_AccountInfo);
 
     	$this->assign('result', $result)->assign('_status', $this->_status)->assign('_category', $this->_category)->display();

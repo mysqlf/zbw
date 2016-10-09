@@ -28,13 +28,13 @@
 				'location' => I('post.location','','intval'),
 				'soc_payment_type' => I('post.soc_payment_type','','intval'),
 				//'pro_payment_type' => I('post.pro_payment_type','','intval'),
-				'pro_payment_type' => I('post.soc_payment_type','','intval'),
+				'pro_payment_type' => I('post.pro_payment_type','','intval'),
 				'soc_deadline' => I('post.soc_deadline','','intval'),
 				//'pro_deadline' => I('post.pro_deadline','','intval'),
-				'pro_deadline' => I('post.soc_deadline','','intval'),
+				'pro_deadline' => I('post.pro_deadline','','intval'),
 				'soc_payment_month' => I('post.soc_payment_month','','intval'),
 				//'pro_payment_month' => I('post.pro_payment_month','','intval'),
-				'pro_payment_month' => I('post.soc_payment_month','','intval'),
+				'pro_payment_month' => I('post.pro_payment_month','','intval'),
 				'create_time' => date('Y-m-d H:i:s'),
 				'modify_time' => date('Y-m-d H:i:s'),
 				'company_id' => 0,
@@ -85,9 +85,31 @@
 		{
 			$template_id = I('post.template_id','','intval');
 			$data = $this->create();
-			empty($data['pro_payment_type']) && $data['pro_payment_type'] = $data['soc_payment_type'];
+			/*empty($data['pro_payment_type']) && $data['pro_payment_type'] = $data['soc_payment_type'];
 			empty($data['pro_deadline']) && $data['pro_deadline'] = $data['soc_deadline'];
 			empty($data['pro_payment_month']) && $data['pro_payment_month'] = $data['soc_payment_month'];
+*/			$result = $this->where('id='.$template_id)->save($data);
+			if(false === $result) return false;
+
+			$log_data['template_id'] = $template_id;
+			$log_data['old_rule'] = json_encode($data);
+			$log_data['detail'] = '缴费标准修改';
+			return add_template_log($log_data);
+			
+		}
+		/**
+		 * [modifyTemplate 修改模板缴费标准]
+		 * @Author   JieJie
+		 * @DataTime 2016-07-08T18:34:49+0800
+		 * @return   [boolean] 
+		 */
+		/*public function modifygjjTemplate()
+		{
+			$template_id = I('post.template_id','','intval');
+			$data = $this->create();
+			empty($data['pro_payment_type']) && $data['pro_payment_type'] = $data['pro_payment_type'];
+			empty($data['pro_deadline']) && $data['pro_deadline'] = $data['pro_deadline'];
+			empty($data['pro_payment_month']) && $data['pro_payment_month'] = $data['pro_payment_month'];
 			$result = $this->where('id='.$template_id)->save($data);
 			if(false === $result) return false;
 
@@ -95,7 +117,6 @@
 			$log_data['old_rule'] = json_encode($data);
 			$log_data['detail'] = '缴费标准修改';
 			return add_template_log($log_data);
-		}
-
+		}*/
 	}
 ?>

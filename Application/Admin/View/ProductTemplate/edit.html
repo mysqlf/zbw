@@ -41,6 +41,7 @@
 				{$info['soc_payment_month']}
 			</div>				
 		</div>
+		<p><span><a href="javascript:modifysbTemplate({$info['id']})" class="btn">修改</a></span></p>
 		<div style="clear:both"></div>	
 		<p style="float:none;">公积金：</p>		
 		 <div class="form_item_sub">	
@@ -61,10 +62,10 @@
 				{$info['pro_payment_month']}
 			</div>				
 		</div>
-		<div style="clear:both"></div>	
-			<p><span><a href="javascript:modifyTemplate({$info['id']})" class="btn">修改</a></span></p>
-		</div>	
-		
+		<p><span><a href="javascript:modifygjjTemplate({$info['id']})" class="btn">修改</a></span></p>
+ 	<div style="clear:both"></div>	
+		<!-- <p><span><a href="javascript:modifyTemplate({$info['id']})" class="btn">修改</a></span></p> -->
+	</div>	 
 		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>社保</h2></div>
 
 			<!--<div class="tab-nav main-title" style="padding-bottom: 5px;"><h3>社保分类</h3></div>-->
@@ -106,7 +107,7 @@
 					<empty name="sb_rule">
 					<tr>
 						<td><input type="checkbox" name="bujiao[]" value="0" class="bujiao"></td>
-						<td>养老保险 <input type="hidden" name="sb[items][]" value="养老保险"></td>
+						<td>养老保险1 <input type="hidden" name="sb[items][]" value="养老保险"></td>
 						<td><input type="text"  name="sb[amount][]"  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="10" class="number"></td>
 						<td>元&nbsp;</td>
 						<td><span>单位比例</span></td>

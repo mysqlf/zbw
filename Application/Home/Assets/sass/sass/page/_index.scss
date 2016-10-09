@@ -34,6 +34,11 @@
     }
 }
 
+.swiper-limit-h .swiper-wrapper {
+    height: 300px;
+    overflow: hidden;
+}
+
 .banner-height {
     height: 550px;
 }
@@ -180,6 +185,7 @@
         left: -10px;
         right: -10px;
     }
+    line-height: 1.6;
     li {
         position: relative;
         z-index: 1;
@@ -214,6 +220,7 @@
             transition: opacity .35s, transform .35s;
             opacity: 0;
             filter: alpha(opacity=0);
+
         }
         &:before {
             border: {

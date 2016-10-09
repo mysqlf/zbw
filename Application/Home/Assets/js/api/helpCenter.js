@@ -1,4 +1,4 @@
-/*首页接口*/
+/*帮助中心*/
 let { concatApi } = require('./config'),
 api = {
 	//获取资讯列表数据

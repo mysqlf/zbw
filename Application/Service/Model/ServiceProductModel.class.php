@@ -30,11 +30,15 @@ class ServiceProductModel extends  ServiceAdminModel
         if(IS_POST)
         {
             $product['location'] = M('company_info')->getFieldById($admin['company_id'], 'location');
-            if($product['service_price_state'] == 1)
+            if($product['service_price_state'] == 1)//免费
             {
                 $product['member_price'] = 0.00;
-                //unset($product['service_price_state']);
+                $product['service_price_state'] = 0;
             }
+            if(!empty($product['member_price']) && $product['service_price_state'] == 0){
+                $product['service_price_state'] = 1;
+            }
+
             $otherLocation = explode(',', $product['other_location']);
             $product['other_location'] = json_encode($otherLocation);
             if($product['service_type'] == 2)

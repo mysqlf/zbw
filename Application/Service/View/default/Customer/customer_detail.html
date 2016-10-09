@@ -4,7 +4,7 @@
     <div class="pannel-details customer-details">
         <h2 class="cnt-title">企业资料</h2>
         <div class="customer-modify-wra">
-            <?php if(!empty($$result['admin_id'])){?>
+            <?php if(!empty($result['admin_id'])){?>
             <span><?php echo serviceAdminName($result['admin_id']); ?></span>
             <a href="javascript:;" data-act="handle-modify">修改</a>
             <input type="hidden" name="ipt_hidden" value="<?php echo $result['usp_id']; ?>" />
@@ -15,9 +15,9 @@
             <legend>基本资料</legend>
             <div class="cusdetails clearfix">
                 <div class="company-name"><?php echo $result['company_name']; ?><span><?php if($result['audit'] == 1){ ?><i class="icon icon-authenticatel"></i>已认证</span><?php }elseif($result['audit'] == -1){?> 审核失败  <?php }else {?>  审核中<?php } ?></div>
-                <div class="details-item">员工人数：<span><?php echo $_adminState['employee_number'][$result['employee_number']]; ?></span></div>
+                <div class="details-item">员工人数：<span><?php echo $_adminState['employee_number'][$result['employee_number']]; ?>人</span></div>
                 <div class="details-item fl">企业性质：<span><?php echo $_adminState['property'][$result['property']]; ?></span></div>
-                <div class="details-item fl">注册资金：<span><?php echo $result['register_fund']; ?></span></div>
+                <div class="details-item fl">注册资金：<span><?php echo $result['register_fund']; ?>万</span></div>
                 <div class="details-item fl">所在地区：<span><?php echo showAreaName1($result['location']); ?></span></div>
                 <div class="details-item fl">通讯地址：<span><?php echo $result['company_address']; ?></span></div>
                 <div class="details-item fl">企业固话：<span><?php echo $result['tel_local_number']; ?></span></div>
@@ -58,7 +58,7 @@
         <fieldset>
             <legend>联系人信息</legend>
             <div class="cusdetails">
-                <div class="details-item">联系人：<span><?php echo serviceAdminName($result['contact_name']); ?>&emsp;<?php echo $result['contact_sex']== 1 ? '先生' : '女士'; ?></span>
+                <div class="details-item">联系人：<span><?php echo $result['contact_name']; ?>&emsp;<?php echo $result['contact_sex']== 1 ? '先生' : '女士'; ?></span>
                 </div>
                 <div class="details-item">联系电话：<span><?php echo $result['contact_phone']; ?></span></div>
 

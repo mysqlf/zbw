@@ -109,7 +109,7 @@
                 <p class="balance">未结差额：<span>¥&nbsp;<em><?php echo $orderInfo['diff_amount']; ?></em>&nbsp;</span>元</p>
                 <?php } ?>
                 </if>
-                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo $orderInfo['actual_amount'] == 0.00 ? $orderInfo['amount'] : $orderInfo['actual_amount']; ?></em>&nbsp;</span>元</p>
+                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo $orderInfo['actual_amount'] == 0.00 ? $orderInfo['amount'] + $orderInfo['diff_amount'] : $orderInfo['actual_amount']; ?></em>&nbsp;</span>元</p>
             </div>
             <!--1线上支付 2线下支付 && $orderInfo['pay_deadline'] >= date('Y-m-d H:i:s', NOW_TIME)-->
          <?php if($orderInfo['pay_type'] != 1 && $orderInfo['state'] != 1 ){?>

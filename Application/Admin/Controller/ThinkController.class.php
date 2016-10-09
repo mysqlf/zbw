@@ -159,7 +159,11 @@ class ThinkController extends AdminController {
 			$this->error('请选择要操作的数据!');
 		}
 
-		$Model = M(get_table_name($model['id']));
+		if(in_array($model['id'], array(8))){
+			$Model = M(get_table_name($model['id']), 'zbw_');
+		}else{
+			$Model = M(get_table_name($model['id']));
+		}
 		$map = array('id' => array('in', $ids) );
 		if($Model->where($map)->delete()){
 			$this->success('删除成功');

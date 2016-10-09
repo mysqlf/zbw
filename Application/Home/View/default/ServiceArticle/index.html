@@ -8,7 +8,7 @@
 			</volist>
 		</ul>
 		<div class="news-list fr">
-			<h2 class="news-h" style="background:url('/Application/Home/Assets/img/{$Think.get.category}.png');background-repeat: no-repeat;">{$name}</h2>
+			<h2 class="news-h"><?php if(empty($name)) $name = '最新资讯';?>{$name}</h2>
 			<volist name="article_list.list" id="art">
 				<div class="news-list-box">
 					<div class="news-time fl">

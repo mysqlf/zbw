@@ -14,7 +14,7 @@
         }
         font-size: 14px;
         line-height: 1.6;
-        span {
+        span, .help {
             display: inline-block;
             padding: {
                 left: 25px;
@@ -42,6 +42,7 @@
         }
         .help {
             background-position: 0 -66px;
+            color: inherit;
         }
     }
     @at-root .footer-nav {
@@ -80,7 +81,7 @@
             }
         }
     }
-    .copyright {
+    @at-root .copyright {
         font-size: 12px;
     }
 }

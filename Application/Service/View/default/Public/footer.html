@@ -1,6 +1,6 @@
 <!-- 底部[[ -->
 <div class="page-footer">
-    <p class="footer-info"><i class="icon icon-adds"></i><?php $publicFooter = publicFooter(session('user')['company_id']);  echo $publicFooter['company_address']; ?><i class="icon icon-tel"></i><?php echo $publicFooter['tel_local_number']; ?><span>周一至周五 8:00-18:00</span></p>
+    <p class="footer-info"><i class="icon icon-adds"></i><?php $publicFooter = publicFooter(session('user')['company_id']);  echo $publicFooter['company_address']; ?><i class="icon icon-tel"></i><?php echo $publicFooter['contact_phone'] ? $publicFooter['contact_phone'] : $publicFooter['tel_local_number']; ?><span>周一至周五 8:00-18:00</span></p>
     <div class="footer-nav">
         <p>
             <a href="http://www.chitone.com.cn/" target="_blank">集团官网</a>

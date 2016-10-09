@@ -35,11 +35,25 @@ class ProductTemplateController extends AdminController
 			//数据验证
 			$location = I('post.location') or $this->error('请选择城市，并将城市选中到市级！');
 			$_POST['soc_payment_type'] or $this->error( '社保支付方式必填！');
-			// $_POST['pro_payment_type'] or $this->error('公积金支付方式必填！');
+			$_POST['pro_payment_type'] or $this->error('公积金支付方式必填！');
 			$_POST['soc_deadline'] or $this->error( '社保报增截止时间不能为空!');
-			// $_POST['pro_deadline'] or $this->error( '公积金报增截止时间不能为空!');
+			$_POST['pro_deadline'] or $this->error( '公积金报增截止时间不能为空!');
 			$_POST['soc_payment_month'] or $this->error('社保最大补缴月不能为空!');
-			// $_POST['pro_payment_month'] or$this->error( '公积金最大补缴月不能为空!');
+			$_POST['pro_payment_month'] or$this->error( '公积金最大补缴月不能为空!');
+
+			$amount=$_POST['sb'];
+			$max=$amount['max'];
+			$min=$amount['min'];
+			$minlist=$amount['amount'];
+			$maxlist=$amount['amountmax'];
+			$count=count($minlist);
+			for ($i=0; $i <$count ; $i++) {
+				if ($maxlist[$i]>0&&$minlist[$i]>0) {
+					if ($minlist[$i]<$min||$maxlist[$i]>$max) {
+						$this->error('基数范围错误');exit;
+					}
+				}
+			}
 			if(!$_POST['sb_category_sub'][0]) 
 				$this->error('请先社保选择分类!');
 			$czj = I('post.czj','','floatval');
@@ -63,10 +77,10 @@ class ProductTemplateController extends AdminController
 			//建模板表
 			$template_id = D('Template')->createTemplate(true);
 			if(!$template_id) $this->error('城市模板添加失败！');
-			
 			//添加模板规则
 			$sb_result = $Rule->createTemplateRule(1,$sb_classify,$template_id,$sb_rule);
 			$gjj_result = $Rule->createTemplateRule(2,'',$template_id,$gjj_rule);
+			
 			//$czj_result = $Rule->createTemplateRule(3,'',$template_id,$czj_rule);
 			$czj_result = true;
 			if($sb_result && $gjj_result && $czj_result)
@@ -213,6 +227,25 @@ class ProductTemplateController extends AdminController
 		}
 	}
 
+	/**
+	 * [templatePrice 修改缴费标准]
+	 * @Author   JieJie
+	 * @DataTime 2016-07-08T18:58:25+0800
+	 * @return   [type]                   [description]
+	 */
+	public function templategjjPrice()
+	{
+		$Template = D('Template');
+		if(IS_POST){
+			$result = $Template->modifyTemplate();
+			if(!$result) $this->error('修改失败！');
+			$this->success('修改成功！');
+		}else{
+			$id = I('get.template_id','','intval');
+			$this->template = $Template->where('id='.$id)->find();
+			$this->display();
+		}
+	}
 	/**
 	 * [modifySb 社保修改弹窗页面]
 	 * @Author   JieJie

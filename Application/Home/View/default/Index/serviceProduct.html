@@ -26,31 +26,31 @@
             <dl class="search-terms search-terms-city">
                 <dt>服务城市</dt>
                 <dd  name="location">
-                    <a href="javascript:;" data-value="0" class="search-terms-tm <?php if($_GET['location'] == 0) echo 'active';?>">不限</a>
+                    <a href="<?php $url = url_splite('location'); echo $url; ?>location=0" data-value="0" class="search-terms-tm <?php if($_GET['location'] == 0) echo 'active';?>">不限</a>
                     <?php foreach($location as $k=>$v){?>
-                    <a href="javascript:;" data-value="<?php echo $v['location']; ?>" class="search-terms-tm <?php if($_GET['location'] == $v['location']) echo 'active';?>"><?php echo $v['name']; ?></a>
+                    <a href="<?php echo $url; ?>location=<?php echo $v['location']; ?>" data-value="<?php echo $v['location']; ?>" class="search-terms-tm <?php if($_GET['location'] == $v['location']) echo 'active';?>"><?php echo $v['name']; ?></a>
                     <?php } ?>
                 </dd>
             </dl>
             <dl class="search-terms">
                 <dt>适用对象</dt>
                 <dd name="applicable_object">
-                     <a href="javascript:;" class="search-terms-tm <?php if($_GET['applicable_object'] == 0) echo 'active';?>" data-value="0">不限</a>
+                                        <a href="<?php $url = url_splite('applicable_object');  echo $url; ?>applicable_object=0" class="search-terms-tm <?php if($_GET['applicable_object'] == 0) echo 'active';?>" data-value="0">不限</a>
                     <?php foreach($applicable_object as $k=>$v){?>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['applicable_object'] == $k) echo 'active';?>" data-value="<?php echo $k;?>"><?php echo $v;?></a>
+                    <a href="<?php echo $url; ?>applicable_object=<?php echo $k; ?>" class="search-terms-tm <?php if($_GET['applicable_object'] == $k) echo 'active';?>" data-value="<?php echo $k;?>"><?php echo $v;?></a>
                     <?php } ?>
                 </dd>
             </dl>
             <dl class="search-terms extra">
                 <dt>服务费区间</dt>
                 <dd  name="amount">
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 0) echo 'active';?>" data-value="0">不限</a>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 1) echo 'active';?>" data-value="1">0-50元</a>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 2) echo 'active';?>" data-value="2">50-60元</a>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 3) echo 'active';?>" data-value="3">60-70元</a>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 4) echo 'active';?>" data-value="4">70-80元</a>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 5) echo 'active';?>" data-value="5">80-100元</a>
-                    <a href="javascript:;" class="search-terms-tm <?php if($_GET['amount'] == 6) echo 'active';?>" data-value="6">100元以上</a>
+                    <a href="<?php $url =  url_splite('mount'); echo $url; ?>mount=0" class="search-terms-tm <?php if($_GET['amount'] == 0) echo 'active';?>" data-value="0">不限</a>
+                    <a href="<?php echo $url; ?>amount=1" class="search-terms-tm <?php if($_GET['amount'] == 1) echo 'active';?>" data-value="1">0-50元</a>
+                    <a href="<?php echo $url; ?>amount=2" class="search-terms-tm <?php if($_GET['amount'] == 2) echo 'active';?>" data-value="2">50-60元</a>
+                    <a href="<?php echo $url; ?>amount=3" class="search-terms-tm <?php if($_GET['amount'] == 3) echo 'active';?>" data-value="3">60-70元</a>
+                    <a href="<?php echo $url; ?>amount=4" class="search-terms-tm <?php if($_GET['amount'] == 4) echo 'active';?>" data-value="4">70-80元</a>
+                    <a href="<?php echo $url; ?>amount=5" class="search-terms-tm <?php if($_GET['amount'] == 5) echo 'active';?>" data-value="5">80-100元</a>
+                    <a href="<?php echo $url; ?>amount=6" class="search-terms-tm <?php if($_GET['amount'] == 6) echo 'active';?>" data-value="6">100元以上</a>
                 </dd>
             </dl>
         </div>
@@ -73,25 +73,29 @@
                     </dl>
                     <?php }elseif($v['service_type'] == 1){?>
                         <dl class="pro-fee">
+                       <?php if(empty($v['service_price'][0]['service_price'])){ ?> 
+                            <dd><span class="fee-free">免服务费</span></dd>
+                       <?php }else{?>                               
                             <dt>服务费</dt>
                         <?php foreach($v['service_price'] as $key=>$val){?>
-                        <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
-                        <?php } ?>
+                            <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+                        <?php }}  ?>
                         </dl>
 
-                <?php } ?>
-                <?php if($v['service_price_state'] == 1){?>
-                    <dl class="pro-fee">
-                        <dt>套餐费</dt>
-                        <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
-                    </dl>
-                <?php }else{ if($v['service_type'] == 1){?>
+                    <?php }?>
 
+                    <?php if($v['service_price_state'] == 1){?>
+                        <dl class="pro-fee">
+                            <dt>套餐费</dt>
+                            <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
+                        </dl>
+                    <?php }else{ if($v['service_price_state'] == 0){?>
                         <dl class="pro-fee">
                             <dd><span class="fee-free">免套餐费</span></dd>
                         </dl>
                     <?php }}?>
                 </div>
+
                 <a href="{:U('SocialSecurity/productDetail',array('cid'=>$v['cid'],'id'=>$v['id']))}" class="btn no-mgt">立即参保</a>
             </li>
             <?php } ?>

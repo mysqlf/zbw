@@ -55,7 +55,7 @@
 		<!-- 头部[[ -->
 		<div class="head wrapper clearOver">
 			<div class="head-logo-box fl">
-				<a class="head-logo  fl" href="{:U('Index/service',array('cid'=>$Cid))}"><i class="icon header-header_logo" style="background-image: url('{$serviceCompanyInfoResult.service_logo}');background-size: cover"></i></a>
+				<a class="head-logo  fl" href="{:U('ServiceProvider/index',array('cid'=>$Cid))}"><i class="icon header-header_logo" style="background-image: url('{$serviceCompanyInfoResult.service_logo}');background-size: cover"></i></a>
 				<if condition="$serviceCompanyInfoResult">
 					<div class="comp-name fl">{$serviceCompanyInfoResult.company_name}</div>
 				</if>

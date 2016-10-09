@@ -176,7 +176,7 @@ function is_active($controller_name,$action_name)
  * @param  integer $article_limit [文章列表数]
  * @return [type]                 [description]
  */
-function channel_list($cid,$limit=3,$field=null,$article_limit = 6)
+function channel_list($cid,$limit=3,$field=null,$article_limit = 5)
 {
 	//获取分类
 	$channel = M('service_article_category','zbw_')->where('company_id='.$cid)->limit($limit)->order('update_time DESC')->select();
@@ -191,4 +191,33 @@ function channel_list($cid,$limit=3,$field=null,$article_limit = 6)
 		$channel[$key]['article_list'] = $Aritcle->where($map)->field($field)->order('update_time DESC')->limit($article_limit)->select();
 	}
 	return $channel;
+}
+
+function artitcle_category($category_id){
+
+	$result = M('service_article_category', 'zbw_')->field('title')->where(array('id'=> $category_id, 'status'=> 1))->find();
+	return $result['title'];
+}
+
+/**
+ * 搜索URL拼接
+ */
+function url_splite($flag){
+	$quer_str = $_SERVER['QUERY_STRING'];
+	$url = '?';
+
+	if(empty($quer_str))
+	{
+		return $url = '?';
+	}
+
+	$str = explode('&', $quer_str);
+	foreach ($str as $key => $value) {
+		if(strpos($value, $flag) === false){
+			$url .= $value.'&';
+		}
+	}
+
+
+	return $url;
 }

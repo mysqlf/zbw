@@ -277,13 +277,11 @@
                 }
             }
             @at-root .btn-buy {
-                display: block;
+                display: inline-block;
                 margin: {
-                    left: auto;
-                    right: auto;
                     top: 25px;
                 }
-                width: 150px;
+                padding: 0 30px;
                 height: 40px;
                 line-height: 40px;
                 background: #F98919;
@@ -293,6 +291,11 @@
                 border-radius: 9999px;
                 &:hover {
                     background: #F99F46;
+                }
+
+                &.disabled {
+                    cursor: default;
+                    background: #bbb !important;
                 }
             }
         }
@@ -329,6 +332,7 @@
                     top: 20px;
                     left: 20px;
                     right: 20px;
+                    bottom: 30px;
                 }
                 margin-bottom: 20px;
                 background: #FFFFFF;
@@ -356,7 +360,7 @@
                 @at-root .detail-company {
                     @at-root .com-logo {
                         width: 120px;
-                        height: 60px;
+                        // height: 60px;
                         border: 1px solid #CDD2D5;
                         margin: {
                             left: auto;
@@ -381,7 +385,6 @@
                         overflow: hidden;
                     }
                     @at-root .com-desc {
-                        padding-bottom: 30px;
                         font-size: 14px;
                         color: #78848F;
                         line-height: 24px;
@@ -389,7 +392,7 @@
                     }
                 }
                 @at-root .detail-recommend-list {
-                    padding-bottom: 37px;
+                    padding-bottom: 7px;
                     li {
                         line-height: 36px;
                         white-space: nowrap;

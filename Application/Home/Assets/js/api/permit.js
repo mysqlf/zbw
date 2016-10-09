@@ -16,7 +16,7 @@ let { concatApi } = require('./config'),
 		//注册第二步（提交用户名和密码）
 		firmLogin: '/Member-firmLogin',
 		// 服务商登录
-		serviceLogin: 'http://192.168.70.111:8004/Service-User-login'
+		serviceLogin: '/Service-User-login'
 	}
 
 // 通行证接口

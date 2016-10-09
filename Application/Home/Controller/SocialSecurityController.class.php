@@ -22,7 +22,7 @@
 			//获取服务商产品对象为企业的产品
 			$condition = array(
 				'state'=>1,
-				'service_type'=>array('in',array(1,3)),
+				'service_type'=>array('in',array(1,2)),
 				'company_id'=>$cid,
 			);
 			//$Product = D('ServiceProduct');
@@ -53,11 +53,12 @@
 			$this->channel_list =channel_list($this->_Cid);
 			//公司资讯
 			$this->company_advisory = getCateList('xz_help');
-			$service_product = D('ServiceProduct')->productList($data);
+			$service_product = D('ServiceProduct')->productList($condition);
+			$banner_info = D('ServiceThumb')->getImageList(3, $this->Cid);
 			$this->assign('city',$map['name']);
 			$this->assign('service_product',$service_product);
 			//$this->assign('person_product',$person_product);
-			$this->assign('add_ser_list',$add_ser_list);
+			$this->assign('add_ser_list',$add_ser_list)->assign('applicable_object', adminState()['applicable_object'])->assign('banner_info', $banner_info);
 			$this->assign('Cid', $this->_Cid)->display();
 		}
 		public function getArticleList($cid)

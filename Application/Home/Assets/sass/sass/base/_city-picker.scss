@@ -76,10 +76,9 @@
 
 .city-picker-input{
 	border: 1px solid $c-border;
-	padding: 5px 10px 6px;
+	padding: 6px 10px;
 	position: relative;
 	cursor: pointer;
-	width: 220px;
 	background: #F7F8FA;
 
 	&.disabled {

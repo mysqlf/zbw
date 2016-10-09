@@ -37,7 +37,7 @@ class ServiceProviderController extends HomeController
 			->assign('banner_info',$banner_info)
 			->assign('cooperative_client',$cooperative_client)
 			->assign('service_product',$service_product)
-			->assign('channel_list',$channel_list)
+			->assign('channel_list',$channel_list)->assign('applicable_object', adminState()['applicable_object'])
 			->display('Index/serviceIndex');
 	}
 

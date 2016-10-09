@@ -1,4 +1,4 @@
-function modifyTemplate(id)
+function modifysbTemplate(id)
 {
 	$.get('/admin.php?s=/ProductTemplate-templatePrice.html',{template_id:id},function(msg){
 		layer.open({
@@ -10,7 +10,7 @@ function modifyTemplate(id)
 			shadeClose: true, //开启遮罩关闭
 			content: msg,
 			btn: ['提交', '关闭'],
-			title : '修改缴费标准',
+			title : '修改社保缴费标准',
 			scrollbar: false,
 			yes : function(index){ 
 				var data = $('#modifyPrice').serialize();
@@ -30,7 +30,38 @@ function modifyTemplate(id)
 		});
 	},'html')
 }
-
+function modifygjjTemplate(id)
+{
+	$.get('/admin.php?s=/ProductTemplate-templategjjPrice.html',{template_id:id},function(msg){
+		layer.open({
+			type: 1,
+			skin: 'layui-layer-demo', //样式类名
+			closeBtn: 1, //关闭按钮
+			shift: 2,
+			area: ['600px','500px'],
+			shadeClose: true, //开启遮罩关闭
+			content: msg,
+			btn: ['提交', '关闭'],
+			title : '修改公积金缴费标准',
+			scrollbar: false,
+			yes : function(index){ 
+				var data = $('#modifygjjPrice').serialize();
+				$.post('/admin.php?s=/ProductTemplate-templategjjPrice.html', data, function(msg) {
+					if(msg.status){
+						layer.msg('修改成功！', {icon: 1, time: 1000});
+						setTimeout(function(){
+							window.location.reload(true);
+						},3000);
+					}else{
+						layer.msg('修改失败！', {icon: 6, time: 1000});
+						layer.close(index);
+					}
+				},'json');
+				
+			  },
+		});
+	},'html')
+}
 
 function modifySb(id,location)
 {
@@ -56,7 +87,28 @@ function modifySb(id,location)
 		title : '修改社保规则',
 		scrollbar: false,
 		yes : function(index){ 
-			var data = $('#modify_sb').serialize();
+			var data = $('#modify_sb').serialize(),
+				flag = true,
+				sbmin = $('[name = "sb[min]"]').val() - 0,
+				sbmax = $('[name = "sb[max]"]').val() - 0;
+
+			$('[name = "sb[amount][]"]').each(function(){
+				if(sbmin > $(this).val() - 0){
+					flag = false;
+					return false;
+				}
+			});
+			$('[name = "sb[amountmax][]"]').each(function(){
+				if(sbmax < $(this).val() - 0){
+					flag = false;
+					return false;
+				}
+			});
+			if(!flag) {
+				alert('保险基数错误!');
+				return;
+			}
+
 			$.post('/admin.php?s=/ProductTemplate-modifySbHandle.html', data, function(msg) {
 				layer.close(load);
 				if(msg.status==1)
@@ -311,18 +363,21 @@ $('.classify_mixed').change(function() {
 				}else{
 					str += '<td><input type="checkbox" name="bujiao[]" value="'+index+'" class="bujiao" ></td>';
 				}
+				if (!el.rules.amountmax) {
+					el.rules.amountmax='';
+				}
 				str += '<td>'+el.name+'<input type="hidden" name="sb[items][]" value="'+el.name+'"></td>';
-				str += '<td><input type="text"  name="sb[amount][]"  value="'+el.rules.amount+'" class="number"></td>';
+				str += '<td><input type="text"  name="sb[amount][]"  value="'+el.rules.amount+'" style="width:50px" class="number">~<input type="text"  style="width:50px"  name="sb[amountmax][]"  value="'+el.rules.amountmax+'" class="number"></td>';
 				str += '<td>元&nbsp;</td>';
 				str += '<td><span>单位比例</span></td>';
-				str += '<td><input type="text" name="sb[company][]" value="'+el.rules.company[0]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[company][]" value="'+el.rules.company[0]+'"></td>';
 				str += '<td><span>%</span> +</td>';
-				str += '<td><input type="text" name="sb[company][]" value="'+el.rules.company[1]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[company][]" value="'+el.rules.company[1]+'"></td>';
 				str += '<td><span>元&nbsp;</span></td>';
 				str += '<td><span>个人比例</span></td>';
-				str += '<td><input type="text" name="sb[person][]" value="'+el.rules.person[0]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[person][]" value="'+el.rules.person[0]+'"></td>';
 				str += '<td><span>%</span> +</td>';
-				str += '<td><input type="text" name="sb[person][]" value="'+el.rules.person[1]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[person][]" value="'+el.rules.person[1]+'"></td>';
 				str += '<td><span>元&nbsp;</span></td></tr>';
 			});
 			$('.rule_table').html(str);

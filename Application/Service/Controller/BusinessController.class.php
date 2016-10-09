@@ -930,7 +930,7 @@ class BusinessController extends ServiceBaseController{
 								$personInsuranceInfoArray[2]['payment_info'] = json_encode(array('companyScale'=>trim($data['proCompanyScale'],'%').'%','personScale'=>trim($data['proPersonScale'],'%').'%','cardno'=>$data['proCardNum']));
 								$personInsuranceInfoArray[2]['state'] = (0 == $personInsuranceInfoResult['state']?1:$personInsuranceInfoResult['state']);
 								//$personInsuranceInfoArray[2]['operate_state'] = 0;//未审核
-								$personInsuranceInfoArray[1]['operate_state'] = 1;//审核通过
+								$personInsuranceInfoArray[2]['operate_state'] = 1;//审核通过
 							}
 						}else {
 							$personInsuranceInfoOriginArray[2] = $personInsuranceInfoResult = $personInsuranceInfo->field(true)->getById($data['proPiiId']);
@@ -938,7 +938,7 @@ class BusinessController extends ServiceBaseController{
 							$personInsuranceInfoArray[2]['id'] = $data['proPiiId'];
 							$personInsuranceInfoArray[2]['state'] = 3;//报减
 							//$personInsuranceInfoArray[2]['operate_state'] = 0;//未审核
-							$personInsuranceInfoArray[1]['operate_state'] = 1;//审核通过
+							$personInsuranceInfoArray[2]['operate_state'] = 1;//审核通过
 						}
 						if ($personInsuranceInfoArray) {
 							/*foreach ($personInsuranceInfoArray as $key => $value) {
@@ -2252,6 +2252,40 @@ class BusinessController extends ServiceBaseController{
 								$batchResult['data'][$rowNum]['deduction_income_tax'] = $batchResult['data'][$rowNum]['tax'];
 								$batchResult['data'][$rowNum]['price'] = $batchResult['data'][$rowNum]['salary'];
 								$batchResult['data'][$rowNum]['service_price'] = $servicePrice;
+								
+								if ($batchResult['data'][$rowNum]['personName']) {
+									if (!validatePersonName($batchResult['data'][$rowNum]['personName'])) {
+										$batchResult['data'][$rowNum]['info'] = '请输入正确的姓名！';
+										continue;
+									}
+								}else {
+									$batchResult['data'][$rowNum]['info'] = '姓名必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['bank']) {
+									$batchResult['data'][$rowNum]['info'] = '银行名称必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['branch']) {
+									$batchResult['data'][$rowNum]['info'] = '支行名称必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['account']) {
+									$batchResult['data'][$rowNum]['info'] = '银行账号必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['date']) {
+									$batchResult['data'][$rowNum]['info'] = '工资年月必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['actual_salary']) {
+									$batchResult['data'][$rowNum]['info'] = '实发工资必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['tax']) {
+									$batchResult['data'][$rowNum]['info'] = '个人所得税必填！';
+									continue;
+								}
 								
 								if (validateIDCard($batchResult['data'][$rowNum]['cardNum'])) {
 									$personBaseData = array();

@@ -10,11 +10,12 @@
 }
 .register-logo{
 	float: left;
-	width: 200px;
+	width: 160px;
 	height: 71px;
-	background: url('#{$img-src}/register-logo.png');
-	margin-top: 11px;
+	background: url('#{$img-src}/platform/logo.png') no-repeat center left;
+	margin-top: 15px;
 }
+
 .firm-page{
 	float: left;
 	line-height: 100px;
@@ -345,3 +346,148 @@
     	padding-right: 5px;
     }
 }
+
+//注册成功
+.reg-cg{
+	text-align: center;
+	p{
+		font-size: $font16;
+		padding: 20px 0 32px 0;
+		i{
+			color: $blue;
+		}
+		span{
+			color: $orange;
+		}
+	}
+	img{
+		display: block;
+		margin: 0 auto;
+		margin-bottom: 20px;
+	}
+	em{
+		font-size: $font16;
+		display: block;
+		margin-bottom: 20px;
+	}
+	.cg-button{
+		display: block;
+		width: 118px;
+		margin: 0 auto;
+		padding: 9px 0;
+	}
+	.kong-button{
+		border:1px solid $orange;
+		padding: 6px 16px;
+		color: $orange;
+		border-radius: 6px;
+	}
+}
+.reg-process {
+	    height: 808px;
+	    background: #f0f0f0;
+	    border-top: 6px solid #f77f3b
+	}
+
+	.reg-process h2 {
+	    background: url(/Application/Home/Assets/img/reg-success-logo.png) top center no-repeat;
+	    padding-top: 107px;
+	    margin-top: 38px;
+	    text-align: center
+	}
+
+	.reg-process h2 p {
+	    padding: 22px 0 30px 0;
+	    font-size: 26px;
+	    color: #f77f3b
+	}
+
+	.reg-process-content {
+	    background: #fff;
+	    width: 786px;
+	    height: 460px;
+	    margin: 0 auto;
+	    border-radius: 6px;
+	    padding: 60px 52px 0 52px;
+	    position: relative
+	}
+
+	.reg-titile {
+	    text-align: center;
+	    font-size: 26px;
+	    color: #f77f3b
+	}
+
+
+	.reg-cg {
+	    text-align: center
+	}
+
+	.reg-cg p {
+	    font-size: 16px;
+	    padding: 20px 0 32px 0
+	}
+
+	.reg-cg p i {
+	    color: #3498db
+	}
+
+	.reg-cg p span {
+	    color: #f77f3b
+	}
+
+	.reg-cg img {
+	    display: block;
+	    margin: 0 auto;
+	    margin-bottom: 20px
+	}
+
+	.reg-cg em {
+	    font-size: 16px;
+	    display: block;
+	    margin-bottom: 20px
+	}
+
+	.reg-cg .cg-button {
+	    display: block;
+	    width: 118px;
+	    margin: 0 auto;
+	    padding: 9px 0
+	}
+
+	.reg-fail {
+	    text-align: center
+	}
+
+	.reg-fail p {
+	    font-size: 22px;
+	    padding-top: 100px;
+	    margin-bottom: 50px
+	}
+
+	.reg-fail a {
+	    font-size: 16px;
+	    display: block;
+	    padding: 12px 0;
+	    width: 174px;
+	    margin: 0 auto
+	}
+
+	.reg-fail02 {
+	    text-align: center
+	}
+
+	.reg-fail02 p {
+	    font-size: 22px;
+	    padding-top: 110px;
+	    margin-bottom: 30px
+	}
+
+	.reg-fail02 p i {
+	    color: #3498db
+	}
+
+	.reg-fail02 a {
+	    color: #f77f3b;
+	    font-size: 22px
+	}

@@ -14,7 +14,7 @@ module.exports = {
         serviceLogin($("#login-form")); // 服务商登录
         this.proService();
         this.getNewInfoData();
-        this.getServiceProductQuery();
+        // this.getServiceProductQuery();
 
         $('.icheck').iCheck({
             checkboxClass: 'icheckbox icheckbox_minimal-orange',
@@ -22,7 +22,8 @@ module.exports = {
         });
 
         $('.search-terms-city dd').limitHeight({
-            margin: 3
+            margin: 3,
+            child: '.search-terms-tm'
         });
 
     },
@@ -129,7 +130,7 @@ module.exports = {
                     let html = '';
                     for (let i = 0, len = el.length; i < len; i++) {
                         html += `<p>
-                                    <a href="/Article-detail-id-${el[i].id}">${el[i].title}</a>
+                                    <a href="/Article-detail-id-${el[i].id}" title="${el[i].title}">${el[i].title}</a>
                                 </p>`
                     }
                     event.html(html);
@@ -148,6 +149,7 @@ module.exports = {
         $('.search-terms-tm').each(function() {
             let $this = $(this);
             $this.click(function(event) {
+                event.preventDefault();
                 $this.addClass('active').siblings('a').removeClass('active');
 
                 function getVal(obj) {

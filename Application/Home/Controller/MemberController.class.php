@@ -213,13 +213,14 @@
 			//获取企业信息
 			$firm_info = D('CompanyInfo')->getFirmInfo(array('id'=>I('get.firm_id')));
 			//企业邮箱通过验证
-			$firm_info['email_activation']==1 && $this->redirect('Index/index','',3, '您的邮箱已经验证成功，请勿重复验证...');
+			//$firm_info['email_activation']==1 && $this->redirect('Index/index','',3, '您的邮箱已经验证成功，请勿重复验证...');
+			$firm_info['email_activation']==1 && $this->ajaxReturn(array('state'=>-1,'info'=>'您的邮箱已经验证成功，请勿重复验证...','url'=>U('Index/index')));
 			//发送验证邮件
 			$result = $this->sendEmail($firm_info['company_name'],I('get.firm_id'),$firm_info['company_name'],$firm_info['email']);
 			if($result) 
-				$this->ajaxReturn(array('state'=>true,'info'=>'邮件发送成功','url'=>'/Member-regSuccess-email-'.$firm_info['email']));
+				$this->ajaxReturn(array('state'=>0,'info'=>'邮件发送成功','url'=>'/Member-regSuccess-email-'.$firm_info['email']));
 			else 
-				$this->ajaxReturn(array('state'=>false,'info'=>'邮件发送失败'));
+				$this->ajaxReturn(array('state'=>-1,'info'=>'邮件发送失败'));
 		}
 
 		#企业登录
@@ -302,7 +303,7 @@
 				$this->reset_url = 'http://'.$_SERVER['HTTP_HOST'].U('getBackPass3').'?'.urlencode('code='.$code.'&id='.$look_of_pass['id'].'&email='.$look_of_pass['email']);
 				$this->firm_name = $look_of_pass['company_name'];
 				//存储验证规则
-				S($look_of_pass['email'].':'.$look_of_pass['id'],$code,86400);
+				S($look_of_pass['email'].':'.$look_of_pass['id'],$code,7200);
 				//获取发送邮件内容
 				$email_info = $this->fetch("Member:sendEmailPassword");
 				$email_title = '您正在智保易申请找回密码';

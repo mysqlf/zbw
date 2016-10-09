@@ -37,6 +37,9 @@ function get_list_field($data, $grid){
 		// 目录类型自动设置子文档列表链接
 		$grid['href']   =   '[LIST]';
 	}
+	if ('location'==$grid['field'][0]) {
+		return showAreaName($value);
+	}
 	if(!empty($grid['href'])){
 		$links  =   explode(',',$grid['href']);
 		foreach($links as $link){

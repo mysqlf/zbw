@@ -244,6 +244,40 @@ class SalaryController extends HomeController {
 								$batchResult['data'][$rowNum]['price'] = $batchResult['data'][$rowNum]['salary'];
 								$batchResult['data'][$rowNum]['service_price'] = $servicePrice;
 								
+								if ($batchResult['data'][$rowNum]['personName']) {
+									if (!validatePersonName($batchResult['data'][$rowNum]['personName'])) {
+										$batchResult['data'][$rowNum]['info'] = '请输入正确的姓名！';
+										continue;
+									}
+								}else {
+									$batchResult['data'][$rowNum]['info'] = '姓名必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['bank']) {
+									$batchResult['data'][$rowNum]['info'] = '银行名称必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['branch']) {
+									$batchResult['data'][$rowNum]['info'] = '支行名称必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['account']) {
+									$batchResult['data'][$rowNum]['info'] = '银行账号必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['date']) {
+									$batchResult['data'][$rowNum]['info'] = '工资年月必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['actual_salary']) {
+									$batchResult['data'][$rowNum]['info'] = '实发工资必填！';
+									continue;
+								}
+								if (!$batchResult['data'][$rowNum]['tax']) {
+									$batchResult['data'][$rowNum]['info'] = '个人所得税必填！';
+									continue;
+								}
+								
 								if (validateIDCard($batchResult['data'][$rowNum]['cardNum'])) {
 									$personBaseData = array();
 									$personBaseData['user_id'] = $this->mCuid;

@@ -82,14 +82,14 @@
 			}
 			//合作客户默认图
 			$data[$i]['company_id'] = intval($company_id);
-			$data[$i]['url'] = '/Application/Home/Assets/img/bg.jpg';
+			$data[$i]['url'] = '/Application/Home/Assets/img/hzkh.jpg';
 			$data[$i]['place'] = 2;
 			$data[$i]['admin_id'] = intval($service_admin);
 			$data[$i]['create_time'] = date('Y-m-d H:i:s');
 			//社保大厅焦点图
 			$i+=1;
 			$data[$i]['company_id'] = intval($company_id);
-			$data[$i]['url'] = '/Application/Home/Assets/img/bg.jpg';
+			$data[$i]['url'] = '/Application/Home/Assets/img/sbdt_banner.jpg';
 			$data[$i]['place'] = 3;
 			$data[$i]['admin_id'] = intval($service_admin);
 			$data[$i]['create_time'] = date('Y-m-d H:i:s');

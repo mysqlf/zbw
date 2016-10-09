@@ -13,6 +13,8 @@ module.exports = {
             innerBox: '.tool-menu-bd'
         });
 
+        this.msgCount();
+
     },
     backTop() {
         //返回顶部
@@ -57,6 +59,27 @@ module.exports = {
         }, () => {
             $($Qcode, $($box)).hide();
         });
+    },
+    // 获取头部信息
+    msgCount() {
+        let { getMsgCount } = require('api/global'),
+            $badge = $('.user-info .logged .badge'),
+            timer = null,
+            isFirst = true;
 
+        innerFn();
+        timer = setInterval(innerFn, 60000);
+
+        function innerFn () {
+            if($badge.length){
+                getMsgCount({}, null, ( { status , result } ) => {
+                    if(status - 0 === 1 && result - 0 > 0){
+                        $badge.html(result)
+                    }
+                })
+            } else if(timer) {
+                clearInterval(timer);
+            }
+        }
     }
 }

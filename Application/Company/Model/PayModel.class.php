@@ -47,8 +47,8 @@ class PayModel extends Model{
 
         $out_trade_no =  $data['order_no'];//商户订单号
         $subject =  $this->getSubject($data);   //订单名称
-        //$total_fee = $data['price'];//付款金额
-        $total_fee =  '0.01';//元
+        $total_fee = $data['price'];//付款金额
+        ///$total_fee =  '0.01';//元
         $body =  $this->getSubject($data);//订单描述
         /************************************************************/  
         //构造要请求的参数数组，无需改动

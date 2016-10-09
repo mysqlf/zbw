@@ -21,8 +21,9 @@ class IndexController extends HomeController
 	private $_ApplicableObject;
 
 	protected function  _initialize(){
+		$this->_ApplicableObject = adminState()['applicable_object'];
 		if(ACTION_NAME == 'serviceProduct'){
-			$this->_ApplicableObject = adminState()['applicable_object'];
+		
 			$this->_Product['spl.location'] = I('get.location',0,'intval');
 			$this->_Product['sp.applicable_object']  = I('get.applicable_object',0,'intval');
 			//'register_fund' => I('get.register_fund',0,'floatval'),
@@ -73,16 +74,16 @@ class IndexController extends HomeController
 		// );
 		// $serviceProduct = D('ServiceAdmin')->getServiceInfo($data);
 		$data['sp.state'] = 1;
+		$data['ci.audit'] = 1;
 		$serviceProduct = D('ServiceProduct')->productList($data, 4);
 		$city = D('Document')->getLocation();
-		$article = $this->getArticleList($city);
-		
+		$article = $this->getArticleList();
 		//$LocationDemand = D('LocationDemand');
 		//$inquireList = $LocationDemand->getCity();
 		//$toolList = $LocationDemand->getToolList($inquireList[0]['location']);//查询工具列表
 		$bannerInfo = D('Picture')->getBanner('carousel_picture', 1);//轮播图信息
 	
-		$this->assign('service_product',$serviceProduct)
+		$this->assign('service_product',$serviceProduct)->assign('applicable_object', $this->_ApplicableObject)
 			->assign('article',$article)
 			->assign('city',$city)
 			->assign('inquire_list',$inquireList)
@@ -150,6 +151,7 @@ class IndexController extends HomeController
 			}
 		if($this->_Product['sp.product_name']) $where['sp.name'] = array('like', '%'.$this->_Product['sp.product_name'].'%');
 		$where['sp.state'] = 1;
+		$where['ci.audit'] = 1;
 //dump($where);
 		//获取服务商及其产品
 		$serviceAdmin = D('serviceAdmin');
@@ -259,12 +261,11 @@ class IndexController extends HomeController
 		}
 		else
 		{
-			$map['status'] = 1;
-			$map['location'] = $city[0]['location'];
-			//$map['_string'] = 'location is null';
-			//$map['_logic'] = 'or';
-			//$where['_complex'] = $map;
-			$where = $map;
+			// $map['status'] = 1;
+			// $map['location'] = 0;
+			// $map['location'] = 'location is null';
+			// $where = $map;
+			$where = array();
 		}
 		$field = 'id,title,location,create_time';
 		$data['help'] = getCateList('help',4,$where,$field);

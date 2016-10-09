@@ -215,7 +215,7 @@ function getCreateTime(){
     function publicFooter($cid){
         $info = S('com'.$cid);
         if(empty($info)){
-             $result = M('company_info')->alias('ci')->field('company_address,tel_city_code,tel_local_number')->where(array('id'=> $cid))->find();
+             $result = M('company_info')->alias('ci')->field('company_address,tel_city_code,tel_local_number, contact_phone')->where(array('id'=> $cid))->find();
 
              S('com'.$cid, json_encode($result), 24*3600);
         }else{

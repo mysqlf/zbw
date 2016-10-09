@@ -62,5 +62,38 @@ module.exports = {
 				}
 			}
 		})
+	},
+	verifyEmail() {
+		let {  fetch } = require('api/config');
+
+		$('#J_aginVerify').click(function(){
+
+			let $this = $(this),
+				href = $this.attr('href'),
+				flag = $this.data('flag');
+
+			if( flag ) {
+				return;
+			}
+
+			$this.data('flag', true);
+
+			fetch(href, {}, ({url, info = '发送成功'}) => {
+				layer.msg(info, function(){
+					if(url) {
+						location.href = url;
+					}
+				});
+				
+			}, ({ info = '发送失败' }) => {
+				layer.msg(info)
+			}, {
+				type: 'get'
+			}).complete(()=>{
+				$this.data('flag', true);
+			})
+
+			return false;
+		})
 	}
 }

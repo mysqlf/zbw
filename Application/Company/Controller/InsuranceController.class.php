@@ -434,7 +434,6 @@ class InsuranceController extends HomeController {
 								$personInsuranceInfoArray[2]['pay_date'] = '';
 								$personInsuranceInfoArray[2]['operate_state'] = -9;//撤销
 								$personInsuranceInfoResult = $personInsuranceInfo->getLastPersonInsuranceInfo(array('id'=>$data['proPiiId'],'user_id'=>$this->mCuid,'base_id'=>$personBaseId,'payment_type'=>2));
-								//dump($personInsuranceInfoResult);
 								if ($personInsuranceInfoResult) {
 									$personInsuranceInfoArray[2]['state'] = (1 == $personInsuranceInfoResult['state']?0:$personInsuranceInfoResult['state']);
 								}else {
@@ -2104,6 +2103,27 @@ class InsuranceController extends HomeController {
 					$data['proCompanyScale'] = $batchResult['data'][$rowNum]['proPersonScale'];
 					$data['proPersonScale'] = $batchResult['data'][$rowNum]['proCompanyScale'];
 					//dump($data);die;
+					
+					if ($data['personName']) {
+						if (!validatePersonName($data['personName'])) {
+							$batchResult['data'][$rowNum]['info'] = '请输入正确的姓名！';
+							continue;
+						}
+					}else {
+						$batchResult['data'][$rowNum]['info'] = '姓名必填！';
+						continue;
+					}
+					
+					if ($data['mobile']) {
+						if (!validateMobile($data['mobile'])) {
+							$batchResult['data'][$rowNum]['info'] = '请输入正确的手机号码！';
+							continue;
+						}
+					}else {
+						$batchResult['data'][$rowNum]['info'] = '手机号码必填！';
+						continue;
+					}
+					
 					
 					if (validateIDCard($data['cardNum'])) {
 						$personBaseData = array();

@@ -53,7 +53,7 @@ class OrderController extends HomeController
                         $this->ajaxReturn(array('status'=>1,'result'=>array('actual_amount'=>($order['amount']+$order['diff_amount']),'amount'=>$order['amount'],'diff_amount'=>$order['diff_amount'])));
                         exit();
                     }
-                    if (!$unsettle)
+                    if ((int)$unsettle==0||!$unsettle)
                     {
                         $this->ajaxReturn(array('status'=>1,'result'=>$result));
                     }

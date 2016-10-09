@@ -1,0 +1,79 @@
+<form id="modifygjjPrice">
+    <input type="hidden" name="template_id" value="{$Think.get.template_id}">
+    <!--<h3>社保</h3>-->
+    <div class="form-ele">
+        <label>缴纳方式:</label>
+        <select name="pro_payment_type">
+            <option value="1">缴当月</option>
+            <option value="2" <if condition="$template['pro_payment_type'] eq 2"> selected="selected"</if>>缴次月</option>
+        </select>
+    </div>
+    <div class="form-ele">
+        <label>报增截止日:</label>
+        <select name="pro_deadline">
+            <php>
+                for($i=1;$i<=28;$i++)
+                {
+                    $selected = $template['pro_deadline']==$i ? 'selected="selected"' :'';
+                    $sb_strs .= "<option value=".$i." $selected>".$i."</option>";
+                }
+                echo $sb_strs;
+            </php>
+        </select>
+    </div>
+    <div class="form-ele">
+        <label>最大补缴月:</label>
+        <select name="pro_payment_month">
+            <php>
+                for($j=1;$j<=12;$j++)
+                {
+                    $selected = $template['pro_payment_month']==$j ? 'selected="selected"' :'';
+                    $sb_string .= "<option value=".$j." $selected>".$j."</option>";
+                }
+                echo $sb_string;
+            </php>
+
+        </select>
+    </div>
+    <!--<h3>公积金</h3>
+    <div class="form-ele">
+        <label>缴纳方式:</label>
+        <select name="pro_payment_type">
+            <option value="1">缴当月</option>
+            <option value="2" <if condition="$template['pro_payment_type'] eq 2"> selected="selected"</if>>缴次月</option>
+        </select>
+    </div>
+    <div class="form-ele">
+        <label>报增截止日:</label>
+        <select name="pro_deadline">
+            <php>
+                for($i=1;$i<=28;$i++)
+                {
+                    $selected = $template['pro_deadline']==$i ? 'selected="selected"' :'';
+                    $strs .= "<option value=".$i." $selected>".$i."</option>";
+                }
+                echo $strs;
+            </php>
+        </select>
+    </div>
+    <div class="form-ele">
+        <label>最大补缴月:</label>
+        <select name="pro_payment_month">
+            <php>
+                for($j=1;$j<=12;$j++)
+                {
+                    $selected = $template['pro_payment_month']==$j ? 'selected="selected"' :'';
+                    $string .= "<option value=".$j." $selected>".$j."</option>";
+                }
+                echo $string;
+            </php>
+        </select>
+    </div>-->
+</form>
+<style type="text/css">
+    #modifygjjPrice{margin: 0 1em}
+    #modifygjjPrice h3{border-bottom: 3px double #aeaeae;width:100px;}
+    #modifygjjPrice label{width:100px;display: inline-block;}
+    #modifygjjPrice select{width:100px; border:1px solid #dedede; border-radius: 4px;height: 30px;}
+    #modifygjjPrice .form-ele{height: 50px;line-height: 50px;}
+</style>

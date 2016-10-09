@@ -32,11 +32,10 @@ class PayController extends HomeController{
 
 		$this->orderState($order_id);
 		$orerInfo = $this->_payOrder->field('order_no,amount,diff_amount')->where(array('id'=> $order_id))->find();
-		$diff_amount = M('user_service_provider')->field('diff_amount')->where(array('user_id'=> $orerInfo['user_id'], 'company_id'=> $this->mCid))->find();
 		$data['user_id'] = $this->mCuid;
 		$data['type'] = $type;
 		$data['payType'] = $payType;
-		$data['price'] = $orerInfo['amount'] + $diff_amount['diff_amount'];
+		$data['price'] = $orerInfo['amount'] + $orerInfo['diff_amount'];
 		$data['order_no'] = $orerInfo['order_no'];
 		if($payType == 1){
 			$result = $this->_payOrder->alipay($data);
@@ -110,6 +109,9 @@ class PayController extends HomeController{
 								$ods['transaction_no'] = $trade_no;
 								$ods['actual_amount'] = $total_fee;
 								if($this->_payOrder->where( array('order_no'=> $out_trade_no))->save($ods)){
+									//更新总额
+									$this->providerPrice($orderInfo, $ods['actual_amount']);
+
 									paylog(date('Y-m-d H:i:s', time()).' 用户'.$this->mCuid.' 使用支付宝支付了订单。订单号为'.$out_trade_no.'。支付成功');	
 									redirect(U('Order/index') ,2, '支付成功');
 								}
@@ -212,6 +214,8 @@ class PayController extends HomeController{
 							//	$ods['transaction_no'] = $trade_no;
 								$ods['actual_amount'] = $v_amount;				
 								if($this->_payOrder->where( array('order_no'=> $v_oid))->save($ods)){
+									//更新总额
+									$this->providerPrice($orderInfo, $ods['actual_amount']);
 									paylog(date('Y-m-d H:i:s', time()).' 用户'.$this->mCuid.' 使用网银支付了订单。订单号为'.$v_oid.'。支付成功');
 									redirect(U('Order/index') ,2, '支付成功');
 								}
@@ -284,4 +288,9 @@ class PayController extends HomeController{
 	// 	$this->_payOrder->where( array('order_no'=> $data['out_trade_no']))->save(array('diff_amount'=> $diff_amount['diff_amount']));
 	// }
 	
+	protected function providerPrice($orderInfo, $actual_amount){
+		$m = M('user_service_provider', 'zbw_');
+		$m->where("company_id={$orderInfo['company_id']} AND user_id={$orderInfo['user_id']}")->save("price = price+{$actual_amount}");
+		return true;
+	}
 }

@@ -9,14 +9,20 @@
 		 * @param  [type] $category_id [分类id]
 		 * @return [array]
 		 */
-		public function getArticleList($category_id)
+		public function getArticleList($company_id, $category_id=null)
 		{
-			$map['category_id'] = $category_id ? intval($category_id) : I('get.category_id',0,'intval');
+			$category_id = $category_id ? intval($category_id) : I('get.category_id',0,'intval');
+			if(empty($category_id)){
+				$map['category_id'] = array('gt', '0');
+			}else{
+				$map['category_id'] = $category_id;
+			}
 			$map['status']=1;
+			$map['company_id']= $company_id;
 			$count = $this->where($map)->count();
 			$Page  = new Page($count,20);
 			$data['page'] = $show = $Page->show();
-			$data['list'] = $this->where($map)->field('id,title,category_id,update_time')->order('update_time DESC')->select();
+			$data['list'] = $this->where($map)->field('id,title,category_id,update_time,description')->order('update_time DESC')->select();
 			return $data;
 		}
 

@@ -66,20 +66,20 @@
 		</ul>
 		{{/if}}
 
-		<div class="handle-layer-title">代办</div>
+<!-- 		<div class="handle-layer-title">代办</div>
 
-		<div class="agency-opts">
-			<label class="icheck-label">
-				<input class="icheck" type="checkbox" name="socBuyCard" value="1">
-				代办社保卡
-			</label>
-			{{if result['2']}}
-			<label class="icheck-label">
-				<input class="icheck" type="checkbox" name="proBuyCard" value="1">
-				代办公积金卡
-			</label>
-			{{/if}}
-		</div>
+<div class="agency-opts">
+	<label class="icheck-label">
+		<input class="icheck" type="checkbox" name="socBuyCard" value="1">
+		代办社保卡
+	</label>
+	{{if result['2']}}
+	<label class="icheck-label">
+		<input class="icheck" type="checkbox" name="proBuyCard" value="1">
+		代办公积金卡
+	</label>
+	{{/if}}
+</div> -->
 
 	</form>
 </template>

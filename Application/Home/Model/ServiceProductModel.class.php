@@ -81,11 +81,12 @@
 			$page = I('get.p', '1');
 			$m = M('service_product_location', 'zbw_');
 			$count = $this->alias('sp')->join('LEFT JOIN zbw_service_product_location spl ON spl.service_product_id=sp.id')
-						->where($where)->count();
-			$result = $this->alias('sp')->field('ci.id cid,sp.name,sp.applicable_object,sp.service_price,sp.id,sp.service_type,sp.service_price_state,ci.company_name')
+						->join('LEFT JOIN zbw_company_info ci ON ci.id=sp.company_id')
+						->where($where)->count('distinct(sp.id)');
+			$result = $this->alias('sp')->field('ci.id cid,sp.name,sp.applicable_object,sp.service_price,sp.id,sp.service_type,sp.service_price_state,ci.company_name,sp.member_price')
 						->join('LEFT JOIN zbw_service_product_location spl ON spl.service_product_id=sp.id')
 						->join('LEFT JOIN zbw_company_info ci ON ci.id=sp.company_id')
-						->where($where)->page($page, $pageSize)->order('create_time asc')->select();
+						->where($where)->page($page, $pageSize)->group('sp.id')->order('sp.create_time desc')->select();
 			
 			if($result){
 				foreach ($result as $key => $value) {
@@ -101,7 +102,10 @@
 		 * @return [type] [description]
 		 */
 		public function getLocation(){
-			$result = M('service_product_location', 'zbw_')->field('location')->where(array('state'=> 1, 'location'=> array('neq', 0), 'service_product_id'=> array('neq', 0)))->group('location')->select();
+			$result = M('service_product_location', 'zbw_')->alias('spl')->field('spl.location')
+					->join('left join zbw_service_product sp on sp.id=spl.service_product_id')
+					->where(array('sp.state'=> 1, 'spl.location'=> array('neq', 0), 'spl.service_product_id'=> array('neq', 0)))->group('spl.location')->select();
+
 			$m = M('location', 'zbw_');
 			foreach ($result as $key => $value) {
 				$result[$key]['name'] = $m->getFieldById($value['location'], 'name');

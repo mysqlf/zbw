@@ -1,7 +1,10 @@
 /* 帮助中心 */
+
+$img-src-root: '../img';
+
 .help-banner{
 	height: 200px;
-	background: url('#{$img-src}/help_banner.jpg') center;
+	background: url('#{$img-src-root}/help_banner.jpg') center;
 	margin-bottom: 50px;
 }
 .help-side{
@@ -52,7 +55,7 @@
 .hot-line{
 	width: 208px;
 	height: 125px;
-	background-image: url('#{$img-src}/helper-sac9324e563.png');
+	background-image: url('#{$img-src-root}/helper-sac9324e563.png');
 	position: absolute;
 	top: -150px;
 	left: -3px;
@@ -84,6 +87,7 @@
 	.collapse-item.active {
 		.article-title {
 			color: $orange;
+			cursor: pointer;
 
 			.dot{
 				color: $orange;
@@ -117,7 +121,7 @@
 			margin-bottom: 26px;
 			color: $fontColor;
 			font-size: 16px;
-			cursor: pointer;
+			
 			/* &:hover p{
 				color: $orange;
 			} */
@@ -138,7 +142,7 @@
 		top: 14px;
 		width: 24px;
 		height: 26px;
-		background-image: url('#{$img-src}/helper-sac9324e563.png');
+		background-image: url('#{$img-src-root}/helper-sac9324e563.png');
 	}
 }
 

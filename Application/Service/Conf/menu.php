@@ -34,9 +34,9 @@ return array(
 					'comMembersList'=>array('name'=>'企业客户','link'=> U('Members/comMembersList'),'route'=>array(
 						'Members-comMembersList','Members-companyDetail',
 					)),
-					// 'perMembersList'=>array('name'=>'个人客户','link'=> U('Members/perMembersList'),'route'=>array(
-					// 	'perMembersList',
-					// )),
+			//		'perMembersList'=>array('name'=>'个人客户','link'=> U('Members/perMembersList'),'route'=>array(
+			//			'perMembersList',
+			//		)),
 				)
 			),
 			'Business'=>array('name'=>'业务管理','tag'=>'icon-business','link'=> '' ,'route'=>array(

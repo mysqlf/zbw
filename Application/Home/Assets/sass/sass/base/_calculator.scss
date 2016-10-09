@@ -105,6 +105,7 @@ $calculator-colors: #9ea9de #94c464 #58acdf;
             }
             width: 50%;
             border-color: transparent;
+            background-color: transparent;
         }
         &:before,
         &:after {
@@ -117,7 +118,7 @@ $calculator-colors: #9ea9de #94c464 #58acdf;
         }
         &:after {
             content: '%';
-            right: 10px;
+            right: 7px;
         }
     }
     .scale-input-per {
@@ -142,13 +143,14 @@ $calculator-colors: #9ea9de #94c464 #58acdf;
             padding: 0 0 5px;
             color: #78848f;
             line-height: 1.5em;
+            white-space: nowrap;
             &.tip-error {
                 color: $c-error;
                 word-break: break-all;
             }
         }
         .form-input {
-            margin-right: 60px;
+            margin-right: 40px;
             color: #2c3e50;
             dt {
                 padding: 7px 0 12px;
@@ -168,6 +170,9 @@ $calculator-colors: #9ea9de #94c464 #58acdf;
     .sod_select,
     .text-input {
         width: 100%;
+    }
+    .sod_select {
+        background: #F7F8FA;
     }
     >.right {
         .tips {

@@ -14,7 +14,7 @@ class DiffamountController extends HomeController{
         $result=$ServiceDiff->GetAllByUser($this->mCuid);
         $Usp=D('UserServiceProvider');
         $Serlist=$Usp->getServiceComByUserid($this->mCuid);//服务商列表
-        $typearr=array('1'=>'办理失败','规则调整','缴费异常','工本费');
+        $typearr=array('1'=>'办理失败','规则调整','缴费异常');
         $this->assign('types',$typearr);
         $this->assign('scom',$Serlist);
         $this->assign('list',$result['data']);
@@ -44,7 +44,7 @@ class DiffamountController extends HomeController{
                 }
             }
             $menu=array('1'=>'社保','2'=>'公积金');
-            $typearr=array('1'=>'办理失败','规则调整','缴费异常','工本费');
+            $typearr=array('1'=>'办理失败','规则调整','缴费异常');
             $this->assign('menu',$menu);
             $this->assign('types',$typearr);
             $this->assign('diff',$result);
@@ -62,7 +62,7 @@ class DiffamountController extends HomeController{
             $Usp=D('UserServiceProvider');
             $Serlist=$Usp->getServiceComByUserid($this->mCuid);//服务商列表
             $this->assign('scom',$Serlist);
-            $typearr=array('1'=>'办理失败','规则调整','缴费异常','工本费');
+            $typearr=array('1'=>'办理失败','规则调整','缴费异常');
             $this->assign('types',$typearr);
             $this->assign('list',$result);
             $this->display('index');
@@ -118,7 +118,7 @@ class DiffamountController extends HomeController{
             $ServiceDiff=D('ServiceDiff');
             $result=$ServiceDiff->getDiffOfSearch($where);
         }
-        $typearr=array('1'=>'办理失败','规则调整','缴费异常','工本费');
+        $typearr=array('1'=>'办理失败','规则调整','缴费异常');
         $this->assign('list',$result['data']);
         $this->assign('page',$result['page']);
         $this->assign('types',$typearr);

@@ -220,10 +220,15 @@ body {
     font-size: 12px;
 }
 
+.bg-white {
+    background: #fff;
+}
+
 // 点击展开更多
 .limit-height-box {
     position: relative;
     padding-right: 20px;
+    line-height: inherit;
 
     .read-all {
         position: absolute;

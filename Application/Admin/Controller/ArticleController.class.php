@@ -173,6 +173,7 @@ class ArticleController extends AdminController {
 				// 绑定多个模型 取基础模型的列表定义
 				$model = M('Model')->getByName('document');
 			}else{
+
 				$model_id   =   $model_id ? : $models;
 				//获取模型信息
 				$model = M('Model')->getById($model_id);
@@ -181,6 +182,7 @@ class ArticleController extends AdminController {
 				}
 			}
 			$this->assign('model', explode(',', $models));
+
 		}else{
 			// 获取基础模型信息
 			$model = M('Model')->getByName('document');
@@ -397,6 +399,7 @@ class ArticleController extends AdminController {
 		$this->assign('area',get_area());
 		$this->assign('info',       $info);
 		$this->assign('fields',     $fields);
+
 		$this->assign('type_list',  get_type_bycate($cate_id));
 		$this->assign('model',      $model);
 		$this->meta_title = '新增'.$model['title'];

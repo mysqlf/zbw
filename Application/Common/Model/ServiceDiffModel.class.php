@@ -49,7 +49,13 @@ class ServiceDiffModel extends Model
             default:;
         }
         $this->$action();
+        $this->_delete();
+        //{"items":[{"name":"养老保险","type":1,"amount":"3000","person":{"scale":"3%","scaleSum":90,"fixedSum":8,"sum":98},"company":{"scale":"8%","scaleSum":240,"fixedSum":0,"sum":240,"payAnomaly":true},"total":338},{"name":"失业保险","type":1,"amount":"3000","person":{"scale":"3%","scaleSum":90,"fixedSum":8,"sum":98},"company":{"scale":"8%","scaleSum":240,"fixedSum":7,"sum":247},"total":345},{"name":"残障金","type":3,"amount":0,"person":{"scale":"0%","scaleSum":0,"fixedSum":0,"sum":"30","payAnomaly":true},"company":{"scale":"0%","scaleSum":0,"fixedSum":0,"sum":"30"},"total":60}],"company":517,"person":226,"pro_cost":"20"}
         //$this->_callProc();
+    }
+    private function _delete ()
+    {
+        M('diff_cron' , 'zbw_')->where("detail_id={$this->_detail_id} AND item={$this->_item} AND type={$this->_type}")->delete();
     }
     //差额数据入库
     private function _insertDiff ()
@@ -131,7 +137,7 @@ class ServiceDiffModel extends Model
                     );
                     
                     $this->_amount += $diff['total'] = $diff['company']['sum'] + $diff['person']['sum'];
-                    //array_push($current , $diff);
+                    array_push($current , $diff);
                 }
             }
             //if(empty($current)) return false;
@@ -148,6 +154,7 @@ class ServiceDiffModel extends Model
     {
         $this->_detail();
         $detail = json_decode($this->_detail['current_detail'] , true);
+
         $current = array();
         $currentDetail = array();
         foreach ($detail['items'] as $v)
@@ -170,6 +177,7 @@ class ServiceDiffModel extends Model
         $this->_current = json_encode($current , JSON_UNESCAPED_UNICODE);
         $this->_modiDetail(array('current_detail' => json_encode($currentDetail , JSON_UNESCAPED_UNICODE)));
         $this->_insertDiff();
+        //dump($this->_current);
     }
     //工本费
     private function _papersCost()

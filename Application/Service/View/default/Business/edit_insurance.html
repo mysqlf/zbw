@@ -208,7 +208,12 @@
                     </div>
                     <div class="gongjijin clearfix">
                         <div class="gongjijin_tit">
-                            <input type="checkbox" name="isBuyPro" value="1" id="isBuyPro" <if condition="$personInsuranceInfoResult[2]['id'] and 0 neq $personInsuranceInfoResult[2]['state']">checked="checked"</if> <if condition="2 eq $personInsuranceInfoResult[2]['state']">disabled="diabled"</if>>
+                            <if condition="2 eq $personInsuranceInfoResult[2]['state']">
+                            	<input type="checkbox" name="" value="1" id="isBuyPro" <if condition="$personInsuranceInfoResult[2]['id'] and 0 neq $personInsuranceInfoResult[2]['state']">checked="checked"</if> disabled="diabled" >
+                            	<input type="hidden" name="isBuyPro" value="1">
+                            <else/>
+                            	<input type="checkbox" name="isBuyPro" value="1" id="isBuyPro" <if condition="$personInsuranceInfoResult[2]['id'] and 0 neq $personInsuranceInfoResult[2]['state']">checked="checked"</if> >
+                            </if>
                             <span class="tit_text">购买公积金</span>
                             <span class="dashed_line"></span>
                         </div>

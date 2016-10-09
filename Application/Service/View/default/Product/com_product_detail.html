@@ -21,7 +21,7 @@
                   <input class="ipt size0" type="text" name="member_price" required value="{$result.member_price}" > 元
 
                   <label class="icheck-label">
-                    <input class="icheck" type="checkbox" value="1"  name="service_price_state"  <?php if($result['service_price_state'] == 1 && $result['id']) echo 'checked'; ?>>
+                    <input class="icheck" type="checkbox" value="1"  name="service_price_state"  <?php if($result['service_price_state'] == 0 && $result['id']) echo 'checked'; ?>>
                     免套餐费
                   </label>
               </dd>

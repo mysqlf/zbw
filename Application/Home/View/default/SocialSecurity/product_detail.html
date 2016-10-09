@@ -53,11 +53,13 @@
 	                   <?php } ?>
 	                	</p>
 	                </div>
+                        <div class="text-center">
                         <if condition="in_array($result['serviceProductResult']['service_type'],[1,3])">
-                            <a class="btn-buy" data-id="{:I('get.id')}" id="buy_now">立即购买</a>
+                            <a href="javascript:;" class="btn-buy" data-id="{:I('get.id')}" id="buy_now">立即购买</a>
                         <else/>
-                            <a class="btn-buy" data-id="{:I('get.id')}" href="javascript:;" style="cursor:default">个人产品暂不支持购买</a>
+                            <a class="btn-buy disabled" data-id="{:I('get.id')}" href="javascript:;">个人产品暂不支持购买</a>
                         </if>
+                        </div>
 	                    </div>
             </div>
             <div class="detail-wra clearfix">
@@ -80,7 +82,7 @@
             			<h4 class="detail-recommend">最新资讯</h4>
             			<ul class="detail-recommend-list">
                         <volist name="result.serviceArticleResult" id="vo">
-            				<li><a href="{:U('ServiceArticle/articleInfo',['id'=>$vo['id'],'category_id'=>$vo['category_id'], 'cid'=> $Cid])}">【{$vo.category_id|get_category_title}】{$vo.title}</a></li>
+            				<li><a href="{:U('ServiceArticle/articleInfo',['id'=>$vo['id'],'category_id'=>$vo['category_id'], 'cid'=> $Cid])}">【{$vo.category_id|artitcle_category}】{$vo.title}</a></li>
             				</volist>
             			</ul>
             		</div>

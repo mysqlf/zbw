@@ -590,6 +590,7 @@ let customer = {
         $('body').on('click', '[data-act="export"]', function() {
             $('#company_query_form').append('<input type="hidden" name="export" value="1" />');
             $('#company_query_form').submit();
+            $('input[name="export"]').remove();
 
         });
     },

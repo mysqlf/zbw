@@ -8,7 +8,7 @@
 		<include file="Platform/header" />
 	</div>
 	
-	<div class="swiper-container swiper-fixed">
+	<div class="swiper-container swiper-fixed swiper-limit-h">
 		<div class="swiper-wrapper">
             <volist name="banner_info" id="vo">
                 <div class="swiper-slide">
@@ -95,9 +95,10 @@
 			<h2>推荐服务机构</h2>
 			<div class="sec-cnt clearfix">
 				<ul class="pro-list">
+				<?php //dump($service_product);?>
 		        <?php foreach($service_product['result'] as $k=>$v){ ?>
 		            <li>
-		                <div class="pro-logo"><img src="{:getFilePath($v['cid'],'./Uploads/Company/','info')}service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></div>
+		                <div class="pro-logo"><img src="<?php echo getFilePath($v['cid'],'./Uploads/Company/','info');?>service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></div>
 		                <h5 class="pro-title"><?php echo $v['name']; ?></h5>
 		                <p class="pro-desc"><?php echo $applicable_object[$v['applicable_object']]; ?></p>
 		                <div class="pro-fee-cnt">
@@ -110,20 +111,23 @@
 			                </dl>
 			                <?php }elseif($v['service_type'] == 1){?>
 			                    <dl class="pro-fee">
+			                   <?php if(empty($v['service_price'][0]['service_price'])){ ?> 
+			                   		<dd><span class="fee-free">免服务费</span></dd>
+			                   <?php }else{?>			                    
 			                        <dt>服务费</dt>
 			                    <?php foreach($v['service_price'] as $key=>$val){?>
-			                    <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
-			                    <?php } ?>
+			                  		<dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+			                    <?php }}  ?>
 			                    </dl>
 
-			                <?php } ?>
+			                <?php }?>
+
 			                <?php if($v['service_price_state'] == 1){?>
 			                    <dl class="pro-fee">
 			                        <dt>套餐费</dt>
-			                        <dd><em>2888</em>元/年</dd>
+			                        <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
 			                    </dl>
-			                <?php }else{ if($v['service_type'] == 1){?>
-
+			                <?php }else{ if($v['service_price_state'] == 0){?>
 			                    <dl class="pro-fee">
 			                        <dd><span class="fee-free">免套餐费</span></dd>
 			                    </dl>
@@ -219,11 +223,11 @@
 						<div class="fl">
 							<p class="sec3-cnt-tit">企业管理中心-永久免费使用</p>
 							<ol class="sec3-cnt-list">
-								<li><a href="javascript:;">在线企业员工批量报增减</a></li>
-								<li><a href="javascript:;">在线企业员工批量录入代发薪酬信息</a></li>
-								<li><a href="javascript:;">智能化差额管理模块，让金额管理更加准确可靠</a></li>
-								<li><a href="javascript:;">智能化对账、开发票管理</a></li>
-								<li><a href="javascript:;">基于人工智能基础上的业务办理全程跟踪与前置提醒</a></li>
+								<li>在线企业员工批量报增减</li>
+								<li>在线企业员工批量录入代发薪酬信息</li>
+								<li>智能化差额管理模块，让金额管理更加准确可靠</li>
+								<li>智能化对账、开发票管理</li>
+								<li>基于人工智能基础上的业务办理全程跟踪与前置提醒</li>
 							</ol>
 						</div>
 						<div class="sec3-cnt-pic fl">
@@ -232,17 +236,48 @@
 					</div>
 					<div class="swiper-slide">
 						<div class="fl">
-							<p class="sec3-cnt-tit">企业管理中心-永久免费使用</p>
+							<p class="sec3-cnt-tit">五险一金相关服务</p>
 							<ol class="sec3-cnt-list">
-								<li><a href="javascript:;">在线企业员工批量报增减</a></li>
-								<li><a href="javascript:;">在线企业员工批量录入代发薪酬信息</a></li>
-								<li><a href="javascript:;">智能化差额管理模块，让金额管理更加准确可靠</a></li>
-								<li><a href="javascript:;">智能化对账、开发票管理</a></li>
-								<li><a href="javascript:;">基于人工智能基础上的业务办理全程跟踪与前置提醒</a></li>
+								<li>代办五险一金的缴纳手续</li>
+								<li>代办政策允许范围内的五险一金补缴、基数调整等手续</li>
+								<li>协助客户员工办理五险一金相关待遇的申领</li>
+								<li>协助员工办理五险一金跨区转移手续</li>
+								<li>代为企业开立五险一金相关账户</li>
+								<li>提供专业的五险一金咨询、政策解答</li>
+								<li>其它五险一金相关事务的办理</li>
 							</ol>
 						</div>
 						<div class="sec3-cnt-pic fl">
-							<img src="/Application/Home/Assets/img/platform/sec3_cnt_pic1.jpg" width="680" alt="">
+							<img src="/Application/Home/Assets/img/platform/sec3_cnt_pic2.jpg" width="680" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="fl">
+							<p class="sec3-cnt-tit">薪酬代发相关服务</p>
+							<ol class="sec3-cnt-list">
+								<li>薪酬计算、发放</li>
+								<li>薪酬保密</li>
+								<li>工资单发放</li>
+								<li>薪酬优化方案</li>
+								<li>用工成本咨询和分析</li>
+								<li>提供工资证明</li>
+								<li>属地化个税申报</li>
+							</ol>
+						</div>
+						<div class="sec3-cnt-pic fl">
+							<img src="/Application/Home/Assets/img/platform/sec3_cnt_pic3.jpg" width="680" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="fl">
+							<p class="sec3-cnt-tit">社保查询/计算器</p>
+							<ol class="sec3-cnt-list">
+								<li>整合全国一二线城市社保信息资源<br />实现在线实时精准查询社保、公积金业务</li>
+								<li>在线社保计算时时更新<br />推进到省/市/县区/户籍的在线社保计算器</li>
+							</ol>
+						</div>
+						<div class="sec3-cnt-pic fl">
+							<img src="/Application/Home/Assets/img/platform/sec3_cnt_pic4.jpg" width="680" alt="">
 						</div>
 					</div>
 				</div>
@@ -335,7 +370,7 @@
 									<i class="icon icon-inferiority5"></i>
 								</span>
 								<b class="advantage-tit">客户数据泄漏频频发生</b>
-								<p>没承诺企业客户和服务机构的数据隐私安全</p>
+								<p>部分网站转卖客户信息，<br />没承诺企业客户和服务机构的数据隐私安全</p>
 							</li>
 						</ul>
 					</div>
@@ -352,8 +387,8 @@
 					<div class="steps-cnt">
 						<p class="steps-nums steps-nums1">注册/登录</p>
 						<ul class="steps-link">
-							<li><a href="javascript:;">填写企业基本信息</a></li>
-							<li><a href="javascript:;">完善审核信息</a></li>
+							<li>填写企业基本信息</li>
+							<li>完善审核信息</li>
 						</ul>
 					</div>
 				</li>
@@ -362,8 +397,8 @@
 					<div class="steps-cnt">
 						<p class="steps-nums steps-nums2">选购套餐服务</p>
 						<ul class="steps-link steps-link2">
-							<li><a href="javascript:;">选择产品服务</a></li>
-							<li><a href="javascript:;">签订服务合同</a></li>
+							<li>选择产品服务</li>
+							<li>签订服务合同</li>
 						</ul>
 					</div>
 				</li>
@@ -372,7 +407,7 @@
 					<div class="steps-cnt">
 						<p class="steps-nums steps-nums3">在线申报</p>
 						<ul class="steps-link steps-link3">
-							<li><a href="javascript:;">企业中心社保报增</a></li>
+							<li>企业中心社保报增</li>
 						</ul>
 					</div>
 				</li>
@@ -381,7 +416,7 @@
 					<div class="steps-cnt">
 						<p class="steps-nums steps-nums4">支付</p>
 						<ul class="steps-link">
-							<li><a href="javascript:;">在线支付/银行转账</a></li>
+							<li>在线支付/银行转账</li>
 						</ul>
 					</div>
 				</li>
@@ -390,8 +425,8 @@
 					<div class="steps-cnt">
 						<p class="steps-nums steps-nums5">办理完成</p>
 						<ul class="steps-link steps-link5">
-							<li><a href="javascript:;">服务机构线下办理</a></li>
-							<li><a href="javascript:;">员工下个月在保</a></li>
+							<li>服务机构线下办理</li>
+							<li>员工下个月在保</li>
 						</ul>
 					</div>
 				</li>
@@ -403,13 +438,14 @@
 			<h2>最新资讯</h2>
 			<div class="ind-search">
 			<form name="form" method="get" action="{:U('Article/lists')}" target="_blank">
-				<input type="text" name="keyword" class="ind-search-txt" placeholder="请输入..." />
+				<input type="text" name="keyword" class="ind-search-txt" placeholder="请输入关键字" />
 				<input type="submit" class="btn-ind-search" value="" />
 				</form>
 			</div>
 			<ul class="sec6-tabs">
+					<li class="active"><a href="javascript:;">全部</a></li>
                 <volist name="city" id="vo">
-                    <li class="<if condition='$i == 1'>active</if>" value="{$vo.location}"><a href="javascript:;">{$vo.location|showAreaName=###}</a></li>
+                    <li class="" value="{$vo.location}"><a href="javascript:;">{$vo.location|showAreaName=###}</a></li>
                 </volist>
 			</ul>
 			<div class="new-info">
@@ -418,7 +454,7 @@
 						<img src="/Application/Home/Assets/img/platform/info1.jpg" width="270" alt="">
 						<div id="help">
 							<volist name="article.help" id="vo">
-							<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
 							</volist>
 						</div>
 					</li>
@@ -426,7 +462,7 @@
 						<img src="/Application/Home/Assets/img/platform/info2.jpg" width="270" alt="">
 						<div id="statute">
 						 	<volist name="article.statute" id="vo">
-							<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
 							</volist>
 						</div>
 					</li>
@@ -434,7 +470,7 @@
 						<img src="/Application/Home/Assets/img/platform/info3.jpg" width="270" alt="">
 						 <div id="notice">
 						 	<volist name="article.notice" id="vo">
-						 	<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+						 	<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
 							</volist>
 						 </div>
 					</li>
@@ -442,7 +478,7 @@
 						<img src="/Application/Home/Assets/img/platform/info4.jpg" width="270" alt="">
 						<div id="new">
 							<volist name="article.new" id="vo">
-							<p><a href="{:U('Article/detail?id='.$vo['id'])}">{$vo.title}</a></p>
+							<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
 							</volist>
 						</div>
 					</li>
