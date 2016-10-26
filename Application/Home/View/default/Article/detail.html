@@ -17,7 +17,7 @@
 
 			</ul>
 			<div class="right article">
-				<h3 class="article-title">{$info.title}</h3>
+				<h3 class="article-title">{$info.title|html_entity_decode}</h3>
 				<div class="article-time">时间：{$info.create_time|date="Y-m-d",###}</div>
 				<pre class="article-content">{$info.content|html_entity_decode|htmlspecialchars_decode}</pre>
 			</div>

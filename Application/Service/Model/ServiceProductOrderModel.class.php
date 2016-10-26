@@ -112,7 +112,8 @@ class ServiceProductOrderModel extends Model{
 					$condition['spo.is_salary'] = 1;
 				}
 				//$result = $this->alias('spo')->field('spo.id,spo.user_id,spo.product_id,spo.overtime,spo.is_salary,spo.diff_amount,sp.name as product_name,sp.company_id as service_company_id,ci.id as company_id,ci.company_name')->join('left join '.C('DB_PREFIX').'service_product as sp on spo.product_id = sp.id and sp.company_id = '.$companyId)->join('left join '.C('DB_PREFIX').'company_info as ci on spo.user_id = ci.user_id ')->where($condition)->select();
-				$result = $this->alias('spo')->field('spo.user_id,ci.id as company_id,ci.company_name')->join('left join '.C('DB_PREFIX').'company_info as ci on spo.user_id = ci.user_id ')->where($condition)->group('user_id')->select();
+				$result = $this->alias('spo')->field('spo.user_id,ci.id as company_id,ci.company_name')->join('left join '.C('DB_PREFIX').'company_info as ci on spo.user_id = ci.user_id ')->where($condition)->group('spo.user_id,ci.id')->select();
+				//$result = $this->alias('spo')->field('spo.user_id, ANY_VALUE(ci.id) as company_id,ANY_VALUE(ci.company_name) as company_name')->join('left join '.C('DB_PREFIX').'company_info as ci on spo.user_id = ci.user_id ')->where($condition)->group('user_id')->select();
 				
 				if ($result) {
 					return $result;
@@ -166,14 +167,16 @@ class ServiceProductOrderModel extends Model{
 								$result['warranty_location'][$value['id']]['locationArray'][$vv['id']] = $result['warranty_location'][$value['id']]['locationValue'].'-'.$vv['name'];
 							}
 						}*/
-						if (0 == $value['location'] % 1000000) {
+						$isSpecLocation = ($value['location'] == 47000000 || ($value['location'] > 40000000 && $value['location'] < 46000000));
+						if ($isSpecLocation) {
 							$tempLocation = $value['location'];
-							$locationResult = $location->alias('l')->field('l.id,l.name,l.level,t.soc_deadline as template_soc_deadline,t.soc_payment_type as template_soc_payment_type,t.soc_payment_month as template_soc_payment_month,t.pro_deadline as template_pro_deadline,t.pro_payment_type as template_pro_payment_type,t.pro_payment_month as template_pro_payment_month')->join('left join '.C('DB_PREFIX').'template as t on t.location=l.id')->where(array('l.id'=>$tempLocation,'l.state'=>1))->select();
+							//$locationResult = $location->alias('l')->field('l.id,l.name,l.level,t.soc_deadline as template_soc_deadline,t.soc_payment_type as template_soc_payment_type,t.soc_payment_month as template_soc_payment_month,t.pro_deadline as template_pro_deadline,t.pro_payment_type as template_pro_payment_type,t.pro_payment_month as template_pro_payment_month')->join('left join '.C('DB_PREFIX').'template as t on t.location=l.id')->where(array('l.id'=>$tempLocation,'l.state'=>1))->select();
+							$locationResult = $location->alias('l')->field('l.id,l.name,l.level')->where(array('l.id'=>$tempLocation,'l.state'=>1))->select();
 						}else {
 							$tempLocation = ($value['location']/1000<<0)*1000;
-							$locationResult = $location->alias('l')->field('l.id,l.name,l.level,t.soc_deadline as template_soc_deadline,t.soc_payment_type as template_soc_payment_type,t.soc_payment_month as template_soc_payment_month,t.pro_deadline as template_pro_deadline,t.pro_payment_type as template_pro_payment_type,t.pro_payment_month as template_pro_payment_month')->join('left join '.C('DB_PREFIX').'template as t on t.location=l.id')->where(array('l.id'=>array('between',array($tempLocation+1,$tempLocation+9999)),'l.state'=>1))->select();
+							//$locationResult = $location->alias('l')->field('l.id,l.name,l.level,t.soc_deadline as template_soc_deadline,t.soc_payment_type as template_soc_payment_type,t.soc_payment_month as template_soc_payment_month,t.pro_deadline as template_pro_deadline,t.pro_payment_type as template_pro_payment_type,t.pro_payment_month as template_pro_payment_month')->join('left join '.C('DB_PREFIX').'template as t on t.location=l.id')->where(array('l.id'=>array('between',array($tempLocation+1,$tempLocation+9999)),'l.state'=>1))->select();
+							$locationResult = $location->alias('l')->field('l.id,l.name,l.level')->where(array('l.id'=>array('between',array($tempLocation+1,$tempLocation+9999)),'l.state'=>1))->select();
 						}
-						//dump($location->_sql());
 						if ($locationResult) {
 							//$template = D('Template');
 							//$templateResult = $template->getTemplateByCondition(array('location'=>$value['location'],'state'=>1));
@@ -186,32 +189,25 @@ class ServiceProductOrderModel extends Model{
 							//$locationValue = showAreaName($value['location']);
 							$locationValue = showAreaName($tempLocation);
 							foreach ($locationResult as $kk => $vv) {
-								//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($vv['template_soc_deadline'],2,'0',STR_PAD_LEFT)))))?date('Y-m',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Y-m',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-								//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($vv['template_pro_deadline'],2,'0',STR_PAD_LEFT)))))?date('Y-m',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Y-m',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-								$orderDate[1] = get_handle_month($vv['template_soc_deadline'],'-');
+								/*$orderDate[1] = get_handle_month($vv['template_soc_deadline'],'-');
 								$orderDate[2] = get_handle_month($vv['template_pro_deadline'],'-');
-								
-								//$minPaymentMonth[1] = date('Y-m',strtotime('-'.$vv['template_soc_payment_month'].' month', strtotime($orderDate[1])));
-								//$minPaymentMonth[2] = date('Y-m',strtotime('-'.$vv['template_pro_payment_month'].' month', strtotime($orderDate[2])));
 								$maxPaymentMonth[1] = 1 == $vv['template_soc_payment_type']?$orderDate[1]:date('Y-m',strtotime('+1 month', strtotime($orderDate[1])));
 								$maxPaymentMonth[2] = 1 == $vv['template_pro_payment_type']?$orderDate[2]:date('Y-m',strtotime('+1 month', strtotime($orderDate[2])));
 								$minPaymentMonth[1] = date('Y-m',strtotime('-'.$vv['template_soc_payment_month'].' month', strtotime($maxPaymentMonth[1])));
 								$minPaymentMonth[2] = date('Y-m',strtotime('-'.$vv['template_pro_payment_month'].' month', strtotime($maxPaymentMonth[2])));
+								$result['warranty_location'][$vv['id']]['deadline'] = array(1=>$vv['template_soc_deadline'],2=>$vv['template_pro_deadline']);
+								$result['warranty_location'][$vv['id']]['paymentMonthNum'] = array(1=>$vv['template_soc_payment_month'],2=>$vv['template_pro_payment_month']);
+								$result['warranty_location'][$vv['id']]['orderDate'] = $orderDate;
+								$result['warranty_location'][$vv['id']]['maxPaymentMonth'] = $maxPaymentMonth;
+								$result['warranty_location'][$vv['id']]['minPaymentMonth'] = $minPaymentMonth;*/
+								
 								$result['warranty_location'][$vv['id']]['warrantyLocationId'] = $value['id'];
 								$result['warranty_location'][$vv['id']]['socServicePrice'] = $value['soc_service_price'];
 								$result['warranty_location'][$vv['id']]['proServicePrice'] = $value['pro_service_price'];
 								$result['warranty_location'][$vv['id']]['ssServicePrice'] = $value['soc_service_price'] + $value['pro_service_price'];
 								$result['warranty_location'][$vv['id']]['afServicePrice'] = $value['af_service_price'];
 								$result['warranty_location'][$vv['id']]['location'] = $vv['id'];
-								$result['warranty_location'][$vv['id']]['locationValue'] = (0 == $value['location'] % 1000000)?$locationValue:$locationValue.'-'.$vv['name'];
-								//$result['warranty_location'][$vv['id']]['deadline'] = $vv['deadline'];
-								//$result['warranty_location'][$vv['id']]['paymentMonthNum'] = $vv['payment_month'];
-								$result['warranty_location'][$vv['id']]['deadline'] = array(1=>$vv['template_soc_deadline'],2=>$vv['template_pro_deadline']);
-								$result['warranty_location'][$vv['id']]['paymentMonthNum'] = array(1=>$vv['template_soc_payment_month'],2=>$vv['template_pro_payment_month']);
-								$result['warranty_location'][$vv['id']]['orderDate'] = $orderDate;
-								//$result['warranty_location'][$vv['id']]['maxPaymentMonth'] = $orderDate;
-								$result['warranty_location'][$vv['id']]['maxPaymentMonth'] = $maxPaymentMonth;
-								$result['warranty_location'][$vv['id']]['minPaymentMonth'] = $minPaymentMonth;
+								$result['warranty_location'][$vv['id']]['locationValue'] = $isSpecLocation?$locationValue:$locationValue.'-'.$vv['name'];
 							}
 						}
 					}

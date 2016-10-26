@@ -4,7 +4,8 @@ let tpl = require('plug/artTemplate'),
     { serializeEl } = require('modules/util'),
     dateFn = require('plug/datetimepicker/index'),
     sbTpl = require('tpl/sb_rules.vue'),
-    icheckFn = require('plug/icheck/index');
+    icheckFn = require('plug/icheck/index'),
+    { dateRange } = require('modules/date');
 
 require('plug/city-picker/city-picker');
 require('plug/validate/index');
@@ -25,14 +26,14 @@ let rulesAdd = {
         let $J_location = $('#J_location');
 
         // 规则类型
-        $J_location.change(function(){
+        $J_location.change(function() {
             let location = $('#J_location').val() - 0;
 
             self.resetVal();
 
             getTemplateClassify({
                 location
-            },( {result} ) => {
+            }, ({ result }) => {
                 let paymentType = $('#J_paymentType').val() - 0;
 
                 $('#J_templateId').val(result.template_id);
@@ -44,18 +45,18 @@ let rulesAdd = {
                 self.emptyTpl();
                 self.ispaymentType(paymentType);
 
-            }, ( { msg = '该参保地不存在模板！' } ) => {
+            }, ({ msg = '该参保地不存在模板！' }) => {
                 layer.msg(msg);
                 self.emptyTpl();
                 self.resetVal();
             })
         });
 
-        if($J_location.val()){
+        if ($J_location.val()) {
             $J_location.trigger('change')
         }
 
-        $('#J_paymentType').change(function(){
+        $('#J_paymentType').change(function() {
             let val = $(this).val() - 0;
 
             self.emptyTpl();
@@ -65,12 +66,12 @@ let rulesAdd = {
         // 公积金 切换固定比例和比例范围
         $('#J_sb-rules-tpl').on('ifChanged', '.J_scale-select', function(evt) {
             let $this = $(this),
-                val = $this.val() - 0,// 1 社保 2 公积金
+                val = $this.val() - 0, // 1 社保 2 公积金
                 $scope = $this.closest('.J_scale-scope'),
                 $scalebox = $scope.find('.scale-box'),
                 $fixedRatio = $scope.find('.fixed-ratio');
 
-            if(val === 1) {
+            if (val === 1) {
                 $scalebox.show().find('input').removeClass('ignore');
                 $fixedRatio.hide().addClass('ignore');
             } else {
@@ -88,12 +89,12 @@ let rulesAdd = {
         });
 
         // 提交表单
-        $('#J_submit-btn').click(function(){
+        $('#J_submit-btn').click(function() {
             $(this).closest('form').submit();
         })
 
         // 更改规则 去掉对应的提示
-        $('body').on('blur', '#amount-min,#amount-max', function(){
+        $('body').on('blur', '#amount-min,#amount-max', function() {
             let id = this.id == 'amount-min' ? '#amount-max' : '#amount-min';
             $('#J_add-form').data('validator').element(id);
         })
@@ -119,7 +120,7 @@ let rulesAdd = {
                 $('#' + id + '-error').remove();
             }
 
-            return this.optional( element ) || flag;
+            return this.optional(element) || flag;
         }, "范围有误");
 
         $.validator.addMethod("lgtSub", function(value, element, param) {
@@ -135,121 +136,164 @@ let rulesAdd = {
             if (flag) {
                 $el2.removeClass(this.settings.errorClass);
 
-                $('#' + id  + '-error').remove();
+                $('#' + id + '-error').remove();
             };
 
-             return this.optional( element ) || flag;
+            return this.optional(element) || flag;
         }, "范围有误");
 
         // 表单校验
         $('#J_add-form').validate({
-            submitHandler(form){
+            submitHandler(form) {
                 let $form = $(form),
                     data = $form.serializeArray(),
                     pageType = $('#J_pageType').val() - 0,
                     $J_rulesSblist = $('#J_rules-sb-list');
 
-                    // 如果存在模板 
-                    if($.trim($('#J_sb-rules-tpl').html()) === '') {
-                        layer.msg('模板规则不存在,请重新选择');
-                        return;
-                    }
-                    if($J_rulesSblist[0] && !$J_rulesSblist.find('.J_rules-item').length) {
-                        layer.msg('至少保留一种险种');
-                        return;
-                    }
-                    // 编辑
-                    if(pageType === 1){
-                        layer.open({
-                            content: `<form>
+                // 如果存在模板 
+                if ($.trim($('#J_sb-rules-tpl').html()) === '') {
+                    layer.msg('模板规则不存在,请重新选择');
+                    return;
+                }
+                if ($J_rulesSblist[0] && !$J_rulesSblist.find('.J_rules-item').length) {
+                    layer.msg('至少保留一种险种');
+                    return;
+                }
+                // 编辑
+                if (pageType === 1) {
+                    layer.open({
+                        content: `<form>
                                         <div class="title">是否同步修改数据？</div>
                                         <div class="icheck-label">
                                         <input class="icheck" type="checkbox" name="synchro" checked id="J_synchro" value="1"/>
                                         同时修改应用当前规则的参保人数据
                                         <a href="/Article-helpCenter-category-common_question" class="icon icon-ask" title="什么是修改应用到当前规则的参保人数据?" target="_blank"></a>
+                                        <br>
+                                        <input class="icheck" type="checkbox" name="rep" id="J_replenish" value="1"/>
+                                            补缴差额收取
                                         </div>
 
+
                                         <div id="J_datePicker-box">
-                                            <div class="inline-block align-top">生效月份：</div>
+                                            <div class="inline-block align-top">差额月份：</div>
                                             <div class="inline-block ipt-box ipt-pos">
-                                                <input id="J_datePicker-layer" type="text" name="effective" required class="ipt date" readonly> 
+                                                <input id="J_datePicker-layer-begin" type="text" name="effective" required class="ipt date-month size0" readonly> 
+                                                <i class="icon icon-date"></i>
+                                            </div>
+                                            <span class="line">~</span>
+                                            <div class="inline-block ipt-box ipt-pos">
+                                                <input id="J_datePicker-layer-end" type="text" name="effectiveEnd" required class="ipt date-month size0" readonly> 
                                                 <i class="icon icon-date"></i>
                                             </div>
                                         </div>
                                     </form>
                                      `,
-                            btn: ['提交', '取消'],
-                            skin: 'rules-save-layer',
-                            scrollbar: false,
-                            yes(){
-                                $('.rules-save-layer form').submit();
-                            },
-                            success(){
-                                let startDate = new Date(),
-                                    endDate = new Date();
+                        btn: ['提交', '取消'],
+                        area: '370px',
+                        skin: 'rules-save-layer',
+                        scrollbar: false,
+                        yes() {
+                            $('.rules-save-layer form').submit();
+                        },
+                        success() {
+                            let startDate = new Date(),
+                                endDate = new Date(),
+                                $box = $('#J_datePicker-box'),
+                                $J_datePicker = $('#J_datePicker-layer-begin'),
+                                $J_datePickerEnd = $('#J_datePicker-layer-end'),
+                                startYear = endDate.getFullYear() - 1,
+                                endMonth = endDate.getMonth() + 3,
+                                endYear = '';
 
-                                startDate.setFullYear(endDate.getFullYear()-1);
+                            if (endMonth > 12) {
+                                let leftMonth = endMonth % 12;
 
-                                icheckFn.iCheck();
+                                if (leftMonth < 10) {
+                                    leftMonth = '0' + leftMonth;
 
+                                } else {
+                                    leftMonth = leftMonth;
+
+                                }
+
+                                endYear = endDate.getFullYear() + 1 + '/' + leftMonth;
+
+                            } else {
+                                endYear = endDate.getFullYear() + '/' + endMonth;
+
+                            }
+
+                            icheckFn.iCheck();
+
+
+                            $box.find('.date-month').each(function(index, el) {
                                 dateFn.getYearMonth({
-                                    el: '#J_datePicker-layer',
-                                    startDate,
+                                    el: this,
+                                    startDate: startYear + '/01',
                                     endDate
-                                });
-
-                                // 同步数据 交互
-                                $('#J_synchro').on('ifChanged', function(){
-                                    let $J_datePicker = $('#J_datePicker-layer'),
-                                        $box = $('#J_datePicker-box');
-
-                                    if($(this).is(':checked')) {
-                                        $J_datePicker.removeClass('ignore');
-                                        $box.show();
-                                    } else {
-                                        $J_datePicker.addClass('ignore');
-                                        $box.hide();
-                                    }
                                 })
 
-                                $('.rules-save-layer form').validate({
-                                    submitHandler(formInner){
-                                        let $formInner = $(formInner),
-                                            data2 = $formInner.serializeArray(),
-                                            { flag } = $formInner.data();
-
-                                        if( flag ){
-                                            return;
-                                        }
-
-                                        $formInner.data('flag', true);
-
-                                        self.saveRules(data.concat(data2)).complete(() => {
-                                            $formInner.data('flag', false);
-                                        })
-                                    },
-                                    rules: {
-                                        effective: {
-                                            'date': false // ie 2013/09格式会判断错误
-                                        }
-                                    }
+                                $(this).on('changeDate', function(ev) {
+                                    $(this).trigger('blur')
                                 });
-                            }
-                        });
-                    } else {
-                        self.saveRules(data, () => {
-                            layer.open({
-                                content: '创建模板成功！',
-                                btn: ['继续创建', '返回列表'],
-                                yes(){
-                                    location.href = location.href;
+                            });
+
+                            dateRange('J_datePicker-layer');
+
+                            $('[name="effectiveEnd"]').datetimepicker('setEndDate', endYear);
+
+                            // 同步数据 交互
+                            $('#J_synchro').on('ifChanged', function() {
+
+                                if ($(this).is(':checked')) {
+                                    $J_datePicker.removeClass('ignore');
+                                    $J_datePickerEnd.removeClass('ignore');
+                                    $box.show();
+                                } else {
+                                    $J_datePicker.addClass('ignore');
+                                    $J_datePickerEnd.addClass('ignore');
+                                    $box.hide();
+                                }
+                            })
+
+                            $('.rules-save-layer form').validate({
+                                submitHandler(formInner) {
+                                    let $formInner = $(formInner),
+                                        data2 = $formInner.serializeArray(),
+                                        { flag } = $formInner.data();
+
+                                    if (flag) {
+                                        return;
+                                    }
+
+                                    $formInner.data('flag', true);
+
+                                    self.saveRules(data.concat(data2)).complete(() => {
+                                        $formInner.data('flag', false);
+                                    })
                                 },
-                                btn2 (){
-                                    location.href = '/Service-Rules-index'
+                                rules: {
+                                    effective: {
+                                        'date': false // ie 2013/09格式会判断错误
+                                    }
                                 }
                             });
-                        })
-                    }
+                        }
+                    });
+                } else {
+                    self.saveRules(data, () => {
+                        layer.open({
+                            content: '创建模板成功！',
+                            btn: ['继续创建', '返回列表'],
+                            yes() {
+                                location.href = location.href;
+                            },
+                            btn2() {
+                                location.href = '/Service-Rules-index'
+                            }
+                        });
+                    })
+                }
             },
             messages: {
                 minAmount: {
@@ -313,18 +357,20 @@ let rulesAdd = {
                     min: 0
                 },
                 'comScale': {
-                    scale: true
+                    // scale: true,
+                    min: 0
                 },
                 'perScale': {
-                    scale: true
+                    // scale: true,
+                    min: 0
                 }
             }
         });
     },
     // 保存规则
-    saveRules(data, success){
-        return saveRules(data, ({msg = '保存成功'}) => {
-            if(isFn(success)) {
+    saveRules(data, success) {
+        return saveRules(data, ({ msg = '保存成功' }) => {
+            if (isFn(success)) {
                 success();
             } else {
                 layer.msg(msg);
@@ -334,7 +380,7 @@ let rulesAdd = {
             layer.msg(msg)
         })
     },
-    ispaymentType(val){
+    ispaymentType(val) {
         let self = this,
             location = $('#J_location').val();
 
@@ -342,9 +388,9 @@ let rulesAdd = {
             return
         }
 
-        if(val === 1) {
+        if (val === 1) {
             self.getSbClass();
-        } else if (val === 2 ){
+        } else if (val === 2) {
             self.getGjjClass();
         }
     },
@@ -354,57 +400,56 @@ let rulesAdd = {
      */
     getGjjClassFlag: true,
     // 获取公积金数据并渲染
-    getGjjClass(){
+    getGjjClass() {
         let paymentType = $('#J_paymentType').val() - 0,
             self = this,
             elStr = '[name="classifyMixed"],[name="type"],[name="templateId"]',
             data = null;
 
-            if(self.getGjjClassFlag) {
-                elStr += ',[name="id"]'
-            }
-            self.getGjjClassFlag = false;
-            data = serializeEl(elStr);
+        if (self.getGjjClassFlag) {
+            elStr += ',[name="id"]'
+        }
+        self.getGjjClassFlag = false;
+        data = serializeEl(elStr);
 
-        getTemplateRule(data,( { result } ) => {
-            let rule = paymentType === 1 ? result[0].rule : result[0].rule;
-
-            sbTpl.init('#J_sb-rules-tpl', rule);
+        getTemplateRule(data, ({ result }) => {
+            result.paymentType = paymentType;
+            sbTpl.init('#J_sb-rules-tpl', result);
 
         }, ({ msg = '模板规则不存在' }) => {
             $('#J_sb-rules-tpl').html('');
-            layer.msg( msg );
+            layer.msg(msg);
         })
     },
     // 获取社保数据并渲染
-    getSbClass(){
+    getSbClass() {
         let self = this,
             html = '',
             $classify_mixed = $('#classify_mixed'),
             classify_mixed = $classify_mixed.val(),
-            isclassify_mixed = classify_mixed !== '' || typeof classify_mixed !== 'undefined';//第一次需要 获取默认值 再次选择不需要
+            isclassify_mixed = classify_mixed !== '' || typeof classify_mixed !== 'undefined'; //第一次需要 获取默认值 再次选择不需要
 
-        if(!self.sbClass.items.length){
+        if (!self.sbClass.items.length) {
             return;
         }
 
-        html = tpl.render(require('tpl/sb_class.vue').template)(isclassify_mixed ? $.extend({},self.sbClass,{classify_mixed}) : self.sbClass);
+        html = tpl.render(require('tpl/sb_class.vue').template)(isclassify_mixed ? $.extend({}, self.sbClass, { classify_mixed }) : self.sbClass);
 
         $('#J_sb-type-box').html(html).show();
         $('.J_sb-type').selectOrDie();
 
-        if(isclassify_mixed) {
+        if (isclassify_mixed) {
             $('.J_sb-type').eq(0).trigger('change');
             $classify_mixed.val('');
         }
 
     },
-    emptyTpl(){
+    emptyTpl() {
         $('#J_sb-rules-tpl').html('');
         $('#J_sb-type-box').html('').hide();
     },
     // 重置
-    resetVal(){
+    resetVal() {
         $('#J_templateId').val('');
         this.sbClass = {
             items: []
@@ -417,4 +462,3 @@ let rulesAdd = {
 }
 
 module.exports = rulesAdd;
-

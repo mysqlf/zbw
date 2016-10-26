@@ -99,15 +99,17 @@
 			
 			<table class="table" summary="公积金缴费规则调整">
 				<colgroup>
-					<col width="16%" />
-					<col width="16%" />
-					<col width="16%" />
-					<col width="16%" />
-					<col width="16%" />
-					<col width="20%" />
+					<col width="15%" />
+					<col width="15%" />
+					<col width="15%" />
+					<col width="15%" />
+					<col width="15%" />
+					<col width="15%" />
+					<col width="10%" />
 				</colgroup>
 				<thead>
 					<tr>
+						<th>险种</th>
 						<th>基数</th>
 						<th>单位缴纳<br />（比例）</th>
 						<th>单位缴纳<br />（金额）</th>
@@ -123,12 +125,14 @@
 						<td><?php echo $v['name']; ?></td>
 						<td></td>
 						<td></td>
+						<td></td>
 						<td></td>						
 						<td></td>
 						<td><?php echo $v['total']; ?></td>
 					</tr>
 					<?php }else{ ?>				
 					<tr>
+						<td><?php echo $v['name']; ?></td>
 						<td><?php echo $v['amount']; ?></td>
 						<td><?php echo $v['company']['scale']; ?> <?php if(!empty($v['company']['fixedSum'])) echo '+',$v['company']['fixedSum']; ?> </td>
 						<td class="<?php echo  is_numeric(strpos($v['company']['sum'], '-')) ? 'cred' : 'cgreen'; ?>"><?php echo $v['company']['sum']; ?></td>

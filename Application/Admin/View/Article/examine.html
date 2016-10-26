@@ -50,7 +50,7 @@
 		<tr>
             <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
 			<td>{$vo.id} </td>
-			<td><a target="_black" href="index.php?s=/Home-ServiceArticle-articleInfo-id-{$vo.id}-category_id-{$vo.category_id}-cid-{$vo.company_id}.html">{$vo.title}</a></td>
+			<td><a target="_black" href="index.php?s=/Home-ServiceArticle-articleInfo-id-{$vo.id}-category_id-{$vo.category_id}-cid-{$vo.company_id}.html">{$vo.title|html_entity_decode}</a></td>
 			<td>{$vo.comname} </td>
 		    <td><span><if condition="$vo['status'] eq 1">审核通过<elseif condition="$vo['status'] eq -1"/>审核失败<else/>未审核</if></span></td>
 			<td><span>{:get_ser_cate($vo['category_id'])}</span></td>

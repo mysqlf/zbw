@@ -96,7 +96,7 @@ let productManageService = {
 
 		$picker.data('uploader', uploader);
 
-		this.bindUploadEvent($picker);
+		// this.bindUploadEvent($picker);
 
 		$('.J_picker-btn').click(function(evt) {
 			let $this = $(this),

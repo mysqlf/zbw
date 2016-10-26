@@ -204,10 +204,10 @@ function getCreateTime(){
     /**
      * 金额格式化
      */
-    function moneyNumberformat($str){
-        if(empty($str)) return '/';
-        return number_format(floatval($str), 2);
-    }
+    // function moneyNumberformat($str){
+    //     if(empty($str)) return '/';
+    //     return number_format(floatval($str), 2);
+    // }
 
     /**
      * 底部企业信息

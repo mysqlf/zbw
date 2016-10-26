@@ -26,9 +26,9 @@ class TemplateRuleModel extends Model{
 	public function getTemplateRuleByCondition($condition,$selectType = 1){
 		if (is_array($condition)) {
 			if (1 == $selectType) {
-				$result = $this->field('id,template_id,company_id,name,category,type,classify_mixed,rule')->where($condition)->order('company_id asc')->find();
+				$result = $this->field('id,template_id,company_id,name,category,type,classify_mixed,rule,deadline,payment_type,payment_month')->where($condition)->order('company_id asc')->find();
 			}else {
-				$result = $this->field('id,template_id,company_id,name,category,type,classify_mixed,rule')->where($condition)->order('company_id asc')->select();
+				$result = $this->field('id,template_id,company_id,name,category,type,classify_mixed,rule,deadline,payment_type,payment_month')->where($condition)->order('company_id asc')->select();
 			}
 			if ($result || null === $result) {
 				return $result;

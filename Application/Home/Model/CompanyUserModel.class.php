@@ -47,7 +47,7 @@
 				return array('state'=>false,$this->getError());
 			}
 			$data['create_time'] = date('Y-m-d H:i:s',time());
-			$data['password'] = md5(I('post.user_password','','trim').':'.I('post.user_name','','trim'));
+			$data['password'] = md5(trim(I('post.user_password','')).':'.trim(I('post.user_name','')));
 			$this->startTrans();
 			$return_id = $this->add($data);
 			$info_data = array(
@@ -168,7 +168,7 @@
 		#检测用户名是否注册
 		public function checkUserName()
 		{
-			$username = I('get.username','','htmlspecialchars');
+			$username = I('get.username','');
 			return $this->where(array('username'=>$username))->count();
 		}
 	}

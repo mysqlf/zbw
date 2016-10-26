@@ -56,11 +56,13 @@
 				<th>公司简介</th>
 				<td >{$service_info.company_introduction}</td>
 				<th>企业logo</th>
-				<td ><img src="{:getFilePath($service_info['company_id'],'./Uploads/Company/','info')}service_logo.jpg"  height="150px" style="cursor:pointer" onclick="showImg(this.src,'企业logo')"></td>
+				<td ><img src="{:getFilePath($service_info['company_id'],'./Uploads/Company/','info')}service_logo.jpg"  height="150px" style="cursor:pointer" onclick="showImg(this.src,'企业logo')">
+				<form enctype="multipart/form-data" method="post" action="{:U('Service/uploadfile')}"><input type="hidden" name="companyid" value="{$service_info['company_id']}"><input type="file" name="service_logo"><input type="submit" value="提交"></form></td>
+				
 			</tr>
 			<tr>
 				<th>营业执照</th>
-				<td colspan="3"><img src="{:getFilePath($service_info['company_id'],'./Uploads/Company/','info')}business_license.jpg"  height="150px" style="cursor:pointer" onclick="showImg(this.src,'营业执照')"></td>
+				<td colspan="3"><img src="{:getFilePath($service_info['company_id'],'./Uploads/Company/','info')}business_license.jpg"  height="150px" style="cursor:pointer" onclick="showImg(this.src,'营业执照')"><form enctype="multipart/form-data" method="post" action="{:U('Service/uploadfile')}"><input type="hidden" name="companyid" value="{$service_info['company_id']}"><input type="file" name="business_license"> <input type="submit" value="提交"></form></td>
 			</tr>
 		</table>
 		<button onclick="javascript:history.back(-1);return false;" class="btn btn-return">返 回</button>

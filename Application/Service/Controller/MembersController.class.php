@@ -261,6 +261,9 @@ class MembersController extends ServiceBaseController
                     ->where(array('ci.id'=> $id, 'usp.company_id'=> $this->_cid))->find();
 
     //    dump($result);
+        if(empty($result)){
+            $this->error('客户不存在!');
+        }
         $this->assign('result', $result)->assign('_adminState', adminState())->display('Customer/customer_detail');
     }
 

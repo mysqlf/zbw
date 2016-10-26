@@ -5,6 +5,7 @@ require('plug/validate/index');
 let login = {
     init() {
         this.login($("#login-form"));
+
     },
     login($loginForm) {
 
@@ -14,12 +15,15 @@ let login = {
 
                 loginAct(formData, (json) => {
                     // layer.msg(json.msg);
-                    location.href = '/Service-Service-index'
-                }, ({msg}) => {
+                    // location.href = '/Service-Service-index'
+                    window.location.replace('/Service-Service-index');
+                }, ({ msg }) => {
 
-                	if(msg) {
-                		layer.msg(msg);
-                	}
+                    if (msg) {
+                        layer.msg(msg);
+                        $('.verifyimg').trigger('click');
+                        $('#verify').val('');
+                    }
 
                 });
                 return false;
@@ -44,6 +48,9 @@ let login = {
                 password: {
                     required: '请输入密码',
                     rangelength: '密码格式不正确'
+                },
+                verify: {
+                    required: '请输入验证码'
                 }
             }
         })

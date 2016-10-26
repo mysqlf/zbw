@@ -59,10 +59,10 @@ return array(
     'DB_PREFIX' => 'onethink_', // 数据库表前缀*/
 
     'DB_TYPE'   => 'mysql', // 数据库类型
-    'DB_HOST'   => '192.168.70.167', // 服务器地址
-    'DB_NAME'   => 'zby', // 数据库名
-    'DB_USER'   => 'zbytest', // 用户名
-    'DB_PWD'    => 'ji3Tgy3fy',  // 密码
+    'DB_HOST'   => '192.168.70.168', // 服务器地址
+    'DB_NAME'   => 'zbw', // 数据库名
+    'DB_USER'   => 'zbw', // 用户名
+    'DB_PWD'    => '',  // 密码
     'DB_PORT'   => '3306', // 端口
     'DB_PREFIX' => 'onethink_', // 数据库表前缀
 

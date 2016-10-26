@@ -36,22 +36,20 @@ class ServiceDiffModel extends Model
                 $action = '_ruleChange';
             break;
             case 3:
-               foreach ($manage as $key=>$val)
-               {
+                foreach ($manage as $key=>$val)
+                {
                     $this->_detail_id = $key;
                     $this->_payData = $val;
-               }
-               $action = '_payAnomaly';
+                }
+                $action = '_payAnomaly';
             break;
             case 4:
-                $action = '_papersCost';
+                //$action = '_papersCost';
             break;
             default:;
         }
         $this->$action();
         $this->_delete();
-        //{"items":[{"name":"养老保险","type":1,"amount":"3000","person":{"scale":"3%","scaleSum":90,"fixedSum":8,"sum":98},"company":{"scale":"8%","scaleSum":240,"fixedSum":0,"sum":240,"payAnomaly":true},"total":338},{"name":"失业保险","type":1,"amount":"3000","person":{"scale":"3%","scaleSum":90,"fixedSum":8,"sum":98},"company":{"scale":"8%","scaleSum":240,"fixedSum":7,"sum":247},"total":345},{"name":"残障金","type":3,"amount":0,"person":{"scale":"0%","scaleSum":0,"fixedSum":0,"sum":"30","payAnomaly":true},"company":{"scale":"0%","scaleSum":0,"fixedSum":0,"sum":"30"},"total":60}],"company":517,"person":226,"pro_cost":"20"}
-        //$this->_callProc();
     }
     private function _delete ()
     {
@@ -65,10 +63,10 @@ class ServiceDiffModel extends Model
         $insert['amount']      = $this->_amount;
         $insert['item']        = $this->_item;
         $insert['type']        = $this->_type;
-        $insert['original']    = $this->_original;
+        //$insert['original']    = $this->_original;
         $insert['current']     = $this->_current;
         $insert['create_time'] = date('Y-m-d H:i:s');
-        $this->add($insert , '' , true);
+        $this->add($insert);
         return true;
     }
 
@@ -77,6 +75,11 @@ class ServiceDiffModel extends Model
     {
         $this->_detail();
         if(empty($this->_detail['rule_id'])) return false;
+        if(-3 == $this->_detail['state'])
+        {
+            $this->_delete();
+            return false;
+        }
         //获取规则
         $m = M('template_rule' , 'zbw_');
         $rule = $m->alias('tr')->field('tr.*,(SELECT rule FROM zbw_template_rule WHERE template_id=tr.template_id AND type=3) disabled')->where("id={$this->_detail['rule_id']}")->find();
@@ -92,61 +95,89 @@ class ServiceDiffModel extends Model
         $newDetail = $Calculate->detail($rule['rule'] , $payment_info , $this->_detail['payment_type'] , $rule['disabled'] , $this->_detail['replenish']);
         $newDetail = json_decode($newDetail , true)['data'];
         if(empty($newDetail)) return false;
-        
-        $original = json_decode($this->_detail['current_detail'] , true);
-        // $detail = array();
-        // $detail['current_detail'] = json_encode(array_merge($original , $newDetail) , JSON_UNESCAPED_UNICODE);
-        
-        // //不产生差额，重新计算订单金额
-        // if (in_array($this->_detail['state'] , array(1,-1)))
-        // {
-        //     $detail['price'] = $newDetail['total'];
-        //     // $locationWarranty = M('warranty_location' , 'zbw_')->where("service_product_order_id={$v['turn_id']} AND location")->find();
-        //     // $detail['service'] = $this->_detail['payment_type'] == 1 ? $locationWarranty['soc_service_price'] : $locationWarranty['pro_service_price'];
-        //     $detail['insurance_detail'] = json_encode($newDetail, JSON_UNESCAPED_UNICODE);
-        // }
-        // //产生差额
-        // else if (in_array($this->_detail['state'] , array(2,3)))
-        // {
-            //新旧计算规则比对
-            $max = max(count($newDetail['items']) , count($original['items']));
-            $current = array();
-            $this->_amount = 0.00;
-            //匹配计算明细
-            for ($i=0 ; $i<$max ; $i++)
+        $oldDetail = json_decode($this->_detail['current_detail'] , true);
+        $new = $newDetail['items'];
+        $old = $oldDetail['items'];
+        //var_dump(is_array($new) , is_array($old));
+        $newCnt = count($new);
+        $oldCnt = count($old);
+        $max = max($newCnt , $oldCnt);
+        $item = array ();
+        $initial =array('name' => '' , 'company'=>array('sum'=>0) , 'person'=>array('sum'=>0),'total'=>0);
+        $current = array();
+        $current['total'] = $current['company'] = $current['person'] = 0;
+        $cdetail = $current;
+        $this->_amount = 0.00;
+        for ($i=0;$i<$max;$i++)
+        {
+            $oldItem = $old[$i];
+            $newItem = $new[$i];
+            if ($oldItem['name'] == $newItem['name']) 
             {
-                $oitems = $original['items'][$i];
-                $nitems = $newDetail['items'][$i];
-                if ($oitems['total'] != $nitems['total'] && true !== $nitems['payAnomaly'] )
+                
+            }
+            else if ($newCnt < $oldCnt)
+            {
+                $new[$i+1] = $newItem;
+                $new[$i] = $initial;
+                $new[$i]['name'] = $oldItem['name'];
+            }
+            else if ($oldCnt < $newCnt)
+            {
+                $old[$i+1] = $oldItem;
+                $old[$i] = $initial;
+                $old[$i]['name'] = $newItem['name'];
+            }
+            $this->_arrayDiffAssocCall($newItem , $oldItem , $current , $cdetail);
+        }
+        $current['total'] = $current['company'] + $current['person'];
+        $cdetail['total'] = $cdetail['company'] + $cdetail['person'];
+        $this->_amount = $current['total'];
+        if(!$this->_amount) return false;
+        //dump($current);
+        //dump($cdetail);
+        $this->_current = json_encode($current['items'] , JSON_UNESCAPED_UNICODE);
+        $this->_modiDetail(array('current_detail' => json_encode($cdetail , JSON_UNESCAPED_UNICODE),'diff_cue'=>1));
+        $this->_insertDiff();
+    }
+    public function _arrayDiffAssocCall ($new , $old , &$current , &$cdetail)
+    {
+        $diff = array();
+        $type = array('person' , 'company');
+        foreach ($type as $v)
+        {
+            //if (($new['amount'] != $old['amount'] || rtrim($new[$v]['scaleSum'],'%') != rtrim($old[$v]['scaleSum'],'%') || $new[$v]['fixedSum'] != $old[$v]['fixedSum']) && ($new['total'] != $old['total']))
+            if ($new['total'] != $old['total'])
+            {
+                if (!$old[$v]['payAnomaly'])
                 {
-                    $diff = array();
-                    $diff['name'] = $nitems['name'].'缴费规则修改';
-                    $diff['type'] = $nitems['type'];
-                    $diff['amount'] = $nitems['amount'];
-                    $diff['person'] = array(
-                        'scale'     => $nitems['person']['scale'],
-                        'scaleSum'  => $nitems['person']['scaleSum'],
-                        'fixedSum'  => $nitems['person']['fixedSum'],
-                        'sum'       => $nitems['person']['sum'] - $oitems['person']['sum'],
-                    );
-                    $diff['company'] = array(
-                        'scale'    => $nitems['company']['scale'],
-                        'scaleSum' => $nitems['company']['scaleSum'],
-                        'fixedSum' => $nitems['company']['fixedSum'],
-                        'sum'      => $nitems['company']['sum'] - $oitems['company']['sum'],
-                    );
-                    
-                    $this->_amount += $diff['total'] = $diff['company']['sum'] + $diff['person']['sum'];
-                    array_push($current , $diff);
+                    $diff['name'] = $new['name'].'修改';
+                    $diff['amount'] = $new['amount'];
+                    $diff[$v]     = $new[$v];
+
+                    $diff[$v]['sum'] = $new[$v]['sum'] - $old[$v]['sum'];
+                    $diff['total']  += $diff[$v]['sum'];
+                }
+                else
+                {
+                    $diff['name'] = $new['name'];
+                    $diff['amount'] = $new['amount'];
+                    $diff[$v] = $old[$v];
+                    $diff[$v]['sum'] = 0;
+                    $diff['total'] += 0;
+
+                    $new[$v] = $diff;
                 }
             }
-            //if(empty($current)) return false;
-            $this->_current = json_encode($current , JSON_UNESCAPED_UNICODE);
-            $this->_modiDetail(array('current_detail' => json_encode(array_merge(json_decode($this->_detai['current_detail'] , true) , $newDetail) , JSON_UNESCAPED_UNICODE)));
-            $this->_insertDiff();
-        // }
-        // $this->_modiDetail($detail);
-        //
+            else
+            {
+                continue;
+            }
+            $current[$v] += $diff[$v]['sum'];
+            $cdetail[$v] += $new[$v]['sum'];
+        }
+        $cdetail['items'][] = $new;
+        if (!empty($diff)) $current['items'][] = $diff;
         
     }
     //办理失败
@@ -154,13 +185,13 @@ class ServiceDiffModel extends Model
     {
         $this->_detail();
         $detail = json_decode($this->_detail['current_detail'] , true);
-
         $current = array();
         $currentDetail = array();
         foreach ($detail['items'] as $v)
         { 
             $array = $v;
             $array['name'] .= '办理失败';
+            $array['amount'] = $this->_detail['amount_now'];
             $array['total'] = -$array['total'];
             $array['person']['sum'] = -$array['person']['sum'];
             $array['company']['sum'] = -$array['company']['sum'];
@@ -173,11 +204,23 @@ class ServiceDiffModel extends Model
             array_push($currentDetail , $array);
         }
         array_push($current, array('name'=>'服务费','total'=>-abs($this->_detail['service_price']) ));
-        $this->_amount = -abs($this->_detail['price'] + (json_decode($this->_detail['current_detail'] , ture)['total']));
+        $nowPrice = $this->_sumDetailPrice(json_decode($this->_detail['current_detail'] , ture)['total']);
+        $newPrice = $newPrice ? $newPrice : $this->_detail['price'];
+        $this->_amount = -abs($this->_detail['service_price'] + $newPrice);
+        //$this->_amount = -abs(($this->_detail['price'] + $this->_detail['service_price']));
         $this->_current = json_encode($current , JSON_UNESCAPED_UNICODE);
-        $this->_modiDetail(array('current_detail' => json_encode($currentDetail , JSON_UNESCAPED_UNICODE)));
+        $this->_modiDetail(array('current_detail' => json_encode($currentDetail , JSON_UNESCAPED_UNICODE),'diff_cue'=>1));
         $this->_insertDiff();
         //dump($this->_current);
+    }
+    private function _sumDetailPrice ($detail)
+    {
+        $price = 0;
+        foreach ($detail as $v)
+        {
+            $price += $v['sum'];
+        }
+        return $price;
     }
     //工本费
     private function _papersCost()
@@ -193,8 +236,6 @@ class ServiceDiffModel extends Model
     {
         $this->_detail();
         $json = json_decode($this->_detail['current_detail'] , true);
-        $diff_amount = 0;
-        //print_r($json['items']);
         $type = array('company' , 'person');
         $current = array();
         $this->_amount = '0.00';
@@ -206,9 +247,10 @@ class ServiceDiffModel extends Model
                 //初始化异常明细
                 $new = array('name' => $v['name'].'缴费异常',
                     'type' => $json['items'][$k]['type'],
-                    'amount' => $json['items'][$k]['amount'],
+                    'amount' => $this->_detail['amount_now'],
                     'company' => array( 'scale'=>'0%','scaleSum' => 0,'fixedSum' => 0,'sum' => 0),
                     'person' => array( 'scale'=>'0%','scaleSum' => 0,'fixedSum' => 0,'sum' => 0),
+                    'total' => 0
                 );
                 foreach ($type as $val)
                 {
@@ -216,23 +258,45 @@ class ServiceDiffModel extends Model
                     if (false === $v[$val])
                     {
                         $this->_amount += -abs($json['items'][$k][$val]['sum']);
+                        $json['items'][$k]['total'] += $this->_amount;
                         $new[$val] = array(
                             'scale'    => $json['items'][$k][$val]['scale'],//'0%',
                             'scaleSum' => $json['items'][$k][$val]['scaleSum'],//0,
                             'fixedSum' => $json['items'][$k][$val]['fixedSum'],//0,
                             'sum'      => -abs($json['items'][$k][$val]['sum']),
                         );
-                        //记录异常标记
-                        $json['items'][$k][$val]['payAnomaly'] = true;
+                        $json['items'][$k][$val] = array(
+                            'scale'    => '0%',
+                            'scaleSum' => 0,
+                            'fixedSum' => 0,
+                            'sum'      => 0,
+                            'payAnomaly' => true
+                        );
                     }
+                    else
+                    {
+                        $new[$val] = array(
+                            'scale'    => '0%',
+                            'scaleSum' => 0,
+                            'fixedSum' => 0,
+                            'sum'      => 0,
+                        );
+                    }
+                    $new['total'] += $new[$val]['sum'];
                 }
                 array_push($current , $new);
+            } 
+            else
+            {
+                continue;
             }
         }
         if(empty($current)) return false;      
         $this->_amount   = -abs($this->_amount);
         $this->_current  = json_encode($current,JSON_UNESCAPED_UNICODE);
-        $this->_modiDetail(array('current_detail'=>json_encode($json,JSON_UNESCAPED_UNICODE)));
+        //dump(array($this->_detail['detail_id']=>$current));
+        //dump($json);
+        $this->_modiDetail(array('current_detail'=>json_encode($json,JSON_UNESCAPED_UNICODE),'diff_cue'=>1));
         $this->_insertDiff();
     }
     //修改service_insurance_detail表数据
@@ -248,7 +312,7 @@ class ServiceDiffModel extends Model
         if ($this->_item == 1 || $this->_item == 2)
         {
             $m = M('service_insurance_detail' , 'zbw_');
-            $this->_detail = $m->where("id={$this->_detail_id}")->find();
+            $this->_detail = $m->alias('sid')->field('sid.*,pii.amount amount_now,pii.payment_info payment_info_now,sid.state state')->join("LEFT JOIN zbw_person_insurance_info pii ON pii.id=sid.insurance_info_id")->where("sid.id={$this->_detail_id}")->find();
         }
         else if ($this->_item == 3)
         {

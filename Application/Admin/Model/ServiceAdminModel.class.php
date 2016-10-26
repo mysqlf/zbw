@@ -18,6 +18,7 @@
 			//添加企业用户
 			$user_result = $this->_addUser();
 			//添加企业信息
+
 			$info_result = $this->_addCompanyInfo($user_result);
 			//添加服务商
 			$service_result = $this->_addService($info_result,$user_result);
@@ -70,7 +71,7 @@
 		private function _defaultImg($company_id,$service_admin)
 		{
 			$Thumb = M('service_thumb','zbw_');
-			$banner_len = 4;
+			$banner_len = 3;
 			//首页banner图
 			for($i=0;$i<$banner_len;$i++)
 			{
@@ -82,7 +83,7 @@
 			}
 			//合作客户默认图
 			$data[$i]['company_id'] = intval($company_id);
-			$data[$i]['url'] = '/Application/Home/Assets/img/hzkh.jpg';
+			$data[$i]['url'] = '/Application/Home/Assets/img/hzkh.png';
 			$data[$i]['place'] = 2;
 			$data[$i]['admin_id'] = intval($service_admin);
 			$data[$i]['create_time'] = date('Y-m-d H:i:s');
@@ -140,7 +141,7 @@
 		 */
 		private function _addCompanyInfo($company_user_id)
 		{
-			if(!$company_user_id) return false;
+			//if(!$company_user_id) return false;
 			$CompanyInfo = M('company_info','zbw_');
 			$data = $CompanyInfo->create();
 			if(!isTel($data['contact_phone']))
@@ -172,7 +173,7 @@
 			// }
 			if(isset($_POST['location1']))
 			{
-				$data['company_address'] = showAreaName1(I('post.location')).showAreaName1(I('post.location1')).$data['company_address'];
+				$data['company_address'] = showAreaName(I('post.location')).showAreaName(I('post.location1')).$data['company_address'];
 				$data['location'] = I('post.location1','','intval');
 			}else{
 				$data['company_address'] = showAreaName1(I('post.location')).$data['company_address'];
@@ -262,8 +263,8 @@
 			for($i=0;$i<count($ids);$i++){
 					$info = $this->field('company_id,user_id')->find($ids[$i]);					
 					$where = "id={$info['user_id']} or father_id={$info['user_id']}";
-					$this->where(array('id'=>$ids[$i]))->save(array('state'=>$state));#主表禁用
-					$result = $user->where($where)->save(array('state'=>$state));
+					$this->where(array('id'=>$ids[$i]))->save(array('state'=>$state));#主表禁用 
+					$user->where($where)->save(array('state'=>$state));
 					$user_id = $user->field('id')->where($where)->select();//group_concat(id) 
 					foreach ($user_id as $key => $value) {
 						if($state == 1){
@@ -274,6 +275,8 @@
 							}
 						}
 					}
+					if($state == -9 ) $state = -1;
+					$result = M('CompanyInfo', 'zbw_')->where("id={$info['company_id']}")->save(array('audit'=>$state));
 			}
 			if(empty($_user_id)) $_user_id = null;
 			S('state_user_id', $_user_id);

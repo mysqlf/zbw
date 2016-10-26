@@ -27,7 +27,7 @@ class ProductOrderModel extends ServiceAdminModel
             ->join('zbw_service_product s ON p.product_id = s.id')
             ->join('zbw_company_info c ON c.user_id = p.user_id')
             ->join('zbw_pay_order po ON po.id=p.pay_order_id')
-            ->where($where)->order('p.create_time desc')->page($page,20)->select();
+            ->where($where)->order('p.create_time desc')->page($page,20)->select();     
          foreach ($result as $key => $value) {
                 if($value['is_turn'] == 1){
                     $validity = $this->getFieldByTurn_id($value['id'], 'overtime');
@@ -284,11 +284,11 @@ class ProductOrderModel extends ServiceAdminModel
         $data['create_time'] = date('Y-m-d H:i:s',time());
         $data['company_id'] = $admin['company_id'];
         $payOrder = M('pay_order');
-        $payOrder->create($data);
+        $payOrder->token(false)->create($data);
         $result = $payOrder->add();
         if(empty($result)){
             $this->where(array('id'=> $members['order_id']))->delete();
-            return ajaxJson(-1,'添加失败');
+            return ajaxJson(-1,'1添加失败');
         }else{
             //更新差额
            return $result;
@@ -322,7 +322,7 @@ class ProductOrderModel extends ServiceAdminModel
         }
         
         if($members['service_state'] == 3)   $data['service_state'] = 3;
-        $this->create($data);
+        $this->token(false)->create($data);
         $state = $this->add();
         if($state)
         {

@@ -16,9 +16,9 @@ class ServiceProductModel extends  ServiceAdminModel
         $page = I('get.p',1);
         $count = $this->where("state <> -9 AND company_id = {$admin['company_id']} ")->count();
         $result = $this->where("state <> -9 AND company_id = {$admin['company_id']} ")->order('update_time desc')->page($page,20)->select();
-        foreach ($result as $key => $value) {         
+        foreach ($result as $key => $value) {
             $result[$key]['location_num'] = count(json_decode($value['other_location']));
-          
+
         }
         $pageshow = showpage($count,20);
         return array('page'=>$pageshow,'result'=>$result);
@@ -50,23 +50,22 @@ class ServiceProductModel extends  ServiceAdminModel
                     $product['service_price1'][$k]['validity'] = $product['validity'][$k];
                 }
                 $product['service_price'] =    $product['service_price1'];
-                
+
             }
             else
             {
                 $product['amount'] = $product['service_price'][0];
-                $product['service_price'] = array(array('service_price'=>$product['service_price'][0],'validity'=>$product['validity'][0]));
-                
+                $product['service_price'] = array(array('service_price'=>$product['service_price'][0],'validity'=>$product['validity']));
+
             }
 
             $product['service_price'] = json_encode($product['service_price']);
             unset($product['validity']);
             unset($product['service_price1']);
-            
+
             $serviceProductLocation = D('ServiceProductLocation');
             $serviceProductLocationData = array();
-            
- 
+
             if(empty($result))
             {
                 $product['create_time'] = date('Y-m-d H:i:s',time());
@@ -83,7 +82,7 @@ class ServiceProductModel extends  ServiceAdminModel
 			            }
 		            	$serviceProductLocationAddResult = $serviceProductLocation->addAll($serviceProductLocationData);
 	            	}
-	            	
+
                     $this->adminLog($admin['user_id'],'添加产品：'.$product['name'].' 成功');
                     return ajaxJson(0,'添加成功');
                 }
@@ -96,7 +95,7 @@ class ServiceProductModel extends  ServiceAdminModel
             else
             {
                 $product['update_time'] = date('Y-m-d H:i:s',time());
-             
+
                 $state = $this->where("id = '{$product['id']}' AND state <> -9")->save($product);
                 if($state)
                 {
@@ -108,7 +107,7 @@ class ServiceProductModel extends  ServiceAdminModel
 			            }
 		            	$serviceProductLocationAddResult = $serviceProductLocation->addAll($serviceProductLocationData);
 		            }
-	            	
+
                     $this->adminLog($admin['user_id'],'修改产品：'.$result['name'].' 成功'.'，现名称：'.$product['name']);
                     return ajaxJson(0,'修改成功');
                 }

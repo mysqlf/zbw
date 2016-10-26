@@ -91,24 +91,27 @@ function modifySb(id,location)
 				flag = true,
 				sbmin = $('[name = "sb[min]"]').val() - 0,
 				sbmax = $('[name = "sb[max]"]').val() - 0;
-
-			$('[name = "sb[amount][]"]').each(function(){
-				if(sbmin > $(this).val() - 0){
-					flag = false;
-					return false;
+			$('#modify_sb [name = "sb[amount][]"]').each(function(){
+				if (0 <= $(this).val() - 0) {
+					if(sbmin <= $(this).val() - 0){
+					}else{
+						flag = false;
+						return false;
+					}
 				}
 			});
-			$('[name = "sb[amountmax][]"]').each(function(){
-				if(sbmax < $(this).val() - 0){
-					flag = false;
-					return false;
-				}
+			$('#modify_sb [name = "sb[amountmax][]"]').each(function(){
+					if(sbmax >= $(this).val() - 0 && $(this).val() - 0 >= sbmin){
+					}else{
+						flag = false;
+						return false;
+					}
+
 			});
 			if(!flag) {
 				alert('保险基数错误!');
 				return;
 			}
-
 			$.post('/admin.php?s=/ProductTemplate-modifySbHandle.html', data, function(msg) {
 				layer.close(load);
 				if(msg.status==1)
@@ -367,17 +370,17 @@ $('.classify_mixed').change(function() {
 					el.rules.amountmax='';
 				}
 				str += '<td>'+el.name+'<input type="hidden" name="sb[items][]" value="'+el.name+'"></td>';
-				str += '<td><input type="text"  name="sb[amount][]"  value="'+el.rules.amount+'" style="width:50px" class="number">~<input type="text"  style="width:50px"  name="sb[amountmax][]"  value="'+el.rules.amountmax+'" class="number"></td>';
+				str += '<td><input type="text"  name="sb[amount][]"  value="'+el.rules.amount+'" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" style="width:50px" class="number">~<input type="text"  style="width:50px"  name="sb[amountmax][]"  value="'+el.rules.amountmax+'" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" class="number"></td>';
 				str += '<td>元&nbsp;</td>';
 				str += '<td><span>单位比例</span></td>';
-				str += '<td><input type="text" style="width:50px" name="sb[company][]" value="'+el.rules.company[0]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[company][]" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" value="'+el.rules.company[0]+'"></td>';
 				str += '<td><span>%</span> +</td>';
-				str += '<td><input type="text" style="width:50px" name="sb[company][]" value="'+el.rules.company[1]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[company][]" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" value="'+el.rules.company[1]+'"></td>';
 				str += '<td><span>元&nbsp;</span></td>';
 				str += '<td><span>个人比例</span></td>';
-				str += '<td><input type="text" style="width:50px" name="sb[person][]" value="'+el.rules.person[0]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[person][]" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" value="'+el.rules.person[0]+'"></td>';
 				str += '<td><span>%</span> +</td>';
-				str += '<td><input type="text" style="width:50px" name="sb[person][]" value="'+el.rules.person[1]+'"></td>';
+				str += '<td><input type="text" style="width:50px" name="sb[person][]" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" value="'+el.rules.person[1]+'"></td>';
 				str += '<td><span>元&nbsp;</span></td></tr>';
 			});
 			$('.rule_table').html(str);
@@ -388,7 +391,7 @@ $('.classify_mixed').change(function() {
 			if(msg.rule.other){
 				var str_other = '';
 				$.each(msg.rule.other,function(index, el) {
-					str_other += '<tr><td>费用名称</td><td><input type="text" value="'+el.name+'" name="sb_other[name][]"></td><td>企业金额</td><td><input type="text" value="'+el.rules['company']+'" name="sb_other[company][]"><span class="unit">元</span></td><td>个人金额</td><td><input type="text" value="'+el.rules['person']+'" name="sb_other[person][]"><span class="unit">元</span></td></tr>';
+					str_other += '<tr><td>费用名称</td><td><input type="text" value="'+el.name+'" name="sb_other[name][]"></td><td>企业金额</td><td><input type="text" value="'+el.rules['company']+'" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" name="sb_other[company][]"><span class="unit">元</span></td><td>个人金额</td><td><input type="text" value="'+el.rules['person']+'" name="sb_other[person][]"><span class="unit">元</span></td></tr>';
 				});
 				$('.other').html(str_other);
 			}else{

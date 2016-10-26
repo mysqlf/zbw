@@ -671,7 +671,8 @@ class AccountController extends HomeController {
 									header("Content-type:text/html;charset=utf-8");
 									redirect(U($url),1,'<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>邮箱验证成功!页面跳转中...</body>');
 								}else {
-									$this->error('未知错误!'.$companyInfo->getDbError());
+									wlog($companyInfo->getDbError());
+									$this->error('未知错误!');
 								}
 							}else {
 								S($result['key'].'_isScaned',true,$result['exp']-time());
@@ -682,6 +683,18 @@ class AccountController extends HomeController {
 							$companyInfo = M('CompanyInfo');
 							$companyInfoResult = $companyInfo->save(array('id'=>$result['cid'],'email_activation'=>1));
 							if ($companyInfoResult || 0 === $companyInfoResult) {
+								//同步数据到redis
+								$companyInfoResult = $companyInfo->field(true)->getById($result['cid']);
+								$companyUserId = $companyInfoResult['user_id'];
+								$this->mCompanyUser = $this->getCompanyUserByCuid($companyUserId);
+								unset($this->mCompanyUser['password']);
+								$this->mCid = $this->mCompanyUser['CompanyInfo']['id'];
+								$redis = initRedis();
+								$redisKey = 'zby:com:user:'.$companyUserId;
+								//$redisres = $redis->hSet($redisKey,'mCuid',$companyUserId);
+								$redisres = $redis->hSet($redisKey,'mCid',$this->mCid);
+								$redisres = $redis->hSet($redisKey,'mCompanyUser',json_encode($this->mCompanyUser));
+									
 								S('cid'.$result['cid'],null);
 								//$this->success('邮箱验证成功!');
 								//跳转到企业中心

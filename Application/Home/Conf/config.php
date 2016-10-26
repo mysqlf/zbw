@@ -69,6 +69,10 @@ return array(
     'SESSION_PREFIX' => 'onethink_home', //session前缀
     'COOKIE_PREFIX'  => 'onethink_home_', // Cookie前缀 避免冲突
 
+    /* 后台错误页面模板 */
+    'TMPL_ACTION_ERROR'     =>  'Public:error', // 默认错误跳转对应的模板文件
+    'TMPL_ACTION_SUCCESS'   =>  'Public:success', // 默认成功跳转对应的模板文件
+
     /**
      * 附件相关配置
      * 附件是规划在插件中的，所以附件的配置暂时写到这里
@@ -114,5 +118,5 @@ return array(
 
     //极验验证
     'CAPTCHA_ID' => 'b46d1900d0a894591916ea94ea91bd2c',
-    'PRIVATE_KEY'=> '36fc3fe98530eea08dfc6ce76e3d24c4',
+    'PRIVATE_KEY'=> '36fc3fe98530eea08dfc6ce76e3d24c4'
 );

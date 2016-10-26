@@ -12,7 +12,7 @@
 			</div>
 			<div class="right information-search ">
 				<form id="J_infor-search-form" class="search-box">
-                    <input type="text" name="keyword" class="search-txt" value="<?php if($_GET['keyword']) echo $_GET['keyword']; ?>" placeholder="请输入关键字">
+                    <input type="text" name="keyword" class="search-txt" value="{:I('keyword')}" placeholder="请输入关键字">
                     <input type="image" src="/Application/Home/Assets/img/platform/search_small.png" class="submit-search" alt="查询">
 					<input type="hidden" name="category" value="{:I('get.category')}">
                     <input id="J_location" type="hidden" name="location">
@@ -23,9 +23,9 @@
                 		选择城市：
                 	</div>
                 	<div id="J_location-list" class="right">
-                		<a class="active" href="javascript:;" data-location="">全国</a>
-                		<volist name="location" id="vo">
-                			<a href="javascript:;" data-location="{$vo.location}">{$vo.location|showAreaName}</a>
+                		<a <if condition="$location eq ''">class="active"</if> href="{:U('Article/lists',array('category'=>$category,'keyword'=>$keyword))}" data-location="">全国</a>
+                		<volist name="locations" id="vo">
+                			<a href="{:U('Article/lists',array('category'=>$category,'location'=>$vo['location'],'keyword'=>$keyword))}" <if condition="$vo['location'] eq $location "> class="active"</if> data-location="{$vo.location}">{$vo.location|showAreaName}</a>
                 		</volist>
                 	</div>
                 </div>
@@ -34,15 +34,16 @@
 		<div class="horizontal"> 
 			<ul class="left information-nav">
 				<li class="aside-mask"></li>
-				<li><a href="/Article-lists" <php>if(!$_GET['category']){ echo 'class="active"';$name=$vo['title'];}</php>>全部</a></li>
-				<volist name="category" id="vo">
+				<li><a href="{:U('Article/lists',array('location'=>$location,'keyword'=>$keyword))}" <php>if(!$_GET['category']){ echo 'class="active"';$name=$vo['title'];}</php>>全部</a></li>
+				<volist name="categorys" id="vo">
 					<li>
-						<a href="/Article-lists-category-{$vo.name}" <php>if($_GET['category']==$vo['name']){ echo 'class="active"';$name=$vo['title'];}</php>>{$vo.title}</a>
+						<a href="{:U('Article/lists',array('category'=>$vo['name'],'location'=>$location,'keyword'=>$keyword))}" <php>if($_GET['category']==$vo['name']){ echo 'class="active"';$name=$vo['title'];}</php>>{$vo.title}</a>
 					</li>
 				</volist>
 			</ul>
 			<div class="right">
 				<ul id="J_info-list" class="info-list">
+                    <if condition="!empty($list)">
 					<volist name="list" id="art">
 						<li class="info-item horizontal">
 							<div class="left info-time">
@@ -60,17 +61,21 @@
 							</div>
 						</li>
 					</volist>
+					<else/>
+					<li class="info-item horizontal">没有记录</li>
+                    </if>
 				</ul>
 				<!-- 
 					 没有更多数据
 				-->
 
-				<a class="loading-more <if condition="$pagecount eq 1">no-more disabled</if>" href="javascript:;" data-pn="2" id="J_loading-more">
-					<i class="icon icon-loading-more"></i>
-				</a>
+				
 			</div>
 			
 		</div>
+        <div class="pagination info-pagination">
+                <?php echo $page; ?>
+            </div>
 	</div>
 
 

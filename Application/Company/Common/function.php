@@ -112,7 +112,7 @@ function deal_inc($data){
             $data[$k]['type']=$arr[$v['inc'][0]['type']].'/'.$arr[$v['inc'][1]['type']];
         
             $data[$k]['service_price']=$v['inc'][0]['service_price']+$v['inc'][1]['service_price'];
-            $data[$k]['price']=$v['inc'][0]['price']+$v['inc'][1]['price']+$v['inc'][0]['service_price']+$v['inc'][1]['service_price'];
+           // $data[$k]['price']=$v['inc'][0]['price']+$v['inc'][1]['price']+$v['inc'][0]['service_price']+$v['inc'][1]['service_price'];
             $count=$data[$k]['price']+$count;
             $data[$k]['pay_date']=substr($v['pay_date'],0,4).'/'.substr($v['pay_date'],4,2);
             $data[$k]['location']=showAreaName($v['location']);
@@ -122,6 +122,7 @@ function deal_inc($data){
             $data[$k]['pro_person']=isset($v['2']['person'])?$v['2']['person']:'/';//公积金
             $data[$k]['person']=(isset($v['1']['person'])?$v['1']['person']:'0')+(isset($v['2']['person'])?$v['2']['person']:'0');
             $data[$k]['company']=(isset($v['1']['company'])?$v['1']['company']:'0')+(isset($v['2']['company'])?$v['2']['company']:'0');
+            $data[$k]['price'] = $data[$k]['person'] + $data[$k]['company'] +  $data[$k]['service_price'];
             unset($data[$k]['inc']);
         }
 	}

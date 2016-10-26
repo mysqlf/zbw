@@ -59,7 +59,7 @@ class PayOrderController extends ServiceBaseController
         if($admin_id) $where .= '  AND usp.admin_id = '.$admin_id;
         if($create_time) $where .= " AND date_format(po.create_time, '%Y/%m/%d') >= '{$create_time}'";
         if($create_time1) $where .= " AND date_format(po.create_time, '%Y/%m/%d') <= '{$create_time1}'";
-        if($pay_time) $where .= " AND date_format(po.pay_time, '%Y/%m/%d') <= '{$pay_time}'";
+        if($pay_time) $where .= " AND date_format(po.pay_time, '%Y/%m/%d') >= '{$pay_time}'";
         if($pay_time1) $where .= " AND date_format(po.pay_time, '%Y/%m/%d') <= '{$pay_time1}'";
 //echo $where;
         $result = $this->_payOrder->payOrderList($where, $this->_AccountInfo);

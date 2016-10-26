@@ -77,7 +77,7 @@
                 <?php foreach($result['result'] as $k=>$v){ ?>
 					<tr class="<?php if(($k+1)%2==0) echo 'tr-bg'; ?>">
 						<td>
-							<?php echo $v['title'];?>
+							<?php echo html_entity_decode($v['title']);?>
 						</td>
 						<td>
 							<?php echo $_category[$v['category_id']]['title'];?>

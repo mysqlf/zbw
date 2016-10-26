@@ -91,7 +91,7 @@
                 </dt>
                 <dd class="right">
                     <pre>
-                        <?php echo htmlspecialchars_decode($result['product_detail']); ?>
+                        <?php echo htmlspecialchars_decode(html_entity_decode($result['product_detail'])); ?>
                     </pre>
                 </dd>
             </dl>

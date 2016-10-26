@@ -3,8 +3,9 @@
 	<div class="wrapper">
 		<div class="information-box">
 			<volist name="channel_list" id="vo">
+			<php> $j = 1;</php>
 				<div class="info fl">
-					<img src="/Application/Home/Assets/img/information01.jpg" alt="">
+					<img src="/Application/Home/Assets/img/information0{$j}.jpg" alt="">
 					<dl>
 						<dt>{$vo.title}<a href="/ServiceArticle-index-category_id-{$vo.id}-cid-{$Cid}" class="fr">更多></a></dt>
 						<volist name="vo.article_list" id="vb">
@@ -14,6 +15,7 @@
 					    			<span class="text-overflow col-3 text-right">{$vb.update_time}</span>
 								</a>
 							</dd>
+							<php> $j++;</php>
 						</volist>
 					</dl>
 				</div>

@@ -18,26 +18,31 @@
                             <?php foreach($result['serviceProductResult']['servicePriceValue'] as $key=>$val){?>
                             <dd><em><?php echo $val['service_price']; ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
                             <?php } ?>                            
-                        </dl>                        
+                        </dl>
                         <?php }else if($result['serviceProductResult']['service_type'] == 1){?>
+                         <?php  if(empty($result['serviceProductResult']['servicePriceValue'][0]['service_price'])){?>
+                             <dl class="pro-fee">
+                                <dd><span class="fee-free">免服务费</span></dd>
+                            </dl>                              
+                        <?php }else{  ?>                      
                         <dl class="info-desc-list">
-                            <dt>服务费</dt>                           
-                            <?php foreach($result['serviceProductResult']['servicePriceValue'] as $key=>$val){?>  
+                            <dt>服务费</dt> 
+                        <?php   foreach($result['serviceProductResult']['servicePriceValue'] as $key=>$val){?>  
                             <dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
-                            <?php } ?>
+                            <?php }} ?>
                             </dl>
                         <?php }?>
 
                     <?php if($result['serviceProductResult']['service_price_state'] == 1){?>
                         <dl class="pro-fee">
                             <dt>套餐费</dt>
-                            <dd><em><?php echo $result['serviceProductResult']['member_price']; ?></em>元/年</dd>
+                            <dd><em><?php echo $result['serviceProductResult']['member_price']; ?></em>元/<?php echo $result['serviceProductResult']['servicePriceValue'][0]['validity']; ?>个月</dd>
                         </dl>
-                    <?php }else{ if($result['serviceProductResult']['service_type'] == 1){?>
+                    <?php }else{ if($result['serviceProductResult']['service_price_state'] == 0){?>
                         <dl class="pro-fee">
                             <dd><span class="fee-free">免套餐费</span></dd>
                         </dl>
-                    <?php }}?>                        
+                    <?php }}?>
                     </div>
                 </div>
                 <div class="detail-info-relate fr">
@@ -66,17 +71,19 @@
             	<div class="fl detail-intro">
             		<h3>产品简介</h3>
             		<div class="detail-intro-cnt">
-            			<p>{$result.serviceProductResult.product_detail|htmlspecialchars_decode}</p>
+            			<?php echo htmlspecialchars_decode(html_entity_decode($result['serviceProductResult']['product_detail']));?>
             		</div>
             	</div>
             	<div class="fr">
             		<div class="detail-about">
             			<h4>公司简介</h4>
+                        <a href="<?php echo U('Article/aboutUs?cid='.$result['companyInfoResult']['id']);?>">
             			<div class="detail-company">
-            				<div class="com-logo"><img src="{$result.companyInfoResult.service_logo}" width="120" align=""></div>
+            				<div class="com-logo"><img src="{$result.companyInfoResult.service_logo}" width="120" alt="服务公司logo"></div>
             				<p class="com-name">{$result.companyInfoResult.company_name}</p>
-            				<p class="com-desc">{$result.companyInfoResult.company_introduction}...</p>
+                            <p class="com-desc">{$result.companyInfoResult.company_introduction|htmlspecialchars_decode|html_entity_decode}...</p>
             			</div>
+                        </a>
             		</div>
             		<div class="detail-about">
             			<h4 class="detail-recommend">最新资讯</h4>

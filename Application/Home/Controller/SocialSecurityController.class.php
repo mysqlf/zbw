@@ -6,7 +6,7 @@
 		#社保大厅
 		public function index()
 		{
-			$map['name'] = I('get.city_code') ? I('get.city_code','','htmlspecialchars') : getAddress();
+			$map['name'] = I('get.city_code') ? I('get.city_code','') : getAddress();
 			//获取城市代码
 			$city_code = M('template','zbw_')->where($map)->getField('location');
 			if(!$city_code)
@@ -45,7 +45,7 @@
 			//增值服务列表
 			$add_ser_list = D('ValueAddedService')->getAddedList(array('state'=>1,'company_id'=>$cid,'state'=>1),'create_date DESC');
 			//增值服务列表外层循环次数 配合前端轮播特效
-			$this->loop_num = ceil(count($add_ser_list)/4);
+			$this->loop_num = count($add_ser_list);
 			 //社保资讯
 			$this->sb_advisory = getCateList('questions');
 			//行业资讯
@@ -55,17 +55,22 @@
 			$this->company_advisory = getCateList('xz_help');
 			$service_product = D('ServiceProduct')->productList($condition);
 			$banner_info = D('ServiceThumb')->getImageList(3, $this->Cid);
+			$this->keywords = '服务大厅';
+			$this->description = '服务大厅';
+			$this->title = '服务大厅-'.$this->_CompanyName.'-'.C('WEB_SITE_TITLE');
+
 			$this->assign('city',$map['name']);
 			$this->assign('service_product',$service_product);
 			//$this->assign('person_product',$person_product);
 			$this->assign('add_ser_list',$add_ser_list)->assign('applicable_object', adminState()['applicable_object'])->assign('banner_info', $banner_info);
 			$this->assign('Cid', $this->_Cid)->display();
+
 		}
 		public function getArticleList($cid)
 		{
 			if($_POST['id'])
 			{
-				$where['location'] = I('post.id',0,'intval');
+				$where['location'] = I('post.id/d',0);
 			}
 			else
 			{
@@ -127,9 +132,13 @@
 							$path = getFilePath($serviceProductResult['company_id'],'./Uploads/Company/','info');
 							$companyInfoResult['service_logo'] = $path.'service_logo.jpg';
 						}
-						$serviceArticleResult = $serviceArticle->field('id,title,category_id')->where(['company_id'=>$serviceProductResult['company_id'],'status'=>1, 'category_id'=>array('neq', 0)])->order('update_time desc')->limit(4)->select();
+						$serviceArticleResult = $serviceArticle->field('id,title,category_id')->where(['company_id'=>$serviceProductResult['company_id'],'status'=>1, 'category_id'=>array('neq', 0)])->order('update_time desc')->limit(5)->select();
 						$result = ['serviceProductResult'=>$serviceProductResult,'companyInfoResult'=>$companyInfoResult,'serviceArticleResult'=>$serviceArticleResult];
 						//dump($serviceProductResult);
+						$this->keywords = $serviceProductResult['name'];
+						$this->description = strip_tags(htmlspecialchars_decode($serviceProductResult['product_detail']));
+						$this->title = $serviceProductResult['name'].'-'.C('WEB_SITE_TITLE');
+
 						$this->assign('Cid', $this->_Cid)->assign('result',$result);
 						$this->display('SocialSecurity/product_detail');
 					}else {

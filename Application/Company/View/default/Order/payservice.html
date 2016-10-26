@@ -56,7 +56,7 @@
             <div class="table_detail">
                 <label>套餐详情：</label>
                 <div class="table_text">
-                    {$proinfo.product_detail}
+                    {$proinfo.product_detail|html_entity_decode|htmlspecialchars_decode}
                 </div>
                     
             </div>
@@ -66,10 +66,12 @@
                 应付金额：
                 <span class="price" id="companyPrice"><i>￥</i>{$payorder.amount}</span>元
             </div>
-           
+            
             <div class="staff_text">
                 实付金额：
-                <span class="total_price" id="totalPrice"><i>￥</i><?php echo $payorder['actual_amount'] == 0.00 ? $payorder['amount'] + $payorder['diff_amount'] : $payorder['actual_amount']; ?></span>元
+                
+                <span class="total_price" id="totalPrice"><i>￥</i> <if condition="$payorder['state']==1"><?php echo $payorder['actual_amount'] ?> <else/>0</if></span>元
+
             </div>
         </div>
         <if condition="$payorder['state']==0">

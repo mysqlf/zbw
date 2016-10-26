@@ -36,13 +36,14 @@ class ServiceModel extends Model
     public function insUnConduct ($sid, $product_id)
     {
         $m = M('person_insurance_info');
-       // $result =   $m->alias('pii')->where("pii.operate_state=2 AND pii.user_id IN({$sid})  AND pii.product_id in ({$product_id}) ")
-               // ->join('left join zbw_service_insurance_detail sid ON sid.insurance_info_id=pii.id')                
+        //$result =   $m->alias('pii')->where("pii.operate_state=2 AND pii.user_id IN({$sid})  AND pii.product_id in ({$product_id}) ")
+               // ->join('left join zbw_service_insurance_detail sid ON sid.insurance_info_id=pii.id')
                // ->count('DISTINCT pii.base_id, pii.handle_month,sid.pay_date');
-        $sql = "SELECT pii.id FROM zbw_person_insurance_info pii left join zbw_service_insurance_detail sid ON sid.insurance_info_id=pii.id WHERE ( pii.operate_state=2 AND pii.user_id IN({$sid}) AND pii.product_id in ({$product_id}) ) GROUP BY pii.base_id, pii.handle_month,sid.pay_date";
+        //$sql = "SELECT pii.id FROM zbw_person_insurance_info pii left join zbw_service_insurance_detail sid ON sid.insurance_info_id=pii.id WHERE ( pii.operate_state=2 AND pii.user_id IN({$sid}) AND pii.product_id in ({$product_id}) ) GROUP BY pii.base_id, pii.handle_month,sid.pay_date";
+        $sql = "SELECT count(pii.id) as piiid_count FROM zbw_person_insurance_info pii left join zbw_service_insurance_detail sid ON sid.insurance_info_id=pii.id WHERE ( pii.operate_state=2 AND pii.user_id IN({$sid}) AND pii.product_id in ({$product_id}) ) GROUP BY pii.base_id, pii.handle_month,sid.pay_date";
         $result = $m->query($sql);
-       return count($result);
-//                 dump($result);echo $m->getLastSql();
+		return count($result);
+		//dump($result);echo $m->getLastSql();
     }
 
     /**

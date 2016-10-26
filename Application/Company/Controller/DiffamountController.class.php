@@ -79,7 +79,7 @@ class DiffamountController extends HomeController{
         $companyId=I('param.companyId');
         $paydate=I('param.paydate');
         $paystart=I('param.paystart');
-        $payend=I('pay.payend');
+        $payend=I('param.payend');
         $item=I('param.item');
         $type=I('param.type');
        

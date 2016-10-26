@@ -238,8 +238,8 @@
 			                            <if condition="$vo['socpii_id']">
 				                            <tr <if condition="1 eq $vo['count']">class="no-brdb"</if> >
 				                                <td><p class="cpurple">社保</p></td>
-				                                <td>{$vo.socpii_amount}</td>
-				                                <td>{$vo.socpii_pay_date}</td>
+				                                <td>{:empty($vo['socpii_amount'])?'/':$vo['socpii_amount']}</td>
+				                                <td>{:empty($vo['socpii_pay_date'])?'/':$vo['socpii_pay_date']}</td>
 				                                <td>{$vo.socpii_state|get_code_value="PersonInsuranceState"}</td>
 				                                <td>{$vo.socpii_handle_month|int_to_date}</td>
 				                                <td class="no-brdr"><span class="cgray">{$vo.socpii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>
@@ -248,8 +248,8 @@
 			                            <if condition="$vo['propii_id']">
 				                            <tr class="no-brdb" >
 				                                <td><p class="cgreenlg">公积金</p></td>
-				                                <td>{$vo.propii_amount}</td>
-				                                <td>{$vo.propii_pay_date}</td>
+				                                <td>{:empty($vo['propii_amount'])?'/':$vo['propii_amount']}</td>
+				                                <td>{:empty($vo['propii_pay_date'])?'/':$vo['propii_pay_date']}</td>
 				                                <td>{$vo.propii_state|get_code_value="PersonInsuranceState"}</td>
 				                                <td>{$vo.propii_handle_month|int_to_date}</td>
 				                                <td class="no-brdr"><span class="cgray">{$vo.propii_operate_state|get_code_value="PersonInsuranceInfoOperateState"}</span></td>

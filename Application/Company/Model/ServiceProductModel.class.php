@@ -24,7 +24,9 @@ class ServiceProductModel extends RelationModel{
                     ->field('ci.id,ci.company_name,ci.company_introduction,ci.employee_number,ci.company_address,ci.register_fund,ci.tel_city_code,ci.tel_local_number,ci.location')
                     ->join('left join '.C('DB_PREFIX').'company_info as ci on ci.id=sp.company_id')
                     ->order('sp.create_time desc')
-                    ->group('sp.company_id')
+                    ->select(false);
+        $result=$this->table($result.'as sp')
+                    ->group('sp.id')
                     ->limit(2)
                     ->select();
         $result=self::_getServicePro($result);

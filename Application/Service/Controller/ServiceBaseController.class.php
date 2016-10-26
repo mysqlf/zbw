@@ -109,10 +109,17 @@ class ServiceBaseController extends Controller{
     }
 
     /**
-     * 所有产品套餐
+     * 企业  所有产品套餐
      */
     public function productAllList(){
-           return M('service_product')->field('id,name')->where('company_id = '.$this->_cid.' AND state =1')->select();
+           return M('service_product')->field('id,name')->where('service_type=1 AND company_id = '.$this->_cid.' AND state =1')->select();
+    }
+    
+    /**
+     * 企业  所有产品套餐
+     */
+    public function productAllStateList(){
+           return M('service_product')->field('id,name')->where('service_type=1 AND company_id = '.$this->_cid)->select();
     }
 
 }

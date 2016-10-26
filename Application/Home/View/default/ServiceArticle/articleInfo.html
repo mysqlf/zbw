@@ -13,9 +13,9 @@
 				<a href="/Index-service-cid-{$Cid}">首页</a> > <a href="/ServiceArticle-index-category_id-{$Think.get.category_id}-cid-{$Cid}">{$name}</a> > <a href="#">文章详情</a>
 			</h2>
 			<div class="article">
-				<h3>{$article_info.title}</h3>
+				<h3>{$article_info.title|html_entity_decode}</h3>
 				<div class="article-time">时间：{$article_info.update_time}</div>
-				<pre>{$article_info.content|htmlspecialchars_decode=###}</pre>
+				<pre>{$article_info.content|html_entity_decode|htmlspecialchars_decode=###}</pre>
 			</div>
 		</div>
 	</div>

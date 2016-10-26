@@ -33,7 +33,7 @@
             </dd>
         </dl>
 
-        <dl class="horizontal horizontal-5em" style="z-index: 0">
+        <!-- <dl class="horizontal horizontal-5em" style="z-index: 0">
             <dt class="left text-right">广告图：</dt>
             <dd class="right">
                 <div class="upload-box">
@@ -48,7 +48,7 @@
                     <img class="{{if !advertising_url}}dn{{/if}}" src="{{advertising_url}}">
                   </div>
             </dd>
-        </dl>
+        </dl> -->
 
         <dl class="horizontal horizontal-5em">
             <dt class="left text-right">状态：</dt>

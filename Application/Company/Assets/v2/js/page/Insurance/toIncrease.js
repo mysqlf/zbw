@@ -39,6 +39,11 @@ let toIncrease = {
         self.eachInput(); //遍历input
         self.imgLoad(); //图片上传
         self.proProject();
+
+        if($('#project').val()) {
+            // 有数据时候 更新规则
+            self.updateRules();
+        }
     },
     //单选框
     radio() {
@@ -176,13 +181,13 @@ let toIncrease = {
     vipSelect() {
         $("#vip_select").change(function() {
             // 表格相关联的值需清空
-            $('[name="location"] option').removeAttr('selected');
+            $('[name="location"] option:not(:first)').remove();
             $('[name="location"]').selectOrDie('update');
 
-            $('[name="socialType"] option').removeAttr('selected');
+            $('[name="socialType"] option:not(:first)').remove();
             $('[name="socialType"]').selectOrDie('update');
 
-            $('[name="project"] option').removeAttr('selected');
+            $('[name="project"] option:not(:first)').remove();
             $('[name="project"]').selectOrDie('update');
 
             $('[name="proProject"] option').removeAttr('selected');
@@ -195,15 +200,30 @@ let toIncrease = {
             let $this = $(this),
                 productId = $this.val(),
                 overtime = $this.find('option:selected').data('overtime');
+
             if ($this.val() !== "") {
                 $this.closest('.inp_box').find('.max_text').html('服务有效期至' + overtime + '');
+
                 vipUrl({ productId: productId }, (data) => {
 
                     let location = data.result.warranty_location,
                         html = '<option value="">请选择</option>';
+
                     for (let i in location) {
-                        html += '<option value="' + location[i].location + '" data-minpro="' + location[i].minPaymentMonth['2'] + '" data-maxpro="' + location[i].maxPaymentMonth['2'] + '" data-date="' + location[i].deadline['1'] + '"data-min="' + location[i].minPaymentMonth['1'] + '" data-max="' + location[i].maxPaymentMonth['1'] + '" data-month="' + location[i].paymentMonthNum + '" data-servicePrice="' + location[i].ssServicePrice + '" data-locationid="' + location[i].warrantyLocationId + '" data-prodate="' + location[i].deadline['2'] + '">' + location[i].locationValue + '</option>'
+                        html += '<option value="' + 
+                                location[i].location + 
+                                '"  data-month="' + 
+                                location[i].paymentMonthNum + 
+                                '" data-servicePrice="' + 
+                                location[i].ssServicePrice + 
+                                '" data-locationid="' + 
+                                location[i].warrantyLocationId + 
+                                '" >' + 
+                                location[i].locationValue + 
+                                '</option>'
                     }
+
+
                     $('#location').html(html).selectOrDie('update');
 
                 })
@@ -217,7 +237,7 @@ let toIncrease = {
         let self = this;
 
         $("#location").change(function() {
-            $('[name="project"] option').removeAttr('selected');
+            $('[name="project"] option:not(:first)').remove();
             $('[name="project"]').selectOrDie('update');
 
             $('[name="proProject"] option').removeAttr('selected');
@@ -229,9 +249,8 @@ let toIncrease = {
 
             let $this = $(this),
                 val1 = $("#vip_select").val(),
-                val2 = $this.val(),
-                deadline = $this.find('option:selected').data('date'),
-                deadline2 = $this.find('option:selected').data('prodate');
+                val2 = $this.val();
+
             if (val1 !== "" && val2 !== "") {
                 locationUrl({ location: val2 }, (data) => {
 
@@ -260,39 +279,13 @@ let toIncrease = {
                                         </div>
                                         `
                         }
+
                         $('#socialType').html(html);
                         $('.select_socialType').selectOrDie();
-                        $('#socPayDate').val('');
-                        let startDate = new Date($('#location').find('option:selected').data('min')),
-                            endDate = new Date($('#location').find('option:selected').data('max')),
-                            proStartDate = new Date($('#location').find('option:selected').data('minpro')),
-                            proEndDate = new Date($('#location').find('option:selected').data('maxpro')),
-                            month = $('#location').find('option:selected').data('month');
-                        $("#socPayDate").datetimepicker({
-                            format: 'yyyy-mm',
-                            weekStart: 1,
-                            autoclose: true,
-                            startView: 3,
-                            minView: 3,
-                            forceParse: false,
-                            language: 'zh-CN',
-                            startDate: startDate,
-                            endDate: endDate
-                        }).datetimepicker('setStartDate', startDate).datetimepicker('setEndDate', endDate).siblings('.max_text').html('该地区报增截止日为每月' + deadline + '号');
-
-                        $('#proPayDate').datetimepicker({
-                            format: 'yyyy-mm',
-                            weekStart: 1,
-                            autoclose: true,
-                            startView: 3,
-                            minView: 3,
-                            forceParse: false,
-                            language: 'zh-CN',
-                            startDate: proStartDate,
-                            endDate: proEndDate
-                        }).datetimepicker('setStartDate', proStartDate).datetimepicker('setEndDate', proEndDate).siblings('.max_text').html('该地区报增截止日为每月' + deadline2 + '号');
 
                     }
+                    $('#socialType').trigger('change');
+                    $('.select_socialType').trigger('change');
 
                 }, ({ info }) => {
                     if (info) {
@@ -308,10 +301,108 @@ let toIncrease = {
             }
         });
     },
+    // 当选择规则时候 修改对应的规则
+    updateRules(){
+         let self = this,
+            $this = $('#project'),
+            $selected = $this.find('option:selected'),
+            socRuleId = $selected.val(),
+            $socAmount = $('#socAmount'),
+            $socPayDate = $('#socPayDate'),
+            $proPayDate = $('#proPayDate'),
+            {
+                minamount: minAmount,
+                maxamount: maxAmount
+            } = $selected.data();
+
+
+        if ($this.val() !== "") {
+            $socAmount
+                .next('.max_text')
+                .html('基数范围 ' + minAmount + ' 到 ' + maxAmount + '');
+
+            modifyRules(toIncrease.validatorObj, {
+                rules: {
+                    socAmount: {
+                        number: true,
+                        min: minAmount,
+                        max: maxAmount
+                    }
+                },
+                messages: {
+                    socAmount: {
+                        min: '基数范围' + minAmount + '到 ' + maxAmount + '',
+                        max: '基数范围' + minAmount + '到 ' + maxAmount + ''
+                    }
+                }
+            });
+            $socAmount.removeAttr('readonly');
+            $('#socRuleId').val(socRuleId);
+            self.updateDateRules();
+        } else {
+            $socAmount
+                .next('.max_text')
+                .html('')
+                .attr('readonly', 'readonly');
+            $socPayDate.prop('disabled', true).siblings('.max_text').text('');
+            $proPayDate.prop('disabled', true).siblings('.max_text').text('');
+        }
+    },
+    // 更新日期
+    updateDateRules(){
+        let $locationSelected = $('#project').find('option:selected'),
+            startDate = new Date($locationSelected.data('min')),
+            endDate = new Date($locationSelected.data('max')),
+            proStartDate = new Date($locationSelected.data('minpro')),
+            proEndDate = new Date($locationSelected.data('maxpro')),
+            month = $locationSelected.data('month'),
+            deadline = $locationSelected.data('date'),
+            deadline2 = $locationSelected.data('prodate'),
+            $socPayDate = $('#socPayDate'),
+            $proPayDate = $('#proPayDate');
+
+        $socPayDate.prop('disabled', false).siblings('.max_text').html('该地区报增截止日为每月' + deadline + '号');
+        $proPayDate.prop('disabled', false).siblings('.max_text').html('该地区报增截止日为每月' + deadline2 + '号');
+
+
+        if( $socPayDate.data('datetimepicker')) {
+            $socPayDate.datetimepicker('setStartDate', startDate)
+            .datetimepicker('setEndDate', endDate);
+        } else {
+            $socPayDate.datetimepicker({
+                format: 'yyyy-mm',
+                weekStart: 1,
+                autoclose: true,
+                startView: 3,
+                minView: 3,
+                forceParse: false,
+                language: 'zh-CN',
+                startDate: startDate,
+                endDate: endDate
+            })
+        }
+
+        if( $proPayDate.data('datetimepicker')) {
+            $proPayDate.datetimepicker('setStartDate', proStartDate)
+            .datetimepicker('setEndDate', proEndDate);
+        } else {
+            $proPayDate.datetimepicker({
+                format: 'yyyy-mm',
+                weekStart: 1,
+                autoclose: true,
+                startView: 3,
+                minView: 3,
+                forceParse: false,
+                language: 'zh-CN',
+                startDate: proStartDate,
+                endDate: proEndDate
+            })
+        }
+    },
     //社保类型请求
     serviceSelect() {
         $('#socialType').on('change', '.select_socialType', function() {
-            $('#project option').removeAttr('selected');
+            $('#project option:not(:first)').remove();
             $('#project').selectOrDie('update');
             $('#socAmount').val('');
             $('#proProject option').removeAttr('selected');
@@ -319,6 +410,7 @@ let toIncrease = {
             $('#proAmount').val('');
             $('#proCompanyScale').val('');
             $('#proPersonScale').val('');
+
             let val = $(this).val(),
                 templateId = $('#templateId').val(),
                 companyId = $('#vip_select').find('option:selected').data('companyid');
@@ -334,17 +426,34 @@ let toIncrease = {
                     let result = data.result,
                         html = '<option value="">请选择</option>';
 
+
                     for (let i = 0, len = result.length; i < len; i++) {
-                        html += `<option value="${result[i].id}" data-minamount="${result[i].minAmount}" data-maxamount="${result[i].maxAmount}">${result[i].name}</option>`
+                        let perRet = result[i];
+
+                        html += `<option value="${result[i].id}" 
+                        data-date="${perRet.deadlineArray['1']}" 
+                        data-prodate="${perRet.deadlineArray['2']}" 
+                        data-minamount="${perRet.minAmount}" 
+                        data-maxamount="${perRet.maxAmount}" 
+                        data-minpro="${perRet.minPaymentMonth['2']}" 
+                        data-maxpro="${perRet.maxPaymentMonth['2']}" 
+                        data-min="${perRet.minPaymentMonth['1']}" 
+                        data-max="${perRet.maxPaymentMonth['1']}" 
+                        data-month="${perRet.paymentMonthNum}" 
+                        >${perRet.name}</option>`
                     }
 
                     $('#project').html(html).selectOrDie('update');
 
                 }, ({ info }) => {
+                    let html = '<option value="">请选择</option>';
+
+                    $('#project').html(html).selectOrDie('update').trigger('change');
+
                     if (info) {
                         layer.alert(info, function(index) {
                             layer.close(index);
-                            $('[name="socialType"] option').removeAttr('selected');
+                            $('[name="socialType"] option:not(:first)').remove();
                             $('[name="socialType"]').selectOrDie('update');
                         });
 
@@ -356,7 +465,10 @@ let toIncrease = {
     },
     //项目类型显示社保基数
     projectSelect() {
+        let self = this;
+
         $('#project').change(function() {
+            $('#socAmount').val('');
 
             $('[name="proProject"] option').removeAttr('selected');
             $('[name="proProject"]').selectOrDie('update');
@@ -365,34 +477,11 @@ let toIncrease = {
             $('#proCompanyScale').val('');
             $('#proPersonScale').val('');
 
-            let $this = $(this),
-                socRuleId = $this.find('option:selected').val(),
-                minAmount = $this.find('option:selected').data('minamount'),
-                maxAmount = $this.find('option:selected').data('maxamount');
-            if ($this.val() !== "") {
-                $('#socAmount').next('.max_text').html('基数范围 ' + minAmount + ' 到 ' + maxAmount + '');
+            $('#socPayDate').val('')
+            $('#proPayDate').val('')
 
-                modifyRules(toIncrease.validatorObj, {
-                    rules: {
-                        socAmount: {
-                            number: true,
-                            min: minAmount,
-                            max: maxAmount
-                        }
-                    },
-                    messages: {
-                        socAmount: {
-                            min: '基数范围' + minAmount + '到 ' + maxAmount + '',
-                            max: '基数范围' + minAmount + '到 ' + maxAmount + ''
-                        }
-                    }
-                });
-                $('#socAmount').removeAttr('readonly');
-                $('#socRuleId').val(socRuleId);
-            } else {
-                $('#socAmount').next('.max_text').html('');
-                $('#socAmount').attr('readonly', 'readonly');
-            }
+            self.updateRules();
+
         });
     },
     //公积金栏目

@@ -122,7 +122,9 @@
             color: $color-gray;
         }
         .icon-time-picker {
-            right: 8%;
+            right: 0;
+            position: absolute;
+            top: 7px;
         }
     }
     .big_inp_box {

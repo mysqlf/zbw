@@ -144,7 +144,9 @@ class LocationController extends ThinkController{
 	 **/
 	public function del( $model = null, $ids=null ){
 		$model = M('Model')->getByName( $this->model ); /*通过Model名称获取Model完整信息*/
-		parent::del( $model['id'], $ids ); /*没有页面，只有Ajax提示返回，不需要View/LocationDemand/del.html*/
+		parent::del( $model['id'], $ids ); 
+
+		/*没有页面，只有Ajax提示返回，不需要View/LocationDemand/del.html*/
 	}
 	
 	/**

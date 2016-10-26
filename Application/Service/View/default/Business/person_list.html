@@ -106,8 +106,8 @@
 									<if condition="$vo['proci_service_company_name']"><p>[{$vo.proci_service_company_name}]</p></if>
 								</if>
 							</td>
-		                    <td>{$vo['residence_location']|showAreaName}</td>
-		                    <td>{$vo['residence_type']|get_code_value=###,"PersonBaseResidenceType",$vo['residence_type']}</td>
+		                    <td>{:empty($vo['residence_location'])?'/':showAreaName($vo['residence_location'])}</td>
+		                    <td>{:empty($vo['residence_type'])?'/':get_code_value($vo['residence_type'],"PersonBaseResidenceType",$vo['residence_type'])}</td>
 		                    <td colspan="6" class="has-tb">
 		                    	<table class="inner-tbl">
 		                    		<colgroup>
@@ -124,17 +124,16 @@
 		                    			<td>{$vo['socpiLocationValue']|default="/"}</td>
 		                    			<td>{:(empty($vo['socpi_amount'])?'/':$vo['socpi_amount'])}</td>
 		                    			<td>{:(empty($vo['socpi_start_month'])?'/':$vo['socpi_start_month'])}</td>
-		                    			<td class="no-brdr">{:(empty($vo['socpi_end_month'])?'/':$vo['socpi_end_month'])}</td>
+	                    				<td class="no-brdr">{:(empty($vo['socpi_end_month'])?'/':$vo['socpi_end_month'])}</td>
 		                    		</tr>
 		                    		<tr class="no-brdb">
 		                    			<td><p class="cgreenlg">公积金</p></td>
 		                    			<td>{$vo['propi_state']|get_code_value=###,"PersonInsuranceState"}</td>
-		                    			<td>{$vo['propiLocationValue']|default="/"}</td>
+	                    				<td>{$vo['propiLocationValue']|default="/"}</td>
 		                    			<td>{:(empty($vo['propi_amount'])?'/':$vo['propi_amount'])}</td>
 		                    			<td>{:(empty($vo['propi_start_month'])?'/':$vo['propi_start_month'])}</td>
-		                    			<td class="no-brdr">{:(empty($vo['propi_end_month'])?'/':$vo['propi_end_month'])}</td>
+	                    				<td class="no-brdr">{:(empty($vo['propi_end_month'])?'/':$vo['propi_end_month'])}</td>
 		                    		</tr>
-
 		                    	</table>
 		                    </td>
 		                    <td class="no-brdr">

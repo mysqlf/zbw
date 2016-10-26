@@ -64,6 +64,7 @@ exports.businessHandler = () => {
                     success(){
                         $form = $('.batch-layer form');
                         checkFn.iCheck();
+                        checkFn.checkAll();
                         $form.validate({
                             submitHandler(form){
                                 let formData = $(form).serializeArray();

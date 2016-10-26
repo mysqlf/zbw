@@ -125,11 +125,14 @@
         <div class="bill-check">
             <div class="check-amount">
                 <p class="amount-due">应付金额：<span>¥&nbsp;<em><?php echo $orderInfo['amount']; ?></em>&nbsp;</span>元<?php //echo $total;?></p>
-               <?php if($orderInfo['state'] == 1){?>
+                 <?php if($orderInfo['diff_amount']!=0){?>
+                <p class="balance">已结差额：<span>¥&nbsp;<em><?php echo $orderInfo['diff_amount']; ?></em>&nbsp;</span>元</p>
+                 <?php } ?>
+               <!-- <?php if($orderInfo['diff_amount']!=0||$orderInfo['state'] == 1){?>
                 <p class="balance">已结差额：<span>¥&nbsp;<em><?php echo $orderInfo['diff_amount']; ?></em>&nbsp;</span>元</p>
                 <?php }else{ ?>
                 <p class="balance">未结差额：<span>¥&nbsp;<em><?php echo $orderInfo['diff_amount']; ?></em>&nbsp;</span>元</p>
-                <?php } ?>
+                <?php } ?> -->
                 <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php 
                 if(abs($orderInfo['diff_amount']) == $orderInfo['amount'] ){ echo' 0.00'; }
                 elseif($orderInfo['actual_amount'] == '0.00'){ echo $orderInfo['amount'];}

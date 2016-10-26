@@ -41,7 +41,7 @@ let bill = {
                 let data = {
                     'id': $('[name="id"]').val(),
                     'status': 1,
-                    'invoice_amount': $('[data-act="invoice"]').data('price').split(',').join('') - 0,
+                    'invoice_amount': ($('[data-act="invoice"]').data('price') + '').split(',').join('') - 0,
                     'invoice_express_company': $('[name="invoice_express_company"]').val(),
                     'invoice_express_no': $('[name="invoice_express_no"]').val(),
                     'invoice_consignee': $('[name="invoice_consignee"]').val(),

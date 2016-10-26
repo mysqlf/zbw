@@ -33,6 +33,7 @@ class AdminModel extends UserModel
 		if (!$result['company_id']) return ajaxJson(-1,'用户不存在');	
 		//账号信息
 		$adminInfo = $this->adminInfo($result['company_id'], $result['user_id']);
+		$result['id'] = $adminInfo['id'];
 		$result['group'] = $adminInfo['group'];
 		$result['type'] = $adminInfo['type'];
 		$result['auth'] = $adminInfo['auth'];

@@ -1,8 +1,8 @@
 /* 社保大厅 */
 
 .sbdt-banner {
-    height: 450px;
-    background: url('#{$img-src}/sbdt_banner.jpg') center;
+    min-height: 30px;
+    text-align: center;
 }
 
 .add-service {
@@ -12,13 +12,14 @@
         font-size: 30px;
         color: #fff;
         text-align: center;
-        padding: 79px 0 42px 0;
+        padding: 68px 0 46px 0;
     }
 }
 
 .add-service-pro {
-    height: 310px;
+    height: 250px;
     position: relative;
+    margin-top: 28px;
     h4 {
         font-size: 18px;
         color: $fontColor;
@@ -33,45 +34,74 @@
 }
 
 .pro-box {
-    width: 285px;
-    height: 310px;
+    width: 280px;
+    height: 260px;
     margin-right: 20px;
     float: left;
-    text-indent: -999em;
-    a {
-        display: block;
-        height: 310px;
-    }
-    background-repeat: no-repeat;
+    background: #fff;
+    border: 1px solid #fff;
+    transition: border-color .3s;
+
     &:hover {
-        background-position: -285px 0;
-        background-position: -285px 0 !important;
+        border-color: $orange;
     }
+
+    .pro-box-title {
+        color: #2c3e50;
+        text-align: center;
+        padding: 50px 0 25px;
+    }
+    .pro-box-content {
+        color: #999;
+        height: 52px;
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+
+    .pro-box-btn {
+        display: block;
+        margin: 0 auto;
+        width: 90px;
+        height: 34px;
+        border: 1px solid $orange;
+        color: $orange;
+        text-align: center;
+        line-height: 30px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $orange;
+            color: #fff;
+        }
+    }
+
+    
+
 }
 
 .service-left,
 .service-right {
-    width: 60px;
-    height: 128px;
+    width: 40px;
+    height: 85px;
     position: absolute;
-    top: 120px;
+    top: 90px;
     cursor: pointer;
+    @include opacity(.5);
+
+    &:hover {
+        @include opacity(1);
+    }
 }
 
 .service-left {
-    background: url('#{$img-src}/sb-jt01.png');
+    background: url('#{$img-src}/sb-jt01.png') no-repeat;
     left: -110px;
-    &:hover {
-        background: url('#{$img-src}/sb-jt01_hover.png');
-    }
+    
 }
 
 .service-right {
-    background: url('#{$img-src}/sb-jt.png');
+    background: url('#{$img-src}/sb-jt.png') no-repeat;
     right: -110px;
-    &:hover {
-        background: url('#{$img-src}/sb-jt_hover.png');
-    }
 }
 
 //详情页

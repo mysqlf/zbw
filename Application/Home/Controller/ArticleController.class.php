@@ -33,10 +33,17 @@ class ArticleController extends HomeController {
 		//公示公告
 		$notice = array();
 		$notice['hot'] = $m->field($field.',cover_id')->where(array('category_id'=> 2, 'status'=> 1, 'cover_id'=> array('neq', '0') , 'position'=> 3))->order('update_time desc')->find();
-		$notice['list'] = $m->field($field)->where(array('category_id'=> 2, 'status'=> 1))->order('update_time desc')->limit(6)->select();
+		$notice['list'] = $m->field($field)->where(array('category_id'=> 2, 'status'=> 1))->order('update_time desc')->limit(5)->select();
 		$this->assign('notice', $notice);
 				//广告
 		$banner_info = array_merge(D('Picture')->getBanner('carousel_picture', 3));
+
+		$this->keywords = '平台资讯';
+		$this->description = '平台资讯';
+		$this->title = '平台资讯-'.C('WEB_SITE_TITLE');
+		#文章地区
+		$location=D('Document')->getLocation();//getArticleLocation();
+		$this->assign('location',$location);
 		$this->assign('banner_info',$banner_info);
 		$this->display();
 
@@ -54,11 +61,13 @@ class ArticleController extends HomeController {
 	}
 	/* 文档模型列表页 */
 	public function lists(){
-		$keyword=I('get.keyword');#关键字
-		$location=I('get.location','','intval');#地区
-		$p = I('get.p',1,'intval');
-		$category=I('get.category');
+		$keyword= urldecode(I('get.keyword',''));#关键字
+		$location=I('get.location/d','');#地区
+		$p = I('get.p/d',1);
+		$p = $p?$p:1;
+		$category = $_category =I('get.category','');
 		if (!empty($category)) {
+			$category=filter_value($category);
 			$where['name']=$category;
 			$map['category_id']=D('category')->getIDByName($where);
 		}else{
@@ -85,6 +94,7 @@ class ArticleController extends HomeController {
 		$this->count = ceil($count/$category['list_row']);*/
 		$pagecount=ceil($count/10);
 		$list = $Document->getListByMap($map,$p);//page($p, $category['list_row'])->lists($category['id']);
+
 		if(IS_AJAX){
 			if($list){
 				/*foreach ($list as $key => $value) {
@@ -101,13 +111,25 @@ class ArticleController extends HomeController {
 			$this->error('获取列表数据失败！');
 		}
 		#文章地区
-		$location=$Document->getLocation();//getArticleLocation();
-		$category = $this->getLists(5);
+		$locations=$Document->getLocation();//getArticleLocation();
+		$categorys = $this->getLists(5);
+		$this->keywords = '资讯';
+		$this->description = '资讯';
+		$pageshow = showpage($count, 10);
+		$this->assign('page',$pageshow);
+		if(empty($_category))
+			$title = '最新资讯';
+		else
+			$title= M('category')->getFieldById($map['category_id'], 'title');
+		$this->title = $title.'-'.C('WEB_SITE_TITLE');	
 		#var_dump($category);
 		/* 模板赋值并渲染模板 */
 		$this->assign('pagecount',$pagecount);
 		$this->assign('location',$location);
+		$this->assign('keyword',$keyword);
 		$this->assign('category', $category);
+		$this->assign('locations',$locations);
+		$this->assign('categorys', $categorys);
 		$this->assign('list', $list);
 		$this->display();
 	}
@@ -141,6 +163,9 @@ HTML;
 	/*关于我们*/
 	public function aboutUs(){
 		$company_id= $this->_Cid;//I('get.cid');
+		$this->keywords = '关于我们';
+		$this->description = '关于我们';
+		$this->title = '关于我们-'.C('WEB_SITE_TITLE');
 		if ($company_id) {
 			$ServiceArticle=D('ServiceArticle');
 
@@ -169,7 +194,7 @@ HTML;
 	}
 	/* 文档模型详情页 */
 	public function detail(){
-		$id = I('get.id',0,'intval');
+		$id = I('get.id/d',0);
 		 // 标识正确性检测 
 		if(!$id){
 			$this->redirect('Index/index','',3, '文章不存在或已被删除，页面跳转中...');
@@ -188,6 +213,9 @@ HTML;
 		//  更新浏览数 
 		$map = array('id' => $id);
 		$Document->where($map)->setInc('view');
+		$this->keywords = $info['keyword'];
+		$this->description = $info['description'];
+		$this->title = $info['title'].'-'.C('WEB_SITE_TITLE');
 
 		 // 模板赋值并渲染模板 
 		$this->assign('category', $category);

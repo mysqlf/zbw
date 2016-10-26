@@ -16,6 +16,7 @@ body {
     position: relative;
     z-index: 1000;
     width: 100%;
+    min-width: 1180px;
     height: 85px;
     &.fixed,
     &,
@@ -212,6 +213,7 @@ body {
                             width: 100%;
                             height: 3px;
                             background: #FFFFFF;
+                            transform: scaleX(1) !important;
                         }
                     }
                 }
@@ -248,19 +250,22 @@ body {
         margin: {
             top: 23px;
         }
-        a {
-            display: inline-block;
-            width: 120px;
-            height: 36px;
-            line-height: 36px;
-            font-size: 14px;
-            color: #2C3E50;
-            text-align: center;
-            -webkit-transition: initial;
-            -moz-transition: initial;
-            -ms-transition: initial;
-            transition: initial;
+        .no-logged,.logged-bd {
+            a {
+                display: inline-block;
+                width: 120px;
+                height: 36px;
+                line-height: 36px;
+                font-size: 14px;
+                color: #2C3E50;
+                text-align: center;
+                -webkit-transition: initial;
+                -moz-transition: initial;
+                -ms-transition: initial;
+                transition: initial;
+            }
         }
+        
         @at-root .company-login {
             margin: {
                 right: 10px;
@@ -561,7 +566,7 @@ body {
                     margin: auto;
                 }
                 .ipt {
-                    width: 90px;
+                    width: 88px;
                 }
             }
             @at-root .verifyimg-box {
@@ -603,6 +608,7 @@ body {
             border-radius: 5px;
             cursor: pointer;
             margin: {
+                top: 2px;
                 bottom: 12px;
             }
             &:hover {
@@ -618,6 +624,12 @@ body {
                     color: #F98A19;
                 }
             }
+        }
+        span.validator-error {
+            display: block;
+            text-align: left;
+            float: left;
+            width: 100%;
         }
     }
 }
@@ -850,6 +862,8 @@ body {
     padding: {
         top: 48px;
     }
+    min-width: 1180px;
+    width: 100%;
     height: 740px;
     background: #28A4F9 url(#{$img-src}/sec2_bg.png) no-repeat center bottom;
     color: #FFFFFF;
@@ -1034,6 +1048,8 @@ body {
         padding: {
             bottom: 80px;
         }
+        min-width: 1180px;
+        width: 100%;
         @at-root .sec3-tabs {
             font-size: 0;
             text-align: center;
@@ -1273,6 +1289,8 @@ body {
 // sec5
 .sec5 {
     background: #FFFFFF url(#{$img-src}/sec5_bg.jpg) no-repeat center 0;
+    width: 100%;
+    min-width: 1180px;
     height: 440px;
     padding: {
         top: 30px;
@@ -1538,6 +1556,14 @@ body {
             }
             p {
                 line-height: 34px;
+                width: 270px;
+            }
+            a {
+                display: block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #2C3E50;
                 &:before {
                     content: '＞';
                     color: #2C3E50;
@@ -1546,20 +1572,13 @@ body {
                         right: 5px;
                     }
                 }
-                width: 270px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                &:hover {
-                    &:before {
-                        color: #F98A19;
-                    }
-                }
-            }
-            a {
-                color: #2C3E50;
                 &:hover {
                     color: #F98A19;
+                    &:hover {
+                        &:before {
+                            color: #F98A19;
+                        }
+                    }
                 }
             }
             .no-data {
@@ -1687,6 +1706,7 @@ body {
 } */
 
 .footer {
+    min-width: 1180px;
     background: #2C3E50;
     text-align: center;
     color: #9BA8B5;

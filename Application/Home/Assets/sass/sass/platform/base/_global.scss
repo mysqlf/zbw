@@ -116,26 +116,38 @@ pre {
     white-space: -o-pre-wrap;
     word-wrap: break-word
 }
+
 img {
     max-width: 100%;
-    border:0 none;
+    border: 0 none;
     vertical-align: top;
 }
 
-a,ins{
-    text-decoration:none;
+a,
+ins {
+    text-decoration: none;
 }
-a:focus{outline:none; -moz-outline:none}
 
-i,em{
+a:focus {
+    outline: none;
+    -moz-outline: none
+}
+
+i,
+em {
     font-style: normal;
 }
 
-input,button,textarea,select,option {
-    font-family:inherit;
-    font-size:100%; 
+input,
+button,
+textarea,
+select,
+option {
+    font-family: inherit;
+    font-size: 100%;
     outline: 0;
 }
+
 textarea {
     overflow: auto;
     resize: none;
@@ -147,14 +159,37 @@ input::-moz-focus-inner {
     padding: 0;
 }
 
-input::-webkit-input-placeholder {color: #b5bbc1;}
-textarea::-webkit-input-placeholder {color: #b5bbc1;}
-input:-moz-placeholder{color: #b5bbc1;}
-input::-moz-placeholder{color: #b5bbc1;}
-textarea:-moz-placeholder{color: #b5bbc1;}
-textarea::-moz-placeholder{color: #b5bbc1;}
-input:-ms-input-placeholder {color: #b5bbc1 !important;}
-textarea:-ms-input-placeholder {color: #b5bbc1 !important;}
+input::-webkit-input-placeholder {
+    color: #b5bbc1;
+}
+
+textarea::-webkit-input-placeholder {
+    color: #b5bbc1;
+}
+
+input:-moz-placeholder {
+    color: #b5bbc1;
+}
+
+input::-moz-placeholder {
+    color: #b5bbc1;
+}
+
+textarea:-moz-placeholder {
+    color: #b5bbc1;
+}
+
+textarea::-moz-placeholder {
+    color: #b5bbc1;
+}
+
+input:-ms-input-placeholder {
+    color: #b5bbc1 !important;
+}
+
+textarea:-ms-input-placeholder {
+    color: #b5bbc1 !important;
+}
 
 html * {
     box-sizing: border-box;
@@ -195,13 +230,16 @@ body {
 .show {
     display: block;
 }
-.text-right{
+
+.text-right {
     text-align: right;
 }
-.text-left{
+
+.text-left {
     text-align: left;
 }
-.text-center{
+
+.text-center {
     text-align: center;
 }
 
@@ -216,7 +254,9 @@ body {
     display: inline-block;
     color: #fff;
     line-height: normal;
-    border-radius: 45%;
+    border-radius: 999px;
+    min-width: 1.5em;
+    text-align: center;
     font-size: 12px;
 }
 
@@ -229,7 +269,6 @@ body {
     position: relative;
     padding-right: 20px;
     line-height: inherit;
-
     .read-all {
         position: absolute;
         top: 12px;
@@ -239,15 +278,18 @@ body {
         display: none;
         @include triangle(6px, #b5b5b5, top);
     }
-
     &.active {
-
         .read-all:before {
             border-top: 0;
             border-bottom: 6px solid $c-primary;
         }
     }
 }
+
 .bg {
     background: #FFFFFF;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
 }

@@ -48,7 +48,7 @@
 		}
 		//检测企业用户名是否已经被注册
 		public function checkCompanyName(){
-			$username = I('get.company_name','','htmlspecialchars');
+			$username = I('get.company_name','');
 			return $this->where(array('company_name'=>$username))->count();
 		}
 	}

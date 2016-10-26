@@ -35,12 +35,12 @@
 			{
 				//搜索字段下标与select value值一一对应
 				$search_field = array('id','contact_company','contact_name','contact_phone');
-				$key = I('search_field','','intval');
+				$key = I('search_field/d','');
 				//4为已联系 5为未联系
 				/*if($key==4 || $key==5)
 					$map['state'] = $key==4 ? '1' : '0';
 				else*/
-				$map[$search_field[$key]] = array('like','%'.I('get.search','','htmlspecialchars').'%');
+				$map[$search_field[$key]] = array('like','%'.I('get.search','').'%');
 			}
 			//已联系，未联系
 			if($_GET['state']==='1' || $_GET['state']==='0') 
@@ -66,7 +66,7 @@
 		#更新联系客户状态
 		public function setState()
 		{
-			$id = I('get.id',0,'intval');
+			$id = I('get.id/d',0);
 			return $this->where('id='.$id)->save(array('state'=>'1'));
 		}
 

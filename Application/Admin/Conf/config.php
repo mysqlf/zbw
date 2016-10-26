@@ -17,6 +17,12 @@ return array(
     'DATA_CACHE_TYPE'      => 'File', // 数据缓存类型
     'URL_MODEL'            => 3, //URL模式
 
+	/* 表单令牌验证，防止表单的重复提交等安全防护 */
+	'TOKEN_ON'      =>    false,  // 是否开启令牌验证 默认关闭
+	'TOKEN_NAME'    =>    'csrfKey',    // 令牌验证的表单隐藏字段名称，默认为__hash__
+	'TOKEN_TYPE'    =>    'md5',  //令牌哈希验证规则 默认为MD5
+	'TOKEN_RESET'   =>    true,  //令牌验证出错后是否重置令牌 默认为true
+
     /* 文件上传相关配置 */
     'DOWNLOAD_UPLOAD' => array(
         'mimes'    => '', //允许上传的文件MiMe类型

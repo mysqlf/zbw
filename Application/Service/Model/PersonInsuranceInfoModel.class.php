@@ -197,7 +197,7 @@ class PersonInsuranceInfoModel extends Model{
 						$result[$key]['locationValue'] = showAreaName($value['location']);
 						$result[$key]['count'] = ($value['socpii_id']?1:0)+($value['propii_id']?1:0);
 						
-						if ($value['location']) {
+						/*if ($value['location']) {
 							$location = ($value['location']/1000<<0)*1000;
 							$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
 							if ($templateResult && $templateResult['soc_deadline']) {
@@ -205,6 +205,18 @@ class PersonInsuranceInfoModel extends Model{
 								$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
 								$result[$key]['payDeadline'] = $payDeadline;
 								$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+(in_array($type,[3,4])?C('INSURANCE_HANDLE_DAYS')*86400:0);
+							}
+						}*/
+						
+						if ($result[$key]['socpii_rule_id']) {
+							$templateRule = D('TemplateRule');
+							$templateRuleResult = $templateRule->field(true)->getById($result[$key]['socpii_rule_id']);
+							if ($templateRuleResult && $templateRuleResult['deadline']) {
+								$handleMonth = $value['socpii_handle_month'];
+								$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateRuleResult['deadline']))));
+								$result[$key]['payDeadline'] = $payDeadline;
+								$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+(in_array($type,[3,4])?C('INSURANCE_HANDLE_DAYS')*86400:0);
+								//$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+($result['socpii_operate_state']>=2 || $result['propii_operate_state']>=2?C('INSURANCE_HANDLE_DAYS')*86400:0);
 							}
 						}
 					}
@@ -270,7 +282,7 @@ class PersonInsuranceInfoModel extends Model{
 				}else if ('3' == $type) {
 					$condition['sid.state'] = 2;
 				}else if ('4' == $type) {
-					$condition['sid.state'] = array('in','3,-3');
+					$condition['sid.state'] = array('in','3,-3,-4');
 				}
 			}
 			if (!empty($data['user_id'])) {
@@ -323,9 +335,9 @@ class PersonInsuranceInfoModel extends Model{
 			if (!empty($data['company_name'])) {
 				$condition['ci.company_name'] = array('like','%'.$data['company_name'].'%');
 			}
-			/*if (!empty($data['order_no'])) {
+			if (!empty($data['order_no'])) {
 				$condition['po.order_no'] = array('like','%'.$data['order_no'].'%');
-			}*/
+			}
 			if ($condition['pii.operate_state']) {
 				$condition['pii.operate_state'] = array($condition['pii.operate_state'],array('neq',-8),array('neq',-9),'and');
 			}else {
@@ -367,7 +379,7 @@ class PersonInsuranceInfoModel extends Model{
 					$condition['pii.product_id'] = array('in',$productIdArray);
 				}
 				//$pageResult = $this->alias('pii')->field('pii.base_id,pii.handle_month')->join('left join '.C('DB_PREFIX').'person_base as pb on pb.id = pii.base_id')->join('left join '.C('DB_PREFIX').'service_product as sp on sp.id = pii.product_id')->join('left join '.C('DB_PREFIX').'company_info as ci on ci.user_id=pii.user_id')->join('left join '.C('DB_PREFIX').'user as u on u.id=pii.user_id')->where($condition)->group('pii.base_id, pii.handle_month')->select();
-				$pageResult = $this->alias('pii')->field('pii.base_id,pii.handle_month,sid.pay_date')->join('left join '.C('DB_PREFIX').'service_insurance_detail as sid on sid.insurance_info_id = pii.id')->join('left join '.C('DB_PREFIX').'person_base as pb on pb.id = pii.base_id')->join('left join '.C('DB_PREFIX').'service_product as sp on sp.id = pii.product_id')->join('left join '.C('DB_PREFIX').'company_info as ci on ci.user_id=pii.user_id')->join('left join '.C('DB_PREFIX').'user as u on u.id=pii.user_id')->where($condition)->group('pii.base_id, pii.handle_month,sid.pay_date')->select();
+				$pageResult = $this->alias('pii')->field('pii.base_id,pii.handle_month,sid.pay_date')->join('left join '.C('DB_PREFIX').'service_insurance_detail as sid on sid.insurance_info_id = pii.id')->join('left join '.C('DB_PREFIX').'person_base as pb on pb.id = pii.base_id')->join('left join '.C('DB_PREFIX').'service_product as sp on sp.id = pii.product_id')->join('left join '.C('DB_PREFIX').'company_info as ci on ci.user_id=pii.user_id')->join('left join '.C('DB_PREFIX').'user as u on u.id=pii.user_id')->where($condition)->group('pii.base_id, pii.handle_month,sid.pay_date')->join('left join '.C('DB_PREFIX').'pay_order as po on po.id=sid.pay_order_id')->select();
 				$pageCount = count($pageResult);
 				$page = get_page($pageCount,$pageSize);
 				
@@ -389,7 +401,7 @@ class PersonInsuranceInfoModel extends Model{
 				//dump($this->_sql());
 				
 				if ($result) {
-					$template = D('Template');
+					//$template = D('Template');
 					foreach ($result as $key => $value) {
 						//$result[$key]['socpiiLocationValue'] = showAreaName($value['socpii_location']);
 						//$result[$key]['propiiLocationValue'] = showAreaName($value['propii_location']);
@@ -400,7 +412,7 @@ class PersonInsuranceInfoModel extends Model{
 						$result[$key]['locationValue'] = showAreaName($value['location']);
 						$result[$key]['count'] = ($value['socpii_id']?1:0)+($value['propii_id']?1:0);
 						
-						if ($value['location']) {
+						/*if ($value['location']) {
 							$location = ($value['location']/1000<<0)*1000;
 							$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
 							if ($templateResult && $templateResult['soc_deadline']) {
@@ -409,8 +421,20 @@ class PersonInsuranceInfoModel extends Model{
 								$result[$key]['payDeadline'] = $payDeadline;
 								$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+(in_array($type,[3,4])?C('INSURANCE_HANDLE_DAYS')*86400:0);
 							}
+						}*/
+						if ($result[$key]['socpii_rule_id']) {
+							$templateRule = D('TemplateRule');
+							$templateRuleResult = $templateRule->field(true)->getById($result[$key]['socpii_rule_id']);
+							if ($templateRuleResult && $templateRuleResult['deadline']) {
+								$handleMonth = $value['socpii_handle_month'];
+								$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateRuleResult['deadline']))));
+								$result[$key]['payDeadline'] = $payDeadline;
+								$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+(in_array($type,[3,4])?C('INSURANCE_HANDLE_DAYS')*86400:0);
+								//$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+($result['socpii_operate_state']>=2 || $result['propii_operate_state']>=2?C('INSURANCE_HANDLE_DAYS')*86400:0);
+							}
 						}
 					}
+					
 				}
 				
 				if ($result || null === $result) {
@@ -455,7 +479,7 @@ class PersonInsuranceInfoModel extends Model{
 			}
 			
 			if ($result) {
-				$template = D('Template');
+				/*$template = D('Template');
 				foreach ($result as $key => $value) {
 					if ($value['location']) {
 						$location = ($value['location']/1000<<0)*1000;
@@ -467,6 +491,16 @@ class PersonInsuranceInfoModel extends Model{
 							$result[$key]['payDeadline'] = $payDeadline;
 							$result[$key]['whetherToOperate'] = time() <= strtotime($payDeadline)+($result[1]['operate_state']>=2 || $result[2]['operate_state']>=2?C('INSURANCE_HANDLE_DAYS')*86400:0);
 						}
+					}
+				}*/
+				if ($result[1]['rule_id']) {
+					$templateRule = D('TemplateRule');
+					$templateRuleResult = $templateRule->field(true)->getById($result[1]['rule_id']);
+					if ($templateRuleResult && $templateRuleResult['deadline']) {
+						$handleMonth = $result[1]['handle_month'];
+						$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateRuleResult['deadline']))));
+						$result[1]['payDeadline'] = $result[2]['payDeadline'] = $payDeadline;
+						$result[1]['whetherToOperate'] = $result[2]['whetherToOperate'] = time() <= strtotime($payDeadline)+($result[1]['operate_state']>=2 || $result[2]['operate_state']>=2?C('INSURANCE_HANDLE_DAYS')*86400:0);
 					}
 				}
 			}
@@ -622,7 +656,7 @@ class PersonInsuranceInfoModel extends Model{
 							}
 						}
 						
-						$calculateData = array('state'=>0,'msg'=>'操作成功','sid_id'=>$value['sid_id'],'sid_state'=>$value['sid_state'],'sidStateValue'=>get_code_value($value['sid_state'],'ServiceInsuranceDetailState',$value['sid_is_hang_up']),'isHandleException'=>time()<=strtotime(date('Y-m-',strtotime('+1 month',strtotime(int_to_date($value['pii_handle_month'],'-')))).'20'),'sid_service_price'=>$value['sid_service_price'],'company_cost'=>$calculateResult['company'],'person_cost'=>$calculateResult['person'],'data'=>$calculateResult);
+						$calculateData = array('state'=>0,'msg'=>'操作成功','sid_id'=>$value['sid_id'],'sid_state'=>$value['sid_state'],'sidStateValue'=>get_code_value($value['sid_state'],'ServiceInsuranceDetailState',$value['sid_is_hang_up']),'isHandleException'=>(in_array($value['sid_state'],array(3,-4)) && time()<=strtotime(date('Y-m-',strtotime('+1 month',strtotime(int_to_date($value['pii_handle_month'],'-')))).'20')),'sid_service_price'=>$value['sid_service_price'],'company_cost'=>$calculateResult['company'],'person_cost'=>$calculateResult['person'],'data'=>$calculateResult);
 						$result['data'][$value['sid_pay_date']][$value['pii_payment_type']] = $calculateData;
 
 					}
@@ -932,7 +966,8 @@ class PersonInsuranceInfoModel extends Model{
 					$this->startTrans();
 					$saveResult = $this->where($condition)->save(array('operate_state'=>(-3 == $type?3:$type),'remark'=>$data['remark'],'modify_time'=>date('Y-m-d H:i:s')));
 					if (false !== $saveResult) {
-						$template = D('Template');
+						//$template = D('Template');
+						$templateRule = D('TemplateRule');
 						$serviceInsuranceDetail = D('ServiceInsuranceDetail');
 						//dump($data['id']);
 						$condition = array('insurance_info_id'=>array('in',$data['id']),'state'=>$stateArray[$type]);
@@ -1007,11 +1042,16 @@ class PersonInsuranceInfoModel extends Model{
 										foreach ($personInsuranceInfoResult as $key => $value) {
 											$result['totalCount'] ++;
 											$location = ($value['location']/1000<<0)*1000;
-											$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
-											//dump($templateResult);
-											if ($templateResult && $templateResult['soc_deadline']) {
+											//$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
+											if (1 == $value['payment_type']) {
+												$ruleId = $value['rule_id'];
+											}else {
+												$ruleId = $this->where(array('user_id'=>$value['user_id'],'base_id'=>$value['base_id'],'handle_month'=>$value['handle_month'],'payment_type'=>1))->getField('rule_id');
+											}
+											$templateRuleResult = $templateRule->field(true)->getById($ruleId);
+											if ($templateRuleResult && $templateRuleResult['deadline']) {
 												$handleMonth = $value['handle_month'];
-												$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
+												$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateRuleResult['deadline']))));
 												if (time() <= strtotime($payDeadline)) {
 													//写入支付订单数据
 													//dump($data['service_company_id']);
@@ -1167,7 +1207,6 @@ class PersonInsuranceInfoModel extends Model{
 				$this->startTrans();
 				$saveResult = $this->where($condition)->save(array('operate_state'=>(-3 == $type?3:$type),'remark'=>$data['remark'],'modify_time'=>date('Y-m-d H:i:s')));
 				if (false !== $saveResult) {
-					$template = D('Template');
 					$condition = array('id'=>array('in',$data['id']),'state'=>$stateArray[$type]);
 					if (-3 == $type) {
 						$condition['type'] = array('in',array(1,2));
@@ -1401,7 +1440,8 @@ class PersonInsuranceInfoModel extends Model{
 			if ($productIdArray) {
 				$stateArray = array(-1=>array('in','0,-1,1'), 1=>array('in','0,-1,1'), -3=>array('in','2,-3,3'), 3=>array('in','2,-3,3'));
 				$this->startTrans();
-				$template = D('Template');
+				//$template = D('Template');
+				$templateRule = D('TemplateRule');
 				$serviceInsuranceDetail = D('ServiceInsuranceDetail');
 				$payOrder = D('PayOrder');
 				$personBase = D('PersonBase');
@@ -1446,10 +1486,16 @@ class PersonInsuranceInfoModel extends Model{
 									}
 								}else if (1 == $value['operate_state']) {
 									$location = ($personInsuranceInfoResult['location']/1000<<0)*1000;
-									$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
-									if ($templateResult && $templateResult['soc_deadline']) {
+									//$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
+									if (1 == $personInsuranceInfoResult['payment_type']) {
+										$ruleId = $personInsuranceInfoResult['rule_id'];
+									}else {
+										$ruleId = $this->where(array('user_id'=>$personInsuranceInfoResult['user_id'],'base_id'=>$personInsuranceInfoResult['base_id'],'handle_month'=>$personInsuranceInfoResult['handle_month'],'peyment_type'=>1))->getField('rule_id');
+									}
+									$templateRuleResult = $templateRule->field(true)->getById($ruleId);
+									if ($templateRuleResult && $templateRuleResult['deadline']) {
 										$handleMonth = $personInsuranceInfoResult['handle_month'];
-										$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
+										$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateRuleResult['deadline']))));
 										if (time() <= strtotime($payDeadline)) {
 											//dump($payDeadline);
 											//写入支付订单数据
@@ -1642,19 +1688,21 @@ class PersonInsuranceInfoModel extends Model{
 	 **/
 	public function paymentExceptionPersonInsuranceInfo($data){
 		if (is_array($data) && is_array($data['data'])) {
-			$totalCount = 0;
-			$successCount = 0;
+			$totalCount = array(0=>0,1=>0,2=>0);
+			$successCount = array(0=>0,1=>0,2=>0);
 			foreach ($data['data'] as $k => $v) {
 				foreach ($v['data'] as $kk => $vv) {
-					$totalCount ++;
+					$totalCount[0] ++;
+					$totalCount[$k] ++;
 					$data['data'][$k]['data'][$kk]['company'] = (1 == $vv['company']?true:false);
 					$data['data'][$k]['data'][$kk]['person'] = (1 == $vv['person']?true:false);
 					if (1 == $vv['company'] && 1 == $vv['person']) {
-						$successCount ++;
+						$successCount[0] ++;
+						$successCount[$k] ++;
 					}
 				}
 			}
-			if ($totalCount == $successCount) {
+			if ($totalCount[0] == $successCount[0]) {
 				$this->error = '没有缴纳异常!';
 				return false;
 			}
@@ -1668,9 +1716,7 @@ class PersonInsuranceInfoModel extends Model{
 				}
 			}
 			if ($productIdArray) {
-				//die;
 				$this->startTrans();
-				//dump($data);
 				$serviceInsuranceDetail = D('ServiceInsuranceDetail');
 				$result = array();
 				$result['totalCount'] = 0;
@@ -1678,24 +1724,24 @@ class PersonInsuranceInfoModel extends Model{
 				$serviceInsuranceDetailArray = array();
 				foreach ($data['data'] as $k => $v) {
 					$result['totalCount'] ++;
-					/*if ($v['id']) {
-						$condition = array('id'=>$v['id'],'insurance_info_id'=>$v['insurance_info_id'],'state'=>3,'payment_type'=>$k);
+					if ($totalCount[$k] != $successCount[$k]) {
+						/*if ($v['id']) {
+							$condition = array('id'=>$v['id'],'insurance_info_id'=>$v['insurance_info_id'],'state'=>array('in','3,-4'),'payment_type'=>$k);
+						}else {
+							$condition = array('insurance_info_id'=>$v['insurance_info_id'],'pay_date'=>$v['pay_date'],'state'=>array('in','3,-4'),'payment_type'=>$k);
+						}*/
+						$condition = array('id'=>$v['id'],'insurance_info_id'=>$v['insurance_info_id'],'state'=>array('in','3,-4'),'payment_type'=>$k);
+						$serviceInsuranceDetailResult = $serviceInsuranceDetail->where($condition)->find();
+						$serviceInsuranceDetailSaveResult = $serviceInsuranceDetail->where($condition)->save(array('state'=>-4,'modify_time'=>date('Y-m-d H:i:s')));
+						if ($serviceInsuranceDetailResult && false !== $serviceInsuranceDetailSaveResult) {
+							$serviceInsuranceDetailArray[$k]['detail_id'] = $v['id'];
+							$serviceInsuranceDetailArray[$k]['messageBody'] = $v['data'];
+							$result['successCount'] ++;
+						}
 					}else {
-						$condition = array('insurance_info_id'=>$v['insurance_info_id'],'pay_date'=>$v['pay_date'],'state'=>3,'payment_type'=>$k);
-					}
-					$serviceInsuranceDetailResult = $serviceInsuranceDetail->where($condition)->find();
-					$serviceInsuranceDetailSaveResult = $serviceInsuranceDetail->where($condition)->save(array('state'=>-4,'modify_time'=>date('Y-m-d H:i:s')));
-					if ($serviceInsuranceDetailResult && false !== $serviceInsuranceDetailSaveResult) {
-						$serviceInsuranceDetailArray[$k]['detail_id'] = $v['id'];
-						$serviceInsuranceDetailArray[$k]['messageBody'] = $v['data'];
 						$result['successCount'] ++;
-					}*/
-					$serviceInsuranceDetailArray[$k]['detail_id'] = $v['id'];
-					$serviceInsuranceDetailArray[$k]['messageBody'] = $v['data'];
-					$result['successCount'] ++;
+					}
 				}
-				//dump($result);
-				//dump($serviceInsuranceDetailArray);//die;
 				if ($result['totalCount'] == $result['successCount']) {
 					//缴纳异常写入差额
 					$diffCron = D('DiffCron');

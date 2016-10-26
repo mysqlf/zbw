@@ -1,7 +1,7 @@
 .information-wrap {
 	background: #fff;
 	margin-top: 20px;
-	min-height: 500px;
+	min-height: 700px;
 	position: relative;
 	margin-bottom: 30px;
 
@@ -13,6 +13,7 @@
 		}
 		> .right {
 			margin-left: 230px;
+			margin-right: 50px;
 			overflow: hidden;
 		}
 	}
@@ -77,7 +78,7 @@
 
 	.info-item {
 		padding-top: 42px;
-		margin-right: 50px;
+		// margin-right: 50px;
 		overflow: hidden;
 
 		.more {
@@ -182,7 +183,7 @@
 	}
 
 	.article-content {
-		margin-right: 50px;
+		// margin-right: 50px;
 	}
 }
 
@@ -236,7 +237,7 @@
 
 // 资讯首页
 .information-index {
-	padding: 56px 0 121px;
+	padding: 20px 0 121px;
 	min-height: 650px;
 	>.left {
 		width: 745px;
@@ -247,7 +248,7 @@
 		margin-left: 800px;
 
 		.lg-title {
-			border-bottom-color: #2c3e50;
+			border-bottom: 1px solid #2C3E50;
 		}
 
 		.category-list > li {
@@ -259,6 +260,7 @@
 		border: 0;
 		.tab-toggle li {
 			padding: 0;
+			margin-right: 25px;
 		}
 	}
 
@@ -270,8 +272,8 @@
 		border-bottom: 2px solid #d0d2d4;
 		a {
 			color: #2c3e50;
-			padding: 17px 30px;
-			font-size: 16px;
+			padding: 9px 24px;
+			font-size: 18px;
 			position: relative;
 			display: block;
 
@@ -293,17 +295,23 @@
 	}
 
 	.lg-title {
-		font-size: 21px;
+		font-size: 18px;
 		color: #2c3e50;
-		padding-bottom: 6px;
+		padding: {
+			top: 9px;
+			bottom: 9px;
+		}
 		border-bottom: 2px solid #029dff;
 	}
 
 	.infor-add {
 		position: relative;
 		display: block;
-		margin-top: 8px;
-
+		border: {
+			top: 1px solid #485867;
+			bottom: 1px solid #999999;
+		}
+		text-align: center;
 		.txt {
 			text-align: center;
 			color: #fff;
@@ -311,7 +319,13 @@
 			bottom: 0;
 			width: 100%;
 			padding: 5px;
-			background: rgba(0,0,0,.3)
+			background: rgba(0,0,0,.3);
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		img {
+			max-height: 152px;
 		}
 	}
 
@@ -369,5 +383,67 @@
 		font-size: 12px;
 		margin-top: 2px;
 
+	}
+}
+
+.information-search-wra {
+	padding: {
+		top: 25px;
+		bottom: 18px;
+	}
+	min-width: 1180px;
+	background: #F7F7F7;
+	.search {
+		font-size: 0;
+		margin-bottom: 17px;
+	}
+	.search-lb {
+		padding: {
+			left: 0;
+		}
+		color: #2C3E50;
+	}
+	.search-txt {
+		width: 620px;
+	}
+	.query-city {
+		padding: {
+			left: 115px;
+			right: 115px;
+		}
+		overflow: hidden;
+		label {
+			color: #2C3E50;
+		}
+	}
+	.city-list{
+		font-size: 0;
+		position: relative;
+		width: 880px;
+		line-height: 22px;
+		a {
+			display: inline-block;
+			white-space: nowrap;
+			font-size: 14px;
+			color: #2C3E50;
+			margin: {
+				right: 18px;
+			}
+			&:hover {
+				color: #F98A19;
+			}
+			&.active {
+				color: #F98A19;
+			}
+		}
+
+	}
+}
+
+.info-pagination {
+	padding: {
+		top: 30px;
+		right: 50px;
+		bottom: 52px;
 	}
 }

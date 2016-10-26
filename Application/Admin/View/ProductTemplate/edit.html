@@ -16,16 +16,12 @@
 		<input type="hidden" name="location" class="text input-mid" id="location" value="{$location}">
 		<input type="hidden" name="template_id" class="text input-mid" id="template_id"  value="{$template_id}">
 		<input type="hidden" name="payment_type" class="text input-mid" id="payment_type"  value="{$info.payment_type}">
-		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>缴费标准</h2></div>
+		<!--<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>缴费标准</h2></div>
 		<div class="form-item modify_template">
 			<p style="float:none;">社保：</p>	
 		<div class="form_item_sub">	
 			<label class="item-label_1">缴纳方式:<span class="check-tips"></span></label>
 			<div class="controls_new">
-				<!-- <select name="soc_payment_type" class="input-mid" id="soc_payment_type">
-				<option value="1" selected="" >缴当月</option>
-				<option value="2">缴次月</option>
-				</select> -->
 				<if condition="$info['soc_payment_type'] eq 1">缴当月<else />缴次月</if>
 			</div>				
 		</div>	
@@ -62,10 +58,9 @@
 				{$info['pro_payment_month']}
 			</div>				
 		</div>
-		<p><span><a href="javascript:modifygjjTemplate({$info['id']})" class="btn">修改</a></span></p>
- 	<div style="clear:both"></div>	
-		<!-- <p><span><a href="javascript:modifyTemplate({$info['id']})" class="btn">修改</a></span></p> -->
-	</div>	 
+		<div style="clear:both"></div>	
+			<p><span><a href="javascript:modifyTemplate({$info['id']})" class="btn">修改</a></span></p>
+		</div>-->	
 		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>社保</h2></div>
 
 			<!--<div class="tab-nav main-title" style="padding-bottom: 5px;"><h3>社保分类</h3></div>-->
@@ -98,7 +93,7 @@
 				</div>
 				<div id="sb_rules" style="display:none;">
 					<div class="range">
-						<p><span>基数范围</span><input type="text" name="sb[min]" class="sb_mins" value="{$sb_rule.min}"><span class="range_text">~</span><input type="text" name="sb[max]" class="sb_maxs" value="{$sb_rule.max}"><span class="range_text">元</span></p>
+						<p><span>基数范围</span><input type="text" name="sb[mins]" class="sb_mins" value="{$sb_rule.min}"><span class="range_text">~</span><input type="text" name="sb[maxs]" class="sb_maxs" value="{$sb_rule.max}"><span class="range_text">元</span></p>
 					</div>
 					<table class="rule_table"  cellpadding='0' cellspacing="0" align="left">
 					<tr>
@@ -434,7 +429,7 @@
 		
 		<div class="form-item cf">
 			<!-- <button class="btn submit-btn ajax-post hidden" type="submit" target-form="form-horizontal">确 定</button> -->
-			<a class="btn btn-return" href="/admin.php?s=/ProductTemplate-index.html">返 回</a>
+			<a class="btn btn-return" href="{:cookie('__forward__')}">返 回</a>
 		</div>
 	</form>
 	</div>

@@ -75,6 +75,7 @@ use Think\Model\RelationModel;
                             ->join('left join zbw_service_product sp ON sp.id = pii.product_id')
                             ->where("sid.pay_order_id ={$orderId} AND pii.user_id={$userid} AND pii.payment_type=2 AND sid.state NOT IN(0,-1)")
                             ->order('sid.id asc')->select();
+
         foreach ($resSb as $key => $value) {
             foreach ($resGjj as $k => $val) {
                 if($value['base_id'] == $val['base_id'] && $value['pay_date'] == $val['pay_date'] && $value['card_num'] == $val['card_num']) {
@@ -88,7 +89,6 @@ use Think\Model\RelationModel;
 
         if(count($resGjj) > 0){
             $resSb = array_merge($resSb, $resGjj);
-
         }
         $result=self::_getIncInfo($resSb,$orderId);//获取详细缴费数据
         return $result;
@@ -140,6 +140,7 @@ use Think\Model\RelationModel;
                 ->join('left join '.C('DB_PREFIX').'person_insurance_info as pii on sid.insurance_info_id=pii.id')
                 ->where(array('sid.pay_date'=>$value['pay_date'],'sid.pay_order_id'=>$orderId,'pii.base_id'=>$value['base_id']))
                 ->select();
+            unset($result[$key]['current_detail']);
             $result[$key]['inc']=$inc;
         }
         return $result;

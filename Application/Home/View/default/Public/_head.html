@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-	<title>{:C('WEB_SITE_TITLE')}</title>
+	<meta name="keywords" content="{$keywords}" />
+	<meta name="description" content="{$description}" />
+	<title>{$title|html_entity_decode}</title>
 	<link rel="stylesheet" href="/Application/Home/Assets/css/main.css">
 </head>
 <body>
@@ -23,9 +25,9 @@
 					</php>
 					{$user.company_name}
 				</if>
-				<div class="fr link link-right">
+				<!-- <div class="fr link link-right">
 					<a href="{:U('Article/helpCenter',array('category'=>common_question))}" title="商家入驻">商家入驻</a>
-				</div>
+				</div> -->
 				<div class="fr line link-right publish-num">
 					<i class="icon header-phone"></i>
 					公众号
@@ -55,16 +57,18 @@
 		<!-- 头部[[ -->
 		<div class="head wrapper clearOver">
 			<div class="head-logo-box fl">
-				<a class="head-logo  fl" href="{:U('ServiceProvider/index',array('cid'=>$Cid))}"><i class="icon header-header_logo" style="background-image: url('{$serviceCompanyInfoResult.service_logo}');background-size: cover"></i></a>
+				<!-- <a class="head-logo  fl" href="{:U('ServiceProvider/index',array('cid'=>$Cid))}"><img src="{$serviceCompanyInfoResult.service_logo}" alt="企业logo" /></a> -->
+				<a class="head-logo fl" href="/" style="margin-top: 20px;"><img src="/Application/Home/Assets/img/platform/logo.png" alt="企业logo" width="155" height="45" /></a>
 				<if condition="$serviceCompanyInfoResult">
 					<div class="comp-name fl">{$serviceCompanyInfoResult.company_name}</div>
 				</if>
+				<span class="head-tel"><i class="icon header-tel"></i><?php echo $publicFooter['tel_local_number']; ?></span>
 			</div>
 			<ul class="fr nav-list">
-				<li><a <php>if(is_active('index','service')) echo 'class="now"';</php> href="{:U('ServiceProvider/index',array('cid'=>$Cid))}">首页</a></li>
+				<li><a <php>if(is_active('ServiceProvider','index')) echo 'class="now"';</php> href="{:U('ServiceProvider/index',array('cid'=>$Cid))}">首页</a></li>
 				<li><a <php>if(is_active('socialsecurity','index')) echo 'class="now"';</php> href="{:U('SocialSecurity/index',array('cid'=>$Cid))}">服务大厅</a></li>
-				 <li><a <php>if(is_active('index','servicepoint')) echo 'class="now"';</php> href="{:U('ServiceArticle/index',array('cid'=>$Cid))}">最新资讯</a></li>
-				<li><a <php>if(is_active('article','abountus')) echo 'class="now"';</php>href="{:U('Article/aboutUs',array('cid'=>$Cid))}">关于我们</a></li>
+				 <li><a <php>if(is_active('ServiceArticle','index')) echo 'class="now"';</php> href="{:U('ServiceArticle/index',array('cid'=>$Cid))}">最新资讯</a></li>
+				<li><a <php>if(is_active('article','aboutUs')) echo 'class="now"';</php>href="{:U('Article/aboutUs',array('cid'=>$Cid))}">关于我们</a></li>
 			</ul>
 		</div>
 		<!-- 头部]] -->

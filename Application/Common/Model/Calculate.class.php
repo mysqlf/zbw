@@ -159,6 +159,7 @@ class Calculate
             default:;
         }
         $vaction = '_verify'.$this->_fixed;
+        $result = array();
         $result = $this->$vaction();
         if ($result) return $this->_response($result);
         $action = __FUNCTION__.$this->_fixed;
@@ -231,12 +232,12 @@ class Calculate
         $intval = $this->_rule['intval'] ? 0 : 2;
         $person = array();
         $company = array();
-        $person['scale'] = $this->_person['personScale'];
+        $person['scale'] = rtrim($this->_person['personScale'],'%') . '%';
         $person['sum'] = round($this->_person['personScale']*$this->_person['amount']/100*intval($this->_person['month']) , $intval);
         $person['scaleSum'] = $person['sum'];
         $person['fixedSum'] = 0;
         $company['sum'] = round($this->_person['companyScale']*$this->_person['amount']/100*intval($this->_person['month']) , $intval);
-        $company['scale'] = $this->_person['companyScale'];
+        $company['scale'] = rtrim($this->_person['companyScale'],'%') . '%';
         $company['scaleSum'] = $company['sum'];
         $company['fixedSum'] = 0;
 

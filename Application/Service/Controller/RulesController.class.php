@@ -186,7 +186,7 @@ class RulesController extends ServiceBaseController {
             $rule['min'] = I('post.minAmount');
             $rule['max'] = I('post.maxAmount');
             $rule['pro_cost'] = I('post.pro_cost');
-            $name      = I('post.name');
+            $name  = I('post.name');
             $items = array();
             $other = array();
             // $disabled = array();
@@ -247,6 +247,10 @@ class RulesController extends ServiceBaseController {
                     'type' => intval(I('post.type' , 1)),
                     'classify_mixed' => intval(I('post.classifyMixed')),
                     'rule' => json_encode($rule , JSON_UNESCAPED_UNICODE),
+                    'deadline' => intval(I('post.deadline')),
+                    'payment_type' => intval(I('post.payment_type')),
+                    'payment_month' => intval(I('post.payment_month')),
+
                 );
             // $save['disabled'] = array(
             //         'template_id'=> $template_id,
@@ -292,10 +296,10 @@ class RulesController extends ServiceBaseController {
                     foreach ($res as $v)
                     {
                         $payment = json_decode(str_replace('%','',$v['payment_info']) , true);
-                        if ($payment['companyScale'] < $cmin) $payment['companyScale'] = rtrim($cmin , '%');
+                        if ($payment['companyScale'] <= $cmin) $payment['companyScale'] = rtrim($cmin , '%');
                         if ($payment['companyScale'] > $cmax) $payment['companyScale'] = rtrim($cmax , '%');
 
-                        if ($payment['personScale'] < $pmin) $payment['personScale'] = rtrim($pmin , '%');
+                        if ($payment['personScale'] <= $pmin) $payment['personScale'] = rtrim($pmin , '%');
                         if ($payment['personScale'] > $pmax) $payment['personScale'] = rtrim($pmax , '%');
                         M('person_insurance_info' , 'zbw_')->where("id={$v['id']}")->setField('payment_info' , json_encode($payment));
                     }
@@ -306,8 +310,13 @@ class RulesController extends ServiceBaseController {
                     //echo M('person_insurance_info' , 'zbw_')->getLastSql();
                     //exit;
                 }
+                $startMonth = str_replace('/' , '' , I('post.effective' , ''));
+                $endMonth = str_replace('/' , '' , I('post.effectiveEnd' , ''));
+                $rep = intval(I('post.rep' , '')) ? 1 : 0;
+                $whereRep = 'replenish=0';
+                if ($rep) $whereRep = 'replenish IN (0,1)';
                 $detail = M('service_insurance_detail' , 'zbw_');
-                $res = $detail->alias('pid')->field('pid.id did,pii.payment_type payment_type,pii.payment_info payment_info,pii.amount amount,pid.replenish replenish,pid.pay_order_id pay_order_id')->join("LEFT JOIN zbw_person_insurance_info pii ON pii.id=pid.insurance_info_id")->where("pid.rule_id={$id} AND pid.state IN (0,1,-1)")->order('pid.id DESC')->select();
+                $res = $detail->alias('pid')->field('pid.id did,pii.payment_type payment_type,pii.payment_info payment_info,pii.amount amount,pid.replenish replenish,pid.pay_order_id pay_order_id')->join("RIGHT JOIN zbw_person_insurance_info pii ON pii.id=pid.insurance_info_id")->where("pid.rule_id={$id} AND pid.state IN (0,1,-1)")->order('pid.id DESC')->select();
                 $Calculate = new Calculate;
                 foreach ($res as $val)
                 {
@@ -316,16 +325,21 @@ class RulesController extends ServiceBaseController {
                     //$payment_info = json_decode($this->_detail['payment_info'] , true);
                     //$payment_info['amount'] = $this->_detail['amount'];
                     $payment_info['month']  = 1;
+                    
                     $newDetail = $Calculate->detail($rule , $payment_info , $val['payment_type'] , null , $val['replenish']);
                     $newDetail = json_decode($newDetail , true)['data']; 
+                    $newPrice = $newDetail['company'] + $newDetail['person'];
                     $newCue = array();
                     $newCue['insurance_detail'] = json_encode($newDetail);
                     $newCue['current_detail']   = json_encode($newDetail);
                     $newCue['price']            = $newDetail['total'];
                     //更新明细
-                    M('service_insurance_detail' , 'zbw_')->where("id={$val['id']}")->save(array('amount'=>$val['amount'] , 'payment_info'=>$newDetail));
+                    M('service_insurance_detail' , 'zbw_')->where("id={$val['did']}")->save(
+                        array('price'=> $newPrice, 'amount'=>$val['amount'], 'payment_info'=>json_encode($payment_info), 'insurance_detail' => json_encode($newDetail, JSON_UNESCAPED_UNICODE))
+                        );
                     //更新订单应付金额
-                    M('pay_order' , 'zbw_')->execute("UPDATE zbw_pay_order SET amount=amount+{$newCue['price']}+{$val['service_price']} WHERE id={$val['pay_order_id']}");
+                    if($val['pay_order_id'])
+                    M('pay_order' , 'zbw_')->execute("UPDATE zbw_pay_order SET amount=(SELECT (SUM(price)+SUM(service_price)) FROM zbw_service_insurance_detail WHERE pay_order_id={$val['pay_order_id']} AND `state`=1) WHERE id={$val['pay_order_id']}");
                 }
                 if (1 == intval(I('post.synchro')))
                 {
@@ -333,12 +347,13 @@ class RulesController extends ServiceBaseController {
                     $d->_type = 2;
                     $d->_item = intval(I('post.type' , 1));
                     $d->_rule_id = $id;
-                    $d->_start = str_replace('/' , '' , I('post.effective' , ''));
+                    $d->_start = $startMonth;
+                    $d->_end   = $endMonth;
+                    $d->_replenish = $rep;
                     $d->diffCron();
                 }
                 $m->where("id={$id} AND company_id={$cid}")->save($save['rule']);
                 //$m->where("template_id={$template_id} AND company_id={$cid} AND type=3")->save($save['disabled']);
-                
             }
         }
         $this->ajaxReturn(array('status'=>0,'msg'=>'操作成功!'));

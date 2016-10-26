@@ -125,6 +125,7 @@ class BusinessController extends ServiceBaseController{
 		$adminId = I('param.adminId');
 		$state = I('param.state');
 		$handleMonth = I('param.handleMonth');
+		$orderNo = I('param.orderNo');
 		//$startTime = I('param.startTime');
 		//$endTime = I('param.endTime');
 		
@@ -143,6 +144,7 @@ class BusinessController extends ServiceBaseController{
 		$adminId && $condition['admin_id'] = $adminId;
 		$state !== '' && $condition['state'] = $state;
 		$handleMonth && $condition['handle_month'] = string_to_number($handleMonth);
+		$orderNo && $condition['order_no'] = string_to_number($orderNo);
 		
 		//dump($condition);
 		
@@ -543,16 +545,17 @@ class BusinessController extends ServiceBaseController{
 	
 	/**
 	 * _getTemplateRule function
-	 * 根据参保地获取模板分类
+	 * 根据参保地获取模板规则
 	 * @access private
 	 * @param int $ruleId 规则id
 	 * @param int $type 类型 1社保 2公积金
 	 * @param array $templateId 模板id
 	 * @param string $classifyMixed 分类组合
+	 * @param boolean $isEditRule 是否编辑规则
 	 * @return void
 	 * @author rohochan <rohochan@gmail.com>
 	 **/
-	private function _getTemplateRule($ruleId = 0, $type = 1,$templateId = 0,$companyId = 0,$classifyMixed = ''){
+	private function _getTemplateRule($ruleId = 0, $type = 1,$templateId = 0,$companyId = 0,$classifyMixed = '',$isEditRule = false){
 		if ($templateId) {
 			$templateRule = D('TemplateRule');
 			if ($ruleId) {
@@ -563,12 +566,20 @@ class BusinessController extends ServiceBaseController{
 					rsort($classifyMixed);
 					if ($classifyMixed) {
 						$classifyMixed = implode('|',$classifyMixed);
-						$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'classify_mixed'=>$classifyMixed,'state'=>1);
+						if ($isEditRule) {
+							$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'classify_mixed'=>$classifyMixed,'state'=>1);
+						}else {
+							$condition = array('template_id'=>$templateId,'company_id'=>intval($companyId),'type'=>$type,'classify_mixed'=>$classifyMixed,'state'=>1);
+						}
 					}else {
 						return false;
 					}
 				}else if (2 == $type) {
-					$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'state'=>1);
+					if ($isEditRule) {
+						$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'state'=>1);
+					}else {
+						$condition = array('template_id'=>$templateId,'company_id'=>intval($companyId),'type'=>$type,'state'=>1);
+					}
 				}else {
 					return false;
 				}
@@ -583,6 +594,24 @@ class BusinessController extends ServiceBaseController{
 					$templateRuleResult[$key]['proCost'] = $rule['pro_cost'];
 					!empty($rule['company']) && $templateRuleResult[$key]['companyScale'] = $rule['company'];
 					!empty($rule['person']) && $templateRuleResult[$key]['personScale'] = $rule['person'];
+					
+					$orderDate[1] = get_handle_month($templateRuleResult[$key]['deadline']);
+					$orderDate[2] = get_handle_month($templateRuleResult[$key]['deadline']);
+					$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
+					$orderDateStr[2] = substr_replace($orderDate[2],'-',4,0);
+					$maxPaymentMonth[1] = 1 == $templateRuleResult[$key]['payment_type']?$orderDate[1]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[1])));
+					$maxPaymentMonth[2] = 1 == $templateRuleResult[$key]['payment_type']?$orderDate[2]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[2])));
+					$maxPaymentMonthStr[1] = substr_replace($maxPaymentMonth[1],'-',4,0);
+					$maxPaymentMonthStr[2] = substr_replace($maxPaymentMonth[2],'-',4,0);
+					$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateRuleResult[$key]['payment_month'].' month', strtotime($maxPaymentMonthStr[1])));
+					$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateRuleResult[$key]['payment_month'].' month', strtotime($maxPaymentMonthStr[2])));
+					$minPaymentMonthStr[1] = substr_replace($minPaymentMonth[1],'-',4,0);
+					$minPaymentMonthStr[2] = substr_replace($minPaymentMonth[2],'-',4,0);
+					$templateRuleResult[$key]['orderDate'] = $orderDateStr;
+					$templateRuleResult[$key]['maxPaymentMonth'] = $maxPaymentMonthStr;
+					$templateRuleResult[$key]['minPaymentMonth'] = $minPaymentMonthStr;
+					$templateRuleResult[$key]['paymentMonthNum'] = array(1=>$templateRuleResult[$key]['payment_month'],2=>$templateRuleResult[$key]['payment_month']);
+					$templateRuleResult[$key]['deadlineArray'] = array(1=>$templateRuleResult[$key]['deadline'],2=>$templateRuleResult[$key]['deadline']);
 				}
 				return $templateRuleResult;
 			}else {
@@ -608,11 +637,12 @@ class BusinessController extends ServiceBaseController{
 			$templateId = I('post.templateId/d');
 			$companyId = I('post.companyId/d',$this->_cid);
 			$classifyMixed = I('post.classifyMixed');
+			$isEditRule = 0 == I('post.companyId/d');
 			if (!is_array($classifyMixed)) {
 				$classifyMixed = array($classifyMixed);
 			}
 			if ($ruleId || ($type && $templateId)) {
-				$result = $this->_getTemplateRule($ruleId,$type,$templateId,$companyId,$classifyMixed);
+				$result = $this->_getTemplateRule($ruleId,$type,$templateId,$companyId,$classifyMixed,$isEditRule);
 				if ($result) {
 					$this->ajaxReturn(array('status'=>0,'result'=>$result));
 				}else {
@@ -639,12 +669,20 @@ class BusinessController extends ServiceBaseController{
 		$template = D('Template');
 		$templateResult = $template->getTemplateByCondition(array('id'=>$data['templateId'],'state'=>1));
 		if ($templateResult) {
-			$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-			$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-			$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+			//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+			//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+			//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 			
-			//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-			//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+			$templateRule = D('TemplateRule');
+			$ruleResult = $templateRule->getTemplateRuleByCondition(array('id'=>$data['socRuleId'],'state'=>1));
+			if ($ruleResult) {
+				$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+				$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+				$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+			}else {
+				return array('status'=>0,'info'=>'规则错误！');
+			}
+			
 			$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 			$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 			$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
@@ -652,21 +690,22 @@ class BusinessController extends ServiceBaseController{
 			
 			$maxPaymentMonth[1] = 1 == $templateResult['payment_type'][1]?$orderDate[1]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[1])));
 			$maxPaymentMonth[2] = 1 == $templateResult['payment_type'][2]?$orderDate[2]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[2])));
-			$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateResult['payment_month'][1].' month', strtotime($maxPaymentMonth[1])));
-			$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateResult['payment_month'][2].' month', strtotime($maxPaymentMonth[2])));
-			//$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateResult['payment_month'][1].' month', strtotime($orderDateStr[1])));
-			//$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateResult['payment_month'][2].' month', strtotime($orderDateStr[2])));
+			$maxPaymentMonthStr[1] = substr_replace($maxPaymentMonth[1],'-',4,0);
+			$maxPaymentMonthStr[2] = substr_replace($maxPaymentMonth[2],'-',4,0);
+			$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateResult['payment_month'][1].' month', strtotime($maxPaymentMonthStr[1])));
+			$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateResult['payment_month'][2].' month', strtotime($maxPaymentMonthStr[2])));
+			$minPaymentMonthStr[1] = substr_replace($minPaymentMonth[1],'-',4,0);
+			$minPaymentMonthStr[2] = substr_replace($minPaymentMonth[2],'-',4,0);
 			
 			if (!empty($data['socPayMonth']) && string_to_number($data['socPayMonth'])<$minPaymentMonth[1]) {
-				return array('status'=>-1,'msg'=>'社保起缴月份错误！');
+				//return array('status'=>-1,'msg'=>'社保起缴月份错误！');
 			}
 			
 			if (!empty($data['proPayMonth']) && string_to_number($data['proPayMonth'])<$minPaymentMonth[2]) {
-				return array('status'=>-1,'msg'=>'公积金起缴月份错误！');
+				//return array('status'=>-1,'msg'=>'公积金起缴月份错误！');
 			}
 			
 			$calculateData = array();
-			$templateRule = D('TemplateRule');
 			if ($data['socRuleId'] && $data['socAmount']) {
 				$socRuleResult = $templateRule->getTemplateRuleByCondition(array('id'=>$data['socRuleId'],'state'=>1));
 				$disRuleResult = $templateRule->getTemplateRuleByCondition(array('template_id'=>$data['templateId'],'company_id'=>$socRuleResult['company_id'],'type'=>3,'state'=>1));
@@ -799,7 +838,6 @@ class BusinessController extends ServiceBaseController{
 			//$data['baseId'] = 277;
 			//$data['socPiiId'] = 1030;
 			//$data['proPiiId'] = 1031;
-			//dump($data);
 			if ($data['templateId']) {
 				if ($data['socPiiId'] || $data['proPiiId']) {
 					$this->ajaxReturn($this->_calculateCostByPiiId($data));
@@ -1039,7 +1077,7 @@ class BusinessController extends ServiceBaseController{
 						$templateClassifyResult[$key]['list'] = $this->_getTemplateClassify($templateLocation);
 						$templateClassifyResult[$key]['condition'] = array('classify_mixed'=>array_filter(explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed'])));
 						
-						$templateRuleResult[$key]['list'] = $this->_getTemplateRule($value['rule_id'],$key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']?:$personInsuranceInfoResult[3-$key]['templateRuleResult']['template_id'],$serviceProductResult['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
+						$templateRuleResult[$key]['list'] = $this->_getTemplateRule(0,$key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']?:$personInsuranceInfoResult[3-$key]['templateRuleResult']['template_id'],$serviceProductResult['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
 						
 						$templateRuleResult[$key]['condition'] = array('rule_id'=>$value['rule_id'],'amount'=>$value['amount'],'start_month'=>int_to_date($value['start_month'],'-'),'companyScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['companyScale'],'personScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['personScale']);
 						
@@ -1314,7 +1352,7 @@ class BusinessController extends ServiceBaseController{
     	}else {
 			$userId = I('get.userId/d');
 			$baseId = I('get.baseId/d');
-			$handleMonth = I('get.handleMonth/d');
+			//$handleMonth = I('get.handleMonth/d');
 			if ($baseId >0) {
 				//获取个人信息
 				$personBase = D('PersonBase');
@@ -1360,7 +1398,7 @@ class BusinessController extends ServiceBaseController{
 						$templateClassifyResult[$key]['list'] = $this->_getTemplateClassify($templateLocation);
 						$templateClassifyResult[$key]['condition'] = array('classify_mixed'=>array_filter(explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed'])));
 						
-						$templateRuleResult[$key]['list'] = $this->_getTemplateRule($value['rule_id'],$key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']?:$personInsuranceInfoResult[3-$key]['templateRuleResult']['template_id'],$serviceProductResult['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
+						$templateRuleResult[$key]['list'] = $this->_getTemplateRule(0,$key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']?:$personInsuranceInfoResult[3-$key]['templateRuleResult']['template_id'],$serviceProductResult['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
 						
 						$templateRuleResult[$key]['condition'] = array('rule_id'=>$value['rule_id'],'amount'=>$value['amount'],'start_month'=>int_to_date($value['start_month'],'-'),'companyScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['companyScale'],'personScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['personScale']);
 						
@@ -1436,12 +1474,21 @@ class BusinessController extends ServiceBaseController{
 						//$templateResult = $template->getTemplateByCondition(array('location'=>$data['location'],'state'=>1));
 						$templateResult = $template->getTemplateByCondition(array('location'=>$data['templateLocation'],'state'=>1));
 						if ($templateResult) {
-							$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-							$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-							$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+							//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+							//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+							//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 							
-							//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Y-m',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-							//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Y-m',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+							$templateRule = D('TemplateRule');
+							$ruleResult = $templateRule->getById($data['socRuleId']);
+							if ($ruleResult) {
+								$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+								$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+								$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+							}else {
+								$personBase->rollback();
+								$this->ajaxReturn(array('status'=>0,'info'=>'规则错误！'));
+							}
+							
 							$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 							$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 							$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
@@ -1503,16 +1550,15 @@ class BusinessController extends ServiceBaseController{
 								$personInsuranceInfoArray[2]['pay_date'] = '';
 								$personInsuranceInfoArray[2]['operate_state'] = -9;//撤销
 								$personInsuranceInfoResult = $personInsuranceInfo->getLastPersonInsuranceInfo(array('id'=>$data['proPiiId'],'user_id'=>$data['userId'],'base_id'=>$personBaseId,'payment_type'=>2));
-								if ($personInsuranceInfoResult) {
+								/*if ($personInsuranceInfoResult) {
 									$personInsuranceInfoArray[2]['state'] = (1 == $personInsuranceInfoResult['state']?0:$personInsuranceInfoResult['state']);
 								}else {
 									$personInsuranceInfoArray[2]['state'] = 0;//未参保
-								}
+								}*/
 							}
 							//dump($personInsuranceInfoArray);
 							if ($personInsuranceInfoArray) {
 								$personInsuranceInfoResult = array();
-								$templateRule = D('TemplateRule');
 								foreach ($personInsuranceInfoArray as $key => $value) {
 									if (1 == $value['state'] || 2 == $value['state']) {
 										//报增状态或在保状态

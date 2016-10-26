@@ -12,7 +12,7 @@ class PayModel extends Model{
     // protected $_ServiceOrderSalary;
     // protected $_ServiceProductOrder;
     // protected $_serviceInfo;
-        protected $_jsPayMd5Key;
+        public $_jsPayMd5Key;
 
     public function _initialize(){
         // $this->_serviceInsuranceDetail = M('service_insurance_detail');
@@ -48,7 +48,7 @@ class PayModel extends Model{
         $out_trade_no =  $data['order_no'];//商户订单号
         $subject =  $this->getSubject($data);   //订单名称
         $total_fee = $data['price'];//付款金额
-        ///$total_fee =  '0.01';//元
+       // $total_fee =  '0.01';//元
         $body =  $this->getSubject($data);//订单描述
         /************************************************************/  
         //构造要请求的参数数组，无需改动
@@ -90,7 +90,7 @@ class PayModel extends Model{
         $param['remark2'] = '[url:=http://'.$_SERVER['SERVER_NAME'].'/Company-Pay-jdpaynotify_url.html]'; //服务器异步通知的接收地址。对应AutoReceive.php示例。必须要有[url:=]格式。
                                                                     //参照"网银在线支付B2C系统商户接口文档v4.1.doc"中2.3.3.2。
     //****************************************      
-    $param['v_amount'] = 0.01;//trim($data['price']);                   //支付金额                 
+    $param['v_amount'] = trim($data['price']);                   //支付金额                 
     $param['v_moneytype'] = "CNY";                                            //币种
     $param['v_oid'] = $data['order_no'];
 

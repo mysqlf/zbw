@@ -5,7 +5,9 @@
                 <th>序号</th>
                 <th>姓名</th>
                 <th >身份证号码</th>
+                {{if tableData[0].account}}
                 <th>银行卡号</th>
+                {{/if}}
               <!--   <th>会员套餐</th>
                 <th>项目类型</th> -->
                 <th>错误原因</th>
@@ -23,9 +25,11 @@
 					<td >
 						{{item.cardNum}}
 					</td>
+					{{if item.account}}
 					<td class="c-gray">
 						{{item.account}}
 					</td>
+					{{/if}}
 					<!-- <td class="c-gray">
 						xxx
 					</td>

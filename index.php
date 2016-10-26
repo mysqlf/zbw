@@ -13,7 +13,7 @@ if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
  * 系统调试设置
  * 项目正式部署后请设置为false
  */
-define('APP_DEBUG', true);
+define('APP_DEBUG', false);
 
 /**
  * 应用目录设置
@@ -37,7 +37,7 @@ define ( 'RUNTIME_PATH', './Runtime/' );
  * 项目正式部署后设置为正式域名
  */
 //项目测试域名
-define('APP_DOMAIN','http://zbw.chitone.cc/');
+define('APP_DOMAIN','http://www.zhibaoyi.com/');
 //项目正式域名
 //define('APP_DOMAIN','');
 
@@ -55,7 +55,7 @@ define('APP_DOMAIN','http://zbw.chitone.cc/');
 //短信接口测试域名
 //define('SMS_DOMAIN','http://test.job5156.com/');
 //短信接口正式域名
-//define('SMS_DOMAIN','http://api.job5156.com/');
+define('SMS_DOMAIN','http://api.job5156.com/');
 
 /**
  * 引入核心入口

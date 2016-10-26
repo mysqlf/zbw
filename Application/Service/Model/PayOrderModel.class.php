@@ -31,12 +31,13 @@ class PayOrderModel extends ServiceAdminModel{
                         ->join('left join zbw_company_info ci ON ci.user_id = po.user_id')                 
                         ->where(array('po.id'=> $data['id'], 'po.company_id'=> $admin['company_id']))->find();
 
-        if($result['state'] != 1){
+        /*if($result['state'] != 1){
             $res = M('user_service_provider')->field('diff_amount')->where(array('user_id'=> $result['user_id'], 'company_id'=> $admin['company_id']))->find();
             if(!empty($res)){
-                $result['diff_amount']  = $res['diff_amount'];        
-            }            
-        }
+                $result['diff_amount']  = $res['diff_amount'];
+            }
+        }*/
+        $result['actual_amount']=sprintf("%01.2f",($result['amount']+$result['diff_amount']));;
         return $result;
 	}
 	
@@ -46,14 +47,14 @@ class PayOrderModel extends ServiceAdminModel{
 	 */
 	public function sbGjjDetail($data, $admin){
         //$page = I('get.p', '1');
-        $resSb = M('service_insurance_detail')->alias('sid')->field('sid.id,sid.current_detail,sid.pay_date,sid.type,pb.person_name,pii.base_id,pii.location,pb.card_num,pb.user_id,sp.name product_name,sid.service_price,pii.template_location')
+        $resSb = M('service_insurance_detail')->alias('sid')->field('sid.id,sid.insurance_detail,sid.pay_date,sid.type,pb.person_name,pii.base_id,pii.location,pb.card_num,pb.user_id,sp.name product_name,sid.service_price,pii.template_location')
                             ->join('zbw_person_insurance_info pii ON pii.id = sid.insurance_info_id')
                             ->join('zbw_person_base pb ON pb.id = pii.base_id')
                             ->join('left join zbw_service_product sp ON sp.id = pii.product_id')
-                            ->join('left join zbw_pay_order po ON po.id = sid.pay_order_id ')                         
+                            ->join('left join zbw_pay_order po ON po.id = sid.pay_order_id ')
                             ->where("sid.pay_order_id ={$data['id']} AND pii.payment_type=1 AND po.company_id={$admin['company_id']} AND sid.state NOT IN(0,-1)")->order('sid.id asc')->select();
  //dump($resSb);
-        $resGjj = M('service_insurance_detail')->alias('sid')->field('sid.id,sid.current_detail,sid.pay_date,sid.type,pb.person_name,pii.base_id,pii.location,pb.card_num,pb.user_id,sp.name product_name,pii.template_location,sid.service_price')
+        $resGjj = M('service_insurance_detail')->alias('sid')->field('sid.id,sid.insurance_detail,sid.pay_date,sid.type,pb.person_name,pii.base_id,pii.location,pb.card_num,pb.user_id,sp.name product_name,pii.template_location,sid.service_price')
                             ->join('zbw_person_insurance_info pii ON pii.id = sid.insurance_info_id')
                             ->join('zbw_person_base pb ON pb.id = pii.base_id')
                             ->join('left join zbw_service_product sp ON sp.id = pii.product_id')
@@ -63,8 +64,8 @@ class PayOrderModel extends ServiceAdminModel{
         foreach ($resSb as $key => $value) {//echo $key,'/';
                 foreach ($resGjj as $k => $val) {
                     if($value['base_id'] == $val['base_id'] && $value['pay_date'] == $val['pay_date'] && $value['card_num'] == $val['card_num']) {
-                       	if(!empty($val['current_detail'])){//echo $k,'<br/>';
-	                        $resSb[$key]['gjj'] = $val['current_detail'];
+                       	if(!empty($val['insurance_detail'])){//echo $k,'<br/>';
+	                        $resSb[$key]['gjj'] = $val['insurance_detail'];
                             $resSb[$key]['service_price'] = $val['service_price'] + $value['service_price'];
 	                        unset($resGjj[$k]);
 	                        break;
@@ -76,15 +77,15 @@ class PayOrderModel extends ServiceAdminModel{
                            
         if(count($resGjj) > 0){
             foreach ($resGjj as $key => $value) {
-                $resGjj[$key]['gjj'] = $val['current_detail'];
-                unset($resGjj[$key]['current_detail']);
+                $resGjj[$key]['gjj'] = $val['insurance_detail'];
+                unset($resGjj[$key]['insurance_detail']);
             }
         	$resSb = array_merge($resSb, $resGjj);
         }
    //dump($resGjj);//
         foreach ($resSb as $key => $value) {
-            if(!empty($value['current_detail'])){
-                $sb = json_decode($value['current_detail'], true);
+            if(!empty($value['insurance_detail'])){
+                $sb = json_decode($value['insurance_detail'], true);
                 $resSb[$key]['sb_per'] = $sb['person'];
                 $resSb[$key]['sb_com'] = $sb['company'];
                 $resSb[$key]['sb_type'] = $value['type'];
@@ -94,7 +95,7 @@ class PayOrderModel extends ServiceAdminModel{
                         continue;
                     }
                 }                
-                unset($resSb[$key]['current_detail']);
+                unset($resSb[$key]['insurance_detail']);
             }    
             if(!empty($value['gjj'])){
                 $gjj = json_decode($value['gjj'], true);

@@ -21,21 +21,20 @@ class IndexController extends HomeController
 	private $_ApplicableObject;
 
 	protected function  _initialize(){
+		parent::_initialize();
 		$this->_ApplicableObject = adminState()['applicable_object'];
 		if(ACTION_NAME == 'serviceProduct'){
-		
-			$this->_Product['spl.location'] = I('get.location',0,'intval');
-			$this->_Product['sp.applicable_object']  = I('get.applicable_object',0,'intval');
-			//'register_fund' => I('get.register_fund',0,'floatval'),
+			$this->_Product['spl.location'] = I('get.location/d',0);
+			$this->_Product['sp.applicable_object']  = I('get.applicable_object/d',0);
+			//'register_fund' => I('get.register_fund/f',0),
 			$this->_Product['sp.amount']  = I('get.amount','0');
-			$this->_Product['sp.product_name']  = I('get.product_name','','htmlspecialchars');
-
+			$this->_Product['sp.product_name']  = urldecode(I('get.product_name',''));
 		}
 	}
 
 	public function index()
 	{
-		// if($company_id = I('get.cid',0,'intval'))
+		// if($company_id = I('get.cid/d',0))
 		// {
 		// 	session('cid',$company_id);
 		// 	$this->banner_info = D('ServiceThumb')->getImageList(1);
@@ -66,11 +65,11 @@ class IndexController extends HomeController
 //			$this->display();
 		//	}
 		// $data = array(
-		// 	'location' => I('get.location',0,'intval'),
-		// 	'employee_number' => I('get.employee_number',0,'intval'),
-		// 	'register_fund' => I('get.register_fund',0,'floatval'),
-		// 	'company_name' => I('get.company_name','','htmlspecialchars'),
-		// 	'product_name' => I('get.product_name','','htmlspecialchars')
+		// 	'location' => I('get.location/d',0),
+		// 	'employee_number' => I('get.employee_number/d',0),
+		// 	'register_fund' => I('get.register_fund/f',0,),
+		// 	'company_name' => I('get.company_name',''),
+		// 	'product_name' => I('get.product_name','')
 		// );
 		// $serviceProduct = D('ServiceAdmin')->getServiceInfo($data);
 		$data['sp.state'] = 1;
@@ -82,7 +81,10 @@ class IndexController extends HomeController
 		//$inquireList = $LocationDemand->getCity();
 		//$toolList = $LocationDemand->getToolList($inquireList[0]['location']);//查询工具列表
 		$bannerInfo = D('Picture')->getBanner('carousel_picture', 1);//轮播图信息
-	
+		$this->keywords = C('WEB_SITE_KEYWORD');
+		$this->description = C('WEB_SITE_DESCRIPTION');
+		$this->title = C('WEB_SITE_TITLE');
+
 		$this->assign('service_product',$serviceProduct)->assign('applicable_object', $this->_ApplicableObject)
 			->assign('article',$article)
 			->assign('city',$city)
@@ -102,6 +104,11 @@ class IndexController extends HomeController
 		$LocationDemand = D('LocationDemand');
 		$inquire_list = $LocationDemand->getCity();
 		$tool_list = $LocationDemand->getToolList($inquire_list[0]['location']);
+
+		$this->keywords = '查询工具';
+		$this->description = '查询工具';
+		$this->title = '查询工具-'.C('WEB_SITE_TITLE');
+
 		$this->assign('inquire_list',$inquire_list)
 			->assign('tool_list',$tool_list)
 			->display('Index/service_query');
@@ -111,6 +118,9 @@ class IndexController extends HomeController
 	 * 社保计算
 	 */
 	public function socCalculate(){
+		$this->keywords = '社保计算器';
+		$this->description = '社保计算器';
+		$this->title = '社保计算器-'.C('WEB_SITE_TITLE');
 
 		$this->display('Index/servicePoint');
 	}
@@ -122,6 +132,11 @@ class IndexController extends HomeController
 	 */
 	public function serviceProduct()
 	{
+		$this->location = $this->_Product['spl.location'];
+		$this->applicable_object = $this->_Product['sp.applicable_object'];
+		$this->amount = $this->_Product['sp.amount'];
+		$this->product_name = $this->_Product['sp.product_name'];	
+
 		if($this->_Product['spl.location']) $where['spl.location'] = $this->_Product['spl.location'];
 		if($this->_Product['sp.applicable_object'])$where['sp.applicable_object'] = $this->_Product['sp.applicable_object'];	
 		if($this->_Product['sp.amount'])
@@ -153,6 +168,7 @@ class IndexController extends HomeController
 		$where['sp.state'] = 1;
 		$where['ci.audit'] = 1;
 //dump($where);
+
 		//获取服务商及其产品
 		$serviceAdmin = D('serviceAdmin');
 		$service_product = D('ServiceProduct')->productList($where);
@@ -162,13 +178,17 @@ class IndexController extends HomeController
 		$banner_info = array_merge(D('Picture')->getBanner('carousel_picture', 2));
 		$company_config = adminState();
 		//有服务的城市
-		$location = D('ServiceProduct')->getLocation();
+		$locationList = D('ServiceProduct')->getLocation();
+
+		$this->keywords = '服务机构';
+		$this->description = '服务机构';
+		$this->title = '服务机构-'.C('WEB_SITE_TITLE');
 
 		$this->assign('service_product',$service_product)
 			->assign('recommend_service',$recommend_service)
-			->assign('location', $location)
+			->assign('locationList', $locationList)
 			->assign('banner_info',$banner_info)
-			->assign('company_config',$company_config)->assign('applicable_object', $this->_ApplicableObject);
+			->assign('company_config',$company_config)->assign('ApplicableObject', $this->_ApplicableObject);
 		$this->display('Index/serviceProduct');
 	}
 	/**
@@ -240,6 +260,11 @@ class IndexController extends HomeController
 		$LocationDemand = D('LocationDemand');
 		$inquire_list = $LocationDemand->getCity();
 		$tool_list = $LocationDemand->getToolList($inquire_list[0]['location']);
+
+		$this->keywords = C('WEB_SITE_KEYWORD');
+		$this->description = C('WEB_SITE_DESCRIPTION');
+		$this->title = '服务机构-'.C('WEB_SITE_TITLE');
+
 		$this->assign('article',$article)
 			->assign('city',$city)
 			->assign('inquire_list',$inquire_list)
@@ -256,7 +281,7 @@ class IndexController extends HomeController
 	{
 		if($_POST['id'])
 		{
-			$where['location'] = I('post.id',0,'intval');
+			$where['location'] = I('post.id/d',0);
 			$where['status'] = 1;
 		}
 		else
@@ -299,8 +324,8 @@ class IndexController extends HomeController
 	public function changeClassify()
 	{
 		$classify = array_filter(I('post.classify_mixed'));
-		$template_id = I('post.template_id',0,'intval');
-		$type = I('post.type',0,'intval');
+		$template_id = I('post.template_id/d',0);
+		$type = I('post.type/d',0);
 		$result = D('TemplateRule')->getRule($type,$template_id,$classify);
 		$this->ajaxReturn($result);
 	}
@@ -312,23 +337,23 @@ class IndexController extends HomeController
 	 */
 	public function calculate()
 	{
-		$template_id = I('post.template_id',0,'intval');
+		$template_id = I('post.template_id/d',0);
 		$sb_classify = I('post.classify_mixed');
 		$TemplateRule = D('TemplateRule');
 		$sb_rule = $TemplateRule->getRule(1,$template_id,$sb_classify);
 		$Calculation = new \Common\Model\Calculate();
 		//计算社保
-		$sb_month = I('post.sb_month',1,'intval');
-		$sb_amount = I('post.sb_amount',0,'floatval');
+		$sb_month = I('post.sb_month/d',1);
+		$sb_amount = I('post.sb_amount/f',0);
 		$sb_json = json_encode(array('amount'=>$sb_amount,'month'=>$sb_month));
 		$data['sb_result'] = json_decode($Calculation->detail($sb_rule,$sb_json,1),true);
 		if(!isset($_POST['isGjj'])) $this->ajaxReturn($data);
 		//计算公积金
 		$gjj_rule = $TemplateRule->getRule(2,$template_id,'');
-		$gjj_amount = I('post.gjj_amount',0,'floatval');
-		$gjj_month = I('post.gjj_month',1,'intval');
-		$person_scale = I('post.person_scale',0,'floatval');
-		$company_scale = I('post.company_scale',0,'floatval');
+		$gjj_amount = I('post.gjj_amount/f',0);
+		$gjj_month = I('post.gjj_month/d',1);
+		$person_scale = I('post.person_scale/d',0);
+		$company_scale = I('post.company_scale/d',0);
 		$Calculation = new \Common\Model\Calculate();
 		$gjj_json = json_encode(array('amount'=>$gjj_amount,'month'=>$gjj_month,'personScale'=>$person_scale.'%','companyScale'=>$company_scale.'%','cardno'=>''));
 		$data['gjj_result'] = json_decode($Calculation->detail($gjj_rule,$gjj_json,2),true);
@@ -337,7 +362,7 @@ class IndexController extends HomeController
 
 	//查询工具切换数据
 	public function changeData(){
-		$id = I('post.id',0,'intval');
+		$id = I('post.id/d',0);
 		$this->tool_list = D('LocationDemand')->getToolList($id);
 		$info = $this->fetch();
 		$this->ajaxReturn(array('state'=>0,'msg'=>'操作成功!','data'=>$info));
@@ -371,9 +396,9 @@ class IndexController extends HomeController
 	 */
 	private function getRules($classify,$type,$template_id){
 		$template_model = D('ProductTemplateRule');
-		if( isset($_POST['type']) ) $classify = I('post.type_id','0','htmlspecialchars');
+		if( isset($_POST['type']) ) $classify = I('post.type_id','0');
 		$rule_map = array(
-			'template_id'=>I('post.template_id','0','intval') ? I('post.template_id','0','intval') : $template_id,
+			'template_id'=>I('post.template_id/d',$template_id),
 			'classify_mixed'=>rtrim($classify,'|'),
 			'type'=>$type
 		);
@@ -415,8 +440,8 @@ class IndexController extends HomeController
 	 */
 	private function getResult($type){
 		$rule_model = D('ProductTemplateRule');
-		$map['template_id'] = I('post.temple_id',0,'intval');
-		$map['classify_mixed'] = $type==1 ? rtrim(I('post.sb_type_id','','htmlspecialchars'),'|') : rtrim(I('post.gzj_type_id','','htmlspecialchars'),'|');
+		$map['template_id'] = I('post.temple_id/d',0);
+		$map['classify_mixed'] = $type==1 ? rtrim(I('post.sb_type_id',''),'|') : rtrim(I('post.gzj_type_id',''),'|');
 		$map['type'] = $type;
 		$map['classify_mixed'] = $this->sortClassifyMixed($map['classify_mixed']);
 		if(empty($map['classify_mixed'])) $map = "template_id = {$map['template_id']} AND type = {$type} AND classify_mixed is NULL";
@@ -424,7 +449,7 @@ class IndexController extends HomeController
 		$rule = $temp['rule'];
 		if(!$rule) return false;
 		if($type==3||$type==4) return $rule;
-		$month = $type==1 ? I('post.sb_month',1,'intval') : I('post.gzj_month',1,'intval');//该参数不传递默认计算1个月
+		$month = $type==1 ? I('post.sb_month/d',1) : I('post.gzj_month/d',1);//该参数不传递默认计算1个月
 		if($type==1) $json = json_encode(array('amount'=>I('post.sb_amount'),'month'=>$month));
 		else $json = json_encode(array('amount'=>I('post.gzj_amount'),'month'=>$month,'personScale'=>I('post.member').'%','companyScale'=>I('post.firme').'%','cardno'=>''));
 		$calculation = new \Common\Model\Calculate();

@@ -83,9 +83,15 @@
                         margin-right: 10px;
                     }
                 }
-                .verify {
-                    min-width: 160px;
-                    width: 65%;
+                @at-root #verify {
+                    width: 160px;
+                }
+                @at-root .verifyimg {
+                    width: 120px;
+                    height: 40px;
+                    border: 1px solid #DEE2E5;
+                    float: right;
+                    cursor: pointer;
                 }
                 .btn-login {
                     width: 100%;

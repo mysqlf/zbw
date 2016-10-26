@@ -96,17 +96,17 @@ class 	CustomerController extends ServiceBaseController{
     }
 
     /**
-     * 切换合同-企业购买过的服务
+     * 切换合同-购买过的服务
      * 
      */
-    public function selectProduct(){
+    public function selectProduct($service_type=1){
         if(IS_POST){
             $user_id = I('post.user_id', '0');
             $company_id = I('get.company_id', '0'); 
             $result = $this->_ProductOrder->alias('po')->field('ci.company_name,sp.name, po.id')
                             ->join('zbw_company_info ci ON ci.user_id = po.user_id')
                             ->join('zbw_service_product sp ON sp.id = po.product_id')
-                            ->where(array('po.user_id'=> $user_id, 'po.service_state'=> 2, 'sp.state'=> array('neq', -9), 'sp.company_id'=> $this->_cid))->select();
+                            ->where(array('po.user_id'=> $user_id, 'po.service_state'=> 2, 'sp.state'=> array('neq', -9), 'sp.company_id'=> $this->_cid, 'sp.service_type'=> $service_type))->select();
                    
             $this->ajaxReturn(array('status'=>0,'msg'=>'', 'data'=> $result));
         }
@@ -168,6 +168,7 @@ class 	CustomerController extends ServiceBaseController{
         }else{
             $selectCompany = $this->selectCompany();
             $productAllList = $this->productAllList();
+            $this->service_type = I('get.type', '1');
             $this->assign('_selectCompany', $selectCompany)->assign('_productAllList', $productAllList)->display('Customer/add_switch_contract');
       }
     }  

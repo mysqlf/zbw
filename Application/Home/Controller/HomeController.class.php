@@ -19,6 +19,7 @@ class HomeController extends Controller {
     protected $heifei_name = '合肥';
     public $kf;
     protected $_Cid;
+    protected $_CompanyName;
 
 	/* 空操作，用于输出404页面 */
 	public function _empty(){
@@ -51,6 +52,7 @@ class HomeController extends Controller {
         		//获取服务商信息
         		$path = getFilePath($serviceCompanyInfoResult['id'],'./Uploads/Company/','info');
         		$serviceCompanyInfoResult['service_logo'] = $path.'service_logo.jpg';
+                $this->_CompanyName = $serviceCompanyInfoResult['company_name'];
         		$this->assign('serviceCompanyInfoResult',$serviceCompanyInfoResult);
         		//获取服务商客服列表
         		$serviceAdmin = D('ServiceAdmin');
@@ -65,6 +67,16 @@ class HomeController extends Controller {
 		        //一条客服记录
 		        $this->assign('oneServiceAdminResult',$serviceAdminResult[$oneServiceAdminResult]);
         	}
+
+            $info = S('home'.$this->_Cid);
+            if(empty($info)){
+                 $result = M('company_info', 'zbw_')->alias('ci')->field('company_address,tel_city_code,tel_local_number, contact_phone')->where(array('id'=> $this->_Cid))->find();
+
+                 S('home'.$this->_Cid, json_encode($result), 24*3600);
+            }else{
+                $this->assign('publicFooter',json_decode($info, true));
+            }     
+      
         }
 
         /*

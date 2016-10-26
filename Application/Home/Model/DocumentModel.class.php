@@ -339,7 +339,7 @@ class DocumentModel extends Model{
 	}
 
 	public function getListByMap($map,$nowpage='1',$page='10'){
-		return $this->where($map)->limit(($nowpage-1)*10,$page)->select();
+		return $this->where($map)->limit(($nowpage-1)*10,$page)->order('update_time desc,create_time desc')->select();
 	}
 	public function getCountByMap($map){
 		$count= $this->where($map)->count('id');

@@ -41,11 +41,11 @@ class ProductTemplateClassifyController extends AdminController
 	private function _getTemplateId()
 	{
 		$_POST['location'] or $this->classify_error = '请选择城市，且选中市级！';
-		$_POST['soc_payment_type'] or $this->classify_error = '社保支付方式必填！';
-		//$_POST['pro_payment_type'] or $this->classify_error = '公积金支付方式必填！';
-		$_POST['soc_deadline'] or $this->classify_error = '社保报增截止时间不能为空!';
-	//	$_POST['pro_deadline'] or $this->classify_error = '公积金报增截止时间不能为空!';
-		$_POST['soc_payment_month'] or $this->classify_error = '社保最大补缴月不能为空!';
+	// 	$_POST['soc_payment_type'] or $this->classify_error = '社保支付方式必填！';
+	// 	//$_POST['pro_payment_type'] or $this->classify_error = '公积金支付方式必填！';
+	// 	$_POST['soc_deadline'] or $this->classify_error = '社保报增截止时间不能为空!';
+	// //	$_POST['pro_deadline'] or $this->classify_error = '公积金报增截止时间不能为空!';
+	// 	$_POST['soc_payment_month'] or $this->classify_error = '社保最大补缴月不能为空!';
 		//$_POST['pro_payment_month'] or $this->classify_error = '公积金最大补缴月不能为空!';
 		$category = I('post.category','');
 		$category or $this->classify_error = '分类名必填！';

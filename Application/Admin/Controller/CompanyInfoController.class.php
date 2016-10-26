@@ -99,12 +99,11 @@ class CompanyInfoController extends ThinkController{
 			}
 		}
 		$id = intval(I('get.id' , ''));
-
 		//$logo=APP_DOMAIN.getFilePath($id,'Uploads/Company/','info')."service_logo.jpg";
 		//if (file_exists($logo)) {
 		//	$this->assign('isServiceProvider',1);
 		//}
-
+		
 		$m = M('company_info','zbw_');
 		$rs = $m->where("id={$id}")->find();
 		$rs['filedir'] = getFilePath($rs['id'] , 'Uploads/Company/' , 'info');

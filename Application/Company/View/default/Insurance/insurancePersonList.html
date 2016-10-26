@@ -1,5 +1,8 @@
 <extend name="Base/Insurance" />
 <block name="right">
+<style type="text/css">
+	.handle a{white-space: nowrap;}
+</style>
     <div class="right_box overflow">
         <div class="right_head">
         	<h3 class="add_tit">参保人员记录</h3>
@@ -91,32 +94,32 @@
 									{$vo['socpiLocationValue']|default=$vo['propiLocationValue']}
 								</td>
 								<td class="c-gray" rowspan="2">
-									{//:get_residence_type($vo['residence_location'],$vo['socpi_location']?:$vo['propi_location'])}{$vo['residence_type']|get_code_value=###,"PersonBaseResidenceType",$vo['residence_type']}
+									{//:get_residence_type($vo['residence_location'],$vo['socpi_location']?:$vo['propi_location'])}{:empty($vo['residence_type'])?'/':get_code_value($vo['residence_type'],"PersonBaseResidenceType",$vo['residence_type'])}
 								</td>
 								<td class="c-gray" rowspan="2">
-									{$vo['residence_location']|showAreaName}
+									{:empty($vo['residence_location'])?'/':showAreaName($vo['residence_location'])}
 								</td>
 								<td class="c-pink">
 									社保
 								</td>
 								<td class="c-gray">
-									{:(empty($vo['socpi_amount'])?'':$vo['socpi_amount'])}
+									{:(empty($vo['socpi_amount'])?'/':$vo['socpi_amount'])}
 								</td>
 								<td class="c-gray">
-									{:(empty($vo['socpi_start_month'])?'':$vo['socpi_start_month'])}
+									{:(empty($vo['socpi_start_month'])?'/':$vo['socpi_start_month'])}
 								</td>
 								<td class="c-gray" >
-									{:(empty($vo['socpi_end_month'])?'':$vo['socpi_end_month'])}
+									{:(empty($vo['socpi_end_month'])?'/':$vo['socpi_end_month'])}
 								</td>
 								<td class="c-gray">
 									{$vo['socpi_state']|get_code_value=###,"PersonInsuranceState"}
 								</td>
-								<td class="c-gray" rowspan="2">
+								<td class="c-gray handle" rowspan="2">
 									<a href="{:U('Company/Insurance/insuranceDetail',array('baseId'=>$vo['base_id']))}" class="c-blue">明细</a>
 									<if condition="2 eq $vo['socpi_state'] or 2 eq $vo['propi_state']">
 										<a class="c-gray sub_btn" data-baseid="{$vo['base_id']}">报减</a>
 									</if>
-									<if condition="(0 eq $vo['socpi_state'] || 4 eq $vo['socpi_state']) and (0 eq $vo['propi_state'] || 4 eq $vo['propi_state'])">
+									<if condition="!(0 eq $vo['socpi_state'] and 0 eq $vo['propi_state']) and (0 eq $vo['socpi_state'] || 4 eq $vo['socpi_state']) and (0 eq $vo['propi_state'] || 4 eq $vo['propi_state'])">
 										<a href="{:U('Company/Insurance/toIncrease',array('baseId'=>$vo['base_id']))}" class="c-gray">重新参保</a>
 									</if>
 								</td>
@@ -126,13 +129,13 @@
 									公积金
 								</td>
 								<td class="c-gray">
-									{:(empty($vo['propi_amount'])?'':$vo['propi_amount'])}
+									{:(empty($vo['propi_amount'])?'/':$vo['propi_amount'])}
 								</td>
 								<td class="c-gray">
-									{:(empty($vo['propi_start_month'])?'':$vo['propi_start_month'])}
+									{:(empty($vo['propi_start_month'])?'/':$vo['propi_start_month'])}
 								</td>
 								<td class="c-gray">
-									{:(empty($vo['propi_end_month'])?'':$vo['propi_end_month'])}
+									{:(empty($vo['propi_end_month'])?'/':$vo['propi_end_month'])}
 								</td>
 								<td class="c-gray">
 									{$vo['propi_state']|get_code_value=###,"PersonInsuranceState"}

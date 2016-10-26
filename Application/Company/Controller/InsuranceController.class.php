@@ -369,12 +369,21 @@ class InsuranceController extends HomeController {
 						//$templateResult = $template->getTemplateByCondition(array('location'=>$data['location'],'state'=>1));
 						$templateResult = $template->getTemplateByCondition(array('location'=>$data['templateLocation'],'state'=>1));
 						if ($templateResult) {
-							$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-							$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-							$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+							//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+							//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+							//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 							
-							//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-							//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+							$templateRule = D('TemplateRule');
+							$ruleResult = $templateRule->getById($data['socRuleId']);
+							if ($ruleResult) {
+								$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+								$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+								$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+							}else {
+								$personBase->rollback();
+								$this->ajaxReturn(array('status'=>0,'info'=>'规则错误！'));
+							}
+							
 							$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 							$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 							$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
@@ -434,16 +443,15 @@ class InsuranceController extends HomeController {
 								$personInsuranceInfoArray[2]['pay_date'] = '';
 								$personInsuranceInfoArray[2]['operate_state'] = -9;//撤销
 								$personInsuranceInfoResult = $personInsuranceInfo->getLastPersonInsuranceInfo(array('id'=>$data['proPiiId'],'user_id'=>$this->mCuid,'base_id'=>$personBaseId,'payment_type'=>2));
-								if ($personInsuranceInfoResult) {
+								/*if ($personInsuranceInfoResult) {
 									$personInsuranceInfoArray[2]['state'] = (1 == $personInsuranceInfoResult['state']?0:$personInsuranceInfoResult['state']);
 								}else {
 									$personInsuranceInfoArray[2]['state'] = 0;//未参保
-								}
+								}*/
 							}
 							//dump($personInsuranceInfoArray);
 							if ($personInsuranceInfoArray) {
 								$personInsuranceInfoResult = array();
-								$templateRule = D('TemplateRule');
 								foreach ($personInsuranceInfoArray as $key => $value) {
 									if (1 == $value['state']) {
 										//报增状态
@@ -800,18 +808,26 @@ class InsuranceController extends HomeController {
 						//$templateResult = $template->getTemplateByCondition(array('location'=>$data['location'],'state'=>1));
 						$templateResult = $template->getTemplateByCondition(array('location'=>$data['templateLocation'],'state'=>1));
 						if ($templateResult) {
-							$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-							$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-							$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+							//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+							//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+							//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 							
-							//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-							//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+							$templateRule = D('TemplateRule');
+							$ruleResult = $templateRule->getById($data['socRuleId']);
+							if ($ruleResult) {
+								$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+								$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+								$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+							}else {
+								$personBase->rollback();
+								$this->ajaxReturn(array('status'=>0,'info'=>'规则错误！'));
+							}
+							
 							$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 							$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 							$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
 							$orderDateStr[2] = substr_replace($orderDate[2],'-',4,0);
 							
-							//dump($personInsuranceResult);
 							$personInsuranceInfo = D('PersonInsuranceInfo');
 							$personInsuranceInfoData = array();
 							$personInsuranceInfoData['user_id'] = $this->mCuid;
@@ -858,24 +874,27 @@ class InsuranceController extends HomeController {
 								//if (!$personInsuranceInfo->add($tempPersonInsuranceInfoData)){
 								if (!$personInsuranceInfo->addPersonInsurance($tempPersonInsuranceInfoData)){
 									$personBase->rollback();
-									$this->ajaxReturn(array('status'=>0,'info'=>'系统内部错误！'));
+									//$this->ajaxReturn(array('status'=>0,'info'=>'系统内部错误！'));
+									$this->ajaxReturn(array('status'=>0,'info'=>$personInsuranceInfo->getError()));
 								}
 							}
-							//dump($personInsuranceInfoArray);
 							if ($personInsuranceInfoArray) {
 								$personInsuranceInfoResult = array();
-								$templateRule = D('TemplateRule');
 								foreach ($personInsuranceInfoArray as $key => $value) {
-									$personInsuranceInfoResult['rule'][$key] = $templateRule->getById($value['rule_id']);
-									//dump($value['rule_id']);
-									//dump($personInsuranceInfoResult['rule'][$key]);
-									if ($personInsuranceInfoResult['rule'][$key]) {
-										//$personInsuranceInfoResult['id'][$key] = $personInsuranceInfo->add($value);
-										$personInsuranceInfoResult['id'][$key] = $personInsuranceInfo->addPersonInsurance($value);
-										$personInsuranceInfoResult['successCount'] += $personInsuranceInfoResult['id'][$key]?1:0;
-									}else {
+									$personInsuranceInfoExitResult = $personInsuranceInfo->field(true)->where(array('user_id'=>$value['user_id'],'base_id'=>$value['base_id'],'handle_month'=>$value['handle_month'],'payment_type'=>$value['payment_type']))->find();
+									if ($personInsuranceInfoExitResult && 3 == $personInsuranceInfoExitResult['state'] && 3 == $personInsuranceInfoExitResult['operate_state']) {
 										$personBase->rollback();
-										$this->ajaxReturn(array('status'=>0,'info'=>'规则参数错误！'));
+										$this->ajaxReturn(array('status'=>0,'info'=>'当前月已报减成功,暂时不能报增！'));
+									}else {
+										$personInsuranceInfoResult['rule'][$key] = $templateRule->getById($value['rule_id']);
+										if ($personInsuranceInfoResult['rule'][$key]) {
+											//$personInsuranceInfoResult['id'][$key] = $personInsuranceInfo->add($value);
+											$personInsuranceInfoResult['id'][$key] = $personInsuranceInfo->addPersonInsurance($value);
+											$personInsuranceInfoResult['successCount'] += $personInsuranceInfoResult['id'][$key]?1:0;
+										}else {
+											$personBase->rollback();
+											$this->ajaxReturn(array('status'=>0,'info'=>'规则参数错误！'));
+										}
 									}
 								}
 								if ($personInsuranceInfoResult['successCount'] == count($personInsuranceInfoArray)) {
@@ -1114,10 +1133,7 @@ class InsuranceController extends HomeController {
 			$productId = I('post.productId/d');
 			if ($productId) {
 				$serviceProductOrder = D('ServiceProductOrder');
-				//$start = microtime(true);
 				$serviceProductOrderResult = $serviceProductOrder->getEffectiveServiceProductOrderLocationByProductId($this->mCuid,$productId);
-				//$end = microtime(true);
-				//dump($end-$start);
 				$this->ajaxReturn(array('status'=>1,'result'=>$serviceProductOrderResult));
 			}else {
 				$this->ajaxReturn(array('status'=>0,'info'=>'非法参数！'));
@@ -1188,15 +1204,16 @@ class InsuranceController extends HomeController {
 	
 	/**
 	 * _getTemplateRule function
-	 * 根据参保地获取模板分类
+	 * 根据参保地获取模板规则
 	 * @access private
 	 * @param int $type 类型 1社保 2公积金
 	 * @param array $templateId 模板id
 	 * @param string $classifyMixed 分类组合
+	 * @param boolean $isEditRule 是否编辑规则
 	 * @return void
 	 * @author rohochan <rohochan@gmail.com>
 	 **/
-	private function _getTemplateRule($type = 1,$templateId = 0,$companyId = 0,$classifyMixed = ''){
+	private function _getTemplateRule($type = 1,$templateId = 0,$companyId = 0,$classifyMixed = '',$isEditRule = false){
 		if ($templateId) {
 			$templateRule = D('TemplateRule');
 			if (1 == $type) {
@@ -1204,12 +1221,20 @@ class InsuranceController extends HomeController {
 				rsort($classifyMixed);
 				if ($classifyMixed) {
 					$classifyMixed = implode('|',$classifyMixed);
-					$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'classify_mixed'=>$classifyMixed,'state'=>1);
+					if ($isEditRule) {
+						$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'classify_mixed'=>$classifyMixed,'state'=>1);
+					}else {
+						$condition = array('template_id'=>$templateId,'company_id'=>intval($companyId),'type'=>$type,'classify_mixed'=>$classifyMixed,'state'=>1);
+					}
 				}else {
 					return false;
 				}
 			}else if (2 == $type) {
-				$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'state'=>1);
+				if ($isEditRule) {
+					$condition = array('template_id'=>$templateId,'company_id'=>array(0,intval($companyId),array('exp','is null'),'or'),'type'=>$type,'state'=>1);
+				}else {
+					$condition = array('template_id'=>$templateId,'company_id'=>intval($companyId),'type'=>$type,'state'=>1);
+				}
 			}else {
 				return false;
 			}
@@ -1223,6 +1248,26 @@ class InsuranceController extends HomeController {
 					$templateRuleResult[$key]['proCost'] = $rule['pro_cost'];
 					!empty($rule['company']) && $templateRuleResult[$key]['companyScale'] = $rule['company'];
 					!empty($rule['person']) && $templateRuleResult[$key]['personScale'] = $rule['person'];
+					
+					$templateRuleResult[$key]['payment_month'] = intval($templateRuleResult[$key]['payment_month']);
+					
+					$orderDate[1] = get_handle_month($templateRuleResult[$key]['deadline']);
+					$orderDate[2] = get_handle_month($templateRuleResult[$key]['deadline']);
+					$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
+					$orderDateStr[2] = substr_replace($orderDate[2],'-',4,0);
+					$maxPaymentMonth[1] = 1 == $templateRuleResult[$key]['payment_type']?$orderDate[1]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[1])));
+					$maxPaymentMonth[2] = 1 == $templateRuleResult[$key]['payment_type']?$orderDate[2]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[2])));
+					$maxPaymentMonthStr[1] = substr_replace($maxPaymentMonth[1],'-',4,0);
+					$maxPaymentMonthStr[2] = substr_replace($maxPaymentMonth[2],'-',4,0);
+					$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateRuleResult[$key]['payment_month'].' month', strtotime($maxPaymentMonthStr[1])));
+					$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateRuleResult[$key]['payment_month'].' month', strtotime($maxPaymentMonthStr[2])));
+					$minPaymentMonthStr[1] = substr_replace($minPaymentMonth[1],'-',4,0);
+					$minPaymentMonthStr[2] = substr_replace($minPaymentMonth[2],'-',4,0);
+					$templateRuleResult[$key]['orderDate'] = $orderDateStr;
+					$templateRuleResult[$key]['maxPaymentMonth'] = $maxPaymentMonthStr;
+					$templateRuleResult[$key]['minPaymentMonth'] = $minPaymentMonthStr;
+					$templateRuleResult[$key]['paymentMonthNum'] = array(1=>$templateRuleResult[$key]['payment_month'],2=>$templateRuleResult[$key]['payment_month']);
+					$templateRuleResult[$key]['deadlineArray'] = array(1=>$templateRuleResult[$key]['deadline'],2=>$templateRuleResult[$key]['deadline']);
 				}
 				return $templateRuleResult;
 			}else {
@@ -1247,12 +1292,9 @@ class InsuranceController extends HomeController {
 			$templateId = I('post.templateId/d');
 			$companyId = I('post.companyId/d');
 			$classifyMixed = I('post.classifyMixed');
+			$isEditRule = 0 == I('post.companyId/d');
 			if ($type && $templateId) {
-				//$start = microtime(true);
-				$result = $this->_getTemplateRule($type,$templateId,$companyId,$classifyMixed);
-				//$end = microtime(true);
-				//dump($result);
-				//dump($end-$start);
+				$result = $this->_getTemplateRule($type,$templateId,$companyId,$classifyMixed,$isEditRule);
 				if ($result) {
 					$this->ajaxReturn(array('status'=>1,'result'=>$result));
 				}else {
@@ -1278,7 +1320,7 @@ class InsuranceController extends HomeController {
 	 * $SocInsure = new Calculate();
 	 * $json = $SocInsure->detail($rule , $json , 2);
 	 */
-	 
+	
 	/**
 	 * _calculateCost function
 	 * 计算社保公积金费用
@@ -1291,25 +1333,34 @@ class InsuranceController extends HomeController {
 		$template = D('Template');
 		$templateResult = $template->getTemplateByCondition(array('id'=>$data['templateId'],'state'=>1));
 		if ($templateResult) {
-			$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-			$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-			$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+			//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+			//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+			//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 			
-			//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-			//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+			$templateRule = D('TemplateRule');
+			$ruleResult = $templateRule->getTemplateRuleByCondition(array('id'=>$data['socRuleId'],'state'=>1));
+			if ($ruleResult) {
+				$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+				$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+				$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+			}else {
+				return array('status'=>0,'info'=>'规则错误！');
+			}
+			
 			$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 			$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 			$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
 			$orderDateStr[2] = substr_replace($orderDate[2],'-',4,0);
 			
-			//$maxPaymentMonth[1] = $orderDate[1];
-			//$maxPaymentMonth[2] = $orderDate[2];
 			$maxPaymentMonth[1] = 1 == $templateResult['payment_type'][1]?$orderDate[1]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[1])));
 			$maxPaymentMonth[2] = 1 == $templateResult['payment_type'][2]?$orderDate[2]:date('Ym',strtotime('+1 month', strtotime($orderDateStr[2])));
-			$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateResult['payment_month'][1].' month', strtotime($maxPaymentMonth[1])));
-			$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateResult['payment_month'][2].' month', strtotime($maxPaymentMonth[2])));
-			//$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateResult['payment_month'][1].' month', strtotime($orderDateStr[1])));
-			//$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateResult['payment_month'][2].' month', strtotime($orderDateStr[2])));
+			$maxPaymentMonthStr[1] = substr_replace($maxPaymentMonth[1],'-',4,0);
+			$maxPaymentMonthStr[2] = substr_replace($maxPaymentMonth[2],'-',4,0);
+			$minPaymentMonth[1] = date('Ym',strtotime('-'.$templateResult['payment_month'][1].' month', strtotime($maxPaymentMonthStr[1])));
+			$minPaymentMonth[2] = date('Ym',strtotime('-'.$templateResult['payment_month'][2].' month', strtotime($maxPaymentMonthStr[2])));
+			$minPaymentMonthStr[1] = substr_replace($minPaymentMonth[1],'-',4,0);
+			$minPaymentMonthStr[2] = substr_replace($minPaymentMonth[2],'-',4,0);
+			
 			
 			if (!empty($data['socPayMonth']) && string_to_number($data['socPayMonth'])<$minPaymentMonth[1]) {
 				return array('status'=>0,'info'=>'社保起缴月份错误！');
@@ -1318,15 +1369,11 @@ class InsuranceController extends HomeController {
 			if (!empty($data['proPayMonth']) && string_to_number($data['proPayMonth'])<$minPaymentMonth[2]) {
 				return array('status'=>0,'info'=>'公积金起缴月份错误！');
 			}
-			//date_to_int($data['proPayMonth']);
 			
 			$calculateData = array();
-			$templateRule = D('TemplateRule');
 			if ($data['socRuleId'] && $data['socAmount']) {
 				$socRuleResult = $templateRule->getTemplateRuleByCondition(array('id'=>$data['socRuleId'],'state'=>1));
 				$disRuleResult = $templateRule->getTemplateRuleByCondition(array('template_id'=>$data['templateId'],'company_id'=>$socRuleResult['company_id'],'type'=>3,'state'=>1));
-				//dump($socRuleResult['company_id']);
-				//dump($disRuleResult);
 				if ($socRuleResult) {
 					$calculateData[1]['rule_id'] = $socRuleResult['id'];
 					$calculateData[1]['disRule'] = $disRuleResult['rule'];
@@ -1360,9 +1407,6 @@ class InsuranceController extends HomeController {
 				$proMonthNum = get_different_by_month($calculateData[2]['payMonth'],$maxPaymentMonth[2]);
 				$monthNum = $socMonthNum>$proMonthNum?$socMonthNum:$proMonthNum;
 				$payMonth = strtotime(int_to_date(($maxPaymentMonth[1]>$maxPaymentMonth[2]?$maxPaymentMonth[1]:$maxPaymentMonth[2]),'-'));
-				//dump($maxPaymentMonth);
-				//dump($monthNum);
-				//dump(date('Y-m',$payMonth));
 				for ($i=$monthNum-1; $i >= 0; $i--) { 
 					$month = date('Y-m',strtotime('-'.$i.' Month',$payMonth));
 					$result['data'][$month] = array();
@@ -1382,7 +1426,6 @@ class InsuranceController extends HomeController {
 					$result['rule_id'][$key] = $value['rule_id'];
 					for ($i=0; $i < $monthNum; $i++) { 
 						$month = date('Y-m',strtotime('+'.$i.' Month',$payMonth));
-						//dump($month);
 						//$result['data'][$month][$key]['replenish'] = string_to_number($month) < $orderDate[$key]?1:0;
 						$replenish = string_to_number($month) < $maxPaymentMonth[$key]?1:0;
 						$calculateResult = json_decode($calculate->detail($value['rule'],$value['json'],$key,$value['disRule'],$replenish),true);
@@ -1390,9 +1433,6 @@ class InsuranceController extends HomeController {
 						$result['data'][$month][$key] = $calculateResult;
 						$result['data'][$month][$key]['servicePrice'] = $servicePrice[$key];
 						$result['data'][$month][$key]['replenish'] = $replenish;
-						//dump($calculateResult);
-						//dump($value['disRule']);
-						//dump($result['data'][$month][$key]['replenish']);
 						if (0 == $calculateResult['state']) {
 							$companyCost = $calculateResult['data']['company'];
 							$personCost = $calculateResult['data']['person'];
@@ -1409,7 +1449,6 @@ class InsuranceController extends HomeController {
 				}
 				$result['totalCost'] = $result['servicePrice'] + $result['companyCost'] + $result['personCost'];
 				$result['monthNum'] = count($result['data']);
-				//dump($result);
 				return array('status'=>1,'result'=>$result);
 			}else {
 				return array('status'=>0,'info'=>'非法参数！');
@@ -1577,12 +1616,21 @@ class InsuranceController extends HomeController {
 						//$templateResult = $template->getTemplateByCondition(array('location'=>$data['location'],'state'=>1));
 						$templateResult = $template->getTemplateByCondition(array('location'=>$data['templateLocation'],'state'=>1));
 						if ($templateResult) {
-							$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-							$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-							$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+							//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+							//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+							//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 							
-							//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-							//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+							$templateRule = D('TemplateRule');
+							$ruleResult = $templateRule->getById($data['socRuleId']);
+							if ($ruleResult) {
+								$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+								$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+								$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+							}else {
+								$personBase->rollback();
+								$this->ajaxReturn(array('status'=>0,'info'=>'规则错误！'));
+							}
+							
 							$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 							$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 							$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
@@ -1642,15 +1690,14 @@ class InsuranceController extends HomeController {
 								$personInsuranceInfoArray[2]['pay_date'] = '';
 								$personInsuranceInfoArray[2]['operate_state'] = -9;//撤销
 								$personInsuranceInfoResult = $personInsuranceInfo->getLastPersonInsuranceInfo(array('id'=>$data['proPiiId'],'user_id'=>$this->mCuid,'base_id'=>$personBaseId,'payment_type'=>2));
-								if ($personInsuranceInfoResult) {
+								/*if ($personInsuranceInfoResult) {
 									$personInsuranceInfoArray[2]['state'] = (1 == $personInsuranceInfoResult['state']?0:$personInsuranceInfoResult['state']);
 								}else {
 									$personInsuranceInfoArray[2]['state'] = 0;//未参保
-								}
+								}*/
 							}
 							if ($personInsuranceInfoArray) {
 								$personInsuranceInfoResult = array();
-								$templateRule = D('TemplateRule');
 								foreach ($personInsuranceInfoArray as $key => $value) {
 									if (1 == $value['state']) {
 										//报增状态
@@ -1891,7 +1938,6 @@ class InsuranceController extends HomeController {
 					$serviceProductOrderLocationResult['condition'] = array('location'=>$templateLocation);
 					
 					foreach ($personInsuranceInfoResult as $key => $value) {
-						//$personInsuranceInfoResult[$key]['serviceProductOrderResult'] = $serviceProductOrder->getEffectiveServiceProductOrderLocationByProductId($this->mCuid,$value['product_id']);
 						$personInsuranceInfoResult[$key]['paymentInfoValue'] = json_decode($value['payment_info'],true);
 						$personInsuranceInfoResult[$key]['templateRuleResult'] = $templateRule->getTemplateRuleByCondition(array('id'=>$value['rule_id']));
 						//$personInsuranceInfoResult[$key]['templateResult'] = $template->getTemplateByCondition(array('id'=>$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']));
@@ -1902,21 +1948,7 @@ class InsuranceController extends HomeController {
 						$templateRuleResult[$key]['list'] = $this->_getTemplateRule($key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']?:$personInsuranceInfoResult[3-$key]['templateRuleResult']['template_id'],$serviceProductResult['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
 						
 						$templateRuleResult[$key]['condition'] = array('rule_id'=>$value['rule_id'],'amount'=>$value['amount'],'start_month'=>int_to_date($value['start_month'],'-'),'companyScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['companyScale'],'personScale'=>$personInsuranceInfoResult[$key]['paymentInfoValue']['personScale']);
-						
 					}
-					//dump($serviceProductOrderResult);
-					//dump($serviceProductOrderLocationResult);
-					//dump($templateClassifyResult);
-					//dump($templateRuleResult);
-					//dump($personInsuranceInfoResult);
-					/*foreach ($personInsuranceInfoResult as $key => $value) {
-						$personInsuranceInfoResult[$key]['serviceProductOrderResult'] = $serviceProductOrder->getEffectiveServiceProductOrderLocationByProductId($this->mCuid,$value['product_id']);
-						$personInsuranceInfoResult[$key]['serviceProductResult'] = $serviceProduct->field('company_id,name')->getById($value['product_id']);
-						$personInsuranceInfoResult[$key]['templateRuleResult'] = $templateRule->getTemplateRuleByCondition(array('id'=>$value['rule_id']));
-						$personInsuranceInfoResult[$key]['templateResult'] = $template->getTemplateByCondition(array('id'=>$personInsuranceInfoResult[$key]['templateRuleResult']['template_id']));
-						$personInsuranceInfoResult[$key]['templateClassifyList'] = $this->_getTemplateClassify($personInsuranceInfoResult[$key]['templateResult']['location']);
-						$personInsuranceInfoResult[$key]['templateRuleList'] = $this->_getTemplateRule($key,$personInsuranceInfoResult[$key]['templateRuleResult']['template_id'],$personInsuranceInfoResult[$key]['serviceProductResult']['company_id'],explode('|',$personInsuranceInfoResult[$key]['templateRuleResult']['classify_mixed']));
-					}*/
 				}else {
 					//$this->ajaxReturn(array('status'=>0,'info'=>'参保状态错误！'));
 					$this->error('参保状态错误！');
@@ -2062,6 +2094,7 @@ class InsuranceController extends HomeController {
 				$personBase = D('PersonBase');
 				$personInsurance = D('PersonInsurance');
 				$personInsuranceInfo = D('PersonInsuranceInfo');
+				$template = D('Template');
 				$templateRule = D('TemplateRule');
 				$warrantyLocation = D('WarrantyLocation');
 				$calculate = new \Common\Model\Calculate();
@@ -2144,16 +2177,23 @@ class InsuranceController extends HomeController {
 							if ($personInsuranceResult) {
 								if ($personInsuranceResult['increase']) {
 									//计算订单月份
-									$template = D('Template');
 									//$templateResult = $template->getTemplateByCondition(array('location'=>$data['location'],'state'=>1));
 									$templateResult = $template->getTemplateByCondition(array('location'=>$data['templateLocation'],'state'=>1));
 									if ($templateResult) {
-										$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-										$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-										$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+										//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+										//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+										//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 										
-										//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-										//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][2],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+										$ruleResult = $templateRule->getById($data['socRuleId']);
+										if ($ruleResult) {
+											$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+											$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+											$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+										}else {
+											$personBase->rollback();
+											$batchResult['data'][$rowNum]['info'] = '规则错误！';
+										}
+										
 										$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 										$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 										$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
@@ -2192,7 +2232,7 @@ class InsuranceController extends HomeController {
 											$personInsuranceInfoArray[2]['handle_month'] = $orderDate[2];
 											$personInsuranceInfoArray[2]['amount'] = $data['proAmount'];
 											$personInsuranceInfoArray[2]['payment_type'] = 2;
-											$personInsuranceInfoArray[2]['payment_info'] = json_encode(array('companyScale'=>$data['proCompanyScale'],'personScale'=>$data['proPersonScale'],'cardno'=>$data['proCardNum']));
+											$personInsuranceInfoArray[2]['payment_info'] = json_encode(array('companyScale'=>trim($data['proCompanyScale'],'%').'%','personScale'=>trim($data['proPersonScale'],'%').'%','cardno'=>$data['proCardNum']));
 										}else {
 											$tempPersonInsuranceInfoData = $personInsuranceInfoData;
 											$tempPersonInsuranceInfoData['state'] = 0;//未参保
@@ -2209,7 +2249,6 @@ class InsuranceController extends HomeController {
 											if (!$personInsuranceInfo->addPersonInsurance($tempPersonInsuranceInfoData)){
 												$personBase->rollback();
 												$batchResult['data'][$rowNum]['info'] = '系统内部错误！';
-												//$this->ajaxReturn(array('status'=>0,'info'=>'系统内部错误！'));
 											}
 										}
 										//dump($personInsuranceInfoArray);
@@ -2226,7 +2265,6 @@ class InsuranceController extends HomeController {
 												}else {
 													$personBase->rollback();
 													$batchResult['data'][$rowNum]['info'] = '规则参数错误！';
-													//$this->ajaxReturn(array('status'=>0,'info'=>'规则参数错误！'));
 												}
 											}
 											if ($personInsuranceInfoResult['successCount'] == count($personInsuranceInfoArray)) {
@@ -2344,12 +2382,10 @@ class InsuranceController extends HomeController {
 																			}else {
 																				$personBase->rollback();
 																				$batchResult['data'][$rowNum]['info'] = '报增失败！';
-																				//$this->ajaxReturn(array('status'=>0,'info'=>'报增失败！'));
 																			}
 																		}else {
 																			$personBase->rollback();
 																			$batchResult['data'][$rowNum]['info'] = '超出最大补缴月份！';
-																			//$this->ajaxReturn(array('status'=>0,'info'=>'超出最大补缴月份！'));
 																		}
 																	}else {
 																		$personBase->rollback();
@@ -2387,48 +2423,39 @@ class InsuranceController extends HomeController {
 															*/
 															$batchResult['successCount'] ++;
 															//$batchResult['data'][$rowNum]['info'] = '';
-															//$this->ajaxReturn(array('status'=>1,'info'=>'报增成功！'));
 														}else if ($batchResult['data'][$rowNum]['info']) {
 															//不处理
 														}else {
 															$personBase->rollback();
 															$batchResult['data'][$rowNum]['info'] = '报增失败！';
-															//$this->ajaxReturn(array('status'=>0,'info'=>'报增失败！'));
 														}
 												}else {
 													$personBase->rollback();
 													$batchResult['data'][$rowNum]['info'] = '产品订单错误！';
-													//$this->ajaxReturn(array('status'=>0,'info'=>'产品订单错误！'));
 												}
 											}else {
 												$personBase->rollback();
 												$batchResult['data'][$rowNum]['info'] = '系统内部错误！';
-												//$this->ajaxReturn(array('status'=>0,'info'=>'系统内部错误！'));
 											}
 										}else {
 											$personBase->rollback();
 											$batchResult['data'][$rowNum]['info'] = '请填写要参保的项目！';
-											//$this->ajaxReturn(array('status'=>0,'info'=>'请选择要参保的项目！'));
 										}
 									}else {
 										$personBase->rollback();
 										$batchResult['data'][$rowNum]['info'] = '系统缴费模板错误！';
-										//$this->ajaxReturn(array('status'=>0,'info'=>'系统缴费模板错误！'));
 									}
 								}else {
 									$personBase->rollback();
 									$batchResult['data'][$rowNum]['info'] = '参保状态错误！';
-									//$this->ajaxReturn(array('status'=>0,'info'=>'参保状态错误！'));
 								}
 							}else {
 								$personBase->rollback();
 								$batchResult['data'][$rowNum]['info'] = '系统内部错误！';
-								//$this->ajaxReturn(array('status'=>0,'info'=>'系统内部错误！'));
 							}
 						}else {
 							$personBase->rollback();
 							$batchResult['data'][$rowNum]['info'] = $personBase->getError();
-							//$this->ajaxReturn(array('status'=>0,'info'=>$personBase->getError()));
 						}
 					}else {
 						$batchResult['data'][$rowNum]['info'] = '身份证错误！';
@@ -2610,6 +2637,7 @@ class InsuranceController extends HomeController {
 							//dump($personInsuranceInfoResult);
 							//die;
 							$template = D('Template');
+							$templateRule = D('TemplateRule');
 							$serviceInsuranceDetail = D('ServiceInsuranceDetail');
 							$result = array();
 							$result['totalCount'] = 0;
@@ -2623,12 +2651,20 @@ class InsuranceController extends HomeController {
 									if ($personInsuranceInfoResult[$key]) {
 										$templateResult = $template->getTemplateByRuleId($personInsuranceInfoResult[$key]['rule_id']);
 										if ($templateResult) {
-											$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
-											$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
-											$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
+											//$templateResult['deadline'] = array(1=>$templateResult['soc_deadline'],2=>$templateResult['pro_deadline']);
+											//$templateResult['payment_type'] = array(1=>$templateResult['soc_payment_type'],2=>$templateResult['pro_payment_type']);
+											//$templateResult['payment_month'] = array(1=>$templateResult['soc_payment_month'],2=>$templateResult['pro_payment_month']);
 											
-											//$orderDate[1] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
-											//$orderDate[2] = date('Ymd')>=intval(date('Ymd',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(date('Y-m-',time()+(C('INSURANCE_HANDLE_DAYS')*86400)).str_pad($templateResult['deadline'][1],2,'0',STR_PAD_LEFT)))))?date('Ym',strtotime('+1 month '.date('Y-m',strtotime(' + '.C('INSURANCE_HANDLE_DAYS').' day')))):date('Ym',time()+(C('INSURANCE_HANDLE_DAYS')*86400));
+											$ruleResult = $templateRule->getById($personInsuranceInfoResult[1]['rule_id']);
+											if ($ruleResult) {
+												$templateResult['deadline'] = array(1=>$ruleResult['deadline'],2=>$ruleResult['deadline']);
+												$templateResult['payment_type'] = array(1=>$ruleResult['payment_type'],2=>$ruleResult['payment_type']);
+												$templateResult['payment_month'] = array(1=>$ruleResult['payment_month'],2=>$ruleResult['payment_month']);
+											}else {
+												$personBase->rollback();
+												$batchResult['data'][$rowNum]['info'] = '规则错误！';
+											}
+											
 											$orderDate[1] = get_handle_month($templateResult['deadline'][1]);
 											$orderDate[2] = get_handle_month($templateResult['deadline'][2]);
 											$orderDateStr[1] = substr_replace($orderDate[1],'-',4,0);
@@ -2651,7 +2687,9 @@ class InsuranceController extends HomeController {
 													$personInsuranceInfo->rollback();
 													$this->error('请勿重复报减！');
 												}else if($personInsuranceInfoExistResult && 2 == $personInsuranceInfoExistResult['state'] && in_array($personInsuranceInfoExistResult['operate_state'],array(2,3))) {
-													$handleMonth = date('Ym',strtotime('+1 month',strtotime(int_to_date($orderDate[$key],'-'))));
+													$personInsuranceInfo->rollback();
+													$this->error('当前时间不能报减！');
+													/*$handleMonth = date('Ym',strtotime('+1 month',strtotime(int_to_date($orderDate[$key],'-'))));
 													$paymentMonth = date('Ym',strtotime('+1 month',strtotime(int_to_date($paymentMonth,'-'))));;
 													
 													$nextPersonInsuranceInfoExistResult = $personInsuranceInfo->field('id,state,operate_state')->where(array('insurance_id'=>$personInsuranceInfoResult[$key]['insurance_id'],'handle_month'=>$handleMonth,'payment_type'=>$personInsuranceInfoResult[$key]['payment_type']))->find();
@@ -2663,11 +2701,12 @@ class InsuranceController extends HomeController {
 															$personInsuranceInfo->rollback();
 															$this->error('数据错误!');
 														}
-													}
+													}*/
 												}else {
 													$handleMonth = $orderDate[$key];
 												}
-												$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
+												//$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
+												$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['deadline'][1]))));
 												//写入支付订单数据
 												$payOrderData['handle_month'] = $handleMonth;
 												$payOrderData['pay_deadline'] = $payDeadline;
@@ -2732,7 +2771,8 @@ class InsuranceController extends HomeController {
 												//如果有未支付的在保数据,则更新数据
 												$piiId = $personInsuranceInfoExistResult['id'];
 												$handleMonth = $orderDate[$key];
-												$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
+												//$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
+												$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['deadline'][1]))));
 												//写入支付订单数据
 												$payOrderData['handle_month'] = $handleMonth;
 												$payOrderData['pay_deadline'] = $payDeadline;

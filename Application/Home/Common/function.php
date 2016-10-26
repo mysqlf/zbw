@@ -166,7 +166,7 @@ function is_active($controller_name,$action_name)
 {
 	$controller = strtolower(CONTROLLER_NAME);
 	$action = strtolower(ACTION_NAME);
-	return $controller == $controller_name && $action==$action_name;
+	return  $controller == strtolower($controller_name) && $action==strtolower($action_name);
 }
 
 /**
@@ -190,6 +190,7 @@ function channel_list($cid,$limit=3,$field=null,$article_limit = 5)
 		$map['category_id'] = $value['id'];
 		$channel[$key]['article_list'] = $Aritcle->where($map)->field($field)->order('update_time DESC')->limit($article_limit)->select();
 	}
+	sort($channel);
 	return $channel;
 }
 
@@ -202,22 +203,44 @@ function artitcle_category($category_id){
 /**
  * 搜索URL拼接
  */
-function url_splite($flag){
-	$quer_str = $_SERVER['QUERY_STRING'];
-	$url = '?';
+// function url_splite($flag){
+// 	//$quer_str = $_SERVER['QUERY_STRING'];
+// 	$product_name = I('get.product_name', '');
+// 	$location = I('get.location', '0');
+// 	$applicable_object = I('get.applicable_object', '0');
+// 	$amount = I('get.amount', '0');
 
-	if(empty($quer_str))
-	{
-		return $url = '?';
-	}
+// 	//$_query = array('product_name', 'location', 'applicable_object', 'amount');
+// 	$qurl = "product_name={$product_name}&location={$location}&applicable_object={$applicable_object}&amount={$amount}";
+// 	$urlArray = array();
+// 	$url = parse_str($qurl,$urlArray);
+// 	unset($urlArray[$flag]);
+	
+// 	foreach ($urlArray as $key => $value) {
+// 		$query_str .= $key.'='.$value.'&';
+// 	}
+// 	return "?{$query_str}";
+// 	// $url = '?';
+// 	// 	echo $quer_str;
+// 	// if(empty($quer_str))
+// 	// {
+// 	// 	return $url;
+// 	// }
 
-	$str = explode('&', $quer_str);
-	foreach ($str as $key => $value) {
-		if(strpos($value, $flag) === false){
-			$url .= $value.'&';
-		}
-	}
+// 	// $str = explode('&', $quer_str);
+// 	// foreach ($str as $key => $value) {
+// 	// 	$_str = explode('=', $value);
+// 	// 	if(!in_array($_str[0], $vali_query)){
+// 	// 		unset($str[$key]);
+// 	// 	}
+
+// 	// }
+// 	// foreach ($str as $key => $value) {
+// 	// 	if(strpos($value, $flag) === false){
+// 	// 		$url .= $value.'&';
+// 	// 	}
+// 	// }
 
 
-	return $url;
-}
+// 	return $url;
+// }

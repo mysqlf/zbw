@@ -28,7 +28,7 @@ class ServiceAdminModel extends Model
             if(!empty($result)) return ajaxJson(-1,'帐号已存在');
 
             $account['password'] =  md5($account['username'].':'.$account['password']);
-            $result = $this->where("name = '{$account['name']}'")->find();
+            $result = $this->where("name = '{$account['name']}' AND company_id = {$admin['company_id']}")->find();
             if(!empty($result)) return ajaxJson(-1,'帐号已存在');
             unset($account['id']);
             $user['username'] = $account['username'];
@@ -50,7 +50,7 @@ class ServiceAdminModel extends Model
                  $account['auth'] = json_encode(C('articleAuth'));
             }
             $account['type'] = 2;
-            $this->create($account);
+            $this->token(false)->create($account);
             $id = $this->add();
             if($id)
             {
@@ -70,26 +70,35 @@ class ServiceAdminModel extends Model
             if(empty($result)) return ajaxJson(-1,'帐号不存在');
             if(!empty($account['password']))
             {
-                $account['password'] =  md5($result['username'].':'.$account['password']);
+                $password =  md5($account['username'].':'.$account['password']);
             }
             else
             {
                 unset( $account['password']);
             }
+
             $nowdate = $account['create_time'];
             $username = $account['name'];
             if($account['group'] == 2){//2财务 
                 $account['auth'] = json_encode(C('financeAuth'));
             }else{
                 $account['auth'] = json_encode(C('serviceAuth'));
-            }            
+            }
+
+            $username = $account['username'];
             unset($account['create_time']);
             unset($account['username']);
+            unset($account['company_id']);
             $account['update_time']  = date('Y-m-d H:i:s',time());
-           //dump($account);die();
+
             $id = $this->where("id = {$account['id']}")->save($account);
-            if($id)
-            {   $state_user_id = S('state_user_id');
+            if(is_numeric($id))
+            {   
+                if(!empty($account['password']))
+                {
+                    M('user')->where(array('username'=> $username))->save(array('password'=> $password));                  
+                }
+                $state_user_id = S('state_user_id');
                 if($account['state'] == 1){
                     $state_user_id = str_replace(','.$result['user_id'], '', $state_user_id);
                 }else{

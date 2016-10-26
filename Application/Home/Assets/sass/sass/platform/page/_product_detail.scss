@@ -150,6 +150,7 @@
     box-shadow: 0 3px 4px rgba(233, 233, 233, 0.85);
     border-bottom: 1px solid #DFDFDF \9;
     @at-root .detail-logo {
+        line-height: 70px;
         img {
             max-height: 70px;
             vertical-align: middle;
@@ -308,6 +309,7 @@
                 bottom: 150px;
             }
             width: 880px;
+            min-height: 580px;
             background: #FFFFFF;
             @at-root .detail-intro {
                 h3 {
@@ -323,6 +325,11 @@
                         bottom: 1px solid #EAEDF1;
                     }
                 }
+                img {
+                    display: inline-block;
+                    vertical-align: top;
+                    max-width: 780px;
+                }
             }
         }
         .fr {
@@ -336,6 +343,7 @@
                 }
                 margin-bottom: 20px;
                 background: #FFFFFF;
+                height: 280px;
                 h4 {
                     margin: {
                         bottom: 15px;
@@ -360,13 +368,14 @@
                 @at-root .detail-company {
                     @at-root .com-logo {
                         width: 120px;
-                        // height: 60px;
+                        height: 60px;
                         border: 1px solid #CDD2D5;
                         margin: {
                             left: auto;
                             right: auto;
                             bottom: 15px;
                         }
+                        overflow: hidden;
                         img {
                             vertical-align: top;
                             max-width: 118px;
@@ -389,17 +398,20 @@
                         color: #78848F;
                         line-height: 24px;
                         text-indent: 2em;
+                        height: 72px;
+                        overflow: hidden;
                     }
                 }
                 @at-root .detail-recommend-list {
                     padding-bottom: 7px;
                     li {
                         line-height: 36px;
+                    }
+                    a {
+                        display: block;
                         white-space: nowrap;
                         text-overflow: ellipsis;
                         overflow: hidden;
-                    }
-                    a {
                         color: #78848F;
                         &:hover {
                             color: #F98919;

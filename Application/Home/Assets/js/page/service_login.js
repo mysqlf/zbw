@@ -17,6 +17,8 @@ let login = {
 
                     if (msg) {
                         layer.msg(msg);
+                        $('.verifyimg').trigger('click');
+                        $('#verify').val('');
                     }
 
                 });
@@ -42,6 +44,9 @@ let login = {
                 password: {
                     required: '请输入密码',
                     rangelength: '密码格式不正确'
+                },
+                verify: {
+                    required: '请输入验证码'
                 }
             }
         })

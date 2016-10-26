@@ -129,7 +129,7 @@ class AttributeModel extends Model {
 
         if($model['extend'] == 0){	//独立模型表名
             $table_name = $this->table_name = C('DB_PREFIX').strtolower($model['name']);
-            if($model['name'] == 'location_demand' || $model['name'] == 'company_info'){
+            if($model['name'] == 'location'||$model['name'] == 'location_demand' || $model['name'] == 'company_info'){
               $table_name = $this->table_name = 'zbw_'.strtolower($model['name']);
             }            
         }else{						//继承模型表名

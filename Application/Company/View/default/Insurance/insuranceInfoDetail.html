@@ -143,7 +143,7 @@
 	                        <option value="">请选择</option>
 	                        <if condition="$serviceProductOrderLocationResult['list']['warranty_location']">
 	                        	<volist name="serviceProductOrderLocationResult['list']['warranty_location']" id="vo">
-	                        		<option value="{$vo.location}" data-locationid="{$vo.warrantyLocationId}" data-date="{$vo.deadline.1}" data-min="{$vo.minPaymentMonth.1}" data-max="{$vo.maxPaymentMonth.1}" data-month="{$vo.paymentMonthNum.1}" data-datepro="{$vo.deadline.2}" data-minpro="{$vo.minPaymentMonth.2}" data-maxpro="{$vo.maxPaymentMonth.2}" data-monthpro="{$vo.paymentMonthNum.2}" <if condition="$vo['location'] eq $serviceProductOrderLocationResult['condition']['location']">selected="selected"</if>>{$vo.locationValue}</option>
+	                        		<option value="{$vo.location}" data-locationid="{$vo.warrantyLocationId}" <if condition="$vo['location'] eq $serviceProductOrderLocationResult['condition']['location']">selected="selected"</if>>{$vo.locationValue}</option>
 	                        	</volist>
 	                        </if>
 	                    </select>
@@ -217,7 +217,7 @@
 	                        <select class="select" name="project" required id="project">
 	                            <option value="">请选择</option>
 			                    <volist name="templateRuleResult.1.list" id="vo">
-	                            	<option value="{$vo.id}" data-minamount="{$vo.minAmount}" data-maxamount="{$vo.maxAmount}" <if condition="$vo['id'] eq $personInsuranceInfoResult[1]['rule_id']">selected="selected"</if>>{$vo.name}</option>
+	                            	<option value="{$vo.id}" data-minamount="{$vo.minAmount}" data-maxamount="{$vo.maxAmount}" data-date="{$vo.deadlineArray.1}" data-prodate="{$vo.deadlineArray.2}" data-min="{$vo.minPaymentMonth.1}" data-max="{$vo.maxPaymentMonth.1}" data-month="{$vo.paymentMonthNum.1}" data-datepro="{$vo.deadlineArray.2}" data-minpro="{$vo.minPaymentMonth.2}" data-maxpro="{$vo.maxPaymentMonth.2}" data-monthpro="{$vo.paymentMonthNum.2}" <if condition="$vo['id'] eq $personInsuranceInfoResult[1]['rule_id']">selected="selected"</if>>{$vo.name}</option>
 		                        </volist>
 	                        </select>
 	                    </div>
@@ -236,7 +236,7 @@
                     
                     <div class="gongjijin">
                         <div class="gongjijin_tit">
-                            <input type="checkbox"  name="isBuyPro" value="1" id="isBuyPro" <if condition="$personInsuranceInfoResult[2]['id'] and 0 neq $personInsuranceInfoResult[2]['state']">checked="checked"</if> <if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">disabled="disabled"</if> >
+                            <input type="checkbox"  name="isBuyPro" value="1" id="isBuyPro" <if condition="$personInsuranceInfoResult[2]['id'] and (0 neq $personInsuranceInfoResult[2]['state'] and -9 neq $personInsuranceInfoResult[2]['operate_state'])">checked="checked"</if> <if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable'] or (2 eq $personInsuranceInfoResult[1]['state'] or 2 eq $personInsuranceInfoResult[2]['state'])">disabled="disabled"</if> >
                             <span class="tit_text"><if condition="3 eq $personInsuranceInfoResult[2]['state']">报减公积金<else/>购买公积金</if>
                             	<if condition='0 eq $personInsuranceInfoResult[2]["operate_state"]'>
                             		<span class="success_aduit">{$personInsuranceInfoResult[2]['operate_state']|get_code_value="PersonInsuranceInfoOperateState"}</span>
@@ -252,7 +252,7 @@
                         </div>
                        
                         <div class="GJJ_con" id="con_gjj">
-                        	<if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable']">
+                        	<if condition="!in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9)) or !$personBaseResult['whetherToOperate'] or !$personBaseResult['editable'] or (2 eq $personInsuranceInfoResult[1]['state'] or 2 eq $personInsuranceInfoResult[2]['state'])">
 	                        	<div class="pro_unchange">
 	                        		<div class="inp_box select_box">
 	                        			<label class="inp_tit">缴费规则：</label>
@@ -353,7 +353,7 @@
             <input type="hidden" id="templateClassifyResult" value='{//:json_encode($templateClassifyResult)}'>
             <input type="hidden" id="templateRuleResult" value='{:json_encode($templateRuleResult)}'>
             <if condition="$personInsuranceInfoResult[1]['whetherToOperate'] or $personInsuranceInfoResult[2]['whetherToOperate']">
-	            <if condition="(in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))) and $personBaseResult['editable'] and $personBaseResult['whetherToOperate']">
+	            <if condition="(in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) or in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))) and $personBaseResult['editable'] and $personBaseResult['whetherToOperate'] and (2 neq $personInsuranceInfoResult[1]['state'] and 2 neq $personInsuranceInfoResult[2]['state'])">
 	            	<input type="button" value="提交" id="submitBtn" class="btn btn_orange ls_btn submit_btn">
 	            </if>
 	            <!--<input type="button" value="提交" id="submitBtn" class="btn btn_orange ls_btn submit_btn" <if condition="!in_array($personInsuranceInfoResult[1]['operate_state'],array(0,-1,-9)) and !in_array($personInsuranceInfoResult[2]['operate_state'],array(0,-1,-9))">disabled="disabled"</if> >-->

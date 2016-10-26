@@ -13,6 +13,8 @@ class DiffCronModel extends Model
     public $_messageBody = array();
     public $_rule_id = array();
     public $_start   = '';
+    public $_end     = '';
+    public $_replenish = 0;
 
     //计划任务表入口
     public function diffCron ()
@@ -25,7 +27,7 @@ class DiffCronModel extends Model
     private function _validata()
     {
         if (!$this->_type || !$this->_item) die('参数错误');
-        if ($this->_type == 2 && (!$this->_rule_id || !intval($this->_start))) die('参数错误');
+        if ($this->_type == 2 && (!$this->_rule_id || !intval($this->_start) || !intval($this->_end))) die('参数错误');
         if ($this->_type == 3 && (!$this->_messageBody || !$this->_sign['detail_id'])) die('参数错误');
     }
     private function _dispose()
@@ -37,7 +39,10 @@ class DiffCronModel extends Model
                 $this->_delete();
             break;
             case 2:
-                $this->_sign = M('service_insurance_detail' , 'zbw_')->field('GROUP_CONCAT(id) id')->where("rule_id={$this->_rule_id} AND pay_date >= {$this->_start}")->select();
+
+                $whereExp = 'replenish=0';
+                if ($this->_replenish) $whereExp = 'replenish IN (0,1)';
+                $this->_sign = M('service_insurance_detail' , 'zbw_')->field('GROUP_CONCAT(id) id')->where("rule_id={$this->_rule_id} AND pay_date >= {$this->_start} AND pay_date <= {$this->_end} AND {$whereExp} AND `state` IN (2,3,-4)")->select();
                 if(!empty($this->_sign)) $this->_sign['detail_id'] = $this->_sign[0]['id'];
             break;
             case 3:
@@ -53,12 +58,12 @@ class DiffCronModel extends Model
 
     private function _refactor (&$data)
     {
-        if ($data['insurance_info_id']&&!$data['detail_id'])
-        {
-            if (is_array($data['insurance_info_id'])) $data['insurance_info_id'] = implode(',', $data['insurance_info_id']);
-            $data['detail_id'] = M('service_insurance_detail' , 'zbw_')->where("insurance_info_id IN ({$data['insurance_info_id']})")->getField('GROUP_CONCAT(id) id');
-            unset($data['insurance_info_id']);
-        }
+        // if ($data['insurance_info_id']&&!$data['detail_id'])
+        // {
+        //     if (is_array($data['insurance_info_id'])) $data['insurance_info_id'] = implode(',', $data['insurance_info_id']);
+        //     $data['detail_id'] = M('service_insurance_detail' , 'zbw_')->where("insurance_info_id IN ({$data['insurance_info_id']})")->getField('GROUP_CONCAT(id) id');
+        //     unset($data['insurance_info_id']);
+        // }
     }
 
     private function _delete ()

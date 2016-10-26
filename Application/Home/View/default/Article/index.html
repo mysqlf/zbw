@@ -15,12 +15,33 @@
         </div>
         <div class="proService-pagination"></div>
     </div>
-
+    <div class="information-search-wra">
+        <div class="commWidth">
+            <div class="search">
+                <label class="search-lb" for="search">搜索查询</label>
+                <div class="search-box">
+                    <form id="J_infor-search-form" method="get" action="/Article-lists">
+                        <input type="text" name="keyword" class="search-txt" value="<?php if($_GET['keyword']) echo $_GET['keyword']; ?>" placeholder="请输入关键字" />
+                        <input type="image" src="/Application/Home/Assets/img/platform/search_small.png" class="submit-search" alt="查询">
+                        <input type="hidden" name="category" value="{:I('get.category')}">
+                        <input id="J_location" type="hidden" name="location">
+                    </form>
+                </div>
+            </div>
+            <div class="query-city clearfix">
+                <label class="fl">选择城市：</label>
+                <p id="J_location-list" class="city-list fl">
+                    <a class="active" href="javascript:;" data-location="">全国</a>
+                    <volist name="location" id="vo">
+                        <a href="{:U('Article/lists',array('location'=>$vo['location']))}" data-location="{$vo.location}">{$vo.location|showAreaName}</a>
+                    </volist>
+                </p>
+            </div>
+        </div>
+    </div>
 
     <div class="commWidth horizontal information-index">
         <div class="left">
-            <h2 class="lg-title">热门资讯</h2>
-
             <div id="J_infor-tab" class="tab">
                 <ul class="tab-toggle clearfix">
                     <volist name="news_cate" id="v">
@@ -30,17 +51,21 @@
                 <div class="tab-content">
                     <?php $i=1;  foreach($hotNews as $k=>$v){?> 
                     <div id="category<?php echo $i;?>" class="item <?php if($i==1) echo 'active';?>">
-                        <ul class="item category-list clearfix ">
-                                <?php  foreach($v as $key=>$val){?>
+                    <?php if(empty($v)){?>
+                        暂无数据
+                    <?php }else{ ?>
+                        <ul class="item category-list clearfix ">  
+                                <?php foreach($v as $key=>$val){?>
                                 <li class="category-item clearfix">
                                     <span class="time"><?php echo date('Y-m-d', $val['create_time']); ?></span>
                                     <div class="category-link">
                                         <a href="<?php echo U('Article/detail?id='.$val['id']);?>" title="<?php echo $val['title']; ?>">【<?php echo $news_cate[$k][0];  ?>】<?php echo $val['title']; ?></a>
                                     </div>
                                 </li>
-                                <?php } ?>                             
+                                <?php } ?>
                         </ul>
                         <a class="more" href="<?php echo U('Article/lists?category='.$k);?>">查看更多&gt;</a>
+                         <?php } ?>
                     </div>
                    <?php  $i++;} ?> 
                 </div>
@@ -50,11 +75,13 @@
         </div>
         <div class="right">
             <h3 class="lg-title">公示公告</h3>
+            <?php if(!empty($notice['hot'])){ ?>
             <a class="infor-add" href="<?php echo U('Article/detail?id='.$notice['hot']['id']);?>">            
                 <img src="<?php echo get_cover($notice['hot']['cover_id'])['path']; ?>" alt="">
                 <p class="txt"><?php echo $notice['hot']['title']; ?></p>
        
             </a>
+            <?php }?>
             <ul class="item category-list clearfix ">
                <?php  foreach($notice['list'] as $key=>$val){?>
                         <li class="category-item clearfix">

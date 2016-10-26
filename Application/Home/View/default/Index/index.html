@@ -7,14 +7,13 @@
 	<div class="fixed-header">
 		<include file="Platform/header" />
 	</div>
-	
 	<div class="swiper-container swiper-fixed swiper-limit-h">
 		<div class="swiper-wrapper">
             <volist name="banner_info" id="vo">
                 <div class="swiper-slide">
-                    <a href="{$vo.picture_url}"><img src="{$vo.path}" alt="{$vo.picture_title}"></a>
+                    <a href="{$vo.picture_url}" style="background: url({$vo.path}) no-repeat center 0;display: block;height: 100%;"></a>
                 </div>
-            </volist>			
+            </volist>
 		</div>
 		<div class="banner-pagination"></div>
 	</div>
@@ -22,7 +21,7 @@
 	<?php if(!session('?company_user')){?>
 	<div class="user-login-wra">
 		<ul class="login-tabs">
-			<li class="active"><a href="javascript:;">企业用户</a></li>
+			<li class="active"><a href="javascript:;">企业客户</a></li>
 			<li><a href="javascript:;">服务商</a></li>
 		</ul>
 		<div class="user-login-cnt">
@@ -81,6 +80,17 @@
 							</label>
 							<input type="password" id="inputPassword" name="password" placeholder="密码" class="ipt" required />
 						</div>
+						<div  class="firm-item-valid clearfix">
+							<span class="valid-txt fl">
+								<label class="icon-label fl">
+									<i class="icon icon-login-valid"></i>
+								</label>
+								<input type="text" id="verify" name="verify" placeholder="验证码" class="ipt" required />
+							</span>
+							<span class="verifyimg-box fr">
+								<img class="verifyimg" src="<?php echo U('Service/User/verifyCode'); ?>" onclick="this.src='<?php echo U('Service/User/verifyCode'); ?>?rand='+Math.random();" alt="验证码" />
+							</span>
+						</div>
 						<input type="submit" class="user-submit J_btn-submit" value="登录" />
 					</div>
 				</form>
@@ -90,56 +100,54 @@
 	</div>
 	<?php } ?>
 	<!-- 企业用户/服务商登录]] -->
-	<div class="sec sec1">
-		<div class="commWidth">
-			<h2>推荐服务机构</h2>
-			<div class="sec-cnt clearfix">
-				<ul class="pro-list">
-				<?php //dump($service_product);?>
-		        <?php foreach($service_product['result'] as $k=>$v){ ?>
-		            <li>
-		                <div class="pro-logo"><img src="<?php echo getFilePath($v['cid'],'./Uploads/Company/','info');?>service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></div>
-		                <h5 class="pro-title"><?php echo $v['name']; ?></h5>
-		                <p class="pro-desc"><?php echo $applicable_object[$v['applicable_object']]; ?></p>
-		                <div class="pro-fee-cnt">
-		                	<?php if($v['service_type'] == 2){?>
-			                <dl class="pro-fee height">
-			                    <dt>服务费</dt>
-			                    <?php foreach($v['service_price'] as $key=>$val){?>
-			                    <dd><em><?php echo $val['service_price']; ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
-			                    <?php } ?>
-			                </dl>
-			                <?php }elseif($v['service_type'] == 1){?>
-			                    <dl class="pro-fee">
-			                   <?php if(empty($v['service_price'][0]['service_price'])){ ?> 
-			                   		<dd><span class="fee-free">免服务费</span></dd>
-			                   <?php }else{?>			                    
-			                        <dt>服务费</dt>
-			                    <?php foreach($v['service_price'] as $key=>$val){?>
-			                  		<dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
-			                    <?php }}  ?>
-			                    </dl>
+	<div class="sec sec1 commWidth">
+		<h2>推荐服务机构</h2>
+		<div class="sec-cnt clearfix">
+			<ul class="pro-list">
+			<?php //dump($service_product);?>
+	        <?php foreach($service_product['result'] as $k=>$v){ ?>
+	            <li>
+	                <div class="pro-logo"><a href="<?php echo U('ServiceProvider/index?cid='.$v['cid']); ?>"><img src="<?php echo getFilePath($v['cid'],'./Uploads/Company/','info');?>service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></a></div>
+	                <h5 class="pro-title"><?php echo $v['name']; ?></h5>
+	                <p class="pro-desc"><?php echo $applicable_object[$v['applicable_object']]; ?></p>
+	                <div class="pro-fee-cnt">
+	                	<?php if($v['service_type'] == 2){?>
+		                <dl class="pro-fee height">
+		                    <dt>服务费</dt>
+		                    <?php foreach($v['service_price'] as $key=>$val){?>
+		                    <dd><em><?php echo moneyNumberformat($val['service_price'], 1); ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
+		                    <?php } ?>
+		                </dl>
+		                <?php }elseif($v['service_type'] == 1){?>
+		                    <dl class="pro-fee">
+		                   <?php if(empty($v['service_price'][0]['service_price'])){ ?> 
+		                   		<dd><span class="fee-free">免服务费</span></dd>
+		                   <?php }else{?>			                    
+		                        <dt>服务费</dt>
+		                    <?php foreach($v['service_price'] as $key=>$val){?>
+		                  		<dd><em><?php echo moneyNumberformat($val['service_price'], 1); ?></em>元/人.个月</dd>
+		                    <?php }}  ?>
+		                    </dl>
 
-			                <?php }?>
+		                <?php }?>
 
-			                <?php if($v['service_price_state'] == 1){?>
-			                    <dl class="pro-fee">
-			                        <dt>套餐费</dt>
-			                        <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
-			                    </dl>
-			                <?php }else{ if($v['service_price_state'] == 0){?>
-			                    <dl class="pro-fee">
-			                        <dd><span class="fee-free">免套餐费</span></dd>
-			                    </dl>
-			                <?php }}?>
-		                </div>
+		                <?php if($v['service_price_state'] == 1){?>
+		                    <dl class="pro-fee">
+		                        <dt>套餐费</dt>
+		                        <dd><em><?php echo $v['member_price']; ?></em>元/<?php echo $v['service_price'][0]['validity']; ?>个月</dd>
+		                    </dl>
+		                <?php }else{ if($v['service_price_state'] == 0){?>
+		                    <dl class="pro-fee">
+		                        <dd><span class="fee-free">免套餐费</span></dd>
+		                    </dl>
+		                <?php }}?>
+	                </div>
 
-		                <a href="{:U('SocialSecurity/productDetail',array('cid'=>$v['cid'],'id'=>$v['id']))}" class="btn no-mgt">立即参保</a>
-		            </li>
-		            <?php } ?>
+	                <a href="{:U('SocialSecurity/productDetail',array('cid'=>$v['cid'],'id'=>$v['id']))}" class="btn no-mgt">立即参保</a>
+	            </li>
+	            <?php } ?>
 
-				</ul>
-			</div>
+			</ul>
 		</div>
 	</div>
 	<div class="sec sec2">
@@ -285,95 +293,93 @@
 			</div>
 		</div>
 	</div>
-	<div class="sec sec4">
-		<div class="commWidth">
-			<div class="sec4-cnt">
-				<div class="thead">
-					<div class="advantage fl">智保易</div>
-					<div class="vs fl">
-						<span class="icon icon-vs"></span>
-					</div>
-					<div class="inferiority fl">其他互联网社保</div>
+	<div class="sec sec4 commWidth">
+		<div class="sec4-cnt">
+			<div class="thead">
+				<div class="advantage fl">智保易</div>
+				<div class="vs fl">
+					<span class="icon icon-vs"></span>
 				</div>
-				<div class="tbody">
-					<div class="advantage fl">
-						<ul class="advantage-list">
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-advantage1"></i>
-								</span>
-								<b class="advantage-tit">集团专业服务优势</b>
-								<p>借助智通人才连锁集团20+年人力资源的专业服务经验<br />前期线下导入旗下50+分子公司作为服务机构</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-advantage2"></i>
-								</span>
-								<b class="advantage-tit">专业资质审核认证</b>
-								<p>严格把控入驻服务机构资质审核<br />要求正规的“双证”《人力资源服务许可》《劳务派遣经营许可》</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-advantage3"></i>
-								</span>
-								<b class="advantage-tit">交易透明化</b>
-								<p>平台商品服务价格100%透明<br />交易订单明细由系统自动化生成，杜绝不良商家无消费陷阱</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-advantage4"></i>
-								</span>
-								<b class="advantage-tit">智能化HR-SaaS系统</b>
-								<p>智能化跟踪订单，社保缴纳下单环节的全程在线化、<br />全程无人工干预，提高企业HR与服务机构办事效率</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-advantage5"></i>
-								</span>
-								<b class="advantage-tit">全程数据安全</b>
-								<p>平台后台全程监控<br />绝不泄漏服务机构和企业客户数据信息</p>
-							</li>
-						</ul>
-					</div>
-					<div class="inferiority fr">
-						<ul class="inferiority-list">
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-inferiority1"></i>
-								</span>
-								<b class="advantage-tit">自建“虚”中介平台</b>
-								<p>社保代理服务经验年限不够，难以审核服务机构的服务品质</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-inferiority2"></i>
-								</span>
-								<b class="advantage-tit">无资质证书</b>
-								<p>不具备人力资源服务和劳务派遣许可资质，涉嫌违规经营</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-inferiority3"></i>
-								</span>
-								<b class="advantage-tit">交易价格混乱</b>
-								<p>低价或免费是噱头，把社保费先交才能享受所谓低价或免费</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-inferiority4"></i>
-								</span>
-								<b class="advantage-tit">HR-SaaS系统功能复杂，使用效率不高</b>
-								<p>“SaaS+云”系统的产品功能复杂，使用效率不高</p>
-							</li>
-							<li>
-								<span class="ad-list-img">
-									<i class="icon icon-inferiority5"></i>
-								</span>
-								<b class="advantage-tit">客户数据泄漏频频发生</b>
-								<p>部分网站转卖客户信息，<br />没承诺企业客户和服务机构的数据隐私安全</p>
-							</li>
-						</ul>
-					</div>
+				<div class="inferiority fl">其他互联网社保</div>
+			</div>
+			<div class="tbody">
+				<div class="advantage fl">
+					<ul class="advantage-list">
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-advantage1"></i>
+							</span>
+							<b class="advantage-tit">集团专业服务优势</b>
+							<p>借助智通人才连锁集团20+年人力资源的专业服务经验<br />前期线下导入旗下50+分子公司作为服务机构</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-advantage2"></i>
+							</span>
+							<b class="advantage-tit">专业资质审核认证</b>
+							<p>严格把控入驻服务机构资质审核<br />要求正规的“双证”《人力资源服务许可》《劳务派遣经营许可》</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-advantage3"></i>
+							</span>
+							<b class="advantage-tit">交易透明化</b>
+							<p>平台商品服务价格100%透明<br />交易订单明细由系统自动化生成，杜绝不良商家无消费陷阱</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-advantage4"></i>
+							</span>
+							<b class="advantage-tit">智能化HR-SaaS系统</b>
+							<p>智能化跟踪订单，社保缴纳下单环节的全程在线化、<br />全程无人工干预，提高企业HR与服务机构办事效率</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-advantage5"></i>
+							</span>
+							<b class="advantage-tit">全程数据安全</b>
+							<p>平台后台全程监控<br />绝不泄漏服务机构和企业客户数据信息</p>
+						</li>
+					</ul>
+				</div>
+				<div class="inferiority fr">
+					<ul class="inferiority-list">
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-inferiority1"></i>
+							</span>
+							<b class="advantage-tit">自建“虚”中介平台</b>
+							<p>社保代理服务经验年限不够，难以审核服务机构的服务品质</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-inferiority2"></i>
+							</span>
+							<b class="advantage-tit">无资质证书</b>
+							<p>不具备人力资源服务和劳务派遣许可资质，涉嫌违规经营</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-inferiority3"></i>
+							</span>
+							<b class="advantage-tit">交易价格混乱</b>
+							<p>低价或免费是噱头，把社保费先交才能享受所谓低价或免费</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-inferiority4"></i>
+							</span>
+							<b class="advantage-tit">HR-SaaS系统功能复杂，使用效率不高</b>
+							<p>“SaaS+云”系统的产品功能复杂，使用效率不高</p>
+						</li>
+						<li>
+							<span class="ad-list-img">
+								<i class="icon icon-inferiority5"></i>
+							</span>
+							<b class="advantage-tit">客户数据泄漏频频发生</b>
+							<p>部分网站转卖客户信息，<br />没承诺企业客户和服务机构的数据隐私安全</p>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -433,57 +439,55 @@
 			</ol>
 		</div>
 	</div>
-	<div class="sec sec6">
-		<div class="commWidth">
-			<h2>最新资讯</h2>
-			<div class="ind-search">
-			<form name="form" method="get" action="{:U('Article/lists')}" target="_blank">
-				<input type="text" name="keyword" class="ind-search-txt" placeholder="请输入关键字" />
-				<input type="submit" class="btn-ind-search" value="" />
-				</form>
-			</div>
-			<ul class="sec6-tabs">
-					<li class="active"><a href="javascript:;">全部</a></li>
-                <volist name="city" id="vo">
-                    <li class="" value="{$vo.location}"><a href="javascript:;">{$vo.location|showAreaName=###}</a></li>
-                </volist>
+	<div class="sec sec6 commWidth">
+		<h2>最新资讯</h2>
+		<div class="ind-search">
+		<form name="form" method="get" action="{:U('Article/lists')}" target="_blank">
+			<input type="text" name="keyword" class="ind-search-txt" placeholder="请输入关键字" />
+			<input type="submit" class="btn-ind-search" value="" />
+			</form>
+		</div>
+		<ul class="sec6-tabs">
+				<li class="active"><a href="javascript:;">全部</a></li>
+            <volist name="city" id="vo">
+                <li class="" value="{$vo.location}"><a href="javascript:;">{$vo.location|showAreaName=###}</a></li>
+            </volist>
+		</ul>
+		<div class="new-info">
+			<ul class="newInfo-list clearfix">
+				<li>
+					<img src="/Application/Home/Assets/img/platform/info1.jpg" width="270" alt="">
+					<div id="help">
+						<volist name="article.help" id="vo" empty="暂无数据">
+						<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
+						</volist>
+					</div>
+				</li>
+				<li>
+					<img src="/Application/Home/Assets/img/platform/info2.jpg" width="270" alt="">
+					<div id="statute">
+					 	<volist name="article.statute" id="vo" empty="暂无数据">
+						<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
+						</volist>
+					</div>
+				</li>
+				<li>
+					<img src="/Application/Home/Assets/img/platform/info3.jpg" width="270" alt="">
+					 <div id="notice">
+					 	<volist name="article.notice" id="vo" empty="暂无数据">
+					 	<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
+						</volist>
+					 </div>
+				</li>
+				<li>
+					<img src="/Application/Home/Assets/img/platform/info4.jpg" width="270" alt="">
+					<div id="new">
+						<volist name="article.new" id="vo" empty="暂无数据">
+						<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
+						</volist>
+					</div>
+				</li>
 			</ul>
-			<div class="new-info">
-				<ul class="newInfo-list clearfix">
-					<li>
-						<img src="/Application/Home/Assets/img/platform/info1.jpg" width="270" alt="">
-						<div id="help">
-							<volist name="article.help" id="vo">
-							<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
-							</volist>
-						</div>
-					</li>
-					<li>
-						<img src="/Application/Home/Assets/img/platform/info2.jpg" width="270" alt="">
-						<div id="statute">
-						 	<volist name="article.statute" id="vo">
-							<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
-							</volist>
-						</div>
-					</li>
-					<li>
-						<img src="/Application/Home/Assets/img/platform/info3.jpg" width="270" alt="">
-						 <div id="notice">
-						 	<volist name="article.notice" id="vo">
-						 	<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
-							</volist>
-						 </div>
-					</li>
-					<li>
-						<img src="/Application/Home/Assets/img/platform/info4.jpg" width="270" alt="">
-						<div id="new">
-							<volist name="article.new" id="vo">
-							<p><a href="{:U('Article/detail?id='.$vo['id'])}" title="{$vo.title}">{$vo.title}</a></p>
-							</volist>
-						</div>
-					</li>
-				</ul>
-			</div>
 		</div>
 	</div>
 	<include file="Platform/footer" />

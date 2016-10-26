@@ -11,7 +11,7 @@
 		 */
 		public function getArticleList($company_id, $category_id=null)
 		{
-			$category_id = $category_id ? intval($category_id) : I('get.category_id',0,'intval');
+			$category_id = $category_id ? intval($category_id) : I('get.category_id/d',0);
 			if(empty($category_id)){
 				$map['category_id'] = array('gt', '0');
 			}else{
@@ -30,7 +30,7 @@
 		{
 			$map['id'] = I('get.id',0,'intval');
 			$map['company_id'] = $cid;
-			return $this->where($map)->field('id,title,category_id,update_time,content')->find();
+			return $this->where($map)->field('id,title,category_id,update_time,content, description,keyword')->find();
 		}
 		/**
 		 * [getAboutCompany 获取企业介绍]

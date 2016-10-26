@@ -86,7 +86,36 @@
 			$this->meta_title = '服务商详情';
 			$this->display();
 		}
-
+		public function uploadfile(){
+			$company_id=intval(I('post.companyid'));
+			$logo=$_FILES['service_logo'];
+			$license=$_FILES['business_license'];
+			if (!empty($logo)) {
+				$path=getFilePath($company_id,'./Uploads/Company/','info')."service_logo.jpg";
+				$file=$logo;
+			}elseif(!empty($license)){
+				$path=getFilePath($company_id,'./Uploads/Company/','info')."business_license.jpg";
+				$file=$license;
+			}else{
+				$this->error('请选择文件');
+			}
+			$hz=end(explode('.',$file['name']));
+			if (in_array($hz,array('png','jpg','jpeg','gif'))) {
+				$path=ltrim($path);
+				self::createPath(dirname($path));
+				if (move_uploaded_file($file['tmp_name'], $path)) {
+					$this->success('操作成功!');
+				}else{
+					$this->error('上传失败');
+				}
+			}else{
+				$this->error('错误的文件类型');
+			}
+			
+		}
+		public function createPath($path){
+		    return is_dir($path) or (self::createPath(dirname($path)) and mkdir($path,0755));
+		}
 		/**
 		 * [upload 营业执照 服务商logo上传]
 		 * @return [type] [description]

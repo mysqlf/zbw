@@ -12,8 +12,8 @@
 				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='index') echo 'class="active"';</php> ><a href="{:U('Index/index')}">首页</a></li>
 				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='serviceproduct') echo 'class="active"';</php>><a href="{:U('Index/serviceProduct')}" >服务机构</a></li>
 				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='servicepoint') echo 'class="active"';</php>><a  href="{:U('Index/servicePoint')}">社保查询</a></li>
-				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='socCalculate') echo 'class="active"';</php>><a href="{:U('Index/socCalculate')}">社保计算</a></li>
-				<li <php>if(strtolower(CONTROLLER_NAME)=='Article' && strtolower(ACTION_NAME)=='index') echo 'class="active"';</php>><a  href="{:U('Article/index')}">资讯</a></li>
+				<li <php>if(strtolower(CONTROLLER_NAME)=='index' && strtolower(ACTION_NAME)=='soccalculate') echo 'class="active"';</php>><a href="{:U('Index/socCalculate')}">社保计算</a></li>
+				<li <php>if(strtolower(CONTROLLER_NAME)=='article' && strtolower(ACTION_NAME)=='index') echo 'class="active"';</php>><a  href="{:U('Article/index')}">资讯</a></li>
 			</ul>
 		</div>
 		<!-- 交互说明
@@ -25,12 +25,12 @@
 		<if condition="!session('?company_user')">
 			<div class="no-logged">
 				<a href="{:U('Home/Member/firmLogin')}" class="company-login" target="_blank">企业客户登录</a>
-				<a href="{:U('Service/User/login')}" class="services-login" target="_blank">服务机构登录</a>
+				<a href="{:U('Service/User/login')}" class="services-login" target="_blank">服务商登录</a>
 			</div>
 		</if>	
 		<if condition="session('?company_user')">
 			<div class="logged ">
-				<span class="logged-hd"><i class="icon icon-avator"></i></span>
+				<a href="{:U('Company/index')}" class="logged-hd"><i class="icon icon-avator"></i></a>
 				<ul class="logged-bd">
 					<li><a href="{:U('Company/Order/index')}">订单进度</a></li>
 					<li><a href="{:U('Company/Account/companyUserInfo')}">账号信息</a></li>

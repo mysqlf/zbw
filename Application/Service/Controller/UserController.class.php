@@ -13,6 +13,14 @@ class UserController extends Controller
 		{
 			$account['username'] = I('post.username' , '');
 			$account['password'] = I('post.password' , '');
+			$verifyCode = I('post.verify', '');
+
+			$result = check_verify($verifyCode, 1);
+			if(empty($result))
+			{
+				$this->ajaxReturn (array('status'=> -1, 'msg'=>'验证码错误'));
+			}
+
 			if($account['username'] && $account['password'])
 			{
 				$result = D('Admin')->login($account);
@@ -82,4 +90,21 @@ class UserController extends Controller
 			D('ServiceAdmin')->delAccount($account);
 		}
 	}
+
+
+	#验证码
+	public function verifyCode()
+	{
+		$config = array(
+			'length' => 4,
+			'reset' => false,
+			'fontSize' => 30
+		);
+		$Verify = new \Think\Verify($config);
+		$Verify->entry(1);
+	}
+
+
 }
+
+

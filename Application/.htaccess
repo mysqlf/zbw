@@ -1,0 +1,4 @@
+<Files ~ "\.(html?|vue|php|tpl|psd|zip|rar)$">
+	Order Allow,Deny 
+	Deny from all
+</Files>

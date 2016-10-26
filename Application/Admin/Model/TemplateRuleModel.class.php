@@ -243,6 +243,7 @@
 		 */
 		public function createTemplateRule($type,$classify,$template_id,$rule)
 		{
+			$rule_data['user_id'] = 0;
 			$rule_data['name']='标准规则';
 			$rule_data['type'] = $type;
 			$rule_data['classify_mixed'] = $this->_classifySort($classify);
@@ -410,7 +411,19 @@
 			$gjj_rule = $this ->snalyGjj();
 			$save_data['rule'] = json_encode($gjj_rule,JSON_UNESCAPED_UNICODE);
 			$old_rule = $this->where($map)->getField('rule');
-			$result = $this->where($map)->save($save_data);
+			if ($old_rule) {
+				$result = $this->where($map)->save($save_data);
+			}else {
+				$save_data['template_id'] = $map['template_id'];
+				$save_data['user_id'] = 0;
+				$save_data['company_id'] = 0;
+				$save_data['type'] = $map['type'];
+				$save_data['name'] = '标准规则';
+				$save_data['classify_mixed'] = '';
+				$save_data['category'] = 1;
+				$save_data['state'] = 1;
+				$result = $this->add($save_data);
+			}
 			if($result)
 			{
 				$Template=M('template','zbw_');

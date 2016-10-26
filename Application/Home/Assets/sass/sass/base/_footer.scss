@@ -3,6 +3,7 @@
     padding: {
         top: 52px;
     }
+    min-width: 1180px;
     height: 176px;
     background: #2C3E50;
     text-align: center;
@@ -90,7 +91,7 @@
 .ind-bar {
     position: fixed;
     right: 58px;
-    top: 50%;
+    top: 54%;
     z-index: 99999;
     .ind-bar-list {
         > li {

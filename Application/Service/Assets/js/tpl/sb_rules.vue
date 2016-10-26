@@ -1,5 +1,7 @@
 <template>
 	{{if paymentType == 2}}
+		<div id="J_query-tpl" style="padding-bottom: 0" class="clearfix rules-panel no-mt rules-panel-first">
+		</div>
 		<div class="rules-panel white gjj-rules-panel">
 		<h4 class="panel-title">
 			公积金规则
@@ -31,6 +33,11 @@
 
 				</dd>
 			</dl>
+
+			<div  id="J_query-tpl" style="padding-top: 0" class="clearfix rules-panel no-mt rules-panel-first">
+				
+			</div>
+
 			<table>
 				<thead>
 					<tr>
@@ -53,6 +60,7 @@
 				</tfoot>
 			</table>
 		{{else if paymentType == 2}}
+
 		<ul class="panel-list">
 			<li>
 				<dl class="horizontal horizontal-ipt horizontal-5em {{if paymentType == 1}}sb-amount-box{{/if}}">
@@ -96,7 +104,7 @@
 				</dl>
 				<div class="fl">
 					<input class="ipt fixed-ratio dn ignore size0" 
-						type="text" name="comScale" 
+						type="number" name="comScale" 
 						value="{{if !iscomtype}}{{company.replace(/%/g,'')}}{{/if}}" 
 						required placeholder="缴纳基数">
 
@@ -116,7 +124,7 @@
 						</div>
 					</div>
 					%
-					<span class="c-gray f-small fixed-ratio">（多个固定值，请用英文逗号隔开）</span>
+					<!-- <span class="c-gray f-small fixed-ratio">（多个固定值，请用英文逗号隔开）</span> -->
 				</div>
 			</li>
 			<li class="clearfix J_scale-scope">
@@ -135,7 +143,7 @@
 					</dd>
 				</dl>
 				<div class="fl">
-					<input class="ipt fixed-ratio dn size0 ignore" type="text" name="perScale" 
+					<input class="ipt fixed-ratio dn size0 ignore" type="number" name="perScale" 
 						value="{{if !ispertype}}{{person.replace(/%/g,'')}}{{/if}}" required placeholder="缴纳基数">
 					<div class="scale-box inline-block">
 						<div class="inline-block">
@@ -151,7 +159,7 @@
 						</div>
 					</div>
 					%
-					<span class="c-gray f-small fixed-ratio">（多个固定值，请用英文逗号隔开）</span>
+					<!-- <span class="c-gray f-small fixed-ratio">（多个固定值，请用英文逗号隔开）</span> -->
 				</div>
 			</li>
 		</ul>
@@ -201,6 +209,7 @@
 		icheckFn = require('plug/icheck/index'),
 		listTpl = require('tpl/sb_rules_list.vue'),
 		otherListTpl = require('tpl/pay_rules_list.vue'),
+		queryTpl = require('tpl/sb_rules_query.vue'),
 		{ modifyRules } = require('plug/validate/index');
 
 		require('plug/selectordie');
@@ -208,7 +217,8 @@
 	let rulesObj = {
 		init(box, data){
 			let self = rulesObj,
-				dataArr = data;
+				ret = data.paymentType === 1 ? data[0] : data[0],
+				dataArr = ret.rule;
 
 			if(!dataArr) {
 				return;
@@ -227,7 +237,30 @@
 				dataArr.iscomtype = dataArr.company.indexOf('-') !== -1 || dataArr.company === '' ? true : false;
 			}
 
+			ret.dayList = function(){
+				let arr = [];
+
+				for (let i = 1; i <= 28; i++) {
+					arr.push(i);
+				}
+
+				return arr;
+			}();
+
+			ret.monthList = function(){
+				let arr = [];
+
+				for (let i = 1; i <= 12; i++) {
+					arr.push(i);
+				}
+
+				return arr;
+			}();
+
+
 			$(box).html(tpl.render( self.template )( dataArr ));
+
+			queryTpl.init('#J_query-tpl', ret)
 
 			listTpl.init('#J_rules-sb-list', dataArr);
 

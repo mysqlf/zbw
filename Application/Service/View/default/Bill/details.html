@@ -177,14 +177,17 @@
         	<div class="check-amount">
                 <p class="amount-due">应付金额：<span>¥&nbsp;<em><?php echo moneyNumberformat($result['billInfo']['price']);?></em>&nbsp;</span>元</p>
                 <p class="balance">差额：<span>¥&nbsp;<em><?php echo moneyNumberformat($result['billInfo']['diff_amount']);?></em>&nbsp;</span>元</p>
-                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo $result['billInfo']['price'] + $result['billInfo']['diff_amount'] ;
+                <p class="amount-actual">实付金额：<span><i>¥</i>&nbsp;<em><?php echo moneyNumberformat($result['billInfo']['price'] + $result['billInfo']['diff_amount']) ;
            ?>
                  </em>&nbsp;</span>元</p>   
                 
                 
             </div>
-        	<button type="button" class="btn-bill" data-act="invoice" data-price="<?php echo $result['billInfo']['price'] + $result['billInfo']['diff_amount'] ;
+            <?php if(empty($result['billInfo']['invoice_state'])){ ?>
+        	<button type="button" class="btn-bill" data-act="invoice" data-price="<?php echo moneyNumberformat($result['billInfo']['price'] + 
+            $result['billInfo']['diff_amount']) ;
            ?>">开具发票</button>
+           <?php } ?>
             <input type="hidden" name="company_name" value="<?php echo $result['billInfo']['company_name'];?>">
             <input type="hidden" name="contact_name" value="<?php echo $result['billInfo']['contact_name'];?>">
             <input type="hidden" name="contact_phone" value="<?php echo $result['billInfo']['contact_phone'];?>">

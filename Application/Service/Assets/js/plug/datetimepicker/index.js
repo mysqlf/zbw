@@ -1,4 +1,4 @@
-require('./js/bootstrap-datetimepicker.min');
+require('./js/bootstrap-datetimepicker');
 require('./js/locales/bootstrap-datetimepicker.zh-CN');
 require('./css/bootstrap.min.css');
 require('./css/bootstrap-datetimepicker.min.css');

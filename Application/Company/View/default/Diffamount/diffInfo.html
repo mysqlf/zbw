@@ -50,7 +50,7 @@
                     <volist name="list" id="vo">
 	                	<tr <if condition="$key%2 == 0">class="even_bg"</if>>
 	                		<td colspan="2" rowspan="2">{$vo.name}</td>
-	                		<td colspan="2" rowspan="2">{$diff.samount}</td>
+	                		<td colspan="2" rowspan="2">{$vo.amount}</td>
 	                		<td>比例</td>
 	                		<td><if condition="$vo['company']['scale']">{$vo.company.scale}+{$vo.company.fixedSum}</if></td>
 	                		<td>比例</td>

@@ -73,7 +73,7 @@
                        <th>身份证号码</th>
                        <th>服务套餐</th>
                        <th>参保地</th>
-                      <!--  <th>服务类型</th> -->
+                       <th>服务类型</th>
                        <th>缴纳年月</th>
                        <th colspan="2">社保基数</th>
                        <th colspan="2">公积金基数</th>
@@ -89,7 +89,7 @@
 	                            <td rowspan="2">{$vo.card_num}</td>
 	                            <td rowspan="2">{$vo.name}</td>
 	                            <td rowspan="2">{$vo.location}</td>
-	                         <!--    <td rowspan="2">{$vo.type}<if condition="$vo['type'] eq 1 ">报增<elseif condition="$vo['type'] eq 2"/>在保<elseif condition="$vo['type'] eq 3"/> 报减</if></td> -->
+	                            <td rowspan="2">{$vo.type}<if condition="$vo['type'] eq 1 ">报增<elseif condition="$vo['type'] eq 2"/>在保<elseif condition="$vo['type'] eq 3"/> 报减</if></td>
 	                            <td rowspan="2">{$vo.pay_date}</td>
 	                            <td>单位</td>
 	                            <td>{$vo.soc_company|default='/'}</td>

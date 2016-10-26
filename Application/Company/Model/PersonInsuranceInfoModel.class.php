@@ -288,7 +288,7 @@ class PersonInsuranceInfoModel extends RelationModel{
 				$data['operate_state'] = 0;//未审核
 				//$data['pay_order_id'] = 0;//无支付订单
 				//$result = $this->field('id')->where(array('insurance_id'=>$personInsuranceId,'user_id'=>$data['user_id'],'base_id'=>$data['base_id'],'payment_type'=>$data['payment_type'],'handle_month'=>$data['handle_month']))->find();
-				$result = $this->field('id,operate_state')->where(array('insurance_id'=>$personInsuranceId,'payment_type'=>$data['payment_type'],'handle_month'=>$data['handle_month']))->find();
+				$result = $this->field('id,state,operate_state')->where(array('insurance_id'=>$personInsuranceId,'payment_type'=>$data['payment_type'],'handle_month'=>$data['handle_month']))->find();
 				if ($result) {
 					if (2 > $result['operate_state']) {
 						//更新数据
@@ -305,8 +305,12 @@ class PersonInsuranceInfoModel extends RelationModel{
 							return false;
 						}
 					}else {
+						if (3 == $result['state']) {
+							$this->error = '当前月已报减成功,暂时不能报增！';
+						}else {
 							$this->error = '当前月不能报增！';
-							return false;
+						}
+						return false;
 					}
 				}else {
 					//新增数据
@@ -598,7 +602,7 @@ class PersonInsuranceInfoModel extends RelationModel{
 				}else if ('3' == $type) {
 					$condition['sid.state'] = 2;
 				}else if ('4' == $type) {
-					$condition['sid.state'] = array('in','3,-3');
+					$condition['sid.state'] = array('in','3,-3,-4');
 				}
 			}
 			if (!empty($data['user_id'])) {
@@ -855,7 +859,30 @@ class PersonInsuranceInfoModel extends RelationModel{
 							}
 						}*/
 						
-						$calculateData = array('state'=>0,'msg'=>'操作成功','sid_id'=>$value['sid_id'],'sid_state'=>$value['sid_state'],'sidStateValue'=>get_code_value($value['sid_state'],'ServiceInsuranceDetailState',$value['sid_is_hang_up']),'isHandleException'=>time()<=strtotime(date('Y-m-',strtotime('+1 month',strtotime(int_to_date($value['pii_handle_month'],'-')))).'20'),'sid_service_price'=>$value['sid_service_price'],'company_cost'=>$calculateResult['company'],'person_cost'=>$calculateResult['person'],'data'=>$calculateResult);
+						//查询缴纳异常状态
+						$diffCronResult = $diffCron->field(true)->where(array('detail_id'=>$value['sid_id'],'type'=>3))->find();
+						$diffCronArray = array();
+						if ($diffCronResult) {
+							$diffCronResult['message_body'] = json_decode($diffCronResult['message_body'],true);
+							if ($diffCronResult['message_body']) {
+								foreach ($diffCronResult['message_body'] as $kk => $vv) {
+									$diffCronArray[$vv['name']] = $vv;
+								}
+							}
+						}
+						if ($diffCronArray) {
+							foreach ($calculateResult['items'] as $kk => $vv) {
+								$calculateResult['items'][$kk]['company']['handle_result'] = (is_null($diffCronArray[$vv['name']]['company'])?true:$diffCronArray[$vv['name']]['company']);
+								$calculateResult['items'][$kk]['person']['handle_result'] = (is_null($diffCronArray[$vv['name']]['person'])?true:$diffCronArray[$vv['name']]['person']);
+							}
+						}else {
+							foreach ($calculateResult['items'] as $kk => $vv) {
+								$calculateResult['items'][$kk]['company']['handle_result'] = true;
+								$calculateResult['items'][$kk]['person']['handle_result'] = true;
+							}
+						}
+						
+						$calculateData = array('state'=>0,'msg'=>'操作成功','sid_id'=>$value['sid_id'],'sid_state'=>$value['sid_state'],'sidStateValue'=>get_code_value($value['sid_state'],'ServiceInsuranceDetailState',$value['sid_is_hang_up']),'isHandleException'=>(in_array($value['sid_state'],array(3,-4)) && time()<=strtotime(date('Y-m-',strtotime('+1 month',strtotime(int_to_date($value['pii_handle_month'],'-')))).'20')),'sid_service_price'=>$value['sid_service_price'],'company_cost'=>$calculateResult['company'],'person_cost'=>$calculateResult['person'],'data'=>$calculateResult);
 						$result['data'][$value['sid_pay_date']][$value['pii_payment_type']] = $calculateData;
 
 					}
@@ -960,10 +987,9 @@ class PersonInsuranceInfoModel extends RelationModel{
 			if ($result || null === $result) {
 				$template = D('Template');
 				foreach ($result as $key => $value) {
-					if ($value['location']) {
+					/*if ($value['location']) {
 						$location = ($value['location']/1000<<0)*1000;
 						$templateResult = $template->getTemplateByCondition(array('location'=>$location+100));
-						//dump($templateResult);
 						if ($templateResult && $templateResult['soc_deadline']) {
 							$handleMonth = $value['handle_month'];
 							$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateResult['soc_deadline']))));
@@ -973,6 +999,19 @@ class PersonInsuranceInfoModel extends RelationModel{
 						}
 					}else {
 						$result[$key]['whetherToOperate'] = true;
+					}*/
+					
+					if ($result[1]['rule_id']) {
+						$templateRule = D('TemplateRule');
+						$templateRuleResult = $templateRule->field(true)->getById($result[1]['rule_id']);
+						if ($templateRuleResult && $templateRuleResult['deadline']) {
+							$handleMonth = $result[1]['handle_month'];
+							$payDeadline = date('Y-m-d',strtotime('-'.C('INSURANCE_HANDLE_DAYS').' day',strtotime(int_to_date($handleMonth,'-').'-'.sprintf('%02d',$templateRuleResult['deadline']))));
+							$result[1]['payDeadline'] = $result[2]['payDeadline'] = $payDeadline;
+							$result[1]['whetherToOperate'] = $result[2]['whetherToOperate'] = time() <= strtotime($payDeadline)+($result[1]['operate_state']>=2 || $result[2]['operate_state']>=2?C('INSURANCE_HANDLE_DAYS')*86400:0);
+						}
+					}else {
+						$result[1]['whetherToOperate'] = $result[2]['whetherToOperate'] = true;
 					}
 				}
 				return $result;

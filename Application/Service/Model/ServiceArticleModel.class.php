@@ -24,6 +24,7 @@ class ServiceArticleModeL extends Model{
      * 新增或更新
      */
     public function update($data, $admin){
+        $m = M('companyInfo');
         if(empty($data['id'])){//新增数据
             $data['company_id'] = $admin['company_id'];
             $data['create_time'] = date('Y-m-d H:i:s', NOW_TIME);
@@ -31,10 +32,12 @@ class ServiceArticleModeL extends Model{
             $data['location'] = M('company_info')->getFieldById($admin['company_id'], 'location');
             if($data['company_info']) $data['status'] = 1;
 
-            $this->create($data);
+            $this->token(false)->create($data);
             $result = $this->add();
             if($result){
                $this->adminLog($admin['user_id'], '添加文章 '.$data['title'].' 成功！');
+               //更新企业简介
+               $m->where(array('user_id'=> $admin['user_id']))->save(array('company_introduction'=> $data['description']));
                 return $result;
             }else{
                 $this->adminLog($admin['user_id'], '添加文章 '.$data['title'].' 失败!');
@@ -49,6 +52,8 @@ class ServiceArticleModeL extends Model{
             if($result){
                 $this->adminLog($admin['user_id'], '修改文章 '.$data['title'].' 成功！');
                // return ajaxJson(0, '文章修改成功');
+               //更新企业简介
+               $m->where(array('user_id'=> $admin['user_id']))->save(array('company_introduction'=> $data['description']));                
                 return $result;
             }else{
                 $this->adminLog($admin['user_id'], '修改文章 '.$data['title'].' 失败！');
@@ -105,6 +110,10 @@ class ServiceArticleModeL extends Model{
      * companyInfo
      */
     public function companyInfo($admin){
-        return $this->where(array('category_id'=>0,'company_id'=> $admin['company_id']))->order('update_time desc')->find();
+        $result = $this->where(array('category_id'=>0,'company_id'=> $admin['company_id']))->order('update_time desc')->find();
+        $_des = M('company_info')->field('company_introduction ')->where(array('audit'=> 1, 'user_id'=>$admin['user_id']))->find();
+        $result['description'] = $_des['company_introduction'];
+       
+          return $result;  
     }
 } 

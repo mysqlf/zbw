@@ -139,6 +139,7 @@ class PayController extends HomeController{
 		//计算得出通知验证结果
 		$alipayNotify = new \AlipayNotify($alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
+		
 		if($verify_result) {//验证成功	
 			$out_trade_no = I('post.out_trade_no');//商户订单号
 			$trade_no = I('post.trade_no');//支付宝交易号
@@ -177,7 +178,7 @@ class PayController extends HomeController{
 	public function jdpaySuccess(){
 			//****************************************	//MD5密钥要跟订单提交页相同，如Send.asp里的 key = "test" ,修改""号内 test 为您的密钥
 														//如果您还没有设置MD5密钥请登陆我们为您提供商户后台，地址：https://merchant3.chinabank.com.cn/
-				$key= $this->_payOrder->_jsPayMd5Key();					//登陆后在上面的导航栏里可能找到“B2C”，在二级导航栏里有“MD5密钥设置”
+				$key= $this->_payOrder->_jsPayMd5Key;					//登陆后在上面的导航栏里可能找到“B2C”，在二级导航栏里有“MD5密钥设置”
 														//建议您设置一个16位以上的密钥或更高，密钥最多64位，但设置16位已经足够了
 			//****************************************
 				
@@ -210,7 +211,7 @@ class PayController extends HomeController{
 								$ods = array();
 								$ods['state'] = 1;
 								$ods['pay_type'] = 1;
-								$ods['pay_time'] = $notify_time;
+								$ods['pay_time'] = date('Y-m-d H:i:s', NOW_TIME);
 							//	$ods['transaction_no'] = $trade_no;
 								$ods['actual_amount'] = $v_amount;				
 								if($this->_payOrder->where( array('order_no'=> $v_oid))->save($ods)){
@@ -290,7 +291,7 @@ class PayController extends HomeController{
 	
 	protected function providerPrice($orderInfo, $actual_amount){
 		$m = M('user_service_provider', 'zbw_');
-		$m->where("company_id={$orderInfo['company_id']} AND user_id={$orderInfo['user_id']}")->save("price = price+{$actual_amount}");
+		$m->where("company_id={$orderInfo['company_id']} AND user_id={$orderInfo['user_id']}")->save(array('price' => "price + {$actual_amount}"));
 		return true;
 	}
 }

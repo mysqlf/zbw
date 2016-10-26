@@ -8,11 +8,16 @@ module.exports = {
         this.queryTool();
         // this.changeQueryList();
 
-        $('.sidebar-Qcode').hover(function() {
-            $('.Qcode').show();
-        }, function() {
-            $('.Qcode').hide();
-        });
+        let $height = $('.query-tool-list').height(),
+            $liHeight = $('.query-tool-list li').outerHeight(true);
+
+        if ($height > $liHeight) {
+            $('.query-tool-list').css({ 'textAlign': 'left' });
+
+        } else {
+            $('.query-tool-list').css({ 'textAlign': 'center' });
+        }
+
 
     },
     queryTool() {

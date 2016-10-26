@@ -8,6 +8,7 @@
                 </div>
         </li>
         <if condition="in_array(CONTROLLER_NAME,['SocialSecurity','ServiceArticle']) or (I('get.cid'))">
+
             <li class="sidebar-item">
                 <a class="bar bar-QQ" title="联系客服" href="javascript:;" rel="nofollow"></a>
                 <div class="inner">
@@ -24,6 +25,27 @@
                         <span class="no-tip">
 							暂无客服
 						</span>
+                    </if>
+                </div>
+            </li>
+        <else/>
+        <?php $serviceAdminResult = empty($serviceAdminResult) ? array(array('qq'=>'3511996407','name'=>'胡小姐')) : $serviceAdminResult;?> 
+         <li class="sidebar-item">
+                <a class="bar bar-QQ" title="联系客服" href="javascript:;" rel="nofollow"></a>
+                <div class="inner">
+                    <if condition="$serviceAdminResult">
+                        <volist name="serviceAdminResult" id="vo" offset="0" length="5">
+                            <a class="aside-qq" href="tencent://message/?uin={$vo.qq}&amp;Site=www.bao5156.com&amp;Menu=yes" title="{$vo.name}" rel="nofollow">
+                                <i class="icon helper-qq fl"></i>
+                                <span class="txt">
+                                    {$vo.name}
+                                </span>
+                            </a>
+                        </volist>
+                        <else/>
+                        <span class="no-tip">
+                            暂无客服
+                        </span>
                     </if>
                 </div>
             </li>

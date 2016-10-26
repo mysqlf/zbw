@@ -12,13 +12,13 @@
 		<select  id="gjj-com-scale">
 			<option value="0">固定比例</option>		
 			<php>$compan_ratio = is_array($gjj_rule['company']);</php>
-			<option value="1" <?php if($company_ratio){?> selected="selected" <?php } ?>>比例范围</option>
+			<option value="1" <?php if($compan_ratio){?> selected="selected" <?php } ?>>比例范围</option>
 		</select>
 		<div class="com_input-type">
 			<if condition="$compan_ratio">
 				<input type="text" name="gjj[company][]"  value="{$gjj_rule['company'][0]}" >~<input type="text" name="gjj[company][]" value="{$gjj_rule['company'][1]}">
 			<else />
-				<input type="text" name="gjj[company][]" value="{$gjj_rule['company']}" ><span >% 	如果是多个固定值，请用英文逗号隔开</span>
+				<input type="text" name="gjj[company][]" value="{$gjj_rule['company']}" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')" ><span >%</span>
 			</if>
 		</div>
 	</div>
@@ -33,14 +33,15 @@
 			<if condition="$person_ratio">
 				<input type="text" name="gjj[person][]" value="{$gjj_rule['person'][0]}" calss="person_range">~<input type="text" name="gjj[person][]" value="{$gjj_rule['person'][1]}" calss="person_range">
 			<else />
-				<input type="text" name="gjj[person][]" value="{$gjj_rule['person']}" calss="person_range"><span calss="person_range">% 	如果是多个固定值，请用英文逗号隔开</span>
+
+				<input type="text" name="gjj[person][]" value="{$gjj_rule['person']}" calss="person_range" onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"><span calss="person_range">%</span>
 			</if>
 		</div>
 	</div>
-	<div class="form-controll">
+	<!-- <div class="form-controll">
 		<label>公积金卡工本费</label>
 		<input type="text" name="gjj[pro_cost]" value="{$gjj_rule.pro_cost}"><span>元/每人</span>
-	</div>
+	</div> -->
 	<div class="form-controll">
 		<label>是否取整</label>
 		<input type="checkbox" name="gjj[intval]" value="1" <if condition="$gjj_rule['intval'] eq 1">checked="checked"</if>>
@@ -94,14 +95,14 @@
 	}
 	$('#gjj-com-scale').change(function(){
 		var input_html = new Array(2);
-		input_html[0] = '<input type="text" name="gjj[company][]"  calss="person_range"><span calss="person_range">% 	如果是多个固定值，请用英文逗号隔开</span>';
+		input_html[0] = '<input type="text" name="gjj[company][]"  calss="person_range" onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" onafterpaste="value=value.replace(/[^\\d\\.]/g,\'\')"><span calss="person_range">%</span>';
 		input_html[1] = '<input type="text" name="gjj[company][]"  calss="person_range">~<input type="text" name="gjj[company][]" calss="person_range">';
 		var input_type = parseInt($(this).val());
 		$('.com_input-type').html(input_html[input_type]);
 	});
 	$('#gjj-per-scale').change(function(){
 		var input_html = new Array(2);
-		input_html[0] = '<input type="text" name="gjj[person][]"  calss="person_range"><span calss="person_range">% 	如果是多个固定值，请用英文逗号隔开</span>';
+		input_html[0] = '<input type="text" name="gjj[person][]"  calss="person_range"  onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" onafterpaste="value=value.replace(/[^\\d\\.]/g,\'\')"><span calss="person_range">%</span>';
 		input_html[1] = '<input type="text" name="gjj[person][]"  calss="person_range">~<input type="text" name="gjj[person][]" calss="person_range">';
 		var input_type = parseInt($(this).val());
 		$('.per_input-type').html(input_html[input_type]);

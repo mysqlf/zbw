@@ -13,7 +13,7 @@
 		 */
 		public function getImageList($place,$company_id)
 		{
-			$map['company_id'] = $company_id ? $company_id : I('get.cid',0,'intval');
+			$map['company_id'] = $company_id ? $company_id : I('get.cid/d',0);
 			$map['place'] = $place;
 			$map['state'] = 1;
 			return $this->where($map)->field('*')->select();

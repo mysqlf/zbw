@@ -188,18 +188,18 @@
 										{$vo['socpii_state']|get_code_value=###,"PersonInsuranceState"}
 									</td>
 									<td class="c-gray">
-										{:(empty($vo['socpii_amount'])?'':$vo['socpii_amount'])}
+										{:(empty($vo['socpii_amount'])?'/':$vo['socpii_amount'])}
 									</td>
 									
 									<td class="c-gray">
 										<if condition="in_array(I('get.type'),[0,1])">
-											{:(empty($vo['socpii_pay_date'])?'':$vo['socpii_pay_date'])}
+											{:(empty($vo['socpii_pay_date'])?'/':$vo['socpii_pay_date'])}
 										<else/>
-											{:(empty($vo['socpii_sid_pay_date'])?'':$vo['socpii_sid_pay_date'])}
+											{:(empty($vo['socpii_sid_pay_date'])?'/':$vo['socpii_sid_pay_date'])}
 										</if>
 									</td>
 									<td class="c-gray" >
-										{:(empty($vo['socpii_handle_month'])?'':$vo['socpii_handle_month'])}
+										{:(empty($vo['socpii_handle_month'])?'/':$vo['socpii_handle_month'])}
 									</td>
 									<td <if condition="0 gt $vo['socpii_operate_state']">class="c-danger"</if> >
 										<if condition="2 eq I('get.type') and 1 eq $vo['socpii_operate_state'] and $vo['socpii_pay_order_id']">
@@ -236,18 +236,18 @@
 										{$vo['propii_state']|get_code_value=###,"PersonInsuranceState"}
 									</td>
 									<td class="c-gray">
-										{:(empty($vo['propii_amount'])?'':$vo['propii_amount'])}
+										{:(empty($vo['propii_amount'])?'/':$vo['propii_amount'])}
 									</td>
 									
 									<td class="c-gray">
 										<if condition="in_array(I('get.type'),[0,1])">
-											{:(empty($vo['propii_pay_date'])?'':$vo['propii_pay_date'])}
+											{:(empty($vo['propii_pay_date'])?'/':$vo['propii_pay_date'])}
 										<else/>
-											{:(empty($vo['propii_sid_pay_date'])?'':$vo['propii_sid_pay_date'])}
+											{:(empty($vo['propii_sid_pay_date'])?'/':$vo['propii_sid_pay_date'])}
 										</if>
 									</td>
 									<td class="c-gray">
-										{:(empty($vo['propii_handle_month'])?'':$vo['propii_handle_month'])}
+										{:(empty($vo['propii_handle_month'])?'/':$vo['propii_handle_month'])}
 									</td>
 									<td <if condition="0 gt $vo['propii_operate_state']">class="c-danger"</if> >
 										<if condition="2 eq I('get.type') and 1 eq $vo['propii_operate_state'] and $vo['propii_pay_order_id']">
@@ -295,18 +295,18 @@
 										{$vo['propii_state']|get_code_value=###,"PersonInsuranceState"}
 									</td>
 									<td class="c-gray">
-										{:(empty($vo['propii_amount'])?'':$vo['propii_amount'])}
+										{:(empty($vo['propii_amount'])?'/':$vo['propii_amount'])}
 									</td>
 									
 									<td class="c-gray">
 										<if condition="in_array(I('get.type'),[0,1])">
-											{:(empty($vo['propii_pay_date'])?'':$vo['propii_pay_date'])}
+											{:(empty($vo['propii_pay_date'])?'/':$vo['propii_pay_date'])}
 										<else/>
-											{:(empty($vo['propii_sid_pay_date'])?'':$vo['propii_sid_pay_date'])}
+											{:(empty($vo['propii_sid_pay_date'])?'/':$vo['propii_sid_pay_date'])}
 										</if>
 									</td>
 									<td class="c-gray">
-										{:(empty($vo['propii_handle_month'])?'':$vo['propii_handle_month'])}
+										{:(empty($vo['propii_handle_month'])?'/':$vo['propii_handle_month'])}
 									</td>
 									<td <if condition="0 gt $vo['propii_operate_state']">class="c-danger"</if> >
 										<if condition="2 eq I('get.type') and 1 eq $vo['propii_operate_state'] and $vo['propii_pay_order_id']">

@@ -87,14 +87,13 @@
                     <input type="text" class="text input-large" name="contact_name" value="{$rs['contact_name']}">
                 </div>
             </div>
-            <if condition="$isServiceProvider neq 1">
             <div class="form-item cf">
                 <label class="item-label">企业固话<span class="check-tips"></span></label>
                 <div class="controls">
                     <input type="text" class="text input-large" name="tel_local_number" value="{$rs['tel_local_number']}">
                 </div>
-            </div>
-            
+            </div>            
+            <if condition="$isServiceProvider neq 1">            
             <div class="form-item cf">
                 <label class="item-label">纳税人识别号<span class="check-tips"></span></label>
                 <div class="controls">

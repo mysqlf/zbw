@@ -22,6 +22,8 @@ class ProductTemplateController extends AdminController
 		//获取城市信息
 		$this->AREA = select_location($location);
 		$this->meta_title = '社保模板管理';
+			// 记录当前列表页的cookie
+		Cookie('__forward__',$_SERVER['REQUEST_URI']);	
 		$this->display();
 	}
 
@@ -34,12 +36,12 @@ class ProductTemplateController extends AdminController
 		{
 			//数据验证
 			$location = I('post.location') or $this->error('请选择城市，并将城市选中到市级！');
-			$_POST['soc_payment_type'] or $this->error( '社保支付方式必填！');
-			$_POST['pro_payment_type'] or $this->error('公积金支付方式必填！');
-			$_POST['soc_deadline'] or $this->error( '社保报增截止时间不能为空!');
-			$_POST['pro_deadline'] or $this->error( '公积金报增截止时间不能为空!');
-			$_POST['soc_payment_month'] or $this->error('社保最大补缴月不能为空!');
-			$_POST['pro_payment_month'] or$this->error( '公积金最大补缴月不能为空!');
+			// $_POST['soc_payment_type'] or $this->error( '社保支付方式必填！');
+			// // $_POST['pro_payment_type'] or $this->error('公积金支付方式必填！');
+			// $_POST['soc_deadline'] or $this->error( '社保报增截止时间不能为空!');
+			// // $_POST['pro_deadline'] or $this->error( '公积金报增截止时间不能为空!');
+			// $_POST['soc_payment_month'] or $this->error('社保最大补缴月不能为空!');
+			//$_POST['pro_payment_month'] or$this->error( '公积金最大补缴月不能为空!');
 
 			$amount=$_POST['sb'];
 			$max=$amount['max'];
@@ -52,12 +54,14 @@ class ProductTemplateController extends AdminController
 					if ($minlist[$i]<$min||$maxlist[$i]>$max) {
 						$this->error('基数范围错误');exit;
 					}
+				}else{
+					$this->error('基数范围错误');exit;
 				}
 			}
 			if(!$_POST['sb_category_sub'][0]) 
 				$this->error('请先社保选择分类!');
 			$czj = I('post.czj','','floatval');
-			$follow = I('post.follow','','intval');
+			//$follow = I('post.follow','','intval');
 			//清理分类为0的分类
 			$sb_classify = I('post.sb_category_sub');
 			//$gjj_classify = I('post.gjj_category_sub');
@@ -228,7 +232,7 @@ class ProductTemplateController extends AdminController
 	}
 
 	/**
-	 * [templatePrice 修改缴费标准]
+	 * [templategjjPrice 修改缴费标准]
 	 * @Author   JieJie
 	 * @DataTime 2016-07-08T18:58:25+0800
 	 * @return   [type]                   [description]

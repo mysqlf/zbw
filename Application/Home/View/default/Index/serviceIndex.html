@@ -2,13 +2,13 @@
 
 	<notempty  name="banner_info">
 		<div class="swiper-container swiper-limit-h" id="swiper-container"><!-- banner -->
-			<div class="banner-text">
+			<!-- <div class="banner-text">
 				<ul class="wrapper">
 					<li><p><i>专注 <em>20<ins>+</ins></em> 年</i><br/>专注于社保行业20多年</p></li>
 					<li><p><i>服务 <em>5,000<ins>+</ins></em> 企业</i><br/>已有5000多家企业选择了我们</p></li>
 					<li><p><i>服务 <em>50,000<ins>+</ins></em> 员工</i><br/>累计为5万以上员工提供社保服务</p></li>
 				</ul>		
-			</div>
+			</div> -->
 			<a class="arrow-left" href="#"></a> 
 			<a class="arrow-right" href="#"></a>
 			<div class="swiper-wrapper">
@@ -31,7 +31,7 @@
 				<ul class="pro-list">
 		        <?php foreach($service_product['result'] as $k=>$v){ ?>
 		            <li>
-		                <div class="pro-logo"><img src="<?php echo getFilePath($v['cid'],'./Uploads/Company/','info');?>service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></div>
+		                <div class="pro-logo"><a href="<?php echo U('ServiceProvider/index?cid='.$v['cid']); ?>"><img src="<?php echo getFilePath($v['cid'],'./Uploads/Company/','info');?>service_logo.jpg" alt="<?php echo $v['company_name']; ?>" width="118"></a></div>
 		                <h5 class="pro-title"><?php echo $v['name']; ?></h5>
 		                <p class="pro-desc"><?php echo $applicable_object[$v['applicable_object']]; ?></p>
 		                <div class="pro-fee-cnt">
@@ -39,7 +39,7 @@
 			                <dl class="pro-fee height">
 			                    <dt>服务费</dt>
 			                    <?php foreach($v['service_price'] as $key=>$val){?>
-			                    <dd><em><?php echo $val['service_price']; ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
+			                    <dd><em><?php echo moneyNumberformat($val['service_price'], 1); ?></em>元/人.<?php echo $val['validity']; ?>个月</dd>
 			                    <?php } ?>
 			                </dl>
 			                <?php }elseif($v['service_type'] == 1){?>
@@ -49,7 +49,7 @@
 			                   <?php }else{?>			                    
 			                        <dt>服务费</dt>
 			                    <?php foreach($v['service_price'] as $key=>$val){?>
-			                  		<dd><em><?php echo $val['service_price']; ?></em>元/人.个月</dd>
+			                  		<dd><em><?php echo moneyNumberformat($val['service_price'], 1); ?></em>元/人.个月</dd>
 			                    <?php }}  ?>
 			                    </dl>
 
@@ -58,7 +58,7 @@
 			                <?php if($v['service_price_state'] == 1){?>
 			                    <dl class="pro-fee">
 			                        <dt>套餐费</dt>
-			                        <dd><em><?php echo $v['member_price']; ?></em>元/年</dd>
+			                        <dd><em><?php echo $v['member_price']; ?></em>元/<?php echo $v['service_price'][0]['validity']; ?>个月</dd>
 			                    </dl>
 			                <?php }else{ if($v['service_price_state'] == 0){?>
 			                    <dl class="pro-fee">

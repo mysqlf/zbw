@@ -26,15 +26,17 @@
 				'state' => 1,
 				//'type' => $type,
 				'location' => I('post.location','','intval'),
-				'soc_payment_type' => I('post.soc_payment_type','','intval'),
-				//'pro_payment_type' => I('post.pro_payment_type','','intval'),
-				'pro_payment_type' => I('post.pro_payment_type','','intval'),
-				'soc_deadline' => I('post.soc_deadline','','intval'),
-				//'pro_deadline' => I('post.pro_deadline','','intval'),
-				'pro_deadline' => I('post.pro_deadline','','intval'),
-				'soc_payment_month' => I('post.soc_payment_month','','intval'),
-				//'pro_payment_month' => I('post.pro_payment_month','','intval'),
-				'pro_payment_month' => I('post.pro_payment_month','','intval'),
+
+				// 'soc_payment_type' => I('post.soc_payment_type','','intval'),
+				// //'pro_payment_type' => I('post.pro_payment_type','','intval'),
+				// 'pro_payment_type' => I('post.soc_payment_type','','intval'),
+				// 'soc_deadline' => I('post.soc_deadline','','intval'),
+				// //'pro_deadline' => I('post.pro_deadline','','intval'),
+				// 'pro_deadline' => I('post.soc_deadline','','intval'),
+				// 'soc_payment_month' => I('post.soc_payment_month','','intval'),
+				// //'pro_payment_month' => I('post.pro_payment_month','','intval'),
+				// 'pro_payment_month' => I('post.soc_payment_month','','intval'),
+
 				'create_time' => date('Y-m-d H:i:s'),
 				'modify_time' => date('Y-m-d H:i:s'),
 				'company_id' => 0,
@@ -61,13 +63,14 @@
 				$condition['location'] = ['between',[$_GET['location1'],$_GET['location1']+1000000]];
 			}
 			//intval($_GET['payment_type'])!=0 and $condition['payment_type'] = intval($_GET['payment_type']);
-			intval($_GET['soc_payment_type'])!=0 and $condition['soc_payment_type'] = intval($_GET['soc_payment_type']);
+			//intval($_GET['soc_payment_type'])!=0 and $condition['soc_payment_type'] = intval($_GET['soc_payment_type']);
 			isset($_GET['type']) and  intval($condition['type']);
 			
 			$count = $this->where($condition)->count();
 			$Page  = new \Think\Page($count,25);
 			$data['page'] = $Page->show();
-			$data['list'] = $this->field('id,name,location,soc_payment_type,modify_time,admin_id')
+			//$data['list'] = $this->field('id,name,location,soc_payment_type,modify_time,admin_id')
+			$data['list'] = $this->field('id,name,location,modify_time,admin_id')
 					->where($condition)
 					->limit($Page->firstRow.','.$Page->listRows)
 					->order('id DESC')
@@ -85,10 +88,12 @@
 		{
 			$template_id = I('post.template_id','','intval');
 			$data = $this->create();
-			/*empty($data['pro_payment_type']) && $data['pro_payment_type'] = $data['soc_payment_type'];
+			/*
+			empty($data['pro_payment_type']) && $data['pro_payment_type'] = $data['soc_payment_type'];
 			empty($data['pro_deadline']) && $data['pro_deadline'] = $data['soc_deadline'];
 			empty($data['pro_payment_month']) && $data['pro_payment_month'] = $data['soc_payment_month'];
-*/			$result = $this->where('id='.$template_id)->save($data);
+			*/
+			$result = $this->where('id='.$template_id)->save($data);
 			if(false === $result) return false;
 
 			$log_data['template_id'] = $template_id;

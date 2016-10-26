@@ -24,7 +24,7 @@
 				</div>
 
 			</li>
-			{{if tableData['1'] && tableData['1'].sid_state == 3}}
+			{{if tableData['1'] && tableData['1'].isHandleException}}
 				<input type="hidden" name="data[1][id]" value="{{tableData['1'].sid_id}}">
 				<input type="hidden" name="data[1][insurance_info_id]" value="{{socPiiId}}">
 				<input type="hidden" name="data[1][pay_date]" value="{{tableData.pay_date}}">
@@ -60,7 +60,7 @@
 					</li>
 				{{/each}}
 			{{/if}}
-			{{if tableData['2'] && tableData['2'].sid_state == 3}}
+			{{if tableData['2'] && tableData['2'].isHandleException}}
 
 				<input type="hidden" name="data[2][id]" value="{{tableData['2'].sid_id}}">
 				<input type="hidden" name="data[2][insurance_info_id]" value="{{proPiiId}}">

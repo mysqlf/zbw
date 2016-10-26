@@ -17,6 +17,7 @@
 			$map['type'] = intval($type);
 			$map['template_id'] = intval($template_id);
 			$map['fid'] = 0;
+			$map['state'] = 1;
 			$classify = $this->where($map)->field('id,name')->select();
 			if(!$classify) return false;
 			foreach ($classify as $key=>$value) 

@@ -149,6 +149,17 @@ function get_code_value($code = null,$type = null,$extra = 0){
 }
 
 /**
+ * 还原转义字符
+ * @param string $str
+ * @return string
+ * @date 2016-10-24
+ * @author RohoChan<[email]rohochan@gmail.com[/email]>
+ */
+function recover_escape_char($str) {
+	return str_replace(array('\r\n','\r','\n'),PHP_EOL,$str);
+}
+
+/**
  * 验证手机号是否正确
  * @param int $mobile
  * @return boolean
@@ -1899,7 +1910,6 @@ function get_model_attribute($model_id, $group = true,$fields=true){
 			$attr[$value['id']] = $value;
 		}
 		$model     = M("Model")->field("field_sort,attribute_list,attribute_alias")->find($model_id);
-
 		$attribute = explode(",", $model['attribute_list']);
 		if (empty($model['field_sort'])) { //未排序
 			$group = array(1 => array_merge($attr));
@@ -2134,7 +2144,7 @@ function employee_number($key)
 		$zoning = S('ptimeZoning');
 		if(!$zoning){
 			$location = M('location','zbw_');
-			$data = $location->where('1')->select();
+			$data = $location->where(array('state'=>1))->select();
 			foreach ($data as $key => $value) {
 				$_data[$value['id']] = $value;
 			}
@@ -2228,4 +2238,14 @@ function adminState()
 
 }
 
+    /**
+     * 金额格式化
+     */
+    function moneyNumberformat($str, $flag=false){
+        if(empty($str)) return '/';
+        if($flag)
+        	return sprintf('%.2f',$str);
+        else
+        	return number_format(floatval($str), 2);
+    }
 

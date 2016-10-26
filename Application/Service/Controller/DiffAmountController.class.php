@@ -13,7 +13,7 @@ class DiffAmountController extends ServiceBaseController {
     {
         parent::_initialize();
         $this->_serviceDiff = D('ServiceDiff');
-        $this->_type = array(1=>'办理失败', '规则调整', '缴费异常', '工本费');
+        $this->_type = array(1=>'办理失败', '规则调整', '缴费异常');
         $this->_item = array(1=>'社保', '公积金');
 
 

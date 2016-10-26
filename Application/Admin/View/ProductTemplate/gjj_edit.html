@@ -15,7 +15,7 @@
 			<tr style="background-color: #ffffff;">
 				<td width="20"></td>
 				<td width="100" align="center">单位比例</td>
-				<td width="80" align="right">
+				<td width="80" align="center">
 					<select name="gjj_com_scale" class="input-small scale_gjj" id="gjj_com_scale" disabled="disabled">
 						<option value="1">固定比例</option>
 						<option value="5" <if condition="is_array($gjj_rule['company'])">selected="selected"</if> >比例范围</option>
@@ -35,25 +35,25 @@
 					    	<tr>
 					    		<td width="10"></td>
 							    <td width="150" ><input type="text" name="gjj[company]" class="text input-mid" value="<?php echo $gjj_rule['company']; ?>"  onKeyUp="value=value.replace(/[^\d\,]/g,'')" onafterpaste="value=value.replace(/[^\d\,]/g,'')"  maxlength="20" disabled="disabled"></td>
-							    <td></td>
-							    <td width="20" align="center">%</td>
-							    <td width="">如是多个固定值，请用英文逗号隔开</td>
+							    <td width="20" align="left">%</td>
+							    <td width=""></td>
 					    	</tr>
 						</if>
 					</table>
 				</td>
+				<td width=""></td>
 			</tr>
 			<tr style="background-color: #ffffff;">
 			    <td width="20"></td>
 			    <td width="100" align="center">个人比例</td>
-			    <td width="80" align="right">
+			    <td width="80" align="center">
 					<select name="gjj_per_scale" class="input-small" id="gjj_person_scale" disabled="disabled">
 						<option value="1">固定比例</option>
 						<option value="5" <if condition="is_array($gjj_rule['person'])">selected="selected"</if> >比例范围</option>
 		    		</select>
 			    </td>
 			    <td class="gjj_person">
-				    <table width="127%" style="background-color: transparent;">
+				    <table width="" style="background-color: transparent;">
 						<if condition="is_array($gjj_rule['person'])">
 							<tr>
 								<td width="10"></td>
@@ -66,13 +66,14 @@
 					    	<tr>
 					    		<td width="10"></td>
 							    <td width="150" ><input type="text" name="gjj[person]" class="text input-mid" value="<?php echo $gjj_rule['person']; ?>"  onKeyUp="value=value.replace(/[^\d\,]/g,'')" onafterpaste="value=value.replace(/[^\d\,]/g,'')"  maxlength="20" disabled="disabled"></td>
-							    <td></td>
-							    <td width="20"  align="center">%</td>
-							    <td width="">如是多个固定值，请用英文逗号隔开</td>
+							    
+							    <td width="20"  align="left">%</td>
+							    <td width=""></td>
 					    	</tr>
 						</if>
 				    </table>
 			    </td>
+			    <td></td>
 			</tr>
 			<!-- <tr style="background-color: #ffffff;">
 				<td width="20">&nbsp;</td>

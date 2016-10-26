@@ -1,4 +1,5 @@
 <template>
+
 	<table class="table table-bordered text-center">
 		<thead>
     		<tr>
@@ -31,7 +32,7 @@
 							+{{item.person.fixedSum}}
 						{{/if}}
 					</td>
-					<td>
+					<td class="{{if !item.person.handle_result }}c-red{{/if}}">
 						{{item.person.sum | replaceEmpty}}
 					</td>
 					<td class="c-gray">
@@ -40,7 +41,7 @@
 							+{{item.company.fixedSum}}
 						{{/if}}
 					</td>
-					<td>
+					<td class="{{if !item.company.handle_result}}c-red{{/if}}">
 						{{item.company.sum | replaceEmpty}}
 					</td>
 					<td>
@@ -64,7 +65,7 @@
 							+{{item.person.fixedSum}}
 						{{/if}}
 					</td>
-					<td>
+					<td class="{{if !item.person.handle_result}}c-red{{/if}}">
 						{{item.person.sum | replaceEmpty}}
 					</td>
 					<td class="c-gray">
@@ -74,7 +75,7 @@
 							+{{item.company.fixedSum}}
 						{{/if}}
 					</td>
-					<td>
+					<td class="{{if !item.company.handle_result}}c-red{{/if}}">
 						{{item.company.sum | replaceEmpty}}
 					</td>
 					<td>

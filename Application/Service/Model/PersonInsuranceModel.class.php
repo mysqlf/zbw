@@ -176,7 +176,7 @@ class PersonInsuranceModel extends Model{
 					->find();
 			
 			if ($result && $isGetPaymentMonth) {
-				$condition = array('pii.base_id'=>$data['base_id'],'pii.user_id'=>$data['user_id']);
+				$condition = array('pii.base_id'=>$data['base_id'],'pii.user_id'=>$data['user_id'],'sid.state'=>array('not in',array(-8,-9)));
 				$pii = $this->table(C('DB_PREFIX').'person_insurance_info as pii')->field('sid.pay_date as sid_pay_date')->join('left join '.C('DB_PREFIX').'service_insurance_detail as sid on sid.insurance_info_id = pii.id')->where($condition)->order('sid.pay_date asc')->group('sid.pay_date')->select();
 				//dump($this->_sql());
 				$piiArray = array();
@@ -250,7 +250,6 @@ class PersonInsuranceModel extends Model{
 			
 			$socState = intval($socPersonInsuranceResult['state']);
 			$proState = intval($proPersonInsuranceResult['state']);
-			
 			$result = array();
 			$result['increase'] = false;
 			$result['editIncrease'] = false;
@@ -258,10 +257,12 @@ class PersonInsuranceModel extends Model{
 			$result['reduce'] = false;
 			if ((0 == $socState || 4 == $socState) && (0 == $proState || 4 == $proState)) {
 				$result['increase'] = true;
-			//}else if (((0 == $socState || 1 == $socState || 4 == $socState) &&1 == $proState) || ((0 == $proState || 1 == $proState || 4 == $proState) &&1 == $socState)) {
-			}else if ((0 == $socState || 1 == $socState || 4 == $socState) || (0 == $proState || 1 == $proState || 4 == $proState)) {
+			}
+			//if (((0 == $socState || 1 == $socState || 4 == $socState) &&1 == $proState) || ((0 == $proState || 1 == $proState || 4 == $proState) &&1 == $socState)) {
+			if ((0 == $socState || 1 == $socState || 4 == $socState) || (0 == $proState || 1 == $proState || 4 == $proState)) {
 				$result['editIncrease'] = true;
-			}else if (2 == $socState || 2 == $proState) {
+			}
+			if (2 == $socState || 2 == $proState) {
 				$result['reduce'] = true;
 				$result['editInsurance'] = true;
 			}

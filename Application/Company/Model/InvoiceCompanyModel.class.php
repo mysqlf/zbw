@@ -24,12 +24,12 @@ class InvoiceCompanyModel extends InvoiceModel{
 		$invoice_order['contact_name'] = $data['contact_name'];
 		$invoice_order['contact_phone'] = $data['contact_phone'];
 
-		$this->create($invoice);
+		$this->token(false)->create($invoice);
 		$result = $this->add();
 		$invoice_order['invoice_id'] = $result;
 
 		$_invoice_order = M('invoice_address');
-		$_invoice_order->create($invoice_order);
+		$_invoice_order->token(false)->create($invoice_order);
 		$result = $_invoice_order->add();
 
 		if($data['bank'] && $data['account']){

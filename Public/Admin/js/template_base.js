@@ -104,9 +104,8 @@ gjj_scale_fanwei += '</table>';
 var gjj_scale_guding = '';
 gjj_scale_guding += '<table width="100%" style="background-color: transparent;">';
 gjj_scale_guding  += '<tr><td width="10"></td>';
-gjj_scale_guding  += '<td width="150" ><input type="text" name="gjj[named]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\\d\\,]/g,\'\')" onafterpaste="value=value.replace(/[^\\d\\,]/g,\'\')"  maxlength="20"></td><td></td>';
-gjj_scale_guding  += '<td  width="20"  align="center">% </td>';
-gjj_scale_guding  += '<td width="">如是多个固定值，请用英文逗号隔开</td>';    	
+gjj_scale_guding  += '<td width="150" ><input type="text" name="gjj[named]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\\d\\.]/g,\'\')" onafterpaste="value=value.replace(/[^\\d\\.]/g,\'\')"  maxlength="20"></td>';
+gjj_scale_guding  += '<td  width=""  align="left">% </td>';
 gjj_scale_guding  += '</tr>';
 gjj_scale_guding += '</table>';
 

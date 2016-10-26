@@ -33,9 +33,22 @@
 .head-logo-box {
     width: 270px;
     height: 100%;
-    padding-top: 4px;
+    .head-logo {
+        margin-top: 25px;
+    }
+    .head-tel {
+        margin-left: 12px;
+        font: {
+            size: 20px;
+            weight: bold;
+        }
+        color: #F98A19;
+        line-height: 80px;
+    }
+    .header-tel {
+        margin-right: 5px;
+    }
 }
-
 
 .header-bar {
     background: #f5f7fa;
@@ -43,14 +56,11 @@
     line-height: 30px;
     border-bottom: 1px solid #ebeef2;
     color: #78848f;
-
     a {
         color: inherit;
     }
-
     .PaL {
         position: relative;
-
         .company-name {
             padding: 0;
             height: 30px;
@@ -58,69 +68,56 @@
             font-size: 14px;
             text-align: right;
             padding-right: 10px;
-
             .icon {
                 top: 0;
             }
         }
     }
-
     .icon {
         top: 3px;
         position: relative;
     }
-    
     .link-login {
         margin-right: 5px;
     }
     .home-link {
         margin-right: 36px;
-
         .icon {
             margin-right: 5px;
             top: 2px;
         }
     }
-
     .link:hover {
         color: $orange;
     }
-
     .link-right {
         padding: 0 12px;
     }
-
     .line {
-        position: relative;
-
-        &:before {
-            content: '';
-            display: block;
-            background: #b5b5b5;
-            right: 0;
-            @include stretched-y();
-            @include size(1px,12px);
-        }
+        // position: relative;
+        // &:before {
+        //     content: '';
+        //     display: block;
+        //     background: #b5b5b5;
+        //     right: 0;
+        //     @include stretched-y();
+        //     @include size(1px,12px);
+        // }
     }
-
     .publish-num {
         position: relative;
         cursor: pointer;
-
         &:hover {
             .code {
                 display: block;
             }
         }
-
         .code {
             position: absolute;
             z-index: 100;
             display: none;
-
             img {
                 max-width: 150px;
-
             }
         }
     }
@@ -129,7 +126,6 @@
 .service-header {
     .head-logo-box {
         width: auto;
-
         .comp-name {
             font-size: 20px;
             font-weight: bold;
@@ -137,13 +133,11 @@
             line-height: 80px;
             margin-left: 14px;
         }
-
         .phone {
             margin-left: 14px;
         }
     }
 }
-
 
 .citys {
     margin-top: 35px;
@@ -172,11 +166,9 @@
         .user-list {
             display: block;
         }
-
         .company-name a:after {
-        	border-top-width: 0;
-        	border-bottom:5px solid #ddd;
-
+            border-top-width: 0;
+            border-bottom: 5px solid #ddd;
         }
     }
     .user-list {
@@ -196,7 +188,6 @@
                 padding: 12px 0;
                 text-indent: 50px;
                 line-height: normal;
-
                 &:hover {
                     color: $orange;
                     background: #f5f5f5;
@@ -217,7 +208,6 @@
         font-size: 18px;
         width: 148px;
         float: left;
-
         .icon {
             margin-right: 8px;
         }
@@ -269,7 +259,6 @@
                 color: $orange;
             }
         }
-
     }
     .company-name {
         line-height: 22px;
@@ -280,8 +269,7 @@
         padding: 30px 0 28px 6px;
         cursor: pointer;
         position: relative;
-
-      /*   &:after {
+        /*   &:after {
             content: '';
             display: inline-block;
             width: 0;
@@ -291,123 +279,119 @@
             top: 3px;
             position: relative;
         } */
-
         a {
-        	position: relative;
-		    padding-right: 20px;
-		    max-width: 100%;
-		    display: inline-block;
-		    text-overflow: ellipsis;
-		    overflow: hidden;
-		    color: $fontColor;
-
-			&:after {
-	        	content: '';
-	            width: 0;
-	            height: 0;
-				display: block;
-				border: 5px solid transparent;
-				border-top-color: #D5D5D5;
-				border-bottom-width: 0;
-				@include stretched-y();
-				right: 6px;
-	        }
+            position: relative;
+            padding-right: 20px;
+            max-width: 100%;
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: $fontColor;
+            &:after {
+                content: '';
+                width: 0;
+                height: 0;
+                display: block;
+                border: 5px solid transparent;
+                border-top-color: #D5D5D5;
+                border-bottom-width: 0;
+                @include stretched-y();
+                right: 6px;
+            }
         }
-
-        
     }
 }
 
 
 /* .top-reg-bg{
-	position: fixed; 
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 99999999;
-	background: inline-image("banner_text.png");
-	form{
-		width: 400px;
-		height: 400px;
-		background: #fff;
-		position: fixed;
-		top: 50%;
-		left: 50%;
-		margin-top: -200px;
-		margin-left: -200px;
-		border-radius: 10px;
-		z-index: 9999;
-		em{
-			font-size: 24px;
-			color: #c4c2c0;
-			float: right;
-			padding-right: 24px;
-			cursor: pointer;
-			padding-top: 10px;
-		}
-		ins{
-			position: absolute;
-			right: 0;
-			top: 40px;
-			display: block;
-			height: 23px;
-			background: #f98a19;
-			line-height: 23px;
-			color: #fff;
-			padding: 0 10px;
-			display: none;
-		}
-		h4{
-			font-size: 30px;
-			color: $orange;
-			padding: 35px 0 28px 0;
-			text-align: center;
-		}
-		.buttonOrange{
-			border:none;
-			border-radius: 5px;
-			color: #fff;
-			padding: 0;
-			width: 200px;
-			height: 52px;
-			float: none;
-			display: block;
-			margin: 0 auto;
-		}
-		p{
-			width: 350px;
-			margin: 0 auto;
-			position: relative;
-		}
-		input{
-			width: 284px;
-			height: 48px;
-			line-height: 48px;
-			border: 1px solid #cdd2d5;
-			border-top-left-radius: 5px;
-			border-bottom-left-radius: 5px;
-			margin-bottom: 20px;
-			padding: 0 0 0 20px;
-			font-size: 16px;
-			color: #78848f;
-			float: left;
-			border-right: none;
-		}
-		i{
-			float: right;
-			width: 44px;
-			height: 48px;
-			background: #fff;
-			text-align: center;
-			line-height: 50px;
-			font-size: 20px;
-			font-family: "宋体";
-			color: #f98a19;
-			border-top-right-radius: 5px;
-			border-bottom-right-radius: 5px;
-			border: 1px solid #cdd2d5;
-			border-left: none;
-		}
-	}
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999999;
+    background: inline-image("banner_text.png");
+    form{
+        width: 400px;
+        height: 400px;
+        background: #fff;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -200px;
+        margin-left: -200px;
+        border-radius: 10px;
+        z-index: 9999;
+        em{
+            font-size: 24px;
+            color: #c4c2c0;
+            float: right;
+            padding-right: 24px;
+            cursor: pointer;
+            padding-top: 10px;
+        }
+        ins{
+            position: absolute;
+            right: 0;
+            top: 40px;
+            display: block;
+            height: 23px;
+            background: #f98a19;
+            line-height: 23px;
+            color: #fff;
+            padding: 0 10px;
+            display: none;
+        }
+        h4{
+            font-size: 30px;
+            color: $orange;
+            padding: 35px 0 28px 0;
+            text-align: center;
+        }
+        .buttonOrange{
+            border:none;
+            border-radius: 5px;
+            color: #fff;
+            padding: 0;
+            width: 200px;
+            height: 52px;
+            float: none;
+            display: block;
+            margin: 0 auto;
+        }
+        p{
+            width: 350px;
+            margin: 0 auto;
+            position: relative;
+        }
+        input{
+            width: 284px;
+            height: 48px;
+            line-height: 48px;
+            border: 1px solid #cdd2d5;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 20px;
+            padding: 0 0 0 20px;
+            font-size: 16px;
+            color: #78848f;
+            float: left;
+            border-right: none;
+        }
+        i{
+            float: right;
+            width: 44px;
+            height: 48px;
+            background: #fff;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            font-family: "宋体";
+            color: #f98a19;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border: 1px solid #cdd2d5;
+            border-left: none;
+        }
+    }
 } */

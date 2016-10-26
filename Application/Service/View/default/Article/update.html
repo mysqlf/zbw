@@ -15,12 +15,12 @@
             <dl class="horizontal horizontal-5em fl">
               <dt class="left text-right">标题：</dt>
               <dd class="right size2">
-                  <input class="ipt" type="text" value="<?php if($result['title']) echo $result['title']; ?>" name="title" required>
+                  <input class="ipt" type="text" value="<?php if($result['title']) echo htmlspecialchars_decode(html_entity_decode($result['title'])); ?>" name="title" required>
               </dd>
             </dl>
             <dl class="horizontal horizontal-7em fl">
               <dt class="left text-right">所属频道：</dt>
-              <dd class="right size2 ipt-box">
+              <dd class="right size2 ipt-box"> 
                 <select name="category_id" required>
                   
                     <volist name="_category" id="v">
@@ -39,13 +39,13 @@
         <h3 class="pannel-detail-title">内容：</h3>
         <div class="clear-l" style="padding-bottom: 20px;">
             <script id="editor" type="text/plain" style="height:400px;" name="content" required>
-            <?php if($result['content']) echo htmlspecialchars_decode($result['content']); ?>
+            <?php if($result['content']) echo htmlspecialchars_decode(html_entity_decode($result['content'])); ?>
             </script>
         </div>
 
         <h3 class="pannel-detail-title">描述：</h3>
         <div class="clearfix">
-             <textarea class="textarea" name="description" required maxlength="500"><?php if($result['description']) echo $result['description']; ?></textarea>
+             <textarea class="textarea" name="description" required maxlength="500"><?php if($result['description']) echo nl2br(htmlspecialchars_decode(html_entity_decode(recover_escape_char($result['description'])))); ?></textarea>
         </div>
 
         <div class="clear-l text-center">

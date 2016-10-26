@@ -5,6 +5,7 @@
     margin: {
         bottom: 30px;
     }
+    min-width: 1180px;
     background: #FFFFFF;
     color: #2C3E50;
     font-size: 0;
@@ -101,6 +102,8 @@
                 border: {
                     top: 1px solid #F98A19;
                     bottom: 1px solid #F98A19;
+                    top: 1px solid #DEE1E2 \9\0;
+                    bottom: 1px solid #DEE1E2 \9\0;
                 }
                 -webkit-transform: scale(0, 1);
                 -moz-transform: scale(0, 1);
@@ -111,6 +114,8 @@
                 border: {
                     left: 1px solid #F98A19;
                     right: 1px solid #F98A19;
+                    left: 1px solid #DEE1E2 \9\0;
+                    right: 1px solid #DEE1E2 \9\0;
                 }
                 -webkit-transform: scale(1, 0);
                 -moz-transform: scale(1, 0);

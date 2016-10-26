@@ -32,7 +32,7 @@
 			</div>	
 		</div>
 		<!-- <p>社保：</p>	 -->
-		<div class="form_item_sub">	
+		<!--<div class="form_item_sub">	
 			<label class="item-label_1">缴纳方式<span class="check-tips"></span></label>
 			<div class="controls_new">
 				<select name="soc_payment_type" class="input-mid" id="soc_payment_type">
@@ -111,7 +111,7 @@
 					</php>
 				</select>
 			</div>				
-		</div>
+		</div>-->
 		<div style="clear:both"></div>	
 		<div class="tab-nav main-title" style="padding-bottom: 5px; "><h2>社保</h2></div>
 		 <div class="form-item">
@@ -363,9 +363,9 @@
 				    <table width="100%" style="background-color: transparent;">
 				    	<tr>
 				    		<td width="10"></td>
-						    <td width="150" ><input type="text" name="gjj[person]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\d\,]/g,'')" onafterpaste="value=value.replace(/[^\d\,]/g,'')"  maxlength="20"></td><td></td>
-						    <td  width="20"  align="center">% </td>
-						    <td width="">如是多个固定值，请用英文逗号隔开</td>	    	
+						    <td width="150" ><input type="text" name="gjj[person]" class="text input-mid" value=""  onKeyUp="value=value.replace(/[^\d\.]/g,'')" onafterpaste="value=value.replace(/[^\d\.]/g,'')"  maxlength="20"></td>
+						    <td  width=""  align="left">% </td>
+						     	
 				    	</tr>
 				    </table>
 			    </td>
@@ -423,7 +423,7 @@
 		</div> -->
 		<div class="form-item cf">
 			<button class="btn submit-btn  hidden ajax-post" type="submit" target-form="form-horizontal">确 定</button>
-			<a class="btn btn-return" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
+			<a class="btn btn-return" href="{:cookie('__forward__')}">返 回</a>
 		</div>
 	</form>
 	</div>

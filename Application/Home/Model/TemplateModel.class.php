@@ -6,7 +6,7 @@
 		protected $tablePrefix = 'zbw_';
 		public function getCityClass()
 		{
-			$location = I('post.location',0,'intval');
+			$location = I('post.location/d',0);
 			if(!$location)
 			{
 				$this->error = '请先选择城市!';

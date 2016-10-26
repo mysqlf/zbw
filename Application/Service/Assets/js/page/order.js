@@ -19,7 +19,7 @@ let order = {
         dateFn.getYearMonthDay();
 
         // 保证开始时间不超过结束时间
-        dateRange('pay', 'create')
+        dateRange('create', 'pay');
     },
     comfirmMoney() {
 

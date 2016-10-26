@@ -25,10 +25,12 @@ body{
 .header .logo {
     float: left;
     margin-left: 16px;
-    width: 184px;
-    height: 49px;
+    width: 155px;
+    height: 45px;
    /* background: url(../images/bg_icon.png) no-repeat 0 -45px;*/
-    background: url(/Application/Service/Assets/images/icon-sprite.png?v=3f1d49b960) no-repeat 0 -720px;
+   /* background: url(/Application/Service/Assets_v1/images/icon-sprite.png?v=3f1d49b960) no-repeat 0 -225px;*/
+     background: url(/Application/Home/Assets/img/platform/logo_white.png) no-repeat 0 5px;
+   /* http://test.tuotuodao.com/Application/Home/Assets/img/platform/logo_white.png*/
 }
 
 /* 主导航 */

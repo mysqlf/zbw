@@ -203,7 +203,7 @@
 				}
 				$this->display();
 			}else {
-				$this->error('数据错误!');
+				$this->error('此链接已过期，请重新获取!','/');
 			}
 		}
 
@@ -211,12 +211,12 @@
 		public function aginVerify()
 		{
 			//获取企业信息
-			$firm_info = D('CompanyInfo')->getFirmInfo(array('id'=>I('get.firm_id')));
+			$firm_info = D('CompanyInfo')->getFirmInfo(array('id'=>I('get.firm_id/d','')));
 			//企业邮箱通过验证
 			//$firm_info['email_activation']==1 && $this->redirect('Index/index','',3, '您的邮箱已经验证成功，请勿重复验证...');
 			$firm_info['email_activation']==1 && $this->ajaxReturn(array('state'=>-1,'info'=>'您的邮箱已经验证成功，请勿重复验证...','url'=>U('Index/index')));
 			//发送验证邮件
-			$result = $this->sendEmail($firm_info['company_name'],I('get.firm_id'),$firm_info['company_name'],$firm_info['email']);
+			$result = $this->sendEmail($firm_info['company_name'],I('get.firm_id/d',''),$firm_info['company_name'],$firm_info['email']);
 			if($result) 
 				$this->ajaxReturn(array('state'=>0,'info'=>'邮件发送成功','url'=>'/Member-regSuccess-email-'.$firm_info['email']));
 			else 

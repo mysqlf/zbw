@@ -19,7 +19,8 @@ class ServiceController extends ServiceBaseController
     }
     public function index()
     {   
-        $productAllList = $this->productAllList();
+        //$productAllList = $this->productAllList();
+        $productAllList = $this->productAllStateList();
         foreach ($productAllList as $key => $value) {
            $product_id .= $value['id'].',';
         }
@@ -40,7 +41,7 @@ class ServiceController extends ServiceBaseController
             ->join('left join zbw_user u ON u.id = usp.user_id')
             ->join('zbw_company_info ci ON ci.user_id = u.id')
             ->where($where)->limit(6)->order('u.create_time desc')->select();
-		$this->assign('res', $res)->assign('_auth', $auth)->assign('result', $result)->display('Index/index');		
+		$this->assign('res', $res)->assign('_auth', $auth)->assign('result', $result)->display('Index/index');
     }
     public function personManage ()
     {

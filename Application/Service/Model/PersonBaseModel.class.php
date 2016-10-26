@@ -29,6 +29,8 @@ class PersonBaseModel extends Model{
 			$data['birthday'] = get_birthday_by_idCard($data['card_num']);
 			$data['gender'] = get_gender_by_idCard($data['card_num']);
 			$data['audit'] = $data['audit']?$data['audit']:0;
+			$data['residence_location'] = $data['residence_location']?$data['residence_location']:0;
+			$data['residence_type'] = $data['residence_type']?$data['residence_type']:0;
 			
 			//保存个人基本信息表
 			//$result = $this->field('id')->getByCardNum($data['card_num']);

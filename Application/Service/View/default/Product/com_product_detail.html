@@ -104,7 +104,7 @@
       <h3 class="pannel-detail-title">产品详情</h3>
       <div class="clear-l" style="padding-bottom: 20px;">
         <script id="editor" type="text/plain" style="height:400px;" name="product_detail" required >
-          <?php if($result['product_detail']) echo stripcslashes(htmlspecialchars_decode($result['product_detail']));?>
+            <?php if($result['product_detail']) echo htmlspecialchars_decode(html_entity_decode($result['product_detail'])); ?>
         </script>
       </div>
     </div>

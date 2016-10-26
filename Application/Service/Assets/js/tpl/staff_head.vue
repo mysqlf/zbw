@@ -58,7 +58,7 @@
 		    	}
 		  });
 		  	//点击当前的选项
-		  	 
+
 		   $(".swiper-slide").on('click',function(){
     			let $this = $(this),
     				$table_box = $('#table_box'),
@@ -79,17 +79,17 @@
     				tableData.allTotal = (tableData.personTotal+tableData.companyTotal).toFixed(2);
     				tableData.personTotal = tableData.personTotal.toFixed(2);
     				tableData.companyTotal = tableData.companyTotal.toFixed(2);
-    				
+
     				// 是否缴费异常
-    				tableData.isAbnormal = (tableData['1'] && tableData['1'].sid_state == 3 && tableData['1'].isHandleException) || (tableData['2'] && tableData['2'].sid_state == 3 && tableData['2'].isHandleException);
+    				tableData.isAbnormal = ( tableData['1'] && tableData['1'].isHandleException ) || (tableData['2'] && tableData['2'].isHandleException);
 
     				tableData.pay_date = text;
 
-    				$table_box.html((tpl.render(staffTable.template)({tableData})));
-
-    				staffTable.init(tableData);
-  			});
-		   $(".swiper-slide").eq(0).trigger('click');
+    				setTimeout(function(){
+    					$table_box.html((tpl.render(staffTable.template)({tableData})));
+    					staffTable.init(tableData);
+    				},0)
+  			}).eq(0).trigger('click');
 
 		}
 	}

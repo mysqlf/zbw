@@ -150,7 +150,9 @@ class ThinkController extends AdminController {
 	}
 
 	public function del($model = null, $ids=null){
+
 		$model = M('Model')->find($model);
+
 		$model || $this->error('模型不存在！');
 
 		$ids = array_unique((array)I('ids',0));
@@ -158,12 +160,23 @@ class ThinkController extends AdminController {
 		if ( empty($ids) ) {
 			$this->error('请选择要操作的数据!');
 		}
-
-		if(in_array($model['id'], array(8))){
+		if ($model['id']==9) {
 			$Model = M(get_table_name($model['id']), 'zbw_');
+			$map = array('id' => array('in', $ids) );
+
+			if($Model->where($map)->save(array('state'=>-9))){
+				$this->success('删除成功');exit;
+			} else {
+				$this->error('删除失败！');exit;
+			}
 		}else{
-			$Model = M(get_table_name($model['id']));
+			if(in_array($model['id'], array(8))){
+				$Model = M(get_table_name($model['id']), 'zbw_');
+			}else{
+				$Model = M(get_table_name($model['id']));
+			}
 		}
+		
 		$map = array('id' => array('in', $ids) );
 		if($Model->where($map)->delete()){
 			$this->success('删除成功');

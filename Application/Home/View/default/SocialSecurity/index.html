@@ -1,5 +1,8 @@
 <include file="Public/_head" />
-<div class="sbdt-banner"></div>
+<div class="sbdt-banner">
+
+	<img src="{$banner_info.0.url}" alt="">{///Application/Home/Assets/img/sbdt_banner.jpg}
+</div>
 	<div class="sbtc-content clearOver">
 		<div class="wrapper">
 			<h2 class="index-title">社保产品套餐</h2>
@@ -52,7 +55,7 @@
 
 		</div>
 	</div>
-	<noempty name="add_ser_list">
+	<notempty name="add_ser_list">
 		<div class="add-service">
 			<h3>增值服务</h3>
 			<div class="add-service-pro wrapper">
@@ -60,10 +63,15 @@
 					<div class="swiper-wrapper">
 						<php>for($i=0;$i<$loop_num;$i++){</php> 
 							<div class="swiper-slide">
-								<php>for($j=$i*4;$j<($i+1)*4;$j++){</php>
-									<php>if($j>count($add_ser_list)-1) break;</php>
-									<div class="pro-box" onmouseover="test(this)" onmouseout='test01(this)' style="background-image: url('{$add_ser_list[$j]['advertising_url']}')"><a href="tencent://message/?uin={$add_ser_list[$j]['qq']}&Site=121ask.com&Menu=yes"></a></div>
-								<php>}</php>
+								<div class="pro-box">
+									<h4 class="pro-box-title">
+										{$add_ser_list[$i]['product_name']}
+									</h4>
+									<p class="pro-box-content">
+										{$add_ser_list[$i]['content']}
+									</p>
+									<a class="pro-box-btn" href="tencent://message/?uin={$add_ser_list[$i]['qq']}&Site=121ask.com&Menu=yes">在线咨询</a>
+								</div>
 							</div>
 						<php>}</php>
 					</div>
@@ -72,7 +80,7 @@
 				<div class="service-right"></div>
 			</div>
 		</div>
-	</noempty>
+	</notempty>
 	<include file="Public/news" />
 	<div class="foot">
 		<img src="/Application/Home/Assets/img/foot_ewm.jpg" alt="">

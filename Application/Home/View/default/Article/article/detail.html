@@ -3,7 +3,7 @@
 <block name="header">
     <header class="jumbotron subhead" id="overview">
 		<div class="container">
-			<h2>{$info.title}</h2>
+			<h2>{$info.title|html_entity_decode}</h2>
 			<p>
 				<span  class="pull-left">
 					<span class="author">{$info.uid|get_username}</span>
